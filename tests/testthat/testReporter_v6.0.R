@@ -1,32 +1,32 @@
 library(gcamreport)
 library(testthat)
 library(magrittr)
-#
-# test_that("Test1_v6. download db, create project, and run", {
-#   # load a reference GCAM db form a Zenodo repository
-#   db_path <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_6.0")
-#   rpackageutils::download_unpack_zip(
-#     data_directory = db_path,
-#     url = "https://zenodo.org/record/8162970/files/database_basexdb_ref.zip?download=1"
-#   )
-#   testthat::expect_equal(1, 1)
-#
-#   # create the prj
-#   db_name <- "database_basexdb_ref"
-#   prj_name <- "gcamv6.0_test.dat"
-#   scenarios <- "Reference"
-#
-#   create_project(db_path, db_name, prj_name, scenarios, GCAM_version = 'v6.0')
-#   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_6.0/test6.dat")))
-#   testthat::expect_equal(prj$Reference$`nonCO2 emissions by region`, testResult$Reference$`nonCO2 emissions by region`)
-#   testthat::expect_equal(prj$Reference$`nonCO2 emissions by sector`, testResult$Reference$`nonCO2 emissions by sector`)
-#   testthat::expect_equal(prj$Reference$`CO2 prices`, testResult$Reference$`CO2 prices`)
-#
-#   # check nonCO2 emissions query
-#   dt_sec <- data_query("nonCO2 emissions by sector", db_path, db_name, prj_name, scenarios, GCAM_version = 'v6.0')
-#   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_6.0/result_test1.RData")))
-#   testthat::expect_equal(dt_sec, testResult)
-# })
+
+test_that("Test1_v6. download db, create project, and run", {
+  # load a reference GCAM db form a Zenodo repository
+  db_path <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_6.0")
+  rpackageutils::download_unpack_zip(
+    data_directory = db_path,
+    url = "https://zenodo.org/record/8162970/files/database_basexdb_ref.zip?download=1"
+  )
+  testthat::expect_equal(1, 1)
+
+  # create the prj
+  db_name <- "database_basexdb_ref"
+  prj_name <- "gcamv6.0_test.dat"
+  scenarios <- "Reference"
+
+  create_project(db_path, db_name, prj_name, scenarios, GCAM_version = 'v6.0')
+  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_6.0/test6.dat")))
+  testthat::expect_equal(prj$Reference$`nonCO2 emissions by region`, testResult$Reference$`nonCO2 emissions by region`)
+  testthat::expect_equal(prj$Reference$`nonCO2 emissions by sector`, testResult$Reference$`nonCO2 emissions by sector`)
+  testthat::expect_equal(prj$Reference$`CO2 prices`, testResult$Reference$`CO2 prices`)
+
+  # check nonCO2 emissions query
+  dt_sec <- data_query("nonCO2 emissions by sector", db_path, db_name, prj_name, scenarios, GCAM_version = 'v6.0')
+  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_6.0/result_test1.RData")))
+  testthat::expect_equal(dt_sec, testResult)
+})
 
 test_that("Test2_v6. load project", {
   testResult <- as.numeric(length(load_project(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_6.0/test6.dat"))))

@@ -71,11 +71,17 @@ elec_biomass (IGCC),biomass (IGCC),biomass (IGCC) (dry cooling),NoReported,,3.66
 elec_biomass (IGCC),biomass (IGCC),biomass (IGCC) (once through),NoReported,,3.666667
 elec_biomass (IGCC),biomass (IGCC),biomass (IGCC) (recirculating),NoReported,,3.666667
 elec_biomass (IGCC),biomass (IGCC),biomass (IGCC) (seawater),NoReported,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS),biomass (IGCC CCS) (once through),NoReported,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS),biomass (IGCC CCS) (recirculating),NoReported,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS),biomass (IGCC CCS) (seawater),NoReported,,3.666667
 elec_biomass (conv),biomass (conv),biomass (conv) (dry cooling),NoReported,,3.666667
 elec_biomass (conv),biomass (conv),biomass (conv) (once through),NoReported,,3.666667
 elec_biomass (conv),biomass (conv),biomass (conv) (recirculating),NoReported,,3.666667
 elec_biomass (conv),biomass (conv),biomass (conv) (seawater),NoReported,,3.666667
 elec_biomass (conv),biomass (conv),biomass (conv) (cooling pond),NoReported,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS),biomass (conv CCS) (once through),NoReported,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS),biomass (conv CCS) (recirculating),NoReported,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS),biomass (conv CCS) (seawater),NoReported,,3.666667
 elec_coal (IGCC),coal (IGCC),coal (IGCC) (dry cooling),NoReported,,3.666667
 elec_coal (IGCC),coal (IGCC),coal (IGCC) (once through),NoReported,,3.666667
 elec_coal (IGCC),coal (IGCC),coal (IGCC) (recirculating),NoReported,,3.666667
@@ -148,6 +154,7 @@ N fertilizer,gas,gas CCS,Emissions|CO2|Energy|Gas,,3.666667
 N fertilizer,hydrogen,hydrogen,NoReported,,3.666667
 N fertilizer,refined liquids,refined liquids,Emissions|CO2|Energy|Oil,,3.666667
 ammonia,gas,gas,Emissions|CO2|Energy|Gas,,3.666667
+ammonia,gas,gas CCS,Emissions|CO2|Energy|Gas,,3.666667
 ammonia,refined liquids,refined liquids,Emissions|CO2|Energy|Oil,,3.666667
 ammonia,hydrogen,hydrogen,NoReported,,3.666667
 ammonia,coal,coal,Emissions|CO2|Energy|Coal,,3.666667
