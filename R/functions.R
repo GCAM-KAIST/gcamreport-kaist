@@ -2048,8 +2048,8 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.0") {
       )
 
     if (!"CO2_ETS" %in% names(co2_price_fragmented)) {
-      co2_price_fragmented <<- co2_price_fragmented %>%
-        mutate(CO2_ETS = 0)
+      co2_price_fragmented <- co2_price_fragmented %>%
+        dplyr::mutate(CO2_ETS = 0)
     }
 
     co2_price_fragmented <- co2_price_fragmented %>%
