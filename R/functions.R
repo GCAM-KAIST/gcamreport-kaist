@@ -1647,7 +1647,7 @@ get_energy_service_transportation <- function(GCAM_version = "v7.0") {
 #' @export
 get_energy_service_buildings <- function(GCAM_version = "v7.0") {
   var <- value <- unit_conv <- scenario <- region <- year <- building <-
-    nodeinput <- Units <- NULL
+    nodeinput <- Units <- energy_service_buildings_clean <- NULL
 
   # gather deciles if necessary
   tmp <- rgcam::getQuery(prj, "building floorspace")
@@ -1663,7 +1663,7 @@ get_energy_service_buildings <- function(GCAM_version = "v7.0") {
     tmp %>%
     left_join_strict(filter_variables(get(paste('buildings_en_service',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "energy_service_buildings_clean"),
                      by = c("building"), mapping = paste('buildings_en_service',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
