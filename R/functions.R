@@ -1601,19 +1601,37 @@ get_fe_sector <- function() {
 #' @importFrom magrittr %>%
 #' @export
 get_energy_service_transportation <- function(GCAM_version = "v7.0") {
-  var <- value <- unit_conv <- scenario <- region <- year <- NULL
+  var <- value <- unit_conv <- scenario <- region <- year <-
+    energy_service_transportation_clean <- NULL
 
-  energy_service_transportation_clean <-
+  energy_service_transportation <-
     rgcam::getQuery(prj, "transport service output by mode") %>%
     left_join_strict(filter_variables(get(paste('transport_en_service',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "energy_service_transportation_clean"),
                      by = c("sector", "mode"), mapping = paste('transport_en_service',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(var != 'NoReported') %>%
-    dplyr::filter(!is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    # from million km/yr to billion km/yr
+    dplyr::mutate(value = value * unit_conv / 1e3) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  # compute Active & Public share
+  energy_service_transportation_share <-
+    energy_service_transportation %>%
+    dplyr::filter(grepl("Passenger", var), var != 'Energy Service|Transportation|Passenger|Road') %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::mutate(
+      total_p = value[var == "Energy Service|Transportation|Passenger"],
+      ratio_active_p = dplyr::if_else(var == "Energy Service|Transportation|Passenger|Active Transport [Share]", 100 * value / total_p, NA),
+      ratio_public_p = dplyr::if_else(var == "Energy Service|Transportation|Passenger|Public Transport [Share]", 100 * value / total_p, NA)
+      ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(value = dplyr::if_else(var == "Energy Service|Transportation|Passenger|Active Transport [Share]", ratio_active_p,
+                                         dplyr::if_else(var == "Energy Service|Transportation|Passenger|Public Transport [Share]", ratio_public_p,
+                                                        value))) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
 
   energy_service_transportation_clean <<- energy_service_transportation_clean
 }
