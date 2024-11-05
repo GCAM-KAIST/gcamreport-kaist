@@ -50,12 +50,6 @@ template_v7.1$Unit <- sapply(template_v7.1$Unit, decode_html)
 use_data(template_v7.1, overwrite = T)
 
 # emissions maps
-co2_sector_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "CO2_sector_map.csv"),
-                                skip = 1, na = "",
-                                stringsAsFactors = FALSE
-) %>% gather_map()
-use_data(co2_sector_map_v7.1, overwrite = T)
-
 co2_ets_sector_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "CO2_ETS_sector_map.csv"),
                                     skip = 1, na = "",
                                     stringsAsFactors = FALSE
@@ -103,6 +97,12 @@ ag_prices_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/G
                                stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(ag_prices_map_v7.1, overwrite = T)
+
+ag_production_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_production_map.csv"),
+                               skip = 1,
+                               stringsAsFactors = FALSE
+) %>% gather_map()
+use_data(ag_production_map_v7.1, overwrite = T)
 
 ag_demand_prices_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_demand_price_map.csv"),
                                skip = 1,

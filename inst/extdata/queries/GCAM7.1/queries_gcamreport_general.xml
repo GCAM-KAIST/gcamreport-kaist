@@ -20,6 +20,15 @@
    </aQuery>
    <aQuery>
       <all-regions />
+		<query title="National Account">
+         <axis1 name="Account">account[@name]</axis1>
+         <axis2 name="Year">nationalAccount[@year]</axis2>
+         <xPath buildList="true" dataName="all accounts" group="false" sumAll="false">nationalAccount[@year&gt;1975]/account/node()</xPath>
+         <comments/>
+      </query>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <demographicsQuery title="population by region">
          <axis1 name="region">region</axis1>
          <axis2 name="Year">populationMiniCAM</axis2>
@@ -555,6 +564,17 @@ output-primary/physical-output/node()</xPath>
          <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (local-name()='AgSupplySector')]//
  output-primary/physical-output/node()</xPath>
          <comments>primary output only (no residue biomass)</comments>
+      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="meat and dairy production by type">
+         <axis1 name="sector">sector</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and
+      (@name='Beef' or @name='SheepGoat' or @name='Pork' or @name='Dairy' or @name='Poultry')]//
+      *[@type='output']/physical-output/node()</xPath>
+         <comments/>
       </supplyDemandQuery>
    </aQuery>
    <aQuery>

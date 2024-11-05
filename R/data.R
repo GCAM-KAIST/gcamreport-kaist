@@ -202,18 +202,6 @@
 #' }
 "template_v7.1"
 
-#' co2_sector_map_v7.1
-#'
-#' @source github
-#' @format .csv
-#' @description emissions maps compatible with GCAM7.1.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::co2_sector_map_v7.1
-#' }
-"co2_sector_map_v7.1"
-
 #' co2_ets_sector_map_v7.1
 #'
 #' @source github
@@ -321,6 +309,18 @@
 #' gcamreport::ag_demand_prices_map_v7.1
 #' }
 "ag_demand_prices_map_v7.1"
+
+#' ag_production_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_production_map_v7.1
+#' }
+"ag_production_map_v7.1"
 
 #' land_use_map_v7.1
 #'
