@@ -759,6 +759,39 @@ get_capital_formation <- function(GCAM_version = "v7.0") {
   capital_formation_clean <<- capital_formation_clean
 }
 
+
+#' get_food_availability
+#'
+#' Computes Food availability
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `food_availability_clean` global variable.
+#' @keywords internal food
+#' @importFrom magrittr %>%
+#' @export
+get_food_availability <- function(GCAM_version = "v7.0") {
+  value <- food_availability_clean <- NULL
+
+
+}
+
+
+#' get_food_intake
+#'
+#' Computes Food intake
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `food_intake_clean` global variable.
+#' @keywords internal food
+#' @importFrom magrittr %>%
+#' @export
+get_food_intake <- function(GCAM_version = "v7.0") {
+  value <- food_intake_clean <- NULL
+
+
+}
+
+
 # Climate and emissions
 # ==============================================================================================
 #' get_forcing
