@@ -1349,17 +1349,48 @@ get_water_withdrawals <- function(GCAM_version = "v7.0") {
 
   water_withdrawals_clean <-
     rgcam::getQuery(prj, "water withdrawals by subsector") %>%
-    left_join_strict(filter_variables(get(paste('water_withdrawals_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+    left_join_strict(filter_variables(get(paste('water_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                                       "water_withdrawals_clean"),
-                     by = c("sector", "subsector"), mapping = paste('water_withdrawals_map',GCAM_version,sep='_')) %>%
+                     by = c("sector", "subsector"), mapping = paste('water_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported') %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
+    # set var to consumption
+    dplyr::mutate(var = gsub("XX", "Withdrawal", var)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   water_withdrawals_clean <<- water_withdrawals_clean
+}
+
+#' get_water_consumption
+#'
+#' Retrieves the water get_water_consumption
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `water_consumption_clean` global variable.
+#' @keywords internal water
+#' @importFrom magrittr %>%
+#' @export
+get_water_consumption <- function(GCAM_version = "v7.0") {
+  year <- water_consumption_clean <- NULL
+
+  water_consumption_clean <-
+    rgcam::getQuery(prj, "water consumption by subsector") %>%
+    left_join_strict(filter_variables(get(paste('water_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                                      "water_consumption_clean"),
+                     by = c("sector", "subsector"), mapping = paste('water_map',GCAM_version,sep='_')) %>%
+    dplyr::filter(var != 'NoReported') %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # set var to consumption
+    dplyr::mutate(var = gsub("XX", "Consumption", var)) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  water_consumption_clean <<- water_consumption_clean
 }
 
 
