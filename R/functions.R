@@ -2526,17 +2526,18 @@ get_co2_price <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_gov_revenue_sector
+#' get_gov_revenue
 #'
 #' Retreive overall carbon revenue.
 #' @keywords internal revenue
-#' @return `gov_revenue_sector` global variable
+#' @return `gov_revenue_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_gov_revenue_sector <- function() {
-  var <- sector <- value <- emiss <- gov_revenue_sector <- NULL
+get_gov_revenue <- function() {
+  scenario <- region <- year <- value <- gov_revenue_clean <- NULL
 
-  gov_revenue_sector <-
+  gov_revenue_clean <-
+    gov_revenue_sector <-
     co2_emiss %>%
     dplyr::mutate(
       sector = ifelse(var == "Emissions|CO2|Energy|Demand|Industry", "Carbon|Demand|Industry", NA),
@@ -2560,30 +2561,12 @@ get_gov_revenue_sector <- function() {
     ) %>%
     dplyr::mutate(
       value = value * emiss,
-      var = paste0("Revenue|Government|Tax|", sector)
-    )
-
-  gov_revenue_sector <<- gov_revenue_sector
-}
-
-#' get_gov_revenue
-#'
-#' Retreive overall carbon revenue.
-#' @keywords internal revenue
-#' @return `gov_revenue_clean` global variable
-#' @importFrom magrittr %>%
-#' @export
-get_gov_revenue <- function() {
-  scenario <- region <- year <- value <- gov_revenue_clean <- NULL
-
-  gov_revenue_clean <-
-    gov_revenue_sector %>%
-    dplyr::bind_rows(gov_revenue_sector %>%
-                       dplyr::group_by(scenario, region, year) %>%
-                       dplyr::summarise(value = sum(value, na.rm = T)) %>%
-                       dplyr::ungroup() %>%
-                       dplyr::mutate(var = "Revenue|Government|Tax|Carbon", )) %>%
+      var = "Revenue|Government"
+    ) %>%
     dplyr::mutate(value = value / 1000) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   gov_revenue_clean <<- gov_revenue_clean
