@@ -628,6 +628,15 @@ output-primary/physical-output/node()</xPath>
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="ag export to the world center (USA) (Intl. Armington competition)">
+         <axis1 name="input">input</axis1>
+         <axis2 name="Year">demand-physical[@vintage]</axis2>
+         <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' and contains(@name, 'traded')]/*[@type='subsector']//*[@type='input']/demand-physical[@unit='Mt' or @unit='billion m3']/node()</xPath>
+         <comments/>
+     </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="meat and dairy production by type">
          <axis1 name="sector">sector</axis1>
          <axis2 name="Year">physical-output[@vintage]</axis2>

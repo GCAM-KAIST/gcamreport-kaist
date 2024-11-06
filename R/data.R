@@ -322,6 +322,18 @@
 #' }
 "ag_production_map_v7.1"
 
+#' trade_ag_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::trade_ag_v7.1
+#' }
+"trade_ag_v7.1"
+
 #' land_use_map_v7.1
 #'
 #' @source github

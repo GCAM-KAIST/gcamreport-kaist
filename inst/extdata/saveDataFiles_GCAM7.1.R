@@ -110,6 +110,10 @@ ag_demand_prices_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/map
 )
 use_data(ag_demand_prices_map_v7.1, overwrite = T)
 
+trade_ag_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "trade_ag.csv"), skip = 1,
+                                      stringsAsFactors = FALSE) %>% gather_map()
+use_data(trade_ag_v7.1, overwrite = T)
+
 land_use_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "land_use_map.csv"),
                               skip = 1,
                               stringsAsFactors = FALSE

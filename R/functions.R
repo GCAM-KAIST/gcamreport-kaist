@@ -792,6 +792,37 @@ get_food_intake <- function(GCAM_version = "v7.0") {
 }
 
 
+#' get_ag_trade
+#'
+#' Computes Agricultural trade
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `ag_trade` global variable.
+#' @keywords internal food
+#' @importFrom magrittr %>%
+#' @export
+get_ag_trade <- function(GCAM_version = "v7.0") {
+  value <- ag_trade <- NULL
+
+  ag_trade <-
+    rgcam::getQuery(prj, "ag export to the world center (USA) (Intl. Armington competition)") %>%
+    dplyr::mutate(region = sub(" traded.*", "", subsector)) %>%
+    left_join_strict(filter_variables(get(paste('trade_ag',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "trade_clean"),
+                     by = c("sector"), mapping = paste('trade_ag',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, sector, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # billion m3 to million m3 for Trade|Forestry
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var), value * 1e3, value)) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  ag_trade <<- ag_trade
+
+}
+
+
 # Climate and emissions
 # ==============================================================================================
 #' get_forcing
@@ -1619,7 +1650,7 @@ get_elec_gen_tech <- function(GCAM_version = "v7.0") {
     rgcam::getQuery(prj, "elec gen by gen tech") %>%
     left_join_strict(filter_variables(get(paste('elec_gen_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "elec_gen_tech_clean"),
                      by = c("output", "subsector", "technology"), mapping = paste('elec_gen_map',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
