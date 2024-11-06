@@ -405,6 +405,17 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="elec gen by subsector">
+         <axis1 name="subsector">subsector</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' (:collapse:) and (@name='electricity' or @name='elect_td_bld')]/
+    *[@type='subsector' and not (@name='elect_td_bld')]//*[@type='output']/
+    physical-output/node()</xPath>
+         <comments/>
+     </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
        <supplyDemandQuery title="elec gen by gen tech">
          <axis1 name="technology">technology</axis1>
          <axis2 name="Year">physical-output[@vintage]</axis2>
@@ -478,7 +489,16 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
          </labelRewriteList>
          <showAttribute attribute-name="year" level="technology"/>
       </supplyDemandQuery>
-   </aQuery>
+   </aQuery>   
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="refined liquids production by region">
+         <axis1 name="region">region</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' (:collapse:) and (@name='refining')]//
+    output-primary[@type='output']/physical-output/node()</xPath>
+         <comments/>
+     </supplyDemandQuery>   </aQuery>
    <aQuery>
       <all-regions />
 			<supplyDemandQuery title="refined liquids production by tech">

@@ -21,9 +21,9 @@ ag_demand_clean;get_ag_demand;;;demand balances by crop commodity,demand balance
 ag_production_clean;get_ag_production;;;ag production by crop type
 land_clean;get_land;;;aggregated land allocation
 primary_energy_clean;get_primary_energy;;;primary energy consumption with CCS by region (direct equivalent)
-energy_trade_prod;get_energy_trade_prod;;;resource production
-energy_trade_supply;get_energy_trade_tmp;;;supply of all markets
-energy_trade_clean;get_energy_trade;energy_trade_prod,energy_trade_supply;check_trade;
+pe_trade_prod;get_pe_trade_prod;;;resource production
+pe_trade_supply;get_pe_trade_supply;;;supply of all markets
+pe_trade;get_pe_trade;pe_trade_prod,pe_trade_supply;check_trade;
 check_trade;do_check_trade;;;
 elec_gen_tech_clean;get_elec_gen_tech;;;elec gen by gen tech
 secondary_solids;get_secondary_solids;;;inputs by sector
@@ -69,3 +69,7 @@ expenditure_clean;get_expenditure;;;food demand prices,food consumption by type 
 water_withdrawals_clean;get_water_withdrawals;;;water withdrawals by subsector
 water_consumption_clean;get_water_consumption;;;water consumption by subsector
 ag_trade;get_ag_trade;;;ag export to the world center (USA) (Intl. Armington competition)
+trade_clean;get_total_trade;ag_trade,pe_trade,se_trade;;
+se_trade_prod;get_se_trade_prod;;;elec gen by subsector,hydrogen production by tech,refined liquids production by region
+se_trade_supply;get_se_trade_supply;;;supply of all markets
+se_trade;get_se_trade;se_trade_prod,se_trade_supply;check_trade;

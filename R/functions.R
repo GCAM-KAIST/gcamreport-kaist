@@ -1556,20 +1556,20 @@ get_primary_energy <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_energy_trade_prod
+#' get_pe_trade_prod
 #'
 #' Retrieve energy trade data.
 #' @keywords internal energy
-#' @return `energy_trade_prod` global variable.
+#' @return `pe_trade_prod` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_energy_trade_prod <- function() {
+get_pe_trade_prod <- function() {
   Units <- resource <- scenario <- region <- year <- value <- NULL
 
-  energy_trade_prod <-
+  pe_trade_prod <-
     rgcam::getQuery(prj, "resource production") %>%
     dplyr::filter(Units == "EJ") %>%
-    dplyr::filter(resource %in% c("coal", "natural gas", "crude oil", "unconventional oil")) %>%
+    dplyr::filter(resource %in% c("biomass", "coal", "natural gas", "crude oil", "unconventional oil")) %>%
     dplyr::mutate(
       resource = sub("crude oil", "oil", resource),
       resource = sub("unconventional oil", "oil", resource)
@@ -1578,58 +1578,60 @@ get_energy_trade_prod <- function() {
     dplyr::summarise(production = sum(value)) %>%
     dplyr::ungroup()
 
-  energy_trade_prod <<- energy_trade_prod
+  pe_trade_prod <<- pe_trade_prod
 }
 
 
-#' get_energy_trade_tmp
+#' get_pe_trade_supply
 #'
 #' Retrieve energy trade supply data for calculating other variables.
 #' @keywords internal energy tmp
-#' @return `energy_trade_supply` global variable.
+#' @return `pe_trade_supply` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_energy_trade_tmp <- function() {
+get_pe_trade_supply <- function() {
   market <- resource <- scenario <- region <- year <- value <- NULL
 
-  energy_trade_supply <- suppressWarnings(
+  pe_trade_supply <- suppressWarnings(
     rgcam::getQuery(prj, "supply of all markets") %>%
-      dplyr::filter(grepl("regional coal", market) | grepl("regional natural gas", market) | grepl("regional oil", market)) %>%
+      dplyr::filter(grepl("regional coal", market) | grepl("regional natural gas", market) |
+                      grepl("regional oil", market) | grepl("regional biomass", market)) %>%
       tidyr::separate(market, into = c("region", "resource"), sep = "regional ", fill = "right") %>%
-      dplyr::filter(resource != "oilpalm", resource != "oilcrop") %>%
+      dplyr::filter(resource != "oilpalm", resource != "oilcrop", resource != "biomassOil") %>%
       dplyr::group_by(scenario, resource, region, year) %>%
       dplyr::summarise(demand = sum(value)) %>%
       dplyr::ungroup()
   )
 
-  energy_trade_supply <<- energy_trade_supply
+  pe_trade_supply <<- pe_trade_supply
 }
 
 
-#' get_energy_trade
+#' get_pe_trade
 #'
-#' Retrieve energy trade.
+#' Retrieve primary energy trade.
+#'
 #' @keywords internal energy tmp
-#' @return `energy_trade_clean` global variable
+#' @return `pe_trade` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_energy_trade <- function() {
-  production <- demand <- resource <- energy_trade_clean <- NULL
+get_pe_trade <- function() {
+  production <- demand <- resource <- pe_trade <- NULL
 
-  energy_trade_clean <-
-    energy_trade_prod %>%
-    left_join_strict(energy_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
+  pe_trade <-
+    pe_trade_prod %>%
+    left_join_strict(pe_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
     dplyr::mutate(
       value = production - demand,
+      resource = sub("biomass", "Biomass", resource),
       resource = sub("coal", "Coal", resource),
       resource = sub("natural gas", "Gas", resource),
       resource = sub("oil", "Oil", resource),
-      var = paste0("Trade|Primary Energy|", resource, "|Volume")
+      var = paste0("Trade|Primary Energy|", resource, " [Volume]")
     ) %>%
-    filter_variables(variable = "energy_trade_clean") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  energy_trade_clean <<- energy_trade_clean
+  pe_trade <<- pe_trade
 }
 
 # Secondary Energy
@@ -1731,6 +1733,101 @@ get_se_gen_tech <- function(GCAM_version = "v7.0") {
   se_gen_tech_clean <<- se_gen_tech_clean
 }
 
+
+#' get_se_trade_prod
+#'
+#' Retrieve secondary energy trade data.
+#' @keywords internal energy
+#' @return `se_trade_prod` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_se_trade_prod <- function() {
+  Units <- resource <- scenario <- region <- year <- value <- NULL
+
+  se_trade_prod <-
+    rbind(
+      rgcam::getQuery(prj, "elec gen by subsector") %>%
+        dplyr::group_by(Units, scenario, region, output, year) %>%
+        dplyr::summarise(value = sum(value)) %>%
+        dplyr::ungroup(),
+      rgcam::getQuery(prj, "hydrogen production by tech") %>%
+        dplyr::group_by(Units, scenario, region, output = sector, year) %>%
+        dplyr::summarise(value = sum(value)) %>%
+        dplyr::ungroup(),
+      rgcam::getQuery(prj, "refined liquids production by region")
+    ) %>%
+    dplyr::filter(Units == "EJ",
+                  output %in% c("electricity", "H2 central production", "H2 wholesale dispensing", "refining")) %>%
+    dplyr::mutate(
+      output = sub("H2 central production", "hydrogen", output),
+      output = sub("H2 wholesale dispensing", "hydrogen", output)
+    ) %>%
+    dplyr::group_by(scenario, resource = output, region, year) %>%
+    dplyr::summarise(production = sum(value)) %>%
+    dplyr::ungroup()
+
+  se_trade_prod <<- se_trade_prod
+}
+
+
+#' get_se_trade_supply
+#'
+#' Retrieve secondary energy trade supply data for calculating other variables.
+#' @keywords internal energy tmp
+#' @return `se_trade_supply` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_se_trade_supply <- function() {
+  market <- resource <- scenario <- region <- year <- value <- NULL
+
+  se_trade_supply <- suppressWarnings(
+    rgcam::getQuery(prj, "supply of all markets") %>%
+      dplyr::filter(grepl("electricity$", market) | grepl("H2 central production", market) |
+                      grepl("refined liquids enduse", market) | grepl("H2 wholesale", market)) %>%
+      dplyr::mutate(
+        region = stringr::str_extract(market, paste(regions.global, collapse = "|")),
+        resource = stringr::str_remove(market, region)
+      ) %>%
+      dplyr::select(-market) %>%
+      dplyr::filter(resource != "backup_electricity") %>%
+      dplyr::mutate(
+        resource = dplyr::if_else(grepl("H2", resource), "hydrogen", resource),
+        resource = sub("refined liquids enduse", "refining", resource)
+      ) %>%
+      dplyr::group_by(scenario, resource, region, year) %>%
+      dplyr::summarise(demand = sum(value)) %>%
+      dplyr::ungroup()
+  )
+
+  se_trade_supply <<- se_trade_supply
+}
+
+
+#' get_se_trade
+#'
+#' Retrieve secondary energy trade.
+#'
+#' @keywords internal energy tmp
+#' @return `se_trade` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_se_trade <- function() {
+  production <- demand <- resource <- se_trade <- NULL
+
+  se_trade <-
+    se_trade_prod %>%
+    left_join_strict(se_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
+    dplyr::mutate(
+      value = production - demand,
+      resource = sub("refining", "Liquids", resource),
+      resource = sub("electricity", "Electricity", resource),
+      resource = sub("hydrogen", "Hydrogen", resource),
+      var = paste0("Trade|Secondary Energy|", resource, " [Volume]")
+    ) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  se_trade <<- se_trade
+}
 
 # Final Energy
 # ==============================================================================================
@@ -1835,6 +1932,26 @@ get_fe_sector <- function() {
   fe_sector_clean <<- fe_sector_clean
 }
 
+#' get_total_trade
+#'
+#' Retrieve total trade.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @keywords internal energy tmp
+#' @return `trade_clean` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_total_trade <- function(GCAM_version = "v7.0") {
+  trade_clean <- NULL
+
+  trade_clean <- rbind(
+    ag_trade,
+    pe_trade,
+    se_trade
+  )
+
+  trade_clean <<- trade_clean
+}
 
 # Energy Service ----------------------------------------------------------
 
@@ -3419,10 +3536,10 @@ do_bind_results <- function(GCAM_version = "v7.0") {
 do_check_trade <- function() {
   scenario <- resource <- year <- production <- demand <- check <- NULL
 
-  if (exists("energy_trade_prod")) {
+  if (exists("pe_trade_prod")) {
     # check global total is zero
-    trade <- energy_trade_prod %>%
-      left_join_strict(energy_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
+    trade <- pe_trade_prod %>%
+      left_join_strict(pe_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
       dplyr::group_by(scenario, resource, year) %>%
       dplyr::summarise(
         production = sum(production, na.rm = T),
