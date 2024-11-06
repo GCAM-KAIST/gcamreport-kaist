@@ -258,6 +258,11 @@ iron_steel_trade_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/map
                                       stringsAsFactors = FALSE) %>% gather_map()
 use_data(iron_steel_trade_map_v7.1, overwrite = T)
 
+# water
+water_withdrawals_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "water_withdrawals.csv"), skip = 1,
+                                      stringsAsFactors = FALSE) %>% gather_map()
+use_data(water_withdrawals_map_v7.1, overwrite = T)
+
 
 # Reporting years
 last_historical_year_v7.1 <- 2015

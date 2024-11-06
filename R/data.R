@@ -586,6 +586,18 @@
 #' }
 "iron_steel_trade_map_v7.1"
 
+#' water_withdrawals_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description water withdrawals map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::water_withdrawals_map_v7.1
+#' }
+"water_withdrawals_map_v7.1"
+
 #' convert_v7.1
 #'
 #' @description units conversion list

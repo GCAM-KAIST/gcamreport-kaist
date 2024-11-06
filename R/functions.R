@@ -1333,6 +1333,37 @@ get_co2_sequestration <- function(GCAM_version = "v7.0") {
 }
 
 
+# Water
+# ==============================================================================================
+#' get_water_withdrawals
+#'
+#' Retrieves the water withdrawals.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `water_withdrawals_clean` global variable.
+#' @keywords internal water
+#' @importFrom magrittr %>%
+#' @export
+get_water_withdrawals <- function(GCAM_version = "v7.0") {
+  year <- water_withdrawals_clean <- NULL
+
+  water_withdrawals_clean <-
+    rgcam::getQuery(prj, "water withdrawals by subsector") %>%
+    left_join_strict(filter_variables(get(paste('water_withdrawals_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                                      "water_withdrawals_clean"),
+                     by = c("sector", "subsector"), mapping = paste('water_withdrawals_map',GCAM_version,sep='_')) %>%
+    dplyr::filter(var != 'NoReported') %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  water_withdrawals_clean <<- water_withdrawals_clean
+}
+
+
+
 # Agriculture and land use
 # ==============================================================================================
 #' get_ag_demand

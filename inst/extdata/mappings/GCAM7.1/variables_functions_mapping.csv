@@ -66,3 +66,4 @@ iron_steel_clean;get_iron_steel_clean;iron_steel_imports,iron_steel_exports;;
 capital_stock_clean;get_capital_stock;;;National Account
 capital_formation_clean;get_capital_formation;capital_stock_clean;;
 expenditure_clean;get_expenditure;;;food demand prices,food consumption by type (general),costs of transport modes,transport service output by mode,building total final energy by service,building service costs
+water_withdrawals_clean;get_water_withdrawals;;;water withdrawals by subsector
