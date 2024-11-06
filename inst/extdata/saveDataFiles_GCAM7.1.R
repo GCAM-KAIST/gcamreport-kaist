@@ -122,7 +122,7 @@ use_data(land_use_map_v7.1, overwrite = T)
 
 
 # primary, secondary, final energy maps
-primary_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "en_primary_map.csv"),
+primary_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "primary_energy_map.csv"),
                                     skip = 1,
                                     stringsAsFactors = FALSE
 ) %>% gather_map()
