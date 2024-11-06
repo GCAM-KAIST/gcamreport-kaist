@@ -134,13 +134,13 @@ production_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/
 ) %>% gather_map()
 use_data(production_map_v7.1, overwrite = T)
 
-elec_gen_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "elec_gen_map_core.csv"),
+secondary_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "secondary_energy_map.csv"),
                               skip = 1,
                               stringsAsFactors = FALSE
 ) %>%
   dplyr::filter(!grepl("cogen", technology)) %>%
   gather_map()
-use_data(elec_gen_map_v7.1, overwrite = T)
+use_data(secondary_energy_map_v7.1, overwrite = T)
 
 capacity_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "capacity_map.csv"),
                               skip = 1,
@@ -161,12 +161,6 @@ cf_rgn_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1"
                         stringsAsFactors = FALSE
 )
 use_data(cf_rgn_v7.1, overwrite = T)
-
-se_gen_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "secondary_energy_gen_map.csv"),
-                            skip = 1,
-                            stringsAsFactors = FALSE
-) %>% gather_map()
-use_data(se_gen_map_v7.1, overwrite = T)
 
 final_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "final_energy_map.csv"),
                                   skip = 1,

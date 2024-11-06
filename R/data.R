@@ -418,18 +418,6 @@
 #' }
 "cf_rgn_v7.1"
 
-#' se_gen_map_v7.1
-#'
-#' @source github
-#' @format .csv
-#' @description primary, secondary, final energy maps compatible with GCAM7.1.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::se_gen_map_v7.1
-#' }
-"se_gen_map_v7.1"
-
 #' final_energy_map_v7.1
 #'
 #' @source github

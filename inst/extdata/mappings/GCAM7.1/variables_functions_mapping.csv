@@ -25,9 +25,8 @@ pe_trade_prod;get_pe_trade_prod;;;resource production
 pe_trade_supply;get_pe_trade_supply;;;supply of all markets
 pe_trade;get_pe_trade;pe_trade_prod,pe_trade_supply;check_trade;
 check_trade;do_check_trade;;;
-elec_gen_tech_clean;get_elec_gen_tech;;;elec gen by gen tech
+secondary_energy_clean;get_elec_gen_tech;secondary_solids;;elec gen by gen tech,gas production by tech,hydrogen production by tech,refined liquids production by tech
 secondary_solids;get_secondary_solids;;;inputs by sector
-se_gen_tech_clean;get_se_gen_tech;secondary_solids;;gas production by tech,hydrogen production by tech,refined liquids production by tech
 fe_sector;get_fe_sector_tmp;;;final energy consumption by sector and fuel
 fe_transportation;get_fe_transportation_tmp;;;transport final energy by mode and fuel
 fe_sector_clean;get_fe_sector;fe_sector,fe_transportation;
@@ -50,7 +49,7 @@ prices_subsector_pre;get_prices_subsector;;;prices by sector,costs by subsector
 prices_subsector_biomass;get_prices_subsector;;;prices by sector,costs by subsector
 total_revenue;get_total_revenue;;;resource production,prices by sector
 regional_emission;get_regional_emission;nonco2_content;;resource production
-cf_iea;get_cf_iea_tmp;elec_gen_tech_clean;;
+cf_iea;get_cf_iea_tmp;secondary_energy_clean;;
 elec_cf;get_elec_cf_tmp;cf_iea;;
 elec_capacity_tot_clean;get_elec_capacity_tot;elec_cf;;elec gen by gen tech and cooling tech and vintage
 elec_capacity_add;get_elec_capacity_add_tmp;elec_cf;;elec gen by gen tech and cooling tech and vintage
