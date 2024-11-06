@@ -1,25 +1,25 @@
 ﻿# Production mapping
 sector,var1,var2,var3,GCAM output unit
-iron and steel,Production|Steel,,,Mt
-N fertilizer,Production|Chemicals,,,Mt N
-ammonia,Production|Chemicals,,,Mt N
-airCO2,NoReported,,,
-agricultural energy use,Production|Agriculture,,,EJ
-alumina,NoReported,,,
-aluminum,Production|Non-ferrous metals,,,Mt
-cement,Production|Cement,,,Mt
-chemical energy use,Production|Chemicals,,,EJ
+agricultural energy use,NoReported,,,EJ
+airCO2,NoReported,,,EJ
+alumina,NoReported,,,Mt
+aluminum,Production|Non-Ferrous Metals|Aluminum,,,Mt
+ammonia,Production|Chemicals|Ammonia,,,Mt NH3
+cement,Production|Non-Metallic Minerals|Cement,,,Mt
+chemical energy use,NoReported,,,EJ
 chemical feedstocks,NoReported,,,EJ
-CO2 removal,NoReported,,,
-construction energy use,Production|Construction,,,EJ
+CO2 removal,NoReported,,,EJ
+construction energy use,NoReported,,,EJ
 construction feedstocks,NoReported,,,EJ
-other industrial energy use,Production|Other,,,EJ
+food processing,NoReported,,,Pcal
+iron and steel,Production|Iron and Steel|Iron,Production|Iron and Steel|Steel,,Mt
+mining energy use,NoReported,,,EJ
+N fertilizer,Production|Chemicals|Nitrogen Fertilizer,,,Mt N
+other industrial energy use,NoReported,,,EJ
 other industrial feedstocks,NoReported,,,EJ
-mining energy use,Production|Mining,,,EJ
-process heat cement,NoReported,,,
-process heat food processing,NoReported,,,
-process heat paper,NoReported,,,
-process heat dac,NoReported,,,
-waste biomass for paper,NoReported,,,
-paper,NoReported,,,
-food processing,NoReported,,,
+paper,Production|Pulp and Paper|Paper,,,Mt
+process heat cement,NoReported,,,EJ
+process heat dac,NoReported,,,EJ
+process heat food processing,NoReported,,,EJ
+process heat paper,NoReported,,,EJ
+waste biomass for paper,NoReported,,,EJ

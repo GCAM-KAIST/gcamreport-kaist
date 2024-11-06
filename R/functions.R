@@ -2057,8 +2057,6 @@ get_industry_production <- function(GCAM_version = "v7.0") {
     left_join_strict(filter_variables(get(paste('production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "industry_production_clean"),
                      by = c("sector"), mapping = paste('production_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported') %>%
-    # filter variables that are in terms of Mt
-    dplyr::filter(var %in% c("Production|Cement", "Production|Steel", "Production|Non-ferrous metals")) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -3415,6 +3413,7 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
 
   resource_investment_clean <<- resource_investment_clean
 }
+
 
 #########################################################################
 #                        BIND TO TEMPLATE FUNCTIONS                     #
