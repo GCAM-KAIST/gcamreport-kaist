@@ -532,24 +532,40 @@ get_population <- function(GCAM_version = "v7.0") {
 
 #' get_gdp_ppp
 #'
-#' Retrieves GDP (PPP) data, computes regional GDP, and converts units to 10 USD.
+#' Retrieves GDP (PPP) data, computes regional GDP and annual GDPpc growth rate, and converts units to 10 USD.
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
-#' @return `GDP_PPP_clean` global variable.
+#' @return `GDP_PPP_clean` and `GDP_PPP_pc_growth_clean` global variables.
 #' @keywords internal GDP
 #' @importFrom magrittr %>%
 #' @export
 get_gdp_ppp <- function(GCAM_version = "v7.0") {
-  value <- pop_mill <- GDP_PPP_clean <- NULL
+  value <- pop_mill <- GDP_PPP_clean <- GDP_PPP_pc_growth_clean <- NULL
 
   GDP_PPP_clean <-
     rgcam::getQuery(prj, "GDP per capita PPP by region") %>%
     left_join_error_no_match(population_clean %>% dplyr::rename(pop_mill = value), by = c("scenario", "region", "year")) %>%
     dplyr::mutate(
-      value = value * pop_mill * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']], var = "GDP|PPP"
+      value = value * pop_mill * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']],
+      var = "GDP|PPP"
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  GDP_PPP_pc_growth_clean <-
+    rgcam::getQuery(prj, "GDP per capita PPP by region") %>%
+    dplyr::arrange(year) %>%
+    tibble::as_tibble() %>%
+    dplyr::group_by(scenario, region) %>%
+    dplyr::mutate(rate = (value / dplyr::lag(value))^(1 / (year - dplyr::lag(year))) - 1) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(
+      value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']],
+      var = "GDP|PPP [Growth Rate per capita]"
+    ) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+
+  GDP_PPP_pc_growth_clean <<- GDP_PPP_pc_growth_clean
   GDP_PPP_clean <<- GDP_PPP_clean
 }
 

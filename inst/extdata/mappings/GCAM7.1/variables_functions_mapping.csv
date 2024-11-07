@@ -1,6 +1,7 @@
 name;fun;dependencies;checks;queries
 population_clean;get_population;;;population by region
 GDP_PPP_clean;get_gdp_ppp;population_clean;;GDP per capita PPP by region
+GDP_PPP_pc_growth_clean;get_gdp_ppp;population_clean;;GDP per capita PPP by region
 GDP_MER_clean;get_gdp_mer;;;GDP MER by region
 forcing_clean;get_forcing;;;total climate forcing
 global_temp_clean;get_temperature;;;global mean temperature
