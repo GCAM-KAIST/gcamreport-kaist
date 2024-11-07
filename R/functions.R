@@ -1023,7 +1023,7 @@ get_co2_tech_nobio_tmp <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_co2
+#' get_co2_emiss
 #'
 #' Retrieves the non-bio CO2 emissions query by sector, subsector, and technology.
 #'
@@ -1032,9 +1032,9 @@ get_co2_tech_nobio_tmp <- function(GCAM_version = "v7.0") {
 #' @keywords internal co2 tmp
 #' @importFrom magrittr %>%
 #' @export
-get_co2 <- function(GCAM_version = "v7.0") {
-  var <- value <- unit_conv <- scenario <- region <- year <- co2_emiss <-
-  queryItem1 <- co2_tech_nobio_tmp <- ghg <- technology <- subsector <- NULL
+get_co2_emiss <- function(GCAM_version = "v7.0") {
+  var <- value <- unit_conv <- scenario <- region <- year <-
+  queryItem1 <- co2_emiss <- ghg <- technology <- subsector <- NULL
 
   var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
   queryItem1 <- var_fun_map[var_fun_map$name == "co2_emiss", "queries"][[1]]
@@ -1064,6 +1064,55 @@ get_co2 <- function(GCAM_version = "v7.0") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   co2_emiss <<- co2_emiss
+}
+
+
+#' get_gross_co2_emiss
+#'
+#' Retrieves the Gross CO2 emissions: Gross emissions of carbon dioxide (CO2),
+#' not accounting for negative emissions from bioenergy with CCS (BECCS) or
+#' agriculture, forestry and other land use (AFOLU)
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `gross_co2_emiss_clean` global variable.
+#' @keywords internal co2 tmp
+#' @importFrom magrittr %>%
+#' @export
+get_gross_co2_emiss <- function(GCAM_version = "v7.0") {
+  var <- value <- unit_conv <- scenario <- region <- year <-
+  queryItem1 <- gross_co2_emiss_clean <- ghg <- technology <- subsector <- NULL
+
+  var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  queryItem1 <- var_fun_map[var_fun_map$name == "co2_emiss", "queries"][[1]]
+
+  tmp <-
+    rgcam::getQuery(prj, queryItem1) %>%
+    dplyr::mutate(ghg = 'CO2') %>%
+    dplyr::filter(!grepl('agriculture', sector),
+                  !grepl('CCS', sector))
+
+  # gather deciles if necessary
+  if(GCAM_version == 'v7.1') {
+    tmp <- tmp %>%
+      tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
+      dplyr::group_by(Units, scenario, region, sector, subsector, technology, year, ghg) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup()
+  }
+
+  gross_co2_emiss_clean <-
+    tmp %>%
+    left_join_strict(filter_variables(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "co2_tech_emissions"),
+                     by = c("sector", "subsector", "technology"), mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = gsub('Emissions', 'Gross Emissions', var)) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  gross_co2_emiss_clean <<- gross_co2_emiss_clean
 }
 
 
