@@ -3152,7 +3152,7 @@ get_elec_investment <- function(GCAM_version = "v7.0") {
     dplyr::mutate(value = GW * capital.overnight / 1000 *
                     get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']]) %>%
     left_join_strict(secondary_energy_map, by = c("technology", "subsector"), multiple = "all") %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(
       value = value * unit_conv,
       var = sub("Secondary Energy", "Investment|Energy Supply", var)
@@ -3212,54 +3212,6 @@ get_transmission_invest <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_CCS_invest
-#'
-#' Calculate CSS investment.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
-#' @keywords internal investment process
-#' @return `CCS_invest_clean` global variable
-#' @importFrom magrittr %>%
-#' @export
-get_CCS_invest <- function(GCAM_version = "v7.0") {
-  Region <- Variable <- year <- value <- var <- scenario <- share <- region <-
-    invest <- rate <- NULL
-
-  # use last available year if 2040 is not present in the data
-  yy <- ifelse(max(unique(co2_sequestration_clean$year)) >= 2040, 2040, max(unique(co2_sequestration_clean$year)))
-
-  CCS2040 <-
-    get(paste('investment',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::filter(Region == "World", Variable == "CCS", year == yy) %>%
-    dplyr::mutate(value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_15USD_10USD']]) %>%
-    dplyr::summarise(value = mean(value, na.rm = T)) %>%
-    unlist()
-
-  CCS_invest2040 <-
-    co2_sequestration_clean %>%
-    dplyr::filter(var == "Carbon Sequestration|CCS", year == yy) %>%
-    dplyr::group_by(scenario) %>%
-    dplyr::mutate(
-      share = value / sum(value, na.rm = T),
-      invest = share * CCS2040
-    )
-
-  CCS_invest_clean <-
-    co2_sequestration_clean %>%
-    dplyr::filter(var == "Carbon Sequestration|CCS") %>%
-    dplyr::group_by(scenario, region) %>%
-    dplyr::mutate(rate = value / value[year == yy]) %>%
-    dplyr::ungroup() %>%
-    left_join_strict(
-      CCS_invest2040 %>%
-        dplyr::select(scenario, region, invest),
-      by = c("scenario", "region")
-    ) %>%
-    dplyr::mutate(value = rate * invest, var = "Investment|Energy Supply|CO2 Transport and Storage") %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
-
-  CCS_invest_clean <<- CCS_invest_clean
-}
-
 #' get_resource_investment
 #'
 #' Calculate investment of resource production.
@@ -3275,7 +3227,7 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
   # Investment of resource production
   resource_addition <- suppressWarnings(
     rgcam::getQuery(prj, "resource production by tech and vintage") %>%
-      dplyr::filter(resource %in% c("coal", "natural gas", "crude oil", "unconventional oil")) %>%
+      dplyr::filter(resource %in% c("coal", "natural gas", "crude oil", "unconventional oil", "uranium")) %>%
       tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
       dplyr::mutate(vintage = as.integer(sub("year=", "", vintage))) %>%
       dplyr::filter(year > 2010) %>%
@@ -3283,10 +3235,18 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
         resource = sub("crude oil", "oil", resource),
         resource = sub("unconventional oil", "oil", resource)
       ) %>%
-      dplyr::group_by(scenario, resource, region, year) %>%
+      dplyr::group_by(scenario, fuel = resource, region, year) %>%
       dplyr::summarise(production = sum(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      # expand the uranium regions, since only USA was present (it is a global market)
+      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = desired_regions, fill = list(production = 0)) %>%
+      dplyr::group_by(scenario, fuel, year) %>%
+      dplyr::mutate(production = dplyr::if_else(fuel == 'uranium',
+                                                production[region == 'USA'],
+                                                production)) %>%
       dplyr::ungroup()
-  )
+  ) %>%
+    filter_data_regions()
 
   # scale 2015 number - average of other model results from Mcollion et al. 2018
   extraction2015 <-
@@ -3308,11 +3268,20 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
     dplyr::filter(year == 2015) %>%
     left_join_strict(
       rgcam::getQuery(prj, "regional primary energy prices") %>%
-        dplyr::mutate(fuel = sub("regional ", "", fuel)),
-      by = c("scenario", "region", "year", "resource" = "fuel")
+        dplyr::mutate(fuel = sub("regional ", "", fuel)) %>%
+        # add uranium (global market)
+        rbind(rgcam::getQuery(prj, "prices of all markets") %>%
+                dplyr::filter(grepl('uranium', market)) %>%
+                dplyr::mutate(fuel = 'uranium') %>%
+                dplyr::select(-market) %>%
+                # from 1975$/kg to 1975$/EJ; 1EJ = 0.08314kg
+                dplyr::mutate(value = value / 0.08314) %>%
+                tidyr::expand_grid(region = desired_regions)) %>%
+        filter_data_regions(),
+      by = c("scenario", "region", "year", "fuel")
     ) %>%
     dplyr::mutate(value = production * value) %>%
-    dplyr::group_by(scenario, resource, region) %>%
+    dplyr::group_by(scenario, resource = fuel, region) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(scenario) %>%
@@ -3327,11 +3296,20 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
     dplyr::filter(year == 2020) %>%
     left_join_strict(
       rgcam::getQuery(prj, "regional primary energy prices") %>%
-        dplyr::mutate(fuel = sub("regional ", "", fuel)),
-      by = c("scenario", "region", "year", "resource" = "fuel")
+        dplyr::mutate(fuel = sub("regional ", "", fuel)) %>%
+        # add uranium (global market)
+        rbind(rgcam::getQuery(prj, "prices of all markets") %>%
+                dplyr::filter(grepl('uranium', market)) %>%
+                dplyr::mutate(fuel = 'uranium') %>%
+                dplyr::select(-market) %>%
+                # from 1975$/kg to 1975$/GJ; 1GJ = 83.14kg
+                dplyr::mutate(value = value / 83.14) %>%
+                tidyr::expand_grid(region = desired_regions)) %>%
+        filter_data_regions(),
+      by = c("scenario", "region", "year", "fuel")
     ) %>%
     dplyr::mutate(value = production * value) %>%
-    dplyr::group_by(scenario, resource, region) %>%
+    dplyr::group_by(scenario, resource = fuel, region) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(scenario) %>%
@@ -3346,6 +3324,7 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
   resource_investment <-
     resource_addition %>%
     dplyr::filter(year != 2020) %>%
+    dplyr::rename(resource = fuel) %>%
     dplyr::group_by(scenario, resource) %>%
     dplyr::mutate(rate = production / production[year == 2015 & region == reg]) %>%
     dplyr::ungroup() %>%
@@ -3357,6 +3336,7 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
     ) %>%
     dplyr::bind_rows(resource_addition %>%
                        dplyr::filter(year == 2020) %>%
+                       dplyr::rename(resource = fuel) %>%
                        dplyr::group_by(scenario, resource) %>%
                        dplyr::mutate(rate = production / production[region == reg]) %>%
                        dplyr::ungroup() %>%
@@ -3371,6 +3351,7 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
       resource = sub("coal", "Coal", resource),
       resource = sub("natural gas", "Gas", resource),
       resource = sub("oil", "Oil", resource),
+      resource = sub("uranium", "Uranium", resource),
       var = paste0("Investment|Energy Supply|Extraction|", resource)
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
