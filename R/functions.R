@@ -2739,16 +2739,16 @@ get_prices_subsector <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_energy_price_fragmented
+#' get_energy_price_tmp
 #'
-#' Retrieves energy prices fragmented by region and joins them since prices vary by region.
+#' Binds regional oil, gas, coal prices with other energy prices.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal prices process
-#' @return `energy_price_fragmented` global variable
+#' @return `energy_price` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_energy_price_fragmented <- function(GCAM_version = "v7.0") {
-  var <- market <- scenario <- region <- year <-
+get_energy_price_tmp <- function(GCAM_version = "v7.0") {
+  var <- market <- scenario <- region <- year <- energy_price <-
     value <- PrimaryFuelCO2Coef <- price_C <- unit_conv <- NULL
 
   CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
@@ -2797,13 +2797,15 @@ get_energy_price_fragmented <- function(GCAM_version = "v7.0") {
     dplyr::filter(!grepl("biomass", sector)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  energy_price_fragmented <-
+  energy_price <-
     rbind(energy_price_fragmented_pre,
-          energy_price_fragmented_biomass)
+          energy_price_fragmented_biomass) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  energy_price_fragmented <<- energy_price_fragmented
+  energy_price <<- energy_price
 }
-#
+
+
 #' get_total_revenue
 #'
 #' Compute total revenue: total production * global price.
@@ -2884,24 +2886,6 @@ get_regional_emission <- function(GCAM_version = "v7.0") {
   )
 
   regional_emission <<- regional_emission
-}
-
-
-#' get_energy_price_tmp
-#'
-#' Bind regional oil, gas, coal prices with other energy prices
-#' @keywords internal price tmp
-#' @return `energy_price` global variable
-#' @importFrom magrittr %>%
-#' @export
-get_energy_price_tmp <- function() {
-  energy_price <- NULL
-
-  energy_price <-
-    energy_price_fragmented %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
-
-  energy_price <<- energy_price
 }
 
 

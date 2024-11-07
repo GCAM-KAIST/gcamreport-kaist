@@ -74,3 +74,4 @@ trade_clean;get_total_trade;ag_trade,pe_trade,se_trade;;
 se_trade_prod;get_se_trade_prod;;;elec gen by subsector,hydrogen production by tech,refined liquids production by region
 se_trade_supply;get_se_trade_supply;;;supply of all markets
 se_trade;get_se_trade;se_trade_prod,se_trade_supply;check_trade;
+energy_price;get_energy_price_tmp;prices_subsector_pre,prices_subsector_biomass;;CO2 prices
