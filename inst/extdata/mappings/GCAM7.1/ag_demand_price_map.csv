@@ -66,7 +66,6 @@ Agricultural Demand|Livestock,Price|Agriculture|Food Products|Livestock [Index]
 Agricultural Demand|Livestock|Food,Price|Agriculture|Food Products [Index]
 Agricultural Demand|Livestock|Food|Beef,NoReported
 Agricultural Demand|Livestock|Food|Dairy,NoReported
-Agricultural Demand|Livestock|Food|Fish,NoReported
 Agricultural Demand|Livestock|Food|Non-Ruminant,NoReported
 Agricultural Demand|Livestock|Food|Pork,NoReported
 Agricultural Demand|Livestock|Food|Poultry,NoReported
@@ -75,7 +74,6 @@ Agricultural Demand|Livestock|Food|SheepGoat,NoReported
 Agricultural Demand|Livestock|Other,NoReported
 Agricultural Demand|Livestock|Other|Beef,NoReported
 Agricultural Demand|Livestock|Other|Dairy,NoReported
-Agricultural Demand|Livestock|Other|Fish,NoReported
 Agricultural Demand|Livestock|Other|Pork,NoReported
 Agricultural Demand|Livestock|Other|Poultry,NoReported
 Agricultural Demand|Livestock|Other|SheepGoat,NoReported
