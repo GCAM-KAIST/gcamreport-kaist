@@ -25,8 +25,8 @@ Agricultural Demand|Crops|Feed|Sugar Crops,NoReported
 Agricultural Demand|Crops|Feed|SugarCrop,NoReported
 Agricultural Demand|Crops|Feed|Vegetables,NoReported
 Agricultural Demand|Crops|Feed|Wheat,NoReported
-Agricultural Demand|Crops|Food,Price|Agriculture|Food Products|Crops [Index]
 Agricultural Demand|Crops|Food,Price|Agriculture|Food Products [Index]
+Agricultural Demand|Crops|Food,Price|Agriculture|Food Products|Crops [Index]
 Agricultural Demand|Crops|Food|Cereals,NoReported
 Agricultural Demand|Crops|Food|Corn,Price|Agriculture|Food Products|Crops|Maize [Index]
 Agricultural Demand|Crops|Food|FiberCrop,NoReported
@@ -62,8 +62,9 @@ Agricultural Demand|Crops|Other|SoyBean,NoReported
 Agricultural Demand|Crops|Other|SugarCrop,NoReported
 Agricultural Demand|Crops|Other|Vegetables,NoReported
 Agricultural Demand|Crops|Other|Wheat,NoReported
-Agricultural Demand|Livestock,Price|Agriculture|Food Products|Livestock [Index]
+Agricultural Demand|Livestock,
 Agricultural Demand|Livestock|Food,Price|Agriculture|Food Products [Index]
+Agricultural Demand|Livestock|Food,Price|Agriculture|Food Products|Livestock [Index]
 Agricultural Demand|Livestock|Food|Beef,NoReported
 Agricultural Demand|Livestock|Food|Dairy,NoReported
 Agricultural Demand|Livestock|Food|Non-Ruminant,NoReported

@@ -286,7 +286,7 @@
 #' }
 "ag_demand_map_v7.1"
 
-#' ag_prices_map_v7.1
+#' ag_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -294,11 +294,11 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_prices_map_v7.1
+#' gcamreport::ag_price_map_v7.1
 #' }
-"ag_prices_map_v7.1"
+"ag_price_map_v7.1"
 
-#' ag_demand_prices_map_v7.1
+#' ag_demand_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -306,9 +306,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_demand_prices_map_v7.1
+#' gcamreport::ag_demand_price_map_v7.1
 #' }
-"ag_demand_prices_map_v7.1"
+"ag_demand_price_map_v7.1"
 
 #' ag_production_map_v7.1
 #'

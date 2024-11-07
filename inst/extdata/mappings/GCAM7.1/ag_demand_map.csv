@@ -63,6 +63,7 @@ regional pork,NonFoodDemand_Meat,Agricultural Demand,Agricultural Demand|Livesto
 regional poultry,NonFoodDemand_Meat,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Other,,Agricultural Demand|Livestock|Other|Poultry,,,,1
 regional sheepgoat,NonFoodDemand_Meat,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Other,,Agricultural Demand|Livestock|Other|SheepGoat,,,,1
 OtherMeat_Fish,NonFoodDemand_Meat,NoReported,,,,,,,,1
+OtherMeat_Fish,FoodDemand_NonStaples,NoReported,,,,,,,,1
 OtherMeat_Fish,OtherMeat_Fish,NoReported,,,,,,,,1
 FodderHerb,FodderHerb_Residue,NoReported,,,,,,,,1
 FodderGrass,Pasture_FodderGrass,NoReported,,,,,,,,1

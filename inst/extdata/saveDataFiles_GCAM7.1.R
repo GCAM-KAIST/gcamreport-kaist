@@ -92,11 +92,11 @@ ag_demand_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/G
 ) %>% gather_map()
 use_data(ag_demand_map_v7.1, overwrite = T)
 
-ag_prices_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_prices_map.csv"),
+ag_price_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_price_map.csv"),
                                skip = 1,
                                stringsAsFactors = FALSE
 ) %>% gather_map()
-use_data(ag_prices_map_v7.1, overwrite = T)
+use_data(ag_price_map_v7.1, overwrite = T)
 
 ag_production_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_production_map.csv"),
                                skip = 1,
@@ -104,11 +104,11 @@ ag_production_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappin
 ) %>% gather_map()
 use_data(ag_production_map_v7.1, overwrite = T)
 
-ag_demand_prices_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_demand_price_map.csv"),
+ag_demand_price_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_demand_price_map.csv"),
                                skip = 1,
                                stringsAsFactors = FALSE
 )
-use_data(ag_demand_prices_map_v7.1, overwrite = T)
+use_data(ag_demand_price_map_v7.1, overwrite = T)
 
 trade_ag_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "trade_ag.csv"), skip = 1,
                                       stringsAsFactors = FALSE) %>% gather_map()

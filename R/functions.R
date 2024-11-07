@@ -1510,12 +1510,9 @@ get_ag_demand <- function(GCAM_version = "v7.0") {
       rgcam::getQuery(prj, "demand balances by crop commodity"),
       rgcam::getQuery(prj, "demand balances by meat and dairy commodity")
     ) %>%
-    # Adjust OtherMeat_Fish
-    dplyr::mutate(sector = dplyr::if_else(sector == "FoodDemand_NonStaples" & input == "OtherMeat_Fish", "OtherMeat_Fish", sector)) %>%
     left_join_strict(filter_variables(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_demand_clean"),
                      by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported') %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -1523,6 +1520,98 @@ get_ag_demand <- function(GCAM_version = "v7.0") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   ag_demand_clean <<- ag_demand_clean
+}
+
+
+#' get_ag_demand_weights
+#'
+#' Get agricultural demand.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @keywords internal ag
+#' @return `ag_demand_weights` and `ag_demand_wld_weights` global variables.
+#' @importFrom magrittr %>%
+#' @export
+get_ag_demand_weights <- function(GCAM_version = "v7.0") {
+  sector <- input <- var <- value <- unit_conv <- scenario <- region <-
+    year <- ag_demand_weights <- ag_demand_wld_weights <- NULL
+
+  ag_demand_tmp <-
+    dplyr::bind_rows(
+      rgcam::getQuery(prj, "demand balances by crop commodity"),
+      rgcam::getQuery(prj, "demand balances by meat and dairy commodity")
+    ) %>%
+    left_join_strict(filter_variables(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_demand_clean"),
+                     by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    # select variables whose price will be computed
+    dplyr::right_join(filter_variables(get(paste('ag_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_price_clean") %>%
+                        dplyr::filter(ag_price_variable != 'NoReported', ag_price_variable != ""),
+                      by = c('var' = 'ag_demand_variable'), relationship = "many-to-many") %>%
+    dplyr::distinct()
+
+
+  # weights by sector within each region
+  ag_demand_weights <-
+    ag_demand_tmp %>%
+    dplyr::group_by(Units, scenario, region, year, ag_price_variable) %>%
+    dplyr::mutate(total_demand_var = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # compute weight by sector and input
+    dplyr::mutate(weight = value / total_demand_var) %>%
+    # clean dataset
+    dplyr::select(dplyr::all_of(gcamreport::long_columns), sector = input,
+                  ag_demand_variable = var, var = ag_price_variable, weight, -value)
+
+  sectors_combination <- ag_demand_weights %>%
+    dplyr::select(sector, var, ag_demand_variable) %>%
+    dplyr::distinct() %>%
+    tidyr::expand_grid(
+      scenario = unique(ag_demand_weights$scenario),
+      region = unique(ag_demand_weights$region),
+      year = unique(ag_demand_weights$year)
+      )
+
+  ag_demand_weights <- dplyr::left_join(
+    sectors_combination,
+    ag_demand_weights,
+    by = c('sector', 'var', 'ag_demand_variable', 'scenario', 'region', 'year')
+  ) %>%
+    dplyr::mutate(weight = dplyr::if_else(is.na(weight), 0, weight))
+
+
+  # global weights by region-sector combination. World = 1
+  ag_demand_wld_weights <-
+    ag_demand_tmp %>%
+    dplyr::group_by(Units, scenario, year, ag_price_variable) %>%
+    dplyr::mutate(total_demand_var = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # compute weight by sector and input
+    dplyr::mutate(weight = value / total_demand_var) %>%
+    # clean dataset
+    dplyr::select(dplyr::all_of(gcamreport::long_columns), sector = input,
+                  ag_demand_variable = var, var = ag_price_variable, weight, -value)
+
+  sectors_combination <- ag_demand_wld_weights %>%
+    dplyr::select(sector, var, ag_demand_variable) %>%
+    dplyr::distinct() %>%
+    tidyr::expand_grid(
+      scenario = unique(ag_demand_wld_weights$scenario),
+      region = unique(ag_demand_wld_weights$region),
+      year = unique(ag_demand_wld_weights$year)
+    )
+
+  ag_demand_wld_weights <- dplyr::left_join(
+    sectors_combination,
+    ag_demand_wld_weights,
+    by = c('sector', 'var', 'ag_demand_variable', 'scenario', 'region', 'year')
+  ) %>%
+    dplyr::mutate(weight = dplyr::if_else(is.na(weight), 0, weight))
+
+
+  ag_demand_weights <<- ag_demand_weights
+  ag_demand_wld_weights <<- ag_demand_wld_weights
 }
 
 
@@ -2174,57 +2263,45 @@ get_iron_steel_clean <- function() {
 
 # Prices
 # ==============================================================================================
-#' get_ag_prices_wld_tmp
+#' get_ag_price_wld_tmp
 #'
 #' Retrieve agricultural price index.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal ag tmp
-#' @return `ag_prices_wld` global variable
+#' @return `ag_price_wld` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_ag_prices_wld_tmp <- function(GCAM_version = "v7.0") {
-  var <- scenario <- sector <- year <- value <- ag_prices_map <-
-    ag_demand_reg_sec_weights <- ag_price_variable <- ag_prices_wld <-
+get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
+  var <- scenario <- sector <- year <- value <- ag_price_map <-
+    ag_demand_reg_sec_weights <- ag_price_variable <- ag_price_wld <-
     ag_demand_variable <- Units <- region <- unit_conv <- NULL
 
-  # regional-sectorial weights. The World region weights 1 for each year
-  ag_demand_reg_sec_weights <- compute_reg_sec_weight(ag_demand_clean)
-
-  ag_prices_wld <-
+  ag_price_wld <-
     rgcam::getQuery(prj, "prices by sector") %>%
-    dplyr::filter(Units == "1975$/kg", !grepl('traded|total',sector)) %>%
-    left_join_strict(filter_variables(get(paste('ag_prices_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_prices_wld"),
-                     by = c("sector"), mapping = paste('ag_prices_map',GCAM_version,sep='_'), relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported') %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(Units == "1975$/kg") %>%
+    left_join_strict(filter_variables(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_price_clean"),
+                     by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     # compute index
     dplyr::group_by(scenario, region, sector) %>%
     dplyr::mutate(value = value * unit_conv / value[year == 2015]) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
-    # do the mean by variable
-    dplyr::group_by(scenario, region, var, year) %>%
-    dplyr::summarise(value = mean(value)) %>%
-    dplyr::ungroup() %>%
     # add weights
-    left_join_strict(filter_variables(get(paste('ag_demand_prices_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-                                        dplyr::rename(var = ag_price_variable) %>%
-                                        dplyr::filter(!is.na(var)), "ag_prices_wld"),
-                             by = 'var', mapping = paste('ag_demand_prices_map',GCAM_version,sep='_')) %>%
-    dplyr::filter(var != 'NoReported', ag_demand_variable != 'NoReported') %>%
-    left_join_strict(ag_demand_reg_sec_weights %>%
-                       dplyr::rename(ag_demand_variable = var),
-                     by = c('scenario', 'region', 'year', 'ag_demand_variable'),
-                     by_message = c('ag_demand_variable', 'ag_price_variable'),
-                     relationship = "many-to-many") %>%
-    dplyr::mutate(value = value * reg_sec_weight) %>%
-    # compute Global values
+    dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= final_year.global]) %>%
+    left_join_strict(ag_demand_wld_weights,
+                     by = c('scenario','region','year','sector','var'),
+                     by_message = c('sector','year')) %>%
+    # compute var weighted average price
+    dplyr::mutate(value = value * weight) %>%
     dplyr::group_by(scenario, var, year) %>%
-    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(region = "World")
+    # rearrange dataset
+    dplyr::mutate(region = 'World') %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  ag_prices_wld <<- ag_prices_wld
+  ag_price_wld <<- ag_price_wld
 }
 
 
@@ -2233,34 +2310,39 @@ get_ag_prices_wld_tmp <- function(GCAM_version = "v7.0") {
 #' Calculate average mean for agricultural global index.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal ag
-#' @return `ag_prices_clean` global variable
+#' @return `ag_price_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
 get_ag_prices <- function(GCAM_version = "v7.0") {
   var <- scenario <- region <- sector <- value <- unit_conv <- year <- Units <- NULL
 
-  ag_prices_clean <-
+  ag_price_clean <-
     rgcam::getQuery(prj, "prices by sector") %>%
-    dplyr::filter(Units == "1975$/kg", !grepl('region|traded|^[a-z]',sector)) %>%
-    left_join_strict(filter_variables(get(paste('ag_prices_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_prices_clean"),
-                     by = c("sector"), mapping = paste('ag_prices_map',GCAM_version,sep='_')) %>%
-    dplyr::filter(var != 'NoReported') %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(Units == "1975$/kg") %>%
+    left_join_strict(filter_variables(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_price_clean"),
+                     by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     # compute index
     dplyr::group_by(scenario, region, sector) %>%
     dplyr::mutate(value = value * unit_conv / value[year == 2015]) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
-    # do the mean by variable
+    # add weights
+    dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= final_year.global]) %>%
+    left_join_strict(ag_demand_weights,
+                     by = c('scenario','region','year','sector','var'),
+                     by_message = c('sector','year')) %>%
+    # compute var weighted average price
+    dplyr::mutate(value = value * weight) %>%
     dplyr::group_by(scenario, region, var, year) %>%
-    dplyr::summarise(value = mean(value)) %>%
+    dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
-    # add World values
-    dplyr::bind_rows(ag_prices_wld) %>%
     # rearrange dataset
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
+    # add World values
+    rbind(ag_price_wld)
 
-  ag_prices_clean <<- ag_prices_clean
+  ag_price_clean <<- ag_price_clean
 }
 
 
