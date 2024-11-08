@@ -1,4 +1,4 @@
-# map to pair ag_demand and ag_prices to compute the World ag_prices weighted by ag_demand
+# map to pair ag_demand and ag_prices to compute the parent categories and World ag_prices weighted by ag_demand
 ag_demand_variable,ag_price_variable
 Agricultural Demand,NoReported
 Agricultural Demand|Crops,NoReported

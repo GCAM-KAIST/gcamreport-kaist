@@ -430,7 +430,7 @@
 #' }
 "final_energy_map_v7.1"
 
-#' en_demand_prices_map_v7.1
+#' en_demand_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -438,9 +438,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::en_demand_prices_map_v7.1
+#' gcamreport::en_demand_price_map_v7.1
 #' }
-"en_demand_prices_map_v7.1"
+"en_demand_price_map_v7.1"
 
 #' transport_final_en_map_v7.1
 #'
@@ -454,7 +454,7 @@
 #' }
 "transport_final_en_map_v7.1"
 
-#' energy_prices_map_v7.1
+#' energy_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -462,9 +462,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::energy_prices_map_v7.1
+#' gcamreport::energy_price_map_v7.1
 #' }
-"energy_prices_map_v7.1"
+"energy_price_map_v7.1"
 
 #' transport_en_service_v7.1
 #'

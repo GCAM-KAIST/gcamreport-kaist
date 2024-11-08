@@ -10,7 +10,7 @@ get_fe_transportation_tmp(GCAM_version = "v7.0")
 \item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
-`fe_transportation` global variable
+`fe_transportation` and `fe_transportation_raw` global variables
 }
 \description{
 Retrieve mode-specific transport final energy, including rail, ship, and domestic air.

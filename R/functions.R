@@ -1523,18 +1523,18 @@ get_ag_demand <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_ag_demand_weights
+#' get_ag_weights
 #'
-#' Get agricultural demand.
+#' Get agricultural items weighted by demand. By region and global.
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal ag
-#' @return `ag_demand_weights` and `ag_demand_wld_weights` global variables.
+#' @return `ag_weights` and `ag_wld_weights` global variables.
 #' @importFrom magrittr %>%
 #' @export
-get_ag_demand_weights <- function(GCAM_version = "v7.0") {
+get_ag_weights <- function(GCAM_version = "v7.0") {
   sector <- input <- var <- value <- unit_conv <- scenario <- region <-
-    year <- ag_demand_weights <- ag_demand_wld_weights <- NULL
+    year <- ag_weights <- ag_wld_weights <- NULL
 
   ag_demand_tmp <-
     dplyr::bind_rows(
@@ -1553,7 +1553,7 @@ get_ag_demand_weights <- function(GCAM_version = "v7.0") {
 
 
   # weights by sector within each region
-  ag_demand_weights <-
+  ag_weights <-
     ag_demand_tmp %>%
     dplyr::group_by(Units, scenario, region, year, ag_price_variable) %>%
     dplyr::mutate(total_demand_var = sum(value)) %>%
@@ -1564,25 +1564,25 @@ get_ag_demand_weights <- function(GCAM_version = "v7.0") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns), sector = input,
                   ag_demand_variable = var, var = ag_price_variable, weight, -value)
 
-  sectors_combination <- ag_demand_weights %>%
+  sectors_combination <- ag_weights %>%
     dplyr::select(sector, var, ag_demand_variable) %>%
     dplyr::distinct() %>%
     tidyr::expand_grid(
-      scenario = unique(ag_demand_weights$scenario),
-      region = unique(ag_demand_weights$region),
-      year = unique(ag_demand_weights$year)
+      scenario = unique(ag_weights$scenario),
+      region = unique(ag_weights$region),
+      year = unique(ag_weights$year)
       )
 
-  ag_demand_weights <- dplyr::left_join(
+  ag_weights <- dplyr::left_join(
     sectors_combination,
-    ag_demand_weights,
+    ag_weights,
     by = c('sector', 'var', 'ag_demand_variable', 'scenario', 'region', 'year')
   ) %>%
     dplyr::mutate(weight = dplyr::if_else(is.na(weight), 0, weight))
 
 
   # global weights by region-sector combination. World = 1
-  ag_demand_wld_weights <-
+  ag_wld_weights <-
     ag_demand_tmp %>%
     dplyr::group_by(Units, scenario, year, ag_price_variable) %>%
     dplyr::mutate(total_demand_var = sum(value)) %>%
@@ -1593,25 +1593,25 @@ get_ag_demand_weights <- function(GCAM_version = "v7.0") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns), sector = input,
                   ag_demand_variable = var, var = ag_price_variable, weight, -value)
 
-  sectors_combination <- ag_demand_wld_weights %>%
+  sectors_combination <- ag_wld_weights %>%
     dplyr::select(sector, var, ag_demand_variable) %>%
     dplyr::distinct() %>%
     tidyr::expand_grid(
-      scenario = unique(ag_demand_wld_weights$scenario),
-      region = unique(ag_demand_wld_weights$region),
-      year = unique(ag_demand_wld_weights$year)
+      scenario = unique(ag_wld_weights$scenario),
+      region = unique(ag_wld_weights$region),
+      year = unique(ag_wld_weights$year)
     )
 
-  ag_demand_wld_weights <- dplyr::left_join(
+  ag_wld_weights <- dplyr::left_join(
     sectors_combination,
-    ag_demand_wld_weights,
+    ag_wld_weights,
     by = c('sector', 'var', 'ag_demand_variable', 'scenario', 'region', 'year')
   ) %>%
     dplyr::mutate(weight = dplyr::if_else(is.na(weight), 0, weight))
 
 
-  ag_demand_weights <<- ag_demand_weights
-  ag_demand_wld_weights <<- ag_demand_wld_weights
+  ag_weights <<- ag_weights
+  ag_wld_weights <<- ag_wld_weights
 }
 
 
@@ -1965,12 +1965,12 @@ get_se_trade <- function() {
 #' Retrieve final energy demand by sector.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal energy tmp
-#' @return `fe_sector` global variable
+#' @return `fe_sector` and `fe_sector_raw` global variables
 #' @importFrom magrittr %>%
 #' @export
 get_fe_sector_tmp <- function(GCAM_version = "v7.0") {
   var <- value <- unit_conv <- scenario <- region <- year <- tmp <-
-    sector <- Units <- input <- fe_sector <- NULL
+    sector <- Units <- input <- fe_sector <- fe_sector_raw <- NULL
 
   # gather deciles if necessary
   tmp <- rgcam::getQuery(prj, "final energy consumption by sector and fuel") %>%
@@ -1983,13 +1983,14 @@ get_fe_sector_tmp <- function(GCAM_version = "v7.0") {
       dplyr::ungroup()
   }
 
-  fe_sector <-
+  fe_sector_raw <-
     tmp %>%
     left_join_strict(filter_variables(get(paste('final_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "fe_sector"),
                      by = c("sector", "input"), mapping = paste('final_energy_map',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(var != 'NoReported') %>%
-    dplyr::filter(!is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv)
+
+  fe_sector <- fe_sector_raw %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -1999,6 +2000,7 @@ get_fe_sector_tmp <- function(GCAM_version = "v7.0") {
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  fe_sector_raw <<- fe_sector_raw
   fe_sector <<- fe_sector
 }
 
@@ -2008,19 +2010,22 @@ get_fe_sector_tmp <- function(GCAM_version = "v7.0") {
 #' Retrieve mode-specific transport final energy, including rail, ship, and domestic air.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal energy  tmp
-#' @return `fe_transportation` global variable
+#' @return `fe_transportation` and `fe_transportation_raw` global variables
 #' @importFrom magrittr %>%
 #' @export
 get_fe_transportation_tmp <- function(GCAM_version = "v7.0") {
-  var <- value <- unit_conv <- scenario <- region <- year <- NULL
+  var <- value <- unit_conv <- scenario <- region <- year <-
+    fe_transportation <- fe_transportation_raw <- NULL
 
-  fe_transportation <-
+  fe_transportation_raw <-
     rgcam::getQuery(prj, "transport final energy by mode and fuel") %>%
     left_join_strict(filter_variables(get(paste('transport_final_en_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "fe_transportation"),
                      by = c("sector", "input", "mode"), mapping = paste('transport_final_en_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported') %>%
     dplyr::filter(!is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::mutate(value = value * unit_conv)
+
+  fe_transportation <- fe_transportation_raw %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value,
                                  na.rm = T
@@ -2032,6 +2037,7 @@ get_fe_transportation_tmp <- function(GCAM_version = "v7.0") {
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  fe_transportation_raw <<- fe_transportation_raw
   fe_transportation <<- fe_transportation
 }
 
@@ -2289,7 +2295,7 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
     dplyr::ungroup() %>%
     # add weights
     dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= final_year.global]) %>%
-    left_join_strict(ag_demand_wld_weights,
+    left_join_strict(ag_wld_weights,
                      by = c('scenario','region','year','sector','var'),
                      by_message = c('sector','year')) %>%
     # compute var weighted average price
@@ -2305,7 +2311,7 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
 }
 
 
-#' get_ag_prices
+#' get_ag_price
 #'
 #' Calculate average mean for agricultural global index.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
@@ -2313,7 +2319,7 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
 #' @return `ag_price_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_ag_prices <- function(GCAM_version = "v7.0") {
+get_ag_price <- function(GCAM_version = "v7.0") {
   var <- scenario <- region <- sector <- value <- unit_conv <- year <- Units <- NULL
 
   ag_price_clean <-
@@ -2329,7 +2335,7 @@ get_ag_prices <- function(GCAM_version = "v7.0") {
     dplyr::ungroup() %>%
     # add weights
     dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= final_year.global]) %>%
-    left_join_strict(ag_demand_weights,
+    left_join_strict(ag_weights,
                      by = c('scenario','region','year','sector','var'),
                      by_message = c('sector','year')) %>%
     # compute var weighted average price
@@ -2691,53 +2697,98 @@ get_gov_revenue <- function() {
 }
 
 
-#' get_prices_subsector
+
+#' get_en_weights
 #'
-#' Retreive primary, secondary, and final energy prices.
+#' Get energy items weighted by demand. By region and global.
+#'
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal prices
-#' @return `prices_subsector_pre` and `prices_subsector_biomass` global variables
+#' @return `en_weights` and `en_wld_weights` global variables
 #' @importFrom magrittr %>%
 #' @export
-get_prices_subsector <- function(GCAM_version = "v7.0") {
-  Units <- subsector <- var <- PrimaryFuelCO2Coef.name <- PrimaryFuelCO2Coef <- NULL
+get_en_weights <- function(GCAM_version = "v7.0") {
+  sector <- input <- var <- value <- unit_conv <- scenario <- region <-
+    year <- en_weights <- en_wld_weights <- NULL
 
-  energy_prices_map <- filter_variables(get(paste('energy_prices_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "prices_subsector")
+  en_cons_tmp <- rbind(
+    fe_sector_raw,
+    fe_transportation_raw %>%
+      dplyr::select(-mode)
+  ) %>%
+    # sum regardless the input (already accounted in the var item)
+    dplyr::group_by(Units, scenario, region, sector, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # select variables whose price will be computed
+    dplyr::inner_join(filter_variables(get(paste('en_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "en_price_clean") %>%
+                        dplyr::filter(en_price_var != 'NoReported', en_price_var != ""),
+                      by = c('var' = 'en_consumption_var'), relationship = "many-to-many") %>%
+    dplyr::distinct()
 
-  # check if the mapping files have a mismatch
-  if (sum(unique(rgcam::getQuery(prj, "prices by sector")$sector) %in% unique(energy_prices_map$sector)) != 13) {
-    handle_warning(mapping_name1 = 'energy_prices_map', query_name = 'prices by sector')
-  }
 
-  if (sum(unique(rgcam::getQuery(prj, "costs by subsector")$sector) %in% unique(energy_prices_map$sector)) != 13) {
-    handle_warning(mapping_name1 = 'energy_prices_map', query_name = 'costs by subsector')
-  }
+  # weights by sector within each region
+  en_weights <-
+    en_cons_tmp %>%
+    dplyr::group_by(Units, scenario, region, year, en_price_var) %>%
+    dplyr::mutate(total_cons_var = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # compute weight by sector and input
+    dplyr::mutate(weight = value / total_cons_var) %>%
+    # clean dataset
+    dplyr::select(dplyr::all_of(gcamreport::long_columns), sector,
+                  en_consumption_var = var, var = en_price_var, weight, -value)
 
-  prices_subsector_pre <-
-    rgcam::getQuery(prj, "prices by sector") %>%
-    dplyr::select(-Units) %>%
-    dplyr::left_join(energy_prices_map %>% # left join already checked
-                       dplyr::filter(is.na(subsector)) %>%
-                       unique(), by = c("sector"), relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported') %>%
-    dplyr::filter(!is.na(var))
+  sectors_combination <- en_weights %>%
+    dplyr::select(sector, var, en_consumption_var) %>%
+    dplyr::distinct() %>%
+    tidyr::expand_grid(
+      scenario = unique(en_weights$scenario),
+      region = unique(en_weights$region),
+      year = unique(en_weights$year)
+    )
 
-  prices_subsector_biomass <- prices_subsector_pre %>%
-    dplyr::filter(grepl("biomass", sector)) %>%
-    # read in carbon content in kg C per GJ -> convert to tC per GJ
-    left_join_strict(
-      get(paste('carbon_content',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-        dplyr::filter(grepl("biomass", PrimaryFuelCO2Coef.name)) %>%
-        dplyr::rename("sector" = "PrimaryFuelCO2Coef.name"),
-      by = c("region", "sector")
-    ) %>%
-    dplyr::mutate(PrimaryFuelCO2Coef = PrimaryFuelCO2Coef / 1000) %>%
-    tidyr::replace_na(list(PrimaryFuelCO2Coef = 0))
+  en_weights <- dplyr::left_join(
+    sectors_combination,
+    en_weights,
+    by = c('sector', 'var', 'en_consumption_var', 'scenario', 'region', 'year')
+  ) %>%
+    dplyr::mutate(weight = dplyr::if_else(is.na(weight), 0, weight))
 
-  prices_subsector_pre <<- prices_subsector_pre
-  prices_subsector_biomass <<- prices_subsector_biomass
+
+  # global weights by region-sector combination. World = 1
+  en_wld_weights <-
+    en_cons_tmp %>%
+    dplyr::group_by(Units, scenario, year, en_price_var) %>%
+    dplyr::mutate(total_cons_var = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # compute weight by sector and input
+    dplyr::mutate(weight = value / total_cons_var) %>%
+    # clean dataset
+    dplyr::select(dplyr::all_of(gcamreport::long_columns), sector,
+                  en_consumption_var = var, var = en_price_var, weight, -value)
+
+  sectors_combination <- en_wld_weights %>%
+    dplyr::select(sector, var, en_consumption_var) %>%
+    dplyr::distinct() %>%
+    tidyr::expand_grid(
+      scenario = unique(en_wld_weights$scenario),
+      region = unique(en_wld_weights$region),
+      year = unique(en_wld_weights$year)
+    )
+
+  en_wld_weights <- dplyr::left_join(
+    sectors_combination,
+    en_wld_weights,
+    by = c('sector', 'var', 'en_consumption_var', 'scenario', 'region', 'year')
+  ) %>%
+    dplyr::mutate(weight = dplyr::if_else(is.na(weight), 0, weight))
+
+
+  en_weights <<- en_weights
+  en_wld_weights <<- en_wld_weights
+
 }
-
 
 #' get_energy_price_tmp
 #'
@@ -2774,8 +2825,31 @@ get_energy_price_tmp <- function(GCAM_version = "v7.0") {
     }
   }
 
-  energy_price_fragmented_biomass <-
-    prices_subsector_biomass %>%
+
+  energy_price_map <- filter_variables(get(paste('energy_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "energy_price")
+
+  prices_subsector_pre <-
+    rgcam::getQuery(prj, "prices by sector") %>%
+    dplyr::select(-Units) %>%
+    left_join_strict(energy_price_map,
+                     by = c("sector"),
+                     mapping = paste('energy_price_map',GCAM_version,sep='_'),
+                     relationship = "many-to-many") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::select(-unit_conv)
+
+  energy_price_fragmented_biomass <- prices_subsector_pre %>%
+    dplyr::filter(grepl("biomass", sector)) %>%
+    # read in carbon content in kg C per GJ -> convert to tC per GJ
+    left_join_strict(
+      get(paste('carbon_content',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+        dplyr::filter(grepl("biomass", PrimaryFuelCO2Coef.name)) %>%
+        dplyr::rename("sector" = "PrimaryFuelCO2Coef.name"),
+      by = c("region", "sector")
+    ) %>%
+    dplyr::mutate(PrimaryFuelCO2Coef = PrimaryFuelCO2Coef / 1000) %>%
+    tidyr::replace_na(list(PrimaryFuelCO2Coef = 0)) %>%
     dplyr::left_join(rgcam::getQuery(prj, "CO2 prices") %>% # left_join already checked
                        dplyr::filter(!grepl("LUC", market)) %>%
                        dplyr::left_join(CO2_market_filteredReg, by = c("market"), relationship = "many-to-many") %>%
@@ -2787,20 +2861,27 @@ get_energy_price_tmp <- function(GCAM_version = "v7.0") {
     dplyr::mutate(
       price_C = PrimaryFuelCO2Coef * price_C *
         get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']],
-      value = value * unit_conv *
+      value = value *
         get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']] + price_C
     ) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
-
-  energy_price_fragmented_pre <-
-    prices_subsector_pre %>%
-    dplyr::filter(!grepl("biomass", sector)) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+    dplyr::select(dplyr::all_of(gcamreport::long_columns), sector)
 
   energy_price <-
-    rbind(energy_price_fragmented_pre,
+    rbind(prices_subsector_pre %>%
+            dplyr::filter(!grepl("biomass", sector)),
           energy_price_fragmented_biomass) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+    # add weights
+    dplyr::filter(year %in% gcam_years[gcam_years <= final_year.global]) %>%
+    left_join_strict(en_weights,
+                     by = c('scenario','region','year','sector','var'),
+                     by_message = c('sector','year')) %>%
+    # compute var weighted average price
+    dplyr::mutate(value = value * weight) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # rearrange dataset
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
 
   energy_price <<- energy_price
 }

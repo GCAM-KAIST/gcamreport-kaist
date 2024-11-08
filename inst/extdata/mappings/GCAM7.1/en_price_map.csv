@@ -1,4 +1,4 @@
-# Prices by sector
+# Prices by sector,,,,
 sector,var1,var2,var3,unit_conv
 AdrBlkSea_desalinated water,NoReported,,,1
 AfrCstE_desalinated water,NoReported,,,1
@@ -69,11 +69,14 @@ csp_backup,NoReported,,,1
 Dairy,NoReported,,,1
 DanubeR_desalinated water,NoReported,,,1
 DeadSea_desalinated water,NoReported,,,1
-delivered biomass,NoReported,,,1
-delivered coal,NoReported,,,1
-delivered gas,NoReported,,,1
+delivered biomass,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Biomass,1
+delivered coal,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Coal,1
+delivered gas,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Gases,Price|Final Energy|Residential and Commercial|Gases|Gas,1
+delivered biomass industry,Price|Final Energy|Industry,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Biomass,1
+delivered coal industry,Price|Final Energy|Industry,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Coal,1
+delivered gas transport,Price|Final Energy|Transportation (w/ bunkers),Price|Final Energy|Transportation (w/ bunkers)|Gases,Price|Final Energy|Transportation (w/ bunkers)|Gases|Gas,1
 desalinated water,NoReported,,,1
-district heat,NoReported,,,1
+district heat,Price|Secondary Energy|Heat,,,1
 DnkGrmCst_desalinated water,NoReported,,,1
 DouroR_desalinated water,NoReported,,,1
 EbroR_desalinated water,NoReported,,,1
@@ -98,13 +101,13 @@ elec_geothermal,NoReported,,,1
 elec_refined liquids (CC CCS),NoReported,,,1
 elec_refined liquids (CC),NoReported,,,1
 elec_refined liquids (steam/CT),NoReported,,,1
-elect_td_bld,NoReported,,,1
-elect_td_ind,NoReported,,,1
-elect_td_trn,NoReported,,,1
-electricity,NoReported,,,1
+elect_td_bld,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Electricity,,1
+elect_td_ind,Price|Final Energy|Industry,Price|Final Energy|Industry|Electricity,,1
+elect_td_trn,Price|Final Energy|Transportation,Price|Final Energy|Transportation|Electricity,,1
+electricity,Price|Secondary Energy|Electricity,,,1
 electricity_net_ownuse,NoReported,,,1
 EngWales_desalinated water,NoReported,,,1
-FeedCrops,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+FeedCrops,NoReported,,,1
 FiberCrop,NoReported,,,1
 Finland_desalinated water,NoReported,,,1
 FodderGrass,NoReported,,,1
@@ -132,7 +135,7 @@ GuadalqR_desalinated water,NoReported,,,1
 GuadianaR_desalinated water,NoReported,,,1
 GuineaGulf_desalinated water,NoReported,,,1
 H2 central production,NoReported,,,1
-H2 industrial,NoReported,,,1
+H2 industrial,Price|Final Energy|Industry,Price|Final Energy|Industry|Hydrogen,,1
 H2 liquid truck,NoReported,,,1
 H2 pipeline,NoReported,,,1
 H2 retail delivery,NoReported,,,1
@@ -244,40 +247,40 @@ process heat cement,NoReported,,,1
 process heat food processing,NoReported,,,1
 process heat paper,NoReported,,,1
 RedSeaE_desalinated water,NoReported,,,1
-refined liquids enduse,NoReported,,,1
-refined liquids industrial,NoReported,,,1
+refined liquids enduse,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Liquids,,1
+refined liquids industrial,Price|Final Energy|Industry,Price|Final Energy|Industry|Liquids,,1
 refining,NoReported,,,1
 regional ammonia,NoReported,,,1
-regional beef,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional biomass,Price|Agriculture|Energy crops,,,1
-regional biomassOil,Price|Agriculture|Energy crops,,,1
-regional coal,NoReported,,,1
-regional corn,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Maize [Index],1
-regional corn for ethanol,Price|Agriculture|Energy crops,,,1
-regional dairy,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional fibercrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional fruits,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+regional beef,NoReported,,,1
+regional biomass,NoReported,,,1
+regional biomassOil,NoReported,,,1
+regional coal,Price|Primary Energy|Coal,,,1
+regional corn,NoReported,,,1
+regional corn for ethanol,NoReported,,,1
+regional dairy,NoReported,,,1
+regional fibercrop,NoReported,,,1
+regional fruits,NoReported,,,1
 regional industrial_roundwood,NoReported,,,1
 regional iron and steel,NoReported,,,1
-regional legumes,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional misccrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional natural gas,NoReported,,,1
-regional nuts_seeds,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional oil,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional oilcrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional oilpalm,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional othergrain,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional pork,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional poultry,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional rice,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Rice [Index],1
-regional root_tuber,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+regional legumes,NoReported,,,1
+regional misccrop,NoReported,,,1
+regional natural gas,Price|Primary Energy|Gas,,,1
+regional nuts_seeds,NoReported,,,1
+regional oil,Price|Primary Energy|Oil,,,1
+regional oilcrop,NoReported,,,1
+regional oilpalm,NoReported,,,1
+regional othergrain,NoReported,,,1
+regional pork,NoReported,,,1
+regional poultry,NoReported,,,1
+regional rice,NoReported,,,1
+regional root_tuber,NoReported,,,1
 regional sawnwood,NoReported,,,1
-regional sheepgoat,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional soybean,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Soybean [Index],1
-regional sugar for ethanol,Price|Agriculture|Energy crops,,,1
-regional sugarcrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional vegetables,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional wheat,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Wheat [Index],1
+regional sheepgoat,NoReported,,,1
+regional soybean,NoReported,,,1
+regional sugar for ethanol,NoReported,,,1
+regional sugarcrop,NoReported,,,1
+regional vegetables,NoReported,,,1
+regional wheat,NoReported,,,1
 regional woodpulp,NoReported,,,1
 regional woodpulp for energy,NoReported,,,1
 resid cooling modern_d1,NoReported,,,1
@@ -945,7 +948,7 @@ water_td_muni_W,NoReported,,,1
 water_td_pri_C,NoReported,,,1
 water_td_pri_W,NoReported,,,1
 Wheat,NoReported,,,1
-wholesale gas,NoReported,,,1
+wholesale gas,Price|Final Energy|Industry,Price|Final Energy|Industry|Gases,Price|Final Energy|Industry|Gases|Gas,1
 WislaR_desalinated water,NoReported,,,1
 woodpulp_energy,NoReported,,,1
 woodpulp_processing,NoReported,,,1

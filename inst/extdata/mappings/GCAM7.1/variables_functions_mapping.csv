@@ -30,15 +30,17 @@ check_trade;do_check_trade;;;
 secondary_energy_clean;get_elec_gen_tech;secondary_solids;;elec gen by gen tech,gas production by tech,hydrogen production by tech,refined liquids production by tech
 secondary_solids;get_secondary_solids;;;inputs by sector
 fe_sector;get_fe_sector_tmp;;;final energy consumption by sector and fuel
+fe_sector_raw;get_fe_sector_tmp;;;final energy consumption by sector and fuel
 fe_transportation;get_fe_transportation_tmp;;;transport final energy by mode and fuel
+fe_transportation_raw;get_fe_transportation_tmp;;;transport final energy by mode and fuel
 fe_sector_clean;get_fe_sector;fe_sector,fe_transportation;
 energy_service_transportation_clean;get_energy_service_transportation;;;transport service output by mode
 energy_service_buildings_clean;get_energy_service_buildings;;;building floorspace
 industry_production_clean;get_industry_production;;;industry primary output by sector
-ag_demand_weights;get_ag_demand_weights;;;demand balances by crop commodity,demand balances by meat and dairy commodity
-ag_demand_wld_weights;get_ag_demand_weights;;;demand balances by crop commodity,demand balances by meat and dairy commodity
-ag_price_wld;get_ag_price_wld_tmp;ag_demand_wld_weights;;prices by sector
-ag_price_clean;get_ag_price;ag_demand_weights,ag_price_wld;;prices by sector
+ag_weights;get_ag_weights;;;demand balances by crop commodity,demand balances by meat and dairy commodity
+ag_wld_weights;get_ag_weights;;;demand balances by crop commodity,demand balances by meat and dairy commodity
+ag_price_wld;get_ag_price_wld_tmp;ag_wld_weights;;prices by sector
+ag_price_clean;get_ag_price;ag_weights,ag_price_wld;;prices by sector
 price_var;get_price_var_tmp;;;
 regions.global;get_regions_tmp;;;
 co2_ets_byreg;get_co2_ets;;;nonCO2 emissions by region
@@ -49,8 +51,6 @@ co2_price_global;get_co2_price_global_tmp;regions.global,price_var,fe_sector_cle
 co2_price_fragmented;get_co2_price_fragmented_tmp;price_var,regions.global,co2_price_share_bysec;;CO2 prices
 co2_price_clean;get_co2_price;co2_price_fragmented,co2_price_global,fe_sector_clean;;
 gov_revenue_clean;get_gov_revenue;co2_emiss,co2_price_clean;;
-prices_subsector_pre;get_prices_subsector;;;prices by sector,costs by subsector
-prices_subsector_biomass;get_prices_subsector;;;prices by sector,costs by subsector
 total_revenue;get_total_revenue;;;resource production,prices by sector
 regional_emission;get_regional_emission;nonco2_content;;resource production
 cf_iea;get_cf_iea_tmp;secondary_energy_clean;;
@@ -74,4 +74,6 @@ trade_clean;get_total_trade;ag_trade,pe_trade,se_trade;;
 se_trade_prod;get_se_trade_prod;;;elec gen by subsector,hydrogen production by tech,refined liquids production by region
 se_trade_supply;get_se_trade_supply;;;supply of all markets
 se_trade;get_se_trade;se_trade_prod,se_trade_supply;check_trade;
-energy_price;get_energy_price_tmp;prices_subsector_pre,prices_subsector_biomass;;CO2 prices
+energy_price;get_energy_price_tmp;;;CO2 prices,prices by sector,costs by subsector
+en_weights;get_en_weights;fe_sector_raw,fe_transportation_raw;;
+en_wld_weights;get_en_weights;fe_sector_raw,fe_transportation_raw;;
