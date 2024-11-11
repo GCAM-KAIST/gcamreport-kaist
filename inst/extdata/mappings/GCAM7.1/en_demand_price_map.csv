@@ -190,3 +190,70 @@ Final Energy|Transportation|Truck|Gases|Gas,Price|Final Energy|Transportation|Tr
 Final Energy|Transportation|Truck|Hydrogen,Price|Final Energy|Transportation|Truck|Hydrogen
 Final Energy|Transportation|Truck|Liquids,Price|Final Energy|Transportation|Truck|Liquids
 Final Energy|Waste,NoReported
+Primary Energy,NoReported
+Primary Energy|Biomass,Price|Primary Energy|Biomass
+Primary Energy|Biomass|Modern,NoReported
+Primary Energy|Biomass|Modern|w/o CCS,NoReported
+Primary Energy|Biomass|Traditional,NoReported
+Primary Energy|Biomass|w/o CCS,NoReported
+Primary Energy|Coal,Price|Primary Energy|Coal
+Primary Energy|Coal,Price|Primary Energy|Fossil
+Primary Energy|Coal|w/o CCS,NoReported
+Primary Energy|Fossil,NoReported
+Primary Energy|Fossil|w/o CCS,NoReported
+Primary Energy|Gas,Price|Primary Energy|Gas
+Primary Energy|Gas,Price|Primary Energy|Fossil
+Primary Energy|Gas|w/o CCS,NoReported
+Primary Energy|Geothermal,NoReported
+Primary Energy|Hydro,NoReported
+Primary Energy|Non-Biomass Renewables,NoReported
+Primary Energy|Nuclear,NoReported
+Primary Energy|Oil,Price|Primary Energy|Oil
+Primary Energy|Oil,Price|Primary Energy|Fossil
+Primary Energy|Oil|w/o CCS,NoReported
+Primary Energy|Solar,NoReported
+Primary Energy|Wind,NoReported
+Secondary Energy|Electricity,Price|Secondary Energy|Electricity
+Secondary Energy|Electricity|Biomass,NoReported
+Secondary Energy|Electricity|Biomass|w/o CCS,NoReported
+Secondary Energy|Electricity|Coal,NoReported
+Secondary Energy|Electricity|Coal|w/o CCS,NoReported
+Secondary Energy|Electricity|Fossil,NoReported
+Secondary Energy|Electricity|Fossil|w/o CCS,NoReported
+Secondary Energy|Electricity|Gas,NoReported
+Secondary Energy|Electricity|Gas|w/o CCS,NoReported
+Secondary Energy|Electricity|Geothermal,NoReported
+Secondary Energy|Electricity|Hydro,NoReported
+Secondary Energy|Electricity|Non-Biomass Renewables,NoReported
+Secondary Energy|Electricity|Nuclear,NoReported
+Secondary Energy|Electricity|Oil,NoReported
+Secondary Energy|Electricity|Oil|w/o CCS,NoReported
+Secondary Energy|Electricity|Solar,NoReported
+Secondary Energy|Electricity|Solar|CSP,NoReported
+Secondary Energy|Electricity|Solar|PV,NoReported
+Secondary Energy|Electricity|Wind,NoReported
+Secondary Energy|Electricity|Wind|Offshore,NoReported
+Secondary Energy|Electricity|Wind|Onshore,NoReported
+Secondary Energy|Gases,Price|Secondary Energy|Gases
+Secondary Energy|Gases|Biomass,Price|Secondary Energy|Gases|Biomass
+Secondary Energy|Gases|Coal,Price|Secondary Energy|Gases|Coal
+Secondary Energy|Gases|Fossil,Price|Secondary Energy|Gases|Fossil
+Secondary Energy|Gases|Gas,Price|Secondary Energy|Gases|Gas
+Secondary Energy|Hydrogen,Price|Secondary Energy|Hydrogen
+Secondary Energy|Hydrogen|Biomass,Price|Secondary Energy|Hydrogen|Biomass
+Secondary Energy|Hydrogen|Biomass|w/o CCS,NoReported
+Secondary Energy|Hydrogen|Electricity,Price|Secondary Energy|Hydrogen|Electricity
+Secondary Energy|Hydrogen|Fossil,Price|Secondary Energy|Hydrogen|Fossil
+Secondary Energy|Hydrogen|Fossil|w/o CCS,NoReported
+Secondary Energy|Hydrogen|Gas,Price|Secondary Energy|Hydrogen|Gas
+Secondary Energy|Hydrogen|Gas|w/o CCS,NoReported
+Secondary Energy|Hydrogen|Nuclear,Price|Secondary Energy|Hydrogen|Nuclear
+Secondary Energy|Liquids,Price|Secondary Energy|Liquids
+Secondary Energy|Liquids|Biomass,Price|Secondary Energy|Liquids|Biomass
+Secondary Energy|Liquids|Biomass|w/o CCS,NoReported
+Secondary Energy|Liquids|Coal,Price|Secondary Energy|Liquids|Coal
+Secondary Energy|Liquids|Coal|w/o CCS,NoReported
+Secondary Energy|Liquids|Fossil,Price|Secondary Energy|Liquids|Fossil
+Secondary Energy|Liquids|Fossil|w/o CCS,NoReported
+Secondary Energy|Liquids|Gas,Price|Secondary Energy|Liquids|Gas
+Secondary Energy|Liquids|Oil,Price|Secondary Energy|Liquids|Oil

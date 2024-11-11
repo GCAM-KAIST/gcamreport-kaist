@@ -1695,7 +1695,7 @@ get_primary_energy <- function(GCAM_version = "v7.0") {
     ) %>%
     left_join_strict(filter_variables(get(paste('primary_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "primary_energy_clean"),
                      by = c("fuel"), mapping = paste('primary_energy_map',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(!is.na(var)) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -1795,14 +1795,14 @@ get_pe_trade <- function() {
 #' Retrieve electricity generation.
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal electricity
-#' @return `secondary_energy_clean` global variable
+#' @return `secondary_energy_clean` and `secondary_energy_raw` global variables
 #' @importFrom magrittr %>%
 #' @export
 get_elec_gen_tech <- function(GCAM_version = "v7.0") {
   var <- value <- unit_conv <- scenario <- region <- year <-
-    secondary_energy_clean <- NULL
+    secondary_energy_clean <- secondary_energy_raw <- NULL
 
-  secondary_energy_clean <- rbind(
+  secondary_energy_raw <- rbind(
     rgcam::getQuery(prj, "elec gen by gen tech"),
     dplyr::bind_rows(
       rgcam::getQuery(prj, "gas production by tech"),
@@ -1815,7 +1815,9 @@ get_elec_gen_tech <- function(GCAM_version = "v7.0") {
     left_join_strict(filter_variables(get(paste('secondary_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "secondary_energy_clean"),
                      by = c("output", "subsector", "technology"), mapping = paste('secondary_energy_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::mutate(value = value * unit_conv)
+
+  secondary_energy_clean <- secondary_energy_raw %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -1826,6 +1828,7 @@ get_elec_gen_tech <- function(GCAM_version = "v7.0") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
     dplyr::bind_rows(secondary_solids)
 
+  secondary_energy_raw <<- secondary_energy_raw
   secondary_energy_clean <<- secondary_energy_clean
 }
 
@@ -2711,13 +2714,18 @@ get_en_weights <- function(GCAM_version = "v7.0") {
   sector <- input <- var <- value <- unit_conv <- scenario <- region <-
     year <- en_weights <- en_wld_weights <- NULL
 
-  en_cons_tmp <- rbind(
+  en_cons_tmp <- dplyr::bind_rows(
     fe_sector_raw,
     fe_transportation_raw %>%
-      dplyr::select(-mode)
+      dplyr::select(-sector) %>%
+      dplyr::rename(sector = input),
+    primary_energy_clean %>%
+      dplyr::mutate(sector = var),
+    secondary_energy_raw %>%
+      dplyr::rename(sector = subsector)
   ) %>%
     # sum regardless the input (already accounted in the var item)
-    dplyr::group_by(Units, scenario, region, sector, year, var) %>%
+    dplyr::group_by(scenario, region, sector, year, var) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # select variables whose price will be computed
@@ -2730,7 +2738,7 @@ get_en_weights <- function(GCAM_version = "v7.0") {
   # weights by sector within each region
   en_weights <-
     en_cons_tmp %>%
-    dplyr::group_by(Units, scenario, region, year, en_price_var) %>%
+    dplyr::group_by(scenario, region, year, en_price_var) %>%
     dplyr::mutate(total_cons_var = sum(value)) %>%
     dplyr::ungroup() %>%
     # compute weight by sector and input
@@ -2759,7 +2767,7 @@ get_en_weights <- function(GCAM_version = "v7.0") {
   # global weights by region-sector combination. World = 1
   en_wld_weights <-
     en_cons_tmp %>%
-    dplyr::group_by(Units, scenario, year, en_price_var) %>%
+    dplyr::group_by(scenario, year, en_price_var) %>%
     dplyr::mutate(total_cons_var = sum(value)) %>%
     dplyr::ungroup() %>%
     # compute weight by sector and input
@@ -2874,7 +2882,7 @@ get_energy_price_tmp <- function(GCAM_version = "v7.0") {
     dplyr::filter(year %in% gcam_years[gcam_years <= final_year.global]) %>%
     left_join_strict(en_weights,
                      by = c('scenario','region','year','sector','var'),
-                     by_message = c('sector','year')) %>%
+                     by_message = c('sector')) %>%
     # compute var weighted average price
     dplyr::mutate(value = value * weight) %>%
     dplyr::group_by(scenario, region, var, year) %>%
@@ -2979,30 +2987,14 @@ get_regional_emission <- function(GCAM_version = "v7.0") {
 #' @export
 get_energy_price <- function(GCAM_version = "v7.0") {
   var <- scenario <- region <- value <- year <- energy_price_clean <-
-    energy_price_tmp <- energy_price_clean_fe <- energy_price_clean_pe <-
+    energy_price_clean_fe <- energy_price_clean_pe <-
     energy_price_clean_se <- reg_sec_weight <- sector <- NULL
-
-  energy_price_tmp <-
-    energy_price %>%
-    dplyr::filter(grepl("Residential\\|Electricity", var) |
-                    grepl("Residential\\|Gas", var) |
-                    grepl("Primary Energy\\|Coal", var) |
-                    grepl("Primary Energy\\|Biomass", var) |
-                    grepl("Primary Energy\\|Gas", var) |
-                    grepl("Primary Energy\\|Oil", var) |
-                    grepl("Secondary Energy\\|Electricity", var)) %>%
-    dplyr::mutate(var = paste(var, "Index", sep = "|")) %>%
-    dplyr::group_by(scenario, region, var) %>%
-    dplyr::mutate(value = value / value[year == 2015]) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
-    dplyr::bind_rows(energy_price)
 
   # weighted sum of energy prices by energy consumption
   en_demand_prices_map <- filter_variables(get(paste('en_demand_prices_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "energy_price_clean")
 
   # Final Energy
-  energy_price_clean_fe <- energy_price_tmp %>%
+  energy_price_clean_fe <- energy_price %>%
     dplyr::filter(stringr::str_starts(var, "Price\\|Final Energy")) %>%
     dplyr::rename(en_price_variable = var) %>%
     # add weights
@@ -3021,7 +3013,7 @@ get_energy_price <- function(GCAM_version = "v7.0") {
     dplyr::mutate(region = "World")
 
   # Primary Energy
-  energy_price_clean_pe <- energy_price_tmp %>%
+  energy_price_clean_pe <- energy_price %>%
     dplyr::filter(stringr::str_starts(var, "Price\\|Primary Energy")) %>%
     dplyr::rename(en_price_variable = var) %>%
     # add weights
@@ -3040,7 +3032,7 @@ get_energy_price <- function(GCAM_version = "v7.0") {
     dplyr::mutate(region = "World")
 
   # Secondary Energy
-  energy_price_clean_se <- energy_price_tmp %>%
+  energy_price_clean_se <- energy_price %>%
     dplyr::filter(stringr::str_starts(var, "Price\\|Secondary Energy")) %>%
     dplyr::rename(en_price_variable = var) %>%
     # add weights
@@ -3059,7 +3051,7 @@ get_energy_price <- function(GCAM_version = "v7.0") {
     dplyr::mutate(region = "World")
 
   energy_price_clean <-
-    rbind(energy_price_tmp,
+    rbind(energy_price,
           energy_price_clean_fe,
           energy_price_clean_pe,
           energy_price_clean_se)
