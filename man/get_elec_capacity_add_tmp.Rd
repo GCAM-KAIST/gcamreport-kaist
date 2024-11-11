@@ -10,7 +10,7 @@ get_elec_capacity_add_tmp()
 `elec_capacity_add` global variable
 }
 \description{
-Calculate added total capacity.
+Calculate added total electricity capacity.
 }
 \keyword{capacity}
 \keyword{internal}

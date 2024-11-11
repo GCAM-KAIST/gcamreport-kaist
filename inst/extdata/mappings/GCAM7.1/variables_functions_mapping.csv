@@ -57,6 +57,8 @@ cf_iea;get_cf_iea_tmp;secondary_energy_clean;;
 elec_cf;get_elec_cf_tmp;cf_iea;;
 elec_capacity_tot_clean;get_elec_capacity_tot;elec_cf;;elec gen by gen tech and cooling tech and vintage
 elec_capacity_add;get_elec_capacity_add_tmp;elec_cf;;elec gen by gen tech and cooling tech and vintage
+hydrogen_capacity_add;get_hydrogen_capacity_add_tmp;hydrogen_cf;;hydrogen production by cooling tech and vintage
+refliq_capacity_add;get_refliq_capacity_add_tmp;refliq_cf;;refined liquids production by cooling tech and vintage
 elec_capacity_add_clean;get_elec_capacity_add;elec_capacity_add;;
 elec_investment_clean;get_elec_investment;elec_capacity_add;;
 transmission_invest_clean;get_transmission_invest;elec_capacity_add_clean;;

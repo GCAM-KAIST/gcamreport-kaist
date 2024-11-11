@@ -3238,7 +3238,7 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.0") {
 
 #' get_elec_capacity_add_tmp
 #'
-#' Calculate added total capacity.
+#' Calculate added total electricity capacity.
 #' @keywords internal capacity process tmp
 #' @return `elec_capacity_add` global variable
 #' @importFrom magrittr %>%
@@ -3282,6 +3282,104 @@ get_elec_capacity_add_tmp <- function() {
   )
 
   elec_capacity_add <<- elec_capacity_add
+}
+
+
+#' get_refliq_capacity_add_tmp
+#'
+#' Calculate added total refined liquids electricity capacity.
+#' @keywords internal capacity process tmp
+#' @return `refliq_capacity_add` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_refliq_capacity_add_tmp <- function() {
+  output <- technology <- vintage <- scenario <- refliq_capacity_add <-
+    region <- year <- value <- gw <- EJ <- NULL
+
+  refliq_capacity_add <- suppressWarnings(
+    rgcam::getQuery(prj, "refined liquids production by cooling tech and vintage") %>%
+      tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
+      dplyr::mutate(
+        vintage = as.integer(sub("year=", "", vintage)),
+        output = gsub("elec_", "", output)
+      ) %>%
+      dplyr::group_by(scenario, region, technology = output, vintage, year) %>%
+      dplyr::summarise(value = sum(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      dplyr::bind_rows(rgcam::getQuery(prj, "refined liquids production by cooling tech and vintage") %>%
+                         tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
+                         dplyr::mutate(vintage = as.integer(sub("year=", "", vintage))) %>%
+                         dplyr::group_by(scenario, region, technology, vintage, year) %>%
+                         dplyr::summarise(value = sum(value, na.rm = T)) %>%
+                         dplyr::ungroup()) %>%
+      dplyr::filter(year == vintage, year > 2015) %>%
+      dplyr::group_by(scenario, region, technology, year) %>%
+      dplyr::summarise(value = sum(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      # use GCAM cf for capacity additions
+      left_join_strict(elec_cf %>%
+                         dplyr::select(-'cf.rgn') %>%
+                         dplyr::rename(year = vintage),
+                       by = c("region", "technology", "year"),
+                       by_message = 'technology') %>%
+      # use average annual additions
+      dplyr::mutate(EJ = value / 5) %>%
+      conv_EJ_GW() %>%
+      dplyr::group_by(scenario, region, technology, year) %>% #
+      dplyr::summarise(GW = sum(gw, na.rm = T), EJ = sum(EJ, na.rm = T)) %>%
+      dplyr::ungroup()
+  )
+
+  refliq_capacity_add <<- refliq_capacity_add
+}
+
+
+#' get_hydrogen_capacity_add_tmp
+#'
+#' Calculate added total hydrgoen capacity.
+#' @keywords internal capacity process tmp
+#' @return `hydrogen_capacity_add` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_hydrogen_capacity_add_tmp <- function() {
+  output <- technology <- vintage <- scenario <- hydrogen_capacity_add <-
+    region <- year <- value <- gw <- EJ <- NULL
+
+  hydrogen_capacity_add <- suppressWarnings(
+    rgcam::getQuery(prj, "hydrogen production by cooling tech and vintage") %>%
+      tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
+      dplyr::mutate(
+        vintage = as.integer(sub("year=", "", vintage)),
+        output = gsub("H2_", "", output)
+      ) %>%
+      dplyr::group_by(scenario, region, technology = output, vintage, year) %>%
+      dplyr::summarise(value = sum(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      dplyr::bind_rows(rgcam::getQuery(prj, "hydrogen production by cooling tech and vintage") %>%
+                         tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
+                         dplyr::mutate(vintage = as.integer(sub("year=", "", vintage))) %>%
+                         dplyr::group_by(scenario, region, technology, vintage, year) %>%
+                         dplyr::summarise(value = sum(value, na.rm = T)) %>%
+                         dplyr::ungroup()) %>%
+      dplyr::filter(year == vintage, year > 2015) %>%
+      dplyr::group_by(scenario, region, technology, year) %>%
+      dplyr::summarise(value = sum(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      # use GCAM cf for capacity additions
+      left_join_strict(elec_cf %>%
+                         dplyr::select(-'cf.rgn') %>%
+                         dplyr::rename(year = vintage),
+                       by = c("region", "technology", "year"),
+                       by_message = 'technology') %>%
+      # use average annual additions
+      dplyr::mutate(EJ = value / 5) %>%
+      conv_EJ_GW() %>%
+      dplyr::group_by(scenario, region, technology, year) %>% #
+      dplyr::summarise(GW = sum(gw, na.rm = T), EJ = sum(EJ, na.rm = T)) %>%
+      dplyr::ungroup()
+  )
+
+  hydrogen_capacity_add <<- hydrogen_capacity_add
 }
 
 #' get_elec_capacity_add
