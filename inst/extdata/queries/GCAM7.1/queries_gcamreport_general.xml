@@ -717,6 +717,25 @@ output-primary/physical-output/node()</xPath>
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="ammonia and N fertilizer prices">
+         <axis1 name="sector">sector</axis1>
+         <axis2 name="Year">cost</axis2>
+         <xPath buildList="true" dataName="cost" group="false" sumAll="false">*[@type='sector' and (@name='N fertilizer') or contains(@name, 'ammonia')]/cost/text()</xPath>
+         <comments/>
+     </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="fertilizer consumption by region">
+         <axis1 name="region">region</axis1>
+         <axis2 name="Year">demand-physical[@vintage]</axis2>
+         <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' (:collapse:) and not (@name='Exports_N fertilizer')]//
+    *[@type='input' and (@name='N fertilizer')]/demand-physical/node()</xPath>
+         <comments/>
+     </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <query title="LUC emissions by region">
          <axis1 name="LandLeaf">LandLeaf</axis1>
          <axis2 name="Year">land-use-change-emission[@year]</axis2>

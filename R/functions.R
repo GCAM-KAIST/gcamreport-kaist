@@ -838,6 +838,28 @@ get_ag_trade <- function(GCAM_version = "v7.0") {
 
 }
 
+#' get_fert_consumption
+#'
+#' Computes Fertilizer consumption
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `fert_consumption_clean` global variable.
+#' @keywords internal fertilizer
+#' @importFrom magrittr %>%
+#' @export
+get_fert_consumption <- function(GCAM_version = "v7.0") {
+  value <- fert_consumption_clean <- NULL
+
+  fert_consumption_clean <-
+    rgcam::getQuery(prj, "fertilizer consumption by region") %>%
+    dplyr::mutate(var = 'Fertilizer Use|Nitrogen') %>%
+    # 1Mt = 1Tg
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  fert_consumption_clean <<- fert_consumption_clean
+
+}
+
 
 # Climate and emissions
 # ==============================================================================================
@@ -2278,6 +2300,31 @@ get_iron_steel_clean <- function() {
 
 # Prices
 # ==============================================================================================
+
+#' get_fert_price
+#'
+#' Computes Fertilizer price
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `fert_price_clean` global variable.
+#' @keywords internal fertilizer
+#' @importFrom magrittr %>%
+#' @export
+get_fert_price <- function(GCAM_version = "v7.0") {
+  value <- fert_price_clean <- NULL
+
+  fert_price_clean <-
+    rgcam::getQuery(prj, "ammonia and N fertilizer prices") %>%
+    dplyr::filter(sector == 'N fertilizer') %>%
+    dplyr::mutate(var = 'Price|Production|Chemicals|Nitrogen Fertilizer') %>%
+    # 1Mt = 1Tg
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  fert_price_clean <<- fert_price_clean
+
+}
+
+
 #' get_ag_price_wld_tmp
 #'
 #' Retrieve agricultural price index.
