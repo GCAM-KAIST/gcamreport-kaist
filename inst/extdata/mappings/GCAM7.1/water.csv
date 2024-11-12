@@ -1,431 +1,431 @@
-# Water XXs by subsector
+# Water XXs by subsector,,,,,
 sector,subsector,var1,var2,var3,unit_conv
 Beef,Mixed,Water XX,Water XX|Livestock,,1
 Beef,Pastoral,Water XX,Water XX|Livestock,,1
-biomass,biomassGrass_AfrCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CongoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_LChad,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Madagascar,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NileR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RiftValley,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ShebJubR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CongoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Madagascar,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NileR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RiftValley,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ShebJubR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstNW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrIntN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MeditE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MeditS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SinaiP,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstNW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrIntN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MeditS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstSW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrIntS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AngolaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_LimpopoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_OrangeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ZambeziR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrIntS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AngolaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_LimpopoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ZambeziR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GuineaGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NigerR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SenegalR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_VoltaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GuineaGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_LChad,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NigerR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SenegalR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_VoltaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ArgColoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ArgCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ArgCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ChileCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_LaPuna,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MarChiq,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NegroR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Pampas,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Patagonia,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RioLaPlata,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Salinas,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ArgColoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ArgCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ChileCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MarChiq,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NegroR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Pampas,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Patagonia,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RioLaPlata,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Salinas,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AusCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AusCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AusCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AusCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AusInt,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MurrayDrlg,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NewZealand,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Tasmania,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AusCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AusCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AusCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AusCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MurrayDrlg,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NewZealand,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Tasmania,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AmazonR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BrzCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BrzCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BrzCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ParnaibaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SaoFrancR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TocantinsR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AmazonR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BrzCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BrzCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BrzCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ParnaibaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SaoFrancR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TocantinsR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CanAtl,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_FraserR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GreatLakes,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_HudsonBay,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Mackenzie,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MissouriR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NWTerr,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NelsonR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_PacArctic,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_StLwrncR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UsaCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UsaPacNW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CanAtl,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_FraserR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GreatLakes,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_HudsonBay,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Mackenzie,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MissouriR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NWTerr,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NelsonR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_PacArctic,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_StLwrncR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UsaCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UsaPacNW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Caribbean,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CntAmer,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ColEcuaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GrijUsuR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SAmerCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_YucatanP,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Caribbean,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CntAmer,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ColEcuaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GrijUsuR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SAmerCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_YucatanP,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AmuDaryaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AmurR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BlackSeaS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CaspianE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CaspianNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CaspianSW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Gobi,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_LBalkash,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ObR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SyrDaryaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UralR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_VolgaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_YeniseiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AmurR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BlackSeaS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CaspianNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CaspianSW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Gobi,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_LBalkash,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ObR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SyrDaryaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_VolgaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_YeniseiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BoHai,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ChinaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GangesR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Hainan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Hong,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_HuangHeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IndusR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IrrawaddyR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Mekong,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RusCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SChinaSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Salween,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Tarim,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_XunJiang,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Yangtze,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ZiyaHe,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BoHai,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ChinaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GangesR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Hainan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Hong,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_HuangHeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IrrawaddyR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Mekong,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RusCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SChinaSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Salween,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_XunJiang,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Yangtze,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ZiyaHe,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MagdalenaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_OrinocoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MagdalenaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_OrinocoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AdrBlkSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BalticSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DanubeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DaugavaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DniesterR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DnkGrmCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ElbeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NarvaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NemanR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_OderR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_PolandCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_WislaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AdrBlkSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BalticSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DanubeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DaugavaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DniesterR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DnkGrmCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ElbeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MeditE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NarvaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NemanR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_OderR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_PolandCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_WislaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DouroR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_EbroR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_EmsWeserR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_EngWales,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Finland,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_FranceCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_FranceCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Gironde,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GuadalqR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GuadianaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IberiaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Ireland,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ItalyCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ItalyCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_LoireR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MeditIsl,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NevaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_PoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RhineR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RhoneR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ScheldtR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Scotland,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SeineR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SpainCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Sweden,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TagusR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TiberR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DouroR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_EbroR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_EmsWeserR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_EngWales,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Finland,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_FranceCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_FranceCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Gironde,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GuadalqR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GuadianaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IberiaCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Ireland,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ItalyCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ItalyCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_LoireR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MeditIsl,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NevaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_PoR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RhineR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RhoneR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ScheldtR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Scotland,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SeineR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SpainCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Sweden,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TagusR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TiberR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BlackSeaN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DnieperR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DonR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BlackSeaN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DnieperR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DonR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_EJrdnSyr,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TigrEuphR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TigrEuphR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ScndnvN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ScndnvN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BengalBay,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BengalW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BrahmaniR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_CauveryR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GodavariR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IndCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IndCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IndCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IndCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_KrishnaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MahanadiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MahiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_NarmadaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_PennarR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SabarmatiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TaptiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BengalBay,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BengalW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BrahmaniR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CauveryR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GodavariR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IndCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IndCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IndCstS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IndCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IndusR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_KrishnaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MahanadiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MahiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_NarmadaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_PennarR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SabarmatiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TaptiR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BorneoCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IdnE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_IrianJaya,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_JavaTimor,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Kalimantan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Sulawesi,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Sumatra,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BorneoCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IdnE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_IrianJaya,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_JavaTimor,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Kalimantan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Sulawesi,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Sumatra,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Japan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Taiwan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Japan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Taiwan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_California,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MexBaja,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MexCstNW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MexCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MexGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MexInt,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Papaloapan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RioBalsas,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RioGrande,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RioLerma,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RioVerde,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Tehuantpc,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UsaColoRS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_California,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MexBaja,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MexCstNW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MexCstW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MexGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MexInt,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Papaloapan,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RioBalsas,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RioGrande,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RioLerma,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_RioVerde,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Tehuantpc,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UsaColoRS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ArabianP,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ArabianSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DeadSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_FarahrudR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_HamuMashR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Helmand,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Iran,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_PersianGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_RedSeaE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_CaspianE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Iran,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_BarentsSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_DvinaRN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_LenaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SiberiaW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_BarentsSea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_DvinaRN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_LenaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SiberiaW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UralR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_AfrCstSSW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AfrCstSSW,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_OrangeR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SAmerCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SAmerCstNE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ChileCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_PeruCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ChileCstN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_LaPuna,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_PeruCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SriLanka,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_AmuDaryaR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SriLanka,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Korea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Korea,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ChaoPhrR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MalaysiaP,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_Phlppns,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_SittaungR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ThaiGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_VietnamCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ChaoPhrR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MalaysiaP,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_Phlppns,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_SittaungR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ThaiGulf,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_VietnamCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_ArkWhtRedR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_GreatBasin,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MissppRN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_MissppRS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_OhioR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TennR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_TexasCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UsaColoRN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UsaCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassGrass_UsaCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_ArkWhtRedR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_GreatBasin,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MissppRN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_MissppRS,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_OhioR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TennR,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_TexasCst,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UsaColoRN,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UsaCstE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
-biomass,biomassTree_UsaCstSE,Water XX,NoReported,??elec|biomass?? Or irrigation?,1
+biomass,biomassGrass_AfrCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CongoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_LChad,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Madagascar,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NileR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RiftValley,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ShebJubR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CongoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Madagascar,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NileR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RiftValley,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ShebJubR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstNW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrIntN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MeditE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MeditS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SinaiP,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstNW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrIntN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MeditS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstSW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrIntS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AngolaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_LimpopoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_OrangeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ZambeziR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrIntS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AngolaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_LimpopoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ZambeziR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GuineaGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NigerR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SenegalR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_VoltaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GuineaGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_LChad,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NigerR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SenegalR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_VoltaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ArgColoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ArgCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ArgCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ChileCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_LaPuna,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MarChiq,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NegroR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Pampas,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Patagonia,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RioLaPlata,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Salinas,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ArgColoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ArgCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ChileCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MarChiq,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NegroR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Pampas,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Patagonia,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RioLaPlata,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Salinas,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AusCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AusCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AusCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AusCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AusInt,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MurrayDrlg,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NewZealand,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Tasmania,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AusCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AusCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AusCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AusCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MurrayDrlg,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NewZealand,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Tasmania,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AmazonR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BrzCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BrzCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BrzCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ParnaibaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SaoFrancR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TocantinsR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AmazonR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BrzCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BrzCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BrzCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ParnaibaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SaoFrancR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TocantinsR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CanAtl,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_FraserR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GreatLakes,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_HudsonBay,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Mackenzie,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MissouriR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NWTerr,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NelsonR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_PacArctic,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_StLwrncR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UsaCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UsaPacNW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CanAtl,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_FraserR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GreatLakes,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_HudsonBay,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Mackenzie,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MissouriR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NWTerr,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NelsonR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_PacArctic,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_StLwrncR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UsaCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UsaPacNW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Caribbean,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CntAmer,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ColEcuaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GrijUsuR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SAmerCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_YucatanP,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Caribbean,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CntAmer,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ColEcuaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GrijUsuR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SAmerCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_YucatanP,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AmuDaryaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AmurR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BlackSeaS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CaspianE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CaspianNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CaspianSW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Gobi,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_LBalkash,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ObR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SyrDaryaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UralR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_VolgaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_YeniseiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AmurR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BlackSeaS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CaspianNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CaspianSW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Gobi,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_LBalkash,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ObR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SyrDaryaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_VolgaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_YeniseiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BoHai,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ChinaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GangesR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Hainan,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Hong,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_HuangHeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IndusR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IrrawaddyR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Mekong,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RusCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SChinaSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Salween,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Tarim,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_XunJiang,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Yangtze,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ZiyaHe,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BoHai,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ChinaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GangesR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Hainan,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Hong,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_HuangHeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IrrawaddyR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Mekong,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RusCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SChinaSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Salween,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_XunJiang,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Yangtze,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ZiyaHe,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MagdalenaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_OrinocoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MagdalenaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_OrinocoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AdrBlkSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BalticSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DanubeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DaugavaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DniesterR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DnkGrmCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ElbeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NarvaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NemanR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_OderR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_PolandCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_WislaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AdrBlkSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BalticSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DanubeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DaugavaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DniesterR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DnkGrmCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ElbeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MeditE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NarvaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NemanR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_OderR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_PolandCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_WislaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DouroR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_EbroR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_EmsWeserR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_EngWales,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Finland,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_FranceCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_FranceCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Gironde,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GuadalqR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GuadianaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IberiaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Ireland,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ItalyCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ItalyCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_LoireR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MeditIsl,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NevaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_PoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RhineR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RhoneR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ScheldtR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Scotland,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SeineR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SpainCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Sweden,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TagusR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TiberR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DouroR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_EbroR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_EmsWeserR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_EngWales,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Finland,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_FranceCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_FranceCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Gironde,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GuadalqR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GuadianaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IberiaCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Ireland,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ItalyCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ItalyCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_LoireR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MeditIsl,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NevaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_PoR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RhineR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RhoneR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ScheldtR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Scotland,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SeineR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SpainCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Sweden,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TagusR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TiberR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BlackSeaN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DnieperR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DonR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BlackSeaN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DnieperR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DonR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_EJrdnSyr,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TigrEuphR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TigrEuphR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ScndnvN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ScndnvN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BengalBay,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BengalW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BrahmaniR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_CauveryR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GodavariR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IndCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IndCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IndCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IndCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_KrishnaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MahanadiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MahiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_NarmadaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_PennarR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SabarmatiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TaptiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BengalBay,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BengalW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BrahmaniR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CauveryR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GodavariR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IndCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IndCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IndCstS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IndCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IndusR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_KrishnaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MahanadiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MahiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_NarmadaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_PennarR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SabarmatiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TaptiR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BorneoCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IdnE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_IrianJaya,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_JavaTimor,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Kalimantan,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Sulawesi,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Sumatra,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BorneoCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IdnE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_IrianJaya,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_JavaTimor,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Kalimantan,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Sulawesi,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Sumatra,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Japan,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Taiwan,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Japan,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Taiwan,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_California,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MexBaja,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MexCstNW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MexCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MexGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MexInt,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Papaloapan,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RioBalsas,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RioGrande,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RioLerma,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RioVerde,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Tehuantpc,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UsaColoRS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_California,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MexBaja,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MexCstNW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MexCstW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MexGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MexInt,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Papaloapan,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RioBalsas,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RioGrande,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RioLerma,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_RioVerde,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Tehuantpc,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UsaColoRS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ArabianP,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ArabianSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DeadSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_FarahrudR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_HamuMashR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Helmand,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Iran,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_PersianGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_RedSeaE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_CaspianE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Iran,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_BarentsSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_DvinaRN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_LenaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SiberiaW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_BarentsSea,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_DvinaRN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_LenaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SiberiaW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UralR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_AfrCstSSW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AfrCstSSW,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_OrangeR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SAmerCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SAmerCstNE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ChileCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_PeruCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ChileCstN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_LaPuna,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_PeruCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SriLanka,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_AmuDaryaR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SriLanka,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Korea,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Korea,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ChaoPhrR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MalaysiaP,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_Phlppns,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_SittaungR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ThaiGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_VietnamCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ChaoPhrR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MalaysiaP,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_Phlppns,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_SittaungR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ThaiGulf,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_VietnamCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_ArkWhtRedR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_GreatBasin,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MissppRN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_MissppRS,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_OhioR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TennR,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_TexasCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UsaColoRN,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UsaCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassGrass_UsaCstSE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_ArkWhtRedR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_GreatBasin,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MissppRN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_MissppRS,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_OhioR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TennR,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_TexasCst,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UsaColoRN,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UsaCstE,Water XX,Water XX|Irrigation,,1
+biomass,biomassTree_UsaCstSE,Water XX,Water XX|Irrigation,,1
 Corn,CornC4_AfrCstE,Water XX,Water XX|Irrigation,,1
 Corn,CornC4_AfrCstNE,Water XX,Water XX|Irrigation,,1
 Corn,CornC4_LChad,Water XX,Water XX|Irrigation,,1
@@ -626,7 +626,7 @@ electricity,gas,Water XX,Water XX|Electricity,Water XX|Electricity|Gas,1
 electricity,geothermal,Water XX,Water XX|Electricity,Water XX|Electricity|Geothermal,1
 electricity,hydro,Water XX,Water XX|Electricity,Water XX|Electricity|Hydro,1
 electricity,nuclear,Water XX,Water XX|Electricity,Water XX|Electricity|Nuclear,1
-electricity,refined liquids,Water XX,Water XX|Electricity,"?? Does not exists ""liquids""??",1
+electricity,refined liquids,Water XX,Water XX|Electricity,Water XX|Electricity|Oil,1
 electricity,solar,Water XX,Water XX|Electricity,Water XX|Electricity|Solar,1
 FiberCrop,FiberCrop_AfrCstE,Water XX,Water XX|Irrigation,,1
 FiberCrop,FiberCrop_AfrCstNE,Water XX,Water XX|Irrigation,,1
@@ -1456,14 +1456,14 @@ Fruits,Fruits_TexasCst,Water XX,Water XX|Irrigation,,1
 Fruits,Fruits_UsaColoRN,Water XX,Water XX|Irrigation,,1
 Fruits,Fruits_UsaCstE,Water XX,Water XX|Irrigation,,1
 Fruits,Fruits_UsaCstSE,Water XX,Water XX|Irrigation,,1
-H2 central production,biomass,Water XX,"?? Does not exists ""other sector""?",,1
-H2 central production,electricity,Water XX,,,1
-H2 central production,gas,Water XX,,,1
-H2 central production,nuclear,Water XX,,,1
-H2 central production,solar,Water XX,,,1
-H2 central production,wind,Water XX,,,1
-H2 industrial,onsite production,Water XX,,,1
-H2 wholesale dispensing,forecourt production,Water XX,,,1
+H2 central production,biomass,Water XX,Water XX|Industrial Water,,1
+H2 central production,electricity,Water XX,Water XX|Industrial Water,,1
+H2 central production,gas,Water XX,Water XX|Industrial Water,,1
+H2 central production,nuclear,Water XX,Water XX|Industrial Water,,1
+H2 central production,solar,Water XX,Water XX|Industrial Water,,1
+H2 central production,wind,Water XX,Water XX|Industrial Water,,1
+H2 industrial,onsite production,Water XX,Water XX|Industrial Water,,1
+H2 wholesale dispensing,forecourt production,Water XX,Water XX|Industrial Water,,1
 Legumes,Legumes_AfrCstNE,Water XX,Water XX|Irrigation,,1
 Legumes,Legumes_LChad,Water XX,Water XX|Irrigation,,1
 Legumes,Legumes_NileR,Water XX,Water XX|Irrigation,,1
@@ -1900,8 +1900,8 @@ MiscCrop,MiscCrop_UsaCstNE,Water XX,Water XX|Irrigation,,1
 MiscCrop,MiscCrop_UsaCstSE,Water XX,Water XX|Irrigation,,1
 MiscCrop,MiscCrop_UsaPacNW,Water XX,Water XX|Irrigation,,1
 municipal water,municipal water,Water XX,Water XX|Municipal Water,,1
-nuclearFuelGenII,enrichedUranium,Water XX,NoReported,,1
-nuclearFuelGenIII,enrichedUranium,Water XX,NoReported,,1
+nuclearFuelGenII,enrichedUranium,Water XX,Water XX|Electricity Nuclear,,1
+nuclearFuelGenIII,enrichedUranium,Water XX,Water XX|Electricity Nuclear,,1
 NutsSeeds,NutsSeedsTree_AfrCstE,Water XX,Water XX|Irrigation,,1
 NutsSeeds,NutsSeedsTree_AfrCstNE,Water XX,Water XX|Irrigation,,1
 NutsSeeds,NutsSeedsTree_NileR,Water XX,Water XX|Irrigation,,1
@@ -2730,13 +2730,13 @@ OtherGrain,OtherGrain_TexasCst,Water XX,Water XX|Irrigation,,1
 OtherGrain,OtherGrain_UsaColoRN,Water XX,Water XX|Irrigation,,1
 OtherGrain,OtherGrain_UsaCstE,Water XX,Water XX|Irrigation,,1
 OtherGrain,OtherGrain_UsaCstSE,Water XX,Water XX|Irrigation,,1
-paper,paper,Water XX,NoReported,,1
+paper,paper,Water XX,Water XX|Industrial Water,,1
 Pork,Mixed,Water XX,Water XX|Livestock,,1
 Poultry,Mixed,Water XX,Water XX|Livestock,,1
-regional coal,domestic coal,Water XX,NoReported,,1
-regional coal,imported coal,Water XX,NoReported,,1
-regional oil,domestic crude oil,Water XX,NoReported,,1
-regional oil,imported crude oil,Water XX,NoReported,,1
+regional coal,domestic coal,Water XX,Water XX|Industrial Water,,1
+regional coal,imported coal,Water XX,Water XX|Industrial Water,,1
+regional oil,domestic crude oil,Water XX,Water XX|Industrial Water,,1
+regional oil,imported crude oil,Water XX,Water XX|Industrial Water,,1
 Rice,Rice_AfrCstE,Water XX,Water XX|Irrigation,,1
 Rice,Rice_AfrCstNE,Water XX,Water XX|Irrigation,,1
 Rice,Rice_CongoR,Water XX,Water XX|Irrigation,,1

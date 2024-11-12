@@ -1,4 +1,4 @@
-﻿#Transport Energy Service
+﻿#Transport Energy Service,,,,,
 sector,mode,var1,var2,var3,unit_conv
 trn_aviation_intl,International Aviation,Energy Service|Transportation|Passenger,,,1
 trn_freight,Domestic Ship,Energy Service|Transportation|Freight,,,1
@@ -9,8 +9,8 @@ trn_freight_road,Light truck,NoReported,,,1
 trn_freight_road,Medium truck,NoReported,,,1
 trn_pass,Cycle,Energy Service|Transportation|Passenger,,Energy Service|Transportation|Passenger|Active Transport [Share],1
 trn_pass,Domestic Aviation,Energy Service|Transportation|Passenger,,,1
-trn_pass,HSR,Energy Service|Transportation|Passenger,Energy Service|Transportation|Passenger|Railways,,1
-trn_pass,Passenger Rail,Energy Service|Transportation|Passenger,,Energy Service|Transportation|Passenger|Public Transport [Share],1
+trn_pass,HSR,Energy Service|Transportation|Passenger,Energy Service|Transportation|Passenger|Railways,Energy Service|Transportation|Passenger|Public Transport [Share],1
+trn_pass,Passenger Rail,Energy Service|Transportation|Passenger,Energy Service|Transportation|Passenger|Railways,Energy Service|Transportation|Passenger|Public Transport [Share],1
 trn_pass,Walk,Energy Service|Transportation|Passenger,,Energy Service|Transportation|Passenger|Active Transport [Share],1
 trn_pass,road,NoReported,,,1
 trn_pass_road,LDV,Energy Service|Transportation|Passenger,Energy Service|Transportation|Passenger|Road,,1

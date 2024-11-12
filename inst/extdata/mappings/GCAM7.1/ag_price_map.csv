@@ -1,4 +1,4 @@
-# Prices by sector
+# Prices by sector,,,,
 sector,var1,var2,var3,unit_conv
 AdrBlkSea_desalinated water,NoReported,,,1
 AfrCstE_desalinated water,NoReported,,,1
@@ -32,7 +32,7 @@ AusInt_desalinated water,NoReported,,,1
 backup_electricity,NoReported,,,1
 Beef,NoReported,,,1
 BengalW_desalinated water,NoReported,,,1
-biomass,NoReported,,,1
+biomass,Price|Agriculture|Energy Crops,,,1
 BlackSeaS_desalinated water,NoReported,,,1
 BoHai_desalinated water,NoReported,,,1
 BorneoCstN_desalinated water,NoReported,,,1
@@ -64,9 +64,9 @@ CongoR_desalinated water,NoReported,,,1
 construction,NoReported,,,1
 construction energy use,NoReported,,,1
 construction feedstocks,NoReported,,,1
-Corn,NoReported,,,1
+Corn,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 csp_backup,NoReported,,,1
-Dairy,NoReported,,,1
+Dairy,Price|Agriculture|Food Products [Index],,,1
 DanubeR_desalinated water,NoReported,,,1
 DeadSea_desalinated water,NoReported,,,1
 delivered biomass,NoReported,,,1
@@ -105,7 +105,7 @@ electricity,NoReported,,,1
 electricity_net_ownuse,NoReported,,,1
 EngWales_desalinated water,NoReported,,,1
 FeedCrops,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-FiberCrop,NoReported,,,1
+FiberCrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 Finland_desalinated water,NoReported,,,1
 FodderGrass,NoReported,,,1
 FodderHerb,NoReported,,,1
@@ -117,7 +117,7 @@ Forest,NoReported,,,1
 FranceCstS_desalinated water,NoReported,,,1
 FranceCstW_desalinated water,NoReported,,,1
 FraserR_desalinated water,NoReported,,,1
-Fruits,NoReported,,,1
+Fruits,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 GangesR_desalinated water,NoReported,,,1
 gas pipeline,NoReported,,,1
 gas processing,NoReported,,,1
@@ -250,7 +250,7 @@ refining,NoReported,,,1
 regional ammonia,NoReported,,,1
 regional beef,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
 regional biomass,Price|Agriculture|Energy crops,,,1
-regional biomassOil,Price|Agriculture|Energy crops,,,1
+regional biomassOil,NoReported,,,1
 regional coal,NoReported,,,1
 regional corn,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Maize [Index],1
 regional corn for ethanol,Price|Agriculture|Energy crops,,,1
