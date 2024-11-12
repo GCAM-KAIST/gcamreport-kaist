@@ -3724,6 +3724,31 @@ get_resource_investment <- function(GCAM_version = "v7.0") {
 }
 
 
+#' get_total_investment
+#'
+#' Calculate investment of resource production + extraction.
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @keywords internal investment process
+#' @return `total_investment_clean` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_total_investment <- function(GCAM_version = "v7.0") {
+  total_investment_clean <- NULL
+
+  total_investment_clean <- rbind(
+    resource_investment_clean,
+    elec_investment_clean
+  ) %>%
+    dplyr::group_by('scenario','region','year') %>%
+    dplyr::mutate(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = 'Investment|Energy Supply') %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  total_investment_clean <<- total_investment_clean
+}
+
+
 #########################################################################
 #                        BIND TO TEMPLATE FUNCTIONS                     #
 #########################################################################
