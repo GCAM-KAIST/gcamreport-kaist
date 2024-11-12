@@ -1423,7 +1423,13 @@ get_co2_sequestration <- function(GCAM_version = "v7.0") {
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>% # tidyr::spread(year, value) -> d
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
-  )
+  ) %>%
+    dplyr::bind_rows(
+      # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
+      LUC_emiss %>%
+        dplyr::mutate(var = 'Carbon Removal|Land Use') %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
+    )
 
   co2_sequestration_clean <<- co2_sequestration_clean
 }
