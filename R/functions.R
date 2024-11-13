@@ -530,6 +530,48 @@ get_population <- function(GCAM_version = "v7.0") {
 }
 
 
+#' get_labor
+#'
+#' Compute active and inactive labor force
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `labor_clean` global variables.
+#' @keywords internal GDP
+#' @importFrom magrittr %>%
+#' @export
+get_labor <- function(GCAM_version = "v7.0") {
+  labor_clean <- NULL
+
+  labor_active <-
+    rgcam::getQuery(prj, "National Account") %>%
+    dplyr::filter(account == 'labor-force') %>%
+    dplyr::mutate(
+      value = value *
+        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_thousand_million']],
+      var = "Labor Force|Employed"
+    ) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  labor_inactive <- merge(
+    population_clean %>%
+      dplyr::rename(pop = value),
+    labor_active %>%
+      dplyr::rename(labor_active = value),
+    by = c('scenario','region','year')
+  ) %>%
+    dplyr::mutate(value = pop - labor_active) %>%
+    dplyr::mutate(var = 'Labor Force|Inactive') %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  labor_clean = rbind(
+    labor_active,
+    labor_inactive
+  )
+
+  labor_clean <<- labor_clean
+
+}
+
 #' get_gdp_ppp
 #'
 #' Retrieves GDP (PPP) data, computes regional GDP and annual GDPpc growth rate, and converts units to 10 USD.
@@ -825,7 +867,7 @@ get_food_intake <- function(GCAM_version = "v7.0") {
                        dplyr::select(-var),
                      by = c("scenario", "region", "year"),
                      multiple = "all") %>%
-    dplyr::mutate(value = value * 1e6 / pop / 365.25) %>% # pop in thous.
+    dplyr::mutate(value = value * 1e6 / pop / 365.25) %>% # pop in million
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   food_intake_clean <<- food_intake_clean
