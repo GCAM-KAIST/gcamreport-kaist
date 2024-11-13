@@ -71,10 +71,10 @@ DanubeR_desalinated water,NoReported,,,1
 DeadSea_desalinated water,NoReported,,,1
 delivered biomass,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Biomass,1
 delivered coal,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Coal,1
-delivered gas,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Gases,Price|Final Energy|Residential and Commercial|Gases|Gas,1
+delivered gas,Price|Final Energy|Residential and Commercial,Price|Final Energy|Residential and Commercial|Gases,,1
 delivered biomass industry,Price|Final Energy|Industry,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Biomass,1
 delivered coal industry,Price|Final Energy|Industry,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Coal,1
-delivered gas transport,Price|Final Energy|Transportation (w/ bunkers),Price|Final Energy|Transportation (w/ bunkers)|Gases,Price|Final Energy|Transportation (w/ bunkers)|Gases|Gas,1
+delivered gas transport,Price|Final Energy|Transportation (w/ bunkers),Price|Final Energy|Transportation (w/ bunkers)|Gases,,1
 desalinated water,NoReported,,,1
 district heat,Price|Secondary Energy|Heat,,,1
 DnkGrmCst_desalinated water,NoReported,,,1
@@ -948,7 +948,7 @@ water_td_muni_W,NoReported,,,1
 water_td_pri_C,NoReported,,,1
 water_td_pri_W,NoReported,,,1
 Wheat,NoReported,,,1
-wholesale gas,Price|Final Energy|Industry,Price|Final Energy|Industry|Gases,Price|Final Energy|Industry|Gases|Gas,1
+wholesale gas,Price|Final Energy|Industry,Price|Final Energy|Industry|Gases,,1
 WislaR_desalinated water,NoReported,,,1
 woodpulp_energy,NoReported,,,1
 woodpulp_processing,NoReported,,,1

@@ -4,7 +4,6 @@ Final Energy,NoReported
 Final Energy|Agriculture,NoReported
 Final Energy|Agriculture|Electricity,NoReported
 Final Energy|Agriculture|Gases,Price|Final Energy|Agriculture|Gases
-Final Energy|Agriculture|Gases|Gas,Price|Final Energy|Agriculture|Gases|Gas
 Final Energy|Agriculture|Heat,Price|Final Energy|Agriculture|Heat
 Final Energy|Agriculture|Hydrogen,Price|Final Energy|Agriculture|Hydrogen
 Final Energy|Agriculture|Liquids,Price|Final Energy|Agriculture|Liquids
@@ -24,7 +23,6 @@ Final Energy|Commercial|Water|Desalination,NoReported
 Final Energy|Commercial|Water|Groundwater Extraction,NoReported
 Final Energy|Electricity,NoReported
 Final Energy|Gases,NoReported
-Final Energy|Gases|Gas,NoReported
 Final Energy|Heat,NoReported
 Final Energy|Hydrogen,NoReported
 Final Energy|Industry,NoReported
@@ -33,7 +31,6 @@ Final Energy|Industry|Cement|Electricity,NoReported
 Final Energy|Industry|Chemicals,NoReported
 Final Energy|Industry|Chemicals|Ammonia,NoReported
 Final Energy|Industry|Chemicals|Ammonia|Gases,Price|Final Energy|Industry|Chemicals|Ammonia|Gases
-Final Energy|Industry|Chemicals|Ammonia|Gases|Gas,Price|Final Energy|Industry|Chemicals|Ammonia|Gases|Gas
 Final Energy|Industry|Chemicals|Ammonia|Heat,Price|Final Energy|Industry|Chemicals|Ammonia|Heat
 Final Energy|Industry|Chemicals|Ammonia|Hydrogen,Price|Final Energy|Industry|Chemicals|Ammonia|Hydrogen
 Final Energy|Industry|Chemicals|Ammonia|Liquids,Price|Final Energy|Industry|Chemicals|Ammonia|Liquids
@@ -42,14 +39,12 @@ Final Energy|Industry|Chemicals|Ammonia|Solids|Biomass,Price|Final Energy|Indust
 Final Energy|Industry|Chemicals|Ammonia|Solids|Coal,Price|Final Energy|Industry|Chemicals|Ammonia|Solids|Coal
 Final Energy|Industry|Chemicals|Electricity,NoReported
 Final Energy|Industry|Chemicals|Gases,Price|Final Energy|Industry|Chemicals|Gases
-Final Energy|Industry|Chemicals|Gases|Gas,Price|Final Energy|Industry|Chemicals|Gases|Gas
 Final Energy|Industry|Chemicals|Heat,Price|Final Energy|Industry|Chemicals|Heat
 Final Energy|Industry|Chemicals|Hydrogen,Price|Final Energy|Industry|Chemicals|Hydrogen
 Final Energy|Industry|Chemicals|Liquids,Price|Final Energy|Industry|Chemicals|Liquids
 Final Energy|Industry|Chemicals|Other Sector,NoReported
 Final Energy|Industry|Chemicals|Other Sector|Electricity,NoReported
 Final Energy|Industry|Chemicals|Other Sector|Gases,Price|Final Energy|Industry|Chemicals|Other Sector|Gases
-Final Energy|Industry|Chemicals|Other Sector|Gases|Gas,Price|Final Energy|Industry|Chemicals|Other Sector|Gases|Gas
 Final Energy|Industry|Chemicals|Other Sector|Heat,Price|Final Energy|Industry|Chemicals|Other Sector|Heat
 Final Energy|Industry|Chemicals|Other Sector|Liquids,Price|Final Energy|Industry|Chemicals|Other Sector|Liquids
 Final Energy|Industry|Chemicals|Other Sector|Solids,Price|Final Energy|Industry|Chemicals|Other Sector|Solids
@@ -60,7 +55,6 @@ Final Energy|Industry|Chemicals|Solids|Biomass,Price|Final Energy|Industry|Chemi
 Final Energy|Industry|Chemicals|Solids|Coal,Price|Final Energy|Industry|Chemicals|Solids|Coal
 Final Energy|Industry|Electricity,Price|Final Energy|Industry|Electricity
 Final Energy|Industry|Gases,Price|Final Energy|Industry|Gases
-Final Energy|Industry|Gases|Gas,Price|Final Energy|Industry|Gases|Gas
 Final Energy|Industry|Heat,Price|Final Energy|Industry|Heat
 Final Energy|Industry|Hydrogen,Price|Final Energy|Industry|Hydrogen
 Final Energy|Industry|Iron and Steel,NoReported
@@ -74,7 +68,6 @@ Final Energy|Industry|Liquids,Price|Final Energy|Industry|Liquids
 Final Energy|Industry|Non-ferrous metals,NoReported
 Final Energy|Industry|Non-ferrous metals|Electricity,NoReported
 Final Energy|Industry|Non-ferrous metals|Gases,Price|Final Energy|Industry|Non-Ferrous Metals|Gases
-Final Energy|Industry|Non-ferrous metals|Gases|Gas,Price|Final Energy|Industry|Non-Ferrous Metals|Gases|Gas
 Final Energy|Industry|Non-ferrous metals|Liquids,Price|Final Energy|Industry|Non-Ferrous Metals|Liquids
 Final Energy|Industry|Non-ferrous metals|Solids,Price|Final Energy|Industry|Non-Ferrous Metals|Solids
 Final Energy|Industry|Non-ferrous metals|Solids|Biomass,Price|Final Energy|Industry|Non-Ferrous Metals|Solids|Biomass
@@ -82,7 +75,6 @@ Final Energy|Industry|Non-ferrous metals|Solids|Coal,Price|Final Energy|Industry
 Final Energy|Industry|Other Sector,NoReported
 Final Energy|Industry|Other Sector|Electricity,NoReported
 Final Energy|Industry|Other Sector|Gases,Price|Final Energy|Industry|Other Sector|Gases
-Final Energy|Industry|Other Sector|Gases|Gas,Price|Final Energy|Industry|Other Sector|Gases|Gas
 Final Energy|Industry|Other Sector|Heat,Price|Final Energy|Industry|Other Sector|Heat
 Final Energy|Industry|Other Sector|Hydrogen,Price|Final Energy|Industry|Other Sector|Hydrogen
 Final Energy|Industry|Other Sector|Liquids,Price|Final Energy|Industry|Other Sector|Liquids
@@ -108,7 +100,6 @@ Final Energy|Non-Energy Use|Solids|Coal,NoReported
 Final Energy|Residential and Commercial,NoReported
 Final Energy|Residential and Commercial|Electricity,Price|Final Energy|Residential and Commercial|Electricity
 Final Energy|Residential and Commercial|Gases,Price|Final Energy|Residential and Commercial|Gases
-Final Energy|Residential and Commercial|Gases|Gas,Price|Final Energy|Residential and Commercial|Gases|Gas
 Final Energy|Residential and Commercial|Heat,Price|Final Energy|Residential and Commercial|Heat
 Final Energy|Residential and Commercial|Hydrogen,Price|Final Energy|Residential and Commercial|Hydrogen
 Final Energy|Residential and Commercial|Liquids,Price|Final Energy|Residential and Commercial|Liquids
@@ -136,7 +127,6 @@ Final Energy|Transportation (w/ bunkers)|Liquids,Price|Final Energy|Transportati
 Final Energy|Transportation|Bus,NoReported
 Final Energy|Transportation|Bus|Electricity,NoReported
 Final Energy|Transportation|Bus|Gases,Price|Final Energy|Transportation|Bus|Gases
-Final Energy|Transportation|Bus|Gases|Gas,Price|Final Energy|Transportation|Bus|Gases|Gas
 Final Energy|Transportation|Bus|Hydrogen,Price|Final Energy|Transportation|Bus|Hydrogen
 Final Energy|Transportation|Bus|Liquids,Price|Final Energy|Transportation|Bus|Liquids
 Final Energy|Transportation|Domestic Aviation,NoReported
@@ -151,26 +141,22 @@ Final Energy|Transportation|Electricity,NoReported
 Final Energy|Transportation|Freight,NoReported
 Final Energy|Transportation|Freight|Electricity,NoReported
 Final Energy|Transportation|Freight|Gases,Price|Final Energy|Transportation|Freight|Gases
-Final Energy|Transportation|Freight|Gases|Gas,Price|Final Energy|Transportation|Freight|Gases|Gas
 Final Energy|Transportation|Freight|Hydrogen,Price|Final Energy|Transportation|Freight|Hydrogen
 Final Energy|Transportation|Freight|Liquids,Price|Final Energy|Transportation|Freight|Liquids
 Final Energy|Transportation|Freight|Solids,Price|Final Energy|Transportation|Freight|Solids
 Final Energy|Transportation|Freight|Solids|Biomass,Price|Final Energy|Transportation|Freight|Solids|Biomass
 Final Energy|Transportation|Freight|Solids|Coal,Price|Final Energy|Transportation|Freight|Solids|Coal
 Final Energy|Transportation|Gases,Price|Final Energy|Transportation|Gases
-Final Energy|Transportation|Gases|Gas,Price|Final Energy|Transportation|Gases|Gas
 Final Energy|Transportation|Hydrogen,Price|Final Energy|Transportation|Hydrogen
 Final Energy|Transportation|Light Duty Vehicle,NoReported
 Final Energy|Transportation|Light Duty Vehicle|Electricity,NoReported
 Final Energy|Transportation|Light Duty Vehicle|Gases,Price|Final Energy|Transportation|Light Duty Vehicle|Gases
-Final Energy|Transportation|Light Duty Vehicle|Gases|Gas,Price|Final Energy|Transportation|Light Duty Vehicle|Gases|Gas
 Final Energy|Transportation|Light Duty Vehicle|Hydrogen,Price|Final Energy|Transportation|Light Duty Vehicle|Hydrogen
 Final Energy|Transportation|Light Duty Vehicle|Liquids,Price|Final Energy|Transportation|Light Duty Vehicle|Liquids
 Final Energy|Transportation|Liquids,Price|Final Energy|Transportation|Liquids
 Final Energy|Transportation|Passenger,NoReported
 Final Energy|Transportation|Passenger|Electricity,NoReported
 Final Energy|Transportation|Passenger|Gases,Price|Final Energy|Transportation|Passenger|Gases
-Final Energy|Transportation|Passenger|Gases|Gas,Price|Final Energy|Transportation|Passenger|Gases|Gas
 Final Energy|Transportation|Passenger|Hydrogen,Price|Final Energy|Transportation|Passenger|Hydrogen
 Final Energy|Transportation|Passenger|Liquids,Price|Final Energy|Transportation|Passenger|Liquids
 Final Energy|Transportation|Rail,NoReported
@@ -186,7 +172,6 @@ Final Energy|Transportation|Solids|Coal,Price|Final Energy|Transportation|Rail|S
 Final Energy|Transportation|Truck,NoReported
 Final Energy|Transportation|Truck|Electricity,NoReported
 Final Energy|Transportation|Truck|Gases,Price|Final Energy|Transportation|Truck|Gases
-Final Energy|Transportation|Truck|Gases|Gas,Price|Final Energy|Transportation|Truck|Gases|Gas
 Final Energy|Transportation|Truck|Hydrogen,Price|Final Energy|Transportation|Truck|Hydrogen
 Final Energy|Transportation|Truck|Liquids,Price|Final Energy|Transportation|Truck|Liquids
 Final Energy|Waste,NoReported
@@ -238,7 +223,6 @@ Secondary Energy|Gases,Price|Secondary Energy|Gases
 Secondary Energy|Gases|Biomass,Price|Secondary Energy|Gases|Biomass
 Secondary Energy|Gases|Coal,Price|Secondary Energy|Gases|Coal
 Secondary Energy|Gases|Fossil,Price|Secondary Energy|Gases|Fossil
-Secondary Energy|Gases|Gas,Price|Secondary Energy|Gases|Gas
 Secondary Energy|Hydrogen,Price|Secondary Energy|Hydrogen
 Secondary Energy|Hydrogen|Biomass,Price|Secondary Energy|Hydrogen|Biomass
 Secondary Energy|Hydrogen|Biomass|w/o CCS,NoReported
