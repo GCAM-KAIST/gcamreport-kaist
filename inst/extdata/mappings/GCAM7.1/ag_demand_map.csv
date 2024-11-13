@@ -15,11 +15,11 @@ regional soybean,FeedCrops,Agricultural Demand,Agricultural Demand|Crops,Agricul
 regional sugarcrop,FeedCrops,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Feed,Agricultural Demand|Crops|Feed|Sugar Crops,,,,,1
 regional vegetables,FeedCrops,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Feed,Agricultural Demand|Crops|Feed|Other Crops,,,,,1
 regional wheat,FeedCrops,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Feed,Agricultural Demand|Crops|Feed|Cereals,,,,,1
-regional corn,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,,,,,1
+regional corn,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,Agricultural Demand|Crops|Food|Corn,,,,1
 regional othergrain,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,,,,,1
-regional rice,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,,,,,1
+regional rice,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,Agricultural Demand|Crops|Food|Rice,,,,1
 regional root_tuber,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
-regional wheat,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,,,,,1
+regional wheat,FoodDemand_Staples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Cereals,Agricultural Demand|Crops|Food|Wheat,,,,1
 regional fibercrop,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
 regional fruits,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
 regional legumes,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
@@ -27,7 +27,7 @@ regional misccrop,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|
 regional nuts_seeds,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
 regional oilcrop,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Oil Crops,,,,,1
 regional oilpalm,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Oil Crops,,,,,1
-regional soybean,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Oil Crops,,,,,1
+regional soybean,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Oil Crops,Agricultural Demand|Crops|Food|SoyBean,,,,1
 regional sugarcrop,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Sugar Crops,,,,,1
 regional vegetables,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
 regional beef,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Ruminant,,,,,1

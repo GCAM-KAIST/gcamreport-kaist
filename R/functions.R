@@ -1715,7 +1715,8 @@ get_ag_weights <- function(GCAM_version = "v7.0") {
   ag_demand_tmp <-
     dplyr::bind_rows(
       rgcam::getQuery(prj, "demand balances by crop commodity"),
-      rgcam::getQuery(prj, "demand balances by meat and dairy commodity")
+      rgcam::getQuery(prj, "demand balances by meat and dairy commodity"),
+      rgcam::getQuery(prj, "regional biomass consumption")
     ) %>%
     left_join_strict(filter_variables(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_demand_clean"),
                      by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
@@ -2499,9 +2500,13 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
     dplyr::ungroup() %>%
     # add weights
     dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= final_year.global]) %>%
-    left_join_strict(ag_wld_weights,
-                     by = c('scenario','region','year','sector','var'),
-                     by_message = c('sector','year')) %>%
+    left_join_strict(ag_weights %>%
+                       left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+                                          dplyr::rename(sector = regional_item),
+                                        by = c('sector'), mapping = paste('food_items_map',GCAM_version,sep='_')) %>%
+                       dplyr::select(-sector) %>%
+                       dplyr::rename(sector = item),
+                     by_message = c('sector','var','year','region')) %>%
     # compute var weighted average price
     dplyr::mutate(value = value * weight) %>%
     dplyr::group_by(scenario, var, year) %>%
@@ -2528,7 +2533,7 @@ get_ag_price <- function(GCAM_version = "v7.0") {
 
   ag_price_clean <-
     rgcam::getQuery(prj, "prices by sector") %>%
-    dplyr::filter(Units == "1975$/kg") %>%
+    dplyr::filter(Units == "1975$/kg" | sector == 'biomass') %>%
     left_join_strict(filter_variables(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_price_clean"),
                      by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -2539,9 +2544,13 @@ get_ag_price <- function(GCAM_version = "v7.0") {
     dplyr::ungroup() %>%
     # add weights
     dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= final_year.global]) %>%
-    left_join_strict(ag_weights,
-                     by = c('scenario','region','year','sector','var'),
-                     by_message = c('sector','year')) %>%
+    left_join_strict(ag_weights %>%
+                       left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+                                          dplyr::rename(sector = regional_item),
+                                        by = c('sector'), mapping = paste('food_items_map',GCAM_version,sep='_')) %>%
+                       dplyr::select(-sector) %>%
+                       dplyr::rename(sector = item),
+                     by_message = c('sector','var','year','region')) %>%
     # compute var weighted average price
     dplyr::mutate(value = value * weight) %>%
     dplyr::group_by(scenario, region, var, year) %>%

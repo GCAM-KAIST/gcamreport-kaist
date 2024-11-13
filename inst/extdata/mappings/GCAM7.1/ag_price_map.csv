@@ -1,4 +1,4 @@
-# Prices by sector,,,,
+# Prices by sector
 sector,var1,var2,var3,unit_conv
 AdrBlkSea_desalinated water,NoReported,,,1
 AfrCstE_desalinated water,NoReported,,,1
@@ -30,7 +30,7 @@ AusCstS_desalinated water,NoReported,,,1
 AusCstW_desalinated water,NoReported,,,1
 AusInt_desalinated water,NoReported,,,1
 backup_electricity,NoReported,,,1
-Beef,NoReported,,,1
+Beef,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
 BengalW_desalinated water,NoReported,,,1
 biomass,Price|Agriculture|Energy Crops,,,1
 BlackSeaS_desalinated water,NoReported,,,1
@@ -64,9 +64,9 @@ CongoR_desalinated water,NoReported,,,1
 construction,NoReported,,,1
 construction energy use,NoReported,,,1
 construction feedstocks,NoReported,,,1
-Corn,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+Corn,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Maize [Index],1
 csp_backup,NoReported,,,1
-Dairy,Price|Agriculture|Food Products [Index],,,1
+Dairy,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
 DanubeR_desalinated water,NoReported,,,1
 DeadSea_desalinated water,NoReported,,,1
 delivered biomass,NoReported,,,1
@@ -172,7 +172,7 @@ KrishnaR_desalinated water,NoReported,,,1
 LaPuna_desalinated water,NoReported,,,1
 LBalkash_desalinated water,NoReported,,,1
 LChad_desalinated water,NoReported,,,1
-Legumes,NoReported,,,1
+Legumes,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 LimpopoR_desalinated water,NoReported,,,1
 LoireR_desalinated water,NoReported,,,1
 Mackenzie_desalinated water,NoReported,,,1
@@ -190,7 +190,7 @@ MexCstW_desalinated water,NoReported,,,1
 MexGulf_desalinated water,NoReported,,,1
 MexInt_desalinated water,NoReported,,,1
 mining energy use,NoReported,,,1
-MiscCrop,NoReported,,,1
+MiscCrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 MissouriR_desalinated water,NoReported,,,1
 MissppRN_desalinated water,NoReported,,,1
 MissppRS_desalinated water,NoReported,,,1
@@ -213,19 +213,19 @@ NonFoodDemand_Meat,NoReported,,,1
 NonFoodDemand_sawnwood,NoReported,,,1
 nuclearFuelGenII,NoReported,,,1
 nuclearFuelGenIII,NoReported,,,1
-NutsSeeds,NoReported,,,1
+NutsSeeds,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 NWTerr_desalinated water,NoReported,,,1
 ObR_desalinated water,NoReported,,,1
 OderR_desalinated water,NoReported,,,1
 OhioR_desalinated water,NoReported,,,1
-OilCrop,NoReported,,,1
-OilPalm,NoReported,,,1
+OilCrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+OilPalm,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 OrangeR_desalinated water,NoReported,,,1
 OrinocoR_desalinated water,NoReported,,,1
 other industrial energy use,NoReported,,,1
 other industrial feedstocks,NoReported,,,1
 other industry,NoReported,,,1
-OtherGrain,NoReported,,,1
+OtherGrain,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 PacArctic_desalinated water,NoReported,,,1
 Pampas_desalinated water,NoReported,,,1
 Papaloapan_desalinated water,NoReported,,,1
@@ -238,8 +238,8 @@ PersianGulf_desalinated water,NoReported,,,1
 PeruCst_desalinated water,NoReported,,,1
 PolandCst_desalinated water,NoReported,,,1
 PoR_desalinated water,NoReported,,,1
-Pork,NoReported,,,1
-Poultry,NoReported,,,1
+Pork,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
+Poultry,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
 process heat cement,NoReported,,,1
 process heat food processing,NoReported,,,1
 process heat paper,NoReported,,,1
@@ -248,36 +248,36 @@ refined liquids enduse,NoReported,,,1
 refined liquids industrial,NoReported,,,1
 refining,NoReported,,,1
 regional ammonia,NoReported,,,1
-regional beef,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional biomass,Price|Agriculture|Energy crops,,,1
+regional beef,NoReported,,,1
+regional biomass,NoReported,,,1
 regional biomassOil,NoReported,,,1
 regional coal,NoReported,,,1
-regional corn,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Maize [Index],1
-regional corn for ethanol,Price|Agriculture|Energy crops,,,1
-regional dairy,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional fibercrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional fruits,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+regional corn,NoReported,NoReported,NoReported,1
+regional corn for ethanol,NoReported,,,1
+regional dairy,NoReported,,,1
+regional fibercrop,NoReported,,,1
+regional fruits,NoReported,,,1
 regional industrial_roundwood,NoReported,,,1
 regional iron and steel,NoReported,,,1
-regional legumes,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional misccrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+regional legumes,NoReported,,,1
+regional misccrop,NoReported,,,1
 regional natural gas,NoReported,,,1
-regional nuts_seeds,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional oil,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional oilcrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional oilpalm,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional othergrain,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional pork,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional poultry,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional rice,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Rice [Index],1
-regional root_tuber,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
+regional nuts_seeds,NoReported,,,1
+regional oil,NoReported,,,1
+regional oilcrop,NoReported,,,1
+regional oilpalm,NoReported,,,1
+regional othergrain,NoReported,,,1
+regional pork,NoReported,,,1
+regional poultry,NoReported,,,1
+regional rice,NoReported,,,1
+regional root_tuber,NoReported,,,1
 regional sawnwood,NoReported,,,1
-regional sheepgoat,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
-regional soybean,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Soybean [Index],1
-regional sugar for ethanol,Price|Agriculture|Energy crops,,,1
-regional sugarcrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional vegetables,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
-regional wheat,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Wheat [Index],1
+regional sheepgoat,NoReported,,,1
+regional soybean,NoReported,,,1
+regional sugar for ethanol,NoReported,,,1
+regional sugarcrop,NoReported,,,1
+regional vegetables,NoReported,,,1
+regional wheat,NoReported,,,1
 regional woodpulp,NoReported,,,1
 regional woodpulp for energy,NoReported,,,1
 resid cooling modern_d1,NoReported,,,1
@@ -352,14 +352,14 @@ resid others TradBio_d8,NoReported,,,1
 resid others TradBio_d9,NoReported,,,1
 RhineR_desalinated water,NoReported,,,1
 RhoneR_desalinated water,NoReported,,,1
-Rice,NoReported,,,1
+Rice,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Rice [Index],1
 RiftValley_desalinated water,NoReported,,,1
 RioBalsas_desalinated water,NoReported,,,1
 RioGrande_desalinated water,NoReported,,,1
 RioLaPlata_desalinated water,NoReported,,,1
 RioLerma_desalinated water,NoReported,,,1
 RioVerde_desalinated water,NoReported,,,1
-RootTuber,NoReported,,,1
+RootTuber,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 RusCstSE_desalinated water,NoReported,,,1
 SabarmatiR_desalinated water,NoReported,,,1
 Salween_desalinated water,NoReported,,,1
@@ -374,13 +374,13 @@ ScndnvN_desalinated water,NoReported,,,1
 Scotland_desalinated water,NoReported,,,1
 SeineR_desalinated water,NoReported,,,1
 ShebJubR_desalinated water,NoReported,,,1
-SheepGoat,NoReported,,,1
+SheepGoat,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
 SinaiP_desalinated water,NoReported,,,1
-Soybean,NoReported,,,1
+Soybean,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Soybean [Index],1
 SpainCstSE_desalinated water,NoReported,,,1
 SriLanka_desalinated water,NoReported,,,1
 StLwrncR_desalinated water,NoReported,,,1
-SugarCrop,NoReported,,,1
+SugarCrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 Sulawesi_desalinated water,NoReported,,,1
 Sumatra_desalinated water,NoReported,,,1
 Sweden_desalinated water,NoReported,,,1
@@ -467,7 +467,7 @@ UsaCstE_desalinated water,NoReported,,,1
 UsaCstNE_desalinated water,NoReported,,,1
 UsaCstSE_desalinated water,NoReported,,,1
 UsaPacNW_desalinated water,NoReported,,,1
-Vegetables,NoReported,,,1
+Vegetables,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 VolgaR_desalinated water,NoReported,,,1
 waste biomass for paper,NoReported,,,1
 water_td_an_C,NoReported,,,1
@@ -944,7 +944,7 @@ water_td_muni_C,NoReported,,,1
 water_td_muni_W,NoReported,,,1
 water_td_pri_C,NoReported,,,1
 water_td_pri_W,NoReported,,,1
-Wheat,NoReported,,,1
+Wheat,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],Price|Agriculture|Food Products|Crops|Wheat [Index],1
 wholesale gas,NoReported,,,1
 WislaR_desalinated water,NoReported,,,1
 woodpulp_energy,NoReported,,,1

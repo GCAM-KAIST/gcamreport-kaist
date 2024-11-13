@@ -126,6 +126,12 @@ food_intake_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings
 ) %>% gather_map()
 use_data(food_intake_map_v7.1, overwrite = T)
 
+food_items_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "food_items_map.csv"),
+                              skip = 1,
+                              stringsAsFactors = FALSE
+)
+use_data(food_items_map_v7.1, overwrite = T)
+
 
 # primary, secondary, final energy maps
 primary_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "primary_energy_map.csv"),

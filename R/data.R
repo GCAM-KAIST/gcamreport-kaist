@@ -358,6 +358,18 @@
 #' }
 "food_intake_map_v7.1"
 
+#' food_items_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_items_map_v7.1
+#' }
+"food_items_map_v7.1"
+
 #' primary_energy_map_v7.1
 #'
 #' @source github

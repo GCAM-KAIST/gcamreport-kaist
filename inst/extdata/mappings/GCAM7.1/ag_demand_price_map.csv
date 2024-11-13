@@ -2,7 +2,7 @@
 ag_demand_variable,ag_price_variable
 Agricultural Demand,NoReported
 Agricultural Demand|Crops,NoReported
-Agricultural Demand|Crops|Bioenergy,Price|Agriculture|Energy crops
+Agricultural Demand|Crops|Bioenergy,Price|Agriculture|Energy Crops
 Agricultural Demand|Crops|Bioenergy|1st Generation,NoReported
 Agricultural Demand|Crops|Bioenergy|2nd Generation,NoReported
 Agricultural Demand|Crops|Feed,NoReported
