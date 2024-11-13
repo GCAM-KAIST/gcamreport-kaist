@@ -1227,8 +1227,13 @@ get_lu_co2 <- function(GCAM_version = "v7.0") {
       value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']],
       var = "Emissions|CO2|AFOLU"
     ) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
-    dplyr::group_by(scenario, var, year)
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  LUC_emiss <- rbind(
+    LUC_emiss,
+    LUC_emiss %>%
+      dplyr::mutate(var = 'Emissions|CO2|AFOLU [NGHGI]')
+  )
 
   LUC_emiss <<- LUC_emiss
 }
