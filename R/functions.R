@@ -833,6 +833,77 @@ get_food_intake <- function(GCAM_version = "v7.0") {
 }
 
 
+#' get_forestry
+#'
+#' Computes Forestry production and demand
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `forestry_demand` and `forestry_production` global variables.
+#' @keywords internal forestry
+#' @importFrom magrittr %>%
+#' @export
+get_forestry <- function(GCAM_version = "v7.0") {
+  value <- forestry_demand <- forestry_production <- NULL
+
+  # demand = domestic + imports
+  forestry_demand <-
+    rgcam::getQuery(prj, "inputs by tech") %>%
+    dplyr::filter(grepl('regional industrial_roundwood', sector)) %>%
+    dplyr::group_by(scenario, region, year) %>%
+    # billion m3 to million m3
+    dplyr::summarise(value = sum(value) /
+                       get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']]) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = 'Forestry Demand|Roundwood') %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  forestry_demand <- rbind(
+    forestry_demand,
+    forestry_demand %>%
+      dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood')
+  )
+
+  # production = domestic + exports
+  forestry_exports <-
+    rgcam::getQuery(prj, "inputs by tech") %>%
+    dplyr::filter(stringr::str_detect(technology, stringr::regex("traded industrial_roundwood", ignore_case = TRUE))) %>%
+    dplyr::select(-sector,-technology,-input) %>%
+    dplyr::mutate(
+      region = stringr::str_split_fixed(subsector, " traded industrial_roundwood", 2)[, 1],
+      subsector = 'traded industrial_roundwood'
+    )
+
+  forestry_domestic <-
+    rgcam::getQuery(prj, "inputs by tech") %>%
+    dplyr::filter(grepl('domestic industrial_roundwood', subsector)) %>%
+    dplyr::select(-sector,-technology,-input)
+
+
+  forestry_production <- rbind(
+    forestry_domestic,
+    forestry_exports
+  ) %>%
+    dplyr::group_by(scenario, region, year) %>%
+    # billion m3 to million m3
+    dplyr::summarise(value = sum(value) /
+                       get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']]) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = 'Forestry Production|Roundwood') %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  forestry_production <- rbind(
+    forestry_production,
+    forestry_production %>%
+      dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood')
+  )
+
+
+  forestry_demand <<- forestry_demand
+  forestry_production <<- forestry_production
+
+}
+
+
 #' get_ag_trade
 #'
 #' Computes Agricultural trade

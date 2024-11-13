@@ -82,3 +82,5 @@ fert_consumption_clean;get_fert_consumption;;;fertilizer consumption by region
 fert_price_clean;get_fert_price;;;ammonia and N fertilizer prices
 food_availability_clean;get_food_availability;food_intake_clean;;
 food_intake_clean;get_food_intake;population_clean;;food consumption by type (specific)
+forestry_demand;get_forestry;;;inputs by tech
+forestry_production;get_forestry;;;inputs by tech
