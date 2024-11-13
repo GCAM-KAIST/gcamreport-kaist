@@ -788,7 +788,11 @@ get_capital_formation <- function(GCAM_version = "v7.0") {
 get_food_availability <- function(GCAM_version = "v7.0") {
   value <- food_availability_clean <- NULL
 
+  # GCAM does not track consumer waste, so food availability and intake are the reported equally
+  food_availability_clean <- food_intake_clean %>%
+    dplyr::mutate(gsub('Food Intake','Food Availability',var))
 
+  food_availability_clean <<- food_availability_clean
 }
 
 
@@ -804,6 +808,27 @@ get_food_availability <- function(GCAM_version = "v7.0") {
 get_food_intake <- function(GCAM_version = "v7.0") {
   value <- food_intake_clean <- NULL
 
+  food_intake_clean <-
+    rgcam::getQuery(prj, 'food consumption by type (specific)') %>%
+    dplyr::filter(year <= final_year.global, year >= 1990) %>%
+    dplyr::rename(subsector = `subsector...4`) %>%
+    left_join_strict(filter_variables(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "food_intake_clean"),
+                   by = c("subsector"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # from Pcal (region/yr) to kcal/cap/day (1Pcal = 1e12kcal)
+    left_join_strict(population_clean %>%
+                       dplyr::rename(pop = value) %>%
+                       dplyr::select(-var),
+                     by = c("scenario", "region", "year"),
+                     multiple = "all") %>%
+    dplyr::mutate(value = value * 1e6 / pop / 365.25) %>% # pop in thous.
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  food_intake_clean <<- food_intake_clean
 
 }
 
