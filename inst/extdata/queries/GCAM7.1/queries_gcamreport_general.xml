@@ -661,6 +661,16 @@ output-primary/physical-output/node()</xPath>
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="regional biomass consumption">
+         <axis1 name="sector">sector</axis1>
+         <axis2 name="Year">demand-physical[@vintage]</axis2>
+         <xPath buildList="false" dataName="input" group="false" sumAll="false">*[@type='sector' and (@name='regional biomass')]//*[@type='input']/
+     demand-physical/node()</xPath>
+         <comments/>
+     </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="ag production by crop type">
          <axis1 name="sector">sector[@name]</axis1>
          <axis2 name="Year">physical-output[@vintage]</axis2>

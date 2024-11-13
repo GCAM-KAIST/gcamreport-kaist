@@ -1536,7 +1536,8 @@ get_ag_demand <- function(GCAM_version = "v7.0") {
   ag_demand_clean <-
     dplyr::bind_rows(
       rgcam::getQuery(prj, "demand balances by crop commodity"),
-      rgcam::getQuery(prj, "demand balances by meat and dairy commodity")
+      rgcam::getQuery(prj, "demand balances by meat and dairy commodity"),
+      rgcam::getQuery(prj, "regional biomass consumption")
     ) %>%
     left_join_strict(filter_variables(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_demand_clean"),
                      by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%

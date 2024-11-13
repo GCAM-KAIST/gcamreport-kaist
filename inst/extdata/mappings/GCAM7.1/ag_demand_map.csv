@@ -84,3 +84,4 @@ Forest,traded industrial_roundwood,NoReported,,,,,,,,1
 regional sawnwood,NonFoodDemand_sawnwood,NoReported,,,,,,,,1
 regional woodpulp,woodpulp_energy,NoReported,,,,,,,,1
 ,woodpulp_energy,NoReported,,,,,,,,1
+total biomass,regional biomass,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Bioenergy,Agricultural Demand|Crops|Bioenergy|2nd generation,,,,,1
