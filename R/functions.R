@@ -1688,11 +1688,11 @@ get_land <- function(GCAM_version = "v7.0") {
   value <- unit_conv <- scenario <- region <- year <- var <- land_clean <- landleaf <- NULL
 
   land_clean <-
-    rgcam::getQuery(prj, "aggregated land allocation") %>%
+    rgcam::getQuery(prj, "land allocation by crop and water source") %>%
     dplyr::filter(grepl('^[a-z]',landleaf)) %>%
     left_join_strict(filter_variables(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                                       "land_clean"),
-                     by = c("landleaf"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all") %>%
+                     by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
