@@ -3283,10 +3283,12 @@ get_production_price <- function(GCAM_version = "v7.0") {
   production_price_clean <- rbind(
     rgcam::getQuery(prj, "iron and steel prices"),
     rgcam::getQuery(prj, "chemical prices"),
+    rgcam::getQuery(prj, "ammonia and N fertilizer prices"),
     rgcam::getQuery(prj, "aluminum prices")
   ) %>%
-    left_join_strict(filter_variables(get(paste('production_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "production_price_clean"),
+    left_join_strict(filter_variables(get(paste('production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "production_price_clean"),
                      by = 'sector') %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     # $/kg = 1e6 $/Mt
     dplyr::mutate(value = dplyr::if_else(Units == '1975$/kg', value * 1e6, value)) %>%
     # 18.6 $/GJ ammonia = 1 $/Mt ammonia

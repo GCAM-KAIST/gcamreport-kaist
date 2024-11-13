@@ -6,6 +6,7 @@ alumina,Production|Non-Ferrous Metals|Aluminum Oxide,,,Mt
 aluminum,Production|Non-Ferrous Metals|Aluminum,,,Mt
 ammonia,Production|Chemicals|Ammonia,,,Mt NH3
 cement,Production|Non-Metallic Minerals|Cement,,,Mt
+chemical,Price|Production|Chemicals|High-Value Chemicals,,,EJ
 chemical energy use,NoReported,,,EJ
 chemical feedstocks,NoReported,,,EJ
 CO2 removal,NoReported,,,EJ
@@ -23,3 +24,5 @@ process heat dac,NoReported,,,EJ
 process heat food processing,NoReported,,,EJ
 process heat paper,NoReported,,,EJ
 waste biomass for paper,NoReported,,,EJ
+regional ammonia,NoReported,,,Mt NH3
+traded ammonia,NoReported,,,Mt NH3
