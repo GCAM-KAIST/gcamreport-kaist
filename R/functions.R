@@ -1984,6 +1984,9 @@ get_elec_gen_tech <- function(GCAM_version = "v7.0") {
     dplyr::bind_rows(
       rgcam::getQuery(prj, "gas production by tech"),
       rgcam::getQuery(prj, "hydrogen production by tech"),
+      rgcam::getQuery(prj, "district heat production by subsector (fuel)") %>%
+        dplyr::mutate(technology = subsector) %>%
+        dplyr::select(-output),
       rgcam::getQuery(prj, "refined liquids production by tech") %>%
         dplyr::select(-output)
       ) %>%

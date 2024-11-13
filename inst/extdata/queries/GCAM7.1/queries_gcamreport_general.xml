@@ -555,6 +555,16 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="district heat production by subsector (fuel)">
+         <axis1 name="subsector">subsector</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='district heat')]/*[@type='subsector']//
+    *[@type='output']/physical-output/node()</xPath>
+         <comments/>
+     </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="final energy consumption by sector and fuel">
          <axis1 name="input">input</axis1>
          <axis2 name="Year">demand-physical[@vintage]</axis2>
