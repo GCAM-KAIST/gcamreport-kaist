@@ -1284,17 +1284,21 @@ get_nonco2_emissions <- function(GCAM_version = "v7.0") {
   }
 
 
-  nonco2_clean <- nonco2_clean %>%
-    left_join_strict(filter_variables(get(paste('nonco2_emis_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "nonco2_clean"),
-                     by = c("ghg", "sector"), mapping = paste('nonco2_emis_sector_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
-    dplyr::bind_rows(rgcam::getQuery(prj, queryItem2) %>%
-                       dplyr::left_join(filter_variables(get(paste('nonco2_emis_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "nonco2_clean"),
-                                        by = c("ghg", "resource"), multiple = "all", relationship = "many-to-many")) %>%
+  nonco2_clean <- dplyr::bind_rows(
+    nonco2_clean %>%
+      left_join_strict(filter_variables(get(paste('nonco2_emis_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "nonco2_clean"),
+                       by = c("ghg", "sector"), mapping = paste('nonco2_emis_sector_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many"),
+    rgcam::getQuery(prj, queryItem2) %>%
+      left_join_strict(filter_variables(get(paste('nonco2_emis_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "nonco2_clean"),
+                       by = c("ghg", "resource"), multiple = "all", relationship = "many-to-many")
+    ) %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
 
   nonco2_clean <<- nonco2_clean
 }
