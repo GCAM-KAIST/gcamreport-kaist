@@ -3378,6 +3378,9 @@ get_elec_capacity_add_tmp <- function() {
 #' @importFrom magrittr %>%
 #' @export
 get_refliq_capacity_add_tmp <- function() {
+  # TOBEADDED
+  # refliq_capacity_add;get_refliq_capacity_add_tmp;refliq_cf;;refined liquids production by cooling tech and vintage
+
   output <- technology <- vintage <- scenario <- refliq_capacity_add <-
     region <- year <- value <- gw <- EJ <- NULL
 
@@ -3402,7 +3405,7 @@ get_refliq_capacity_add_tmp <- function() {
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       # use GCAM cf for capacity additions
-      left_join_strict(elec_cf %>%
+      left_join_strict(elec_cf %>% #TODO - refliq_cf
                          dplyr::select(-'cf.rgn') %>%
                          dplyr::rename(year = vintage),
                        by = c("region", "technology", "year"),
@@ -3427,6 +3430,9 @@ get_refliq_capacity_add_tmp <- function() {
 #' @importFrom magrittr %>%
 #' @export
 get_hydrogen_capacity_add_tmp <- function() {
+  # TOBEADDED
+  # hydrogen_capacity_add;get_hydrogen_capacity_add_tmp;hydrogen_cf;;hydrogen production by cooling tech and vintage
+
   output <- technology <- vintage <- scenario <- hydrogen_capacity_add <-
     region <- year <- value <- gw <- EJ <- NULL
 
@@ -3451,7 +3457,7 @@ get_hydrogen_capacity_add_tmp <- function() {
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       # use GCAM cf for capacity additions
-      left_join_strict(elec_cf %>%
+      left_join_strict(elec_cf %>% # TODO - hydrogen_cf
                          dplyr::select(-'cf.rgn') %>%
                          dplyr::rename(year = vintage),
                        by = c("region", "technology", "year"),
