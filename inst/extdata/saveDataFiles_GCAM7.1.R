@@ -134,7 +134,7 @@ production_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/
 ) %>% gather_map()
 use_data(production_map_v7.1, overwrite = T)
 
-secondary_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "secondary_energy_map.csv"),
+secondary_energy_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "capacity_map.csv"),
                               skip = 1,
                               stringsAsFactors = FALSE
 ) %>%
