@@ -2545,13 +2545,15 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
 
   ag_price_wld <-
     rgcam::getQuery(prj, "prices by sector") %>%
-    dplyr::filter(Units == "1975$/kg") %>%
+    dplyr::filter(Units == "1975$/kg" | sector == 'biomass') %>%
     left_join_strict(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    # compute index
+    # compute index for non biomass items. Biomass units: from 1975$/GJ to 2010$GJ
     dplyr::group_by(scenario, region, sector) %>%
-    dplyr::mutate(value = value * unit_conv / value[year == 2020]) %>%
+    dplyr::mutate(value = dplyr::if_else(sector != 'biomass',
+                                         value * unit_conv / value[year == 2020],
+                                         value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']])) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
     # add weights
@@ -2593,9 +2595,11 @@ get_ag_price <- function(GCAM_version = "v7.0") {
     left_join_strict(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    # compute index
+    # compute index for non biomass items. Biomass units: from 1975$/GJ to 2010$GJ
     dplyr::group_by(scenario, region, sector) %>%
-    dplyr::mutate(value = value * unit_conv / value[year == 2020]) %>%
+    dplyr::mutate(value = dplyr::if_else(sector != 'biomass',
+                                         value * unit_conv / value[year == 2020],
+                                         value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']])) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
     # add weights
