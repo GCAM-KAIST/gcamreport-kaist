@@ -10,7 +10,7 @@ get_forestry(GCAM_version = "v7.0")
 \item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
-`forestry_demand` and `forestry_production` global variables.
+`forestry_demand_clean` and `forestry_production_clean` global variables.
 }
 \description{
 Computes Forestry production and demand

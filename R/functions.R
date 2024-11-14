@@ -840,7 +840,6 @@ get_capital_stock <- function(GCAM_version = "v7.0") {
     capital_stock_clean <-
       rgcam::getQuery(prj, "National Account") %>%
       dplyr::filter(account == 'capital-stock') %>%
-      tidyr::pivot_longer(cols = where(is.numeric), names_to = 'year', values_to = 'value') %>%
       dplyr::mutate(var = 'Capital Stock',
                     # million 1990$ to billion 2010$
                     value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']] *
@@ -869,10 +868,11 @@ get_capital_formation <- function(GCAM_version = "v7.0") {
   if (GCAM_version == 'v7.1') {
     capital_formation_clean <-
       capital_stock_clean %>%
-      dplyr::arrange(year) %>%
+      dplyr::arrange(scenario, region, var, year) %>%
+      dplyr::group_by(scenario, region, var) %>%
       dplyr::mutate(net_addition = value - lag(value)) %>%
       dplyr::select(-value) %>%
-      dplyr::rename(value = new_addition) %>%
+      dplyr::rename(value = net_addition) %>%
       dplyr::mutate(var = 'Capital Formation') %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
@@ -947,12 +947,12 @@ get_food_intake <- function(GCAM_version = "v7.0") {
 #' Computes Forestry production and demand
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
-#' @return `forestry_demand` and `forestry_production` global variables.
+#' @return `forestry_demand_clean` and `forestry_production_clean` global variables.
 #' @keywords internal forestry
 #' @importFrom magrittr %>%
 #' @export
 get_forestry <- function(GCAM_version = "v7.0") {
-  value <- forestry_demand <- forestry_production <- NULL
+  value <- forestry_demand_clean <- forestry_production_clean <- NULL
 
   # demand = domestic + imports
   forestry_demand <-
@@ -966,7 +966,7 @@ get_forestry <- function(GCAM_version = "v7.0") {
     dplyr::mutate(var = 'Forestry Demand|Roundwood') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  forestry_demand <- rbind(
+  forestry_demand_clean <- rbind(
     forestry_demand,
     forestry_demand %>%
       dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood')
@@ -1000,15 +1000,15 @@ get_forestry <- function(GCAM_version = "v7.0") {
     dplyr::mutate(var = 'Forestry Production|Roundwood') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  forestry_production <- rbind(
+  forestry_production_clean <- rbind(
     forestry_production,
     forestry_production %>%
-      dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood')
+      dplyr::mutate(var = 'Forestry Production|Roundwood|Industrial Roundwood')
   )
 
 
-  forestry_demand <<- forestry_demand
-  forestry_production <<- forestry_production
+  forestry_demand_clean <<- forestry_demand_clean
+  forestry_production_clean <<- forestry_production_clean
 
 }
 
@@ -1032,7 +1032,7 @@ get_ag_trade <- function(GCAM_version = "v7.0") {
                      by = c("sector"), mapping = paste('trade_ag',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
-    dplyr::group_by(scenario, region, sector, var, year) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # billion m3 to million m3 for Trade|Forestry
@@ -1916,9 +1916,9 @@ get_land <- function(GCAM_version = "v7.0") {
 
   land_clean <-
     rgcam::getQuery(prj, "land allocation by crop and water source") %>%
-    dplyr::filter(grepl('^[a-z]',landleaf)) %>%
+    dplyr::filter(grepl('^[a-z]',crop)) %>%
     left_join_strict(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
-                     by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all") %>%
+                     by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -2529,30 +2529,6 @@ get_iron_steel_clean <- function() {
 
 # Prices
 # ==============================================================================================
-
-#' get_fert_price
-#'
-#' Computes Fertilizer price
-#'
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
-#' @return `fert_price_clean` global variable.
-#' @keywords internal fertilizer
-#' @importFrom magrittr %>%
-#' @export
-get_fert_price <- function(GCAM_version = "v7.0") {
-  value <- fert_price_clean <- NULL
-
-  fert_price_clean <-
-    rgcam::getQuery(prj, "ammonia and N fertilizer prices") %>%
-    dplyr::filter(sector == 'N fertilizer') %>%
-    dplyr::mutate(var = 'Price|Production|Chemicals|Nitrogen Fertilizer') %>%
-    # 1Mt = 1Tg
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
-
-  fert_price_clean <<- fert_price_clean
-
-}
-
 
 #' get_ag_price_wld_tmp
 #'
@@ -3375,7 +3351,11 @@ get_production_price <- function(GCAM_version = "v7.0") {
     dplyr::mutate(value = dplyr::if_else(Units == '1975$/GJ', value * 18.6, value)) %>%
     # 1975$ to 2010$
     dplyr::mutate(value = value *
-                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']]) %>%
+                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']],
+                  var = paste0('Price|',var)) %>%
+    dplyr::group_by(scenario,region,year,var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   production_price_clean <<- production_price_clean
@@ -3541,7 +3521,7 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.0") {
       left_join_strict(get(paste('capacity_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
                          dplyr::select(-output),
                        by = c("technology"), mapping = paste('capacity_map',GCAM_version,sep='_'), multiple = "all") %>%
-      dplyr::filter(!is.na(var)) %>%
+      dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       dplyr::mutate(
         value = value * unit_conv,
         var = sub("Secondary Energy", "Capacity", var)
@@ -3744,6 +3724,9 @@ get_elec_capacity_add <- function(GCAM_version = "v7.0") {
                     var = unique(var),
                     fill = list(value = 0)
     ) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   elec_capacity_add_clean <<- elec_capacity_add_clean
@@ -4090,10 +4073,7 @@ do_bind_results <- function(GCAM_version = "v7.0") {
       by = c("Variable" = "var"), multiple = "all"
     ) %>%
     dplyr::distinct() %>%
-    #  dplyr::left_join(reporting_scen %>% dplyr::select(GCAM_scenario, Scenario),
-    #            by = c("scenario" = "GCAM_scenario")) %>%
     dplyr::rename(Region = region) %>%
-    #  dplyr::rename(Model = ?..Model) %>%
     dplyr::rename(Scenario = scenario)
 
   # Add year columns if not present
@@ -4104,8 +4084,11 @@ do_bind_results <- function(GCAM_version = "v7.0") {
 
   report <- report_pre %>%
     dplyr::select(dplyr::all_of(reporting_columns.global)) %>%
-    dplyr::filter(!is.na(Region)) # Drop variables we don't report
+    # Drop variables we don't report
+    dplyr::filter(!is.na(Region)) %>%
+    dplyr::filter(Variable %in% unique(get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['Variable']]))
 
+  # Filter user selected variables
   if (!(length(desired_variables) == 1 && desired_variables == "All")) {
     report <- report %>%
       dplyr::filter(Variable %in% desired_variables)

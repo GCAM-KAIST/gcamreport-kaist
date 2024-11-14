@@ -1,4 +1,4 @@
-﻿# Production mapping,,,,
+﻿# Production mapping
 sector,var1,var2,var3,GCAM output unit
 agricultural energy use,NoReported,,,EJ
 airCO2,NoReported,,,EJ
@@ -6,7 +6,7 @@ alumina,Production|Non-Ferrous Metals|Aluminum Oxide,,,Mt
 aluminum,Production|Non-Ferrous Metals|Aluminum,,,Mt
 ammonia,Production|Chemicals|Ammonia,,,Mt NH3
 cement,Production|Non-Metallic Minerals|Cement,,,Mt
-chemical,Price|Production|Chemicals|High-Value Chemicals,,,EJ
+chemical,Production|Chemicals|High-Value Chemicals,,,EJ
 chemical energy use,NoReported,,,EJ
 chemical feedstocks,NoReported,,,EJ
 CO2 removal,NoReported,,,EJ

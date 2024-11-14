@@ -1,4 +1,4 @@
-# Agricultural production balance,,,,
+# Agricultural production balance
 sector,var1,var2,var3,unit_conv
 biomass,Agricultural Production,Agricultural Production|Crops,Agricultural Production|Crops|Energy Crops,1
 Corn,Agricultural Production,Agricultural Production|Crops,Agricultural Production|Crops|Cereals,1

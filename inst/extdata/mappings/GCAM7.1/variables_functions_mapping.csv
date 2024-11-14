@@ -80,12 +80,12 @@ energy_price;get_energy_price_tmp;;;CO2 prices,prices by sector,costs by subsect
 en_weights;get_en_weights;fe_sector_raw,fe_transportation_raw;;
 en_wld_weights;get_en_weights;fe_sector_raw,fe_transportation_raw;;
 fert_consumption_clean;get_fert_consumption;;;fertilizer consumption by region
-fert_price_clean;get_fert_price;;;ammonia and N fertilizer prices
 food_availability_clean;get_food_availability;food_intake_clean;;
 food_intake_clean;get_food_intake;population_clean;;food consumption by type (specific)
-forestry_demand;get_forestry;;;inputs by tech
-forestry_production;get_forestry;;;inputs by tech
+forestry_demand_clean;get_forestry;;;inputs by tech
+forestry_production_clean;get_forestry;;;inputs by tech
 labor_clean;get_labor;population_clean;;National Account
 goods_trade_clean;get_goods_trade;;;National Account
 value_added_clean;get_value_added;;;National Account
 gross_co2_emiss_clean;get_gross_co2_emiss;co2_emissions_clean,co2_sequestration_raw;;
+production_price_clean;get_production_price;;;iron and steel prices,chemical prices,ammonia and N fertilizer prices,aluminum prices
