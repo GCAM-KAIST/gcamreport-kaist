@@ -1,4 +1,4 @@
-# CO2 Sequestration,,,,,,,,,,,
+# CO2 Sequestration
 sector,technology,var1,var2,var3,var4,var5,var6,var7,var8,var9,unit_conv
 alumina,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 alumina,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
@@ -46,7 +46,7 @@ H2 central production,natural gas steam reforming CCS,Carbon Capture,Carbon Capt
 iron and steel,EAF with DRI CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 N fertilizer,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 N fertilizer,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-process heat dac,gas CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Direct Air Capture,,,,,,,3.666667
+process heat dac,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 refining,cellulosic ethanol CCS level 1,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 refining,cellulosic ethanol CCS level 2,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 refining,coal to liquids CCS level 1,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667

@@ -10,7 +10,7 @@ get_co2_sequestration(GCAM_version = "v7.0")
 \item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
-`co2_sequestration_clean` global variable.
+`co2_sequestration_clean` and `co2_sequestration_raw` global variables.
 }
 \description{
 Get carbon sequestration.

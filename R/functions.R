@@ -1306,34 +1306,14 @@ get_co2_emiss <- function(GCAM_version = "v7.0") {
 #' @export
 get_gross_co2_emiss <- function(GCAM_version = "v7.0") {
   var <- value <- unit_conv <- scenario <- region <- year <-
-  queryItem1 <- gross_co2_emiss_clean <- ghg <- technology <- subsector <- NULL
+  gross_co2_emiss_clean <- ghg <- technology <- subsector <- NULL
 
-  var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
-  queryItem1 <- var_fun_map[var_fun_map$name == "co2_emiss", "queries"][[1]]
-
-  tmp <-
-    rgcam::getQuery(prj, queryItem1) %>%
-    dplyr::mutate(ghg = 'CO2') %>%
-    dplyr::filter(!grepl('agriculture', sector),
-                  !grepl('CCS', sector))
-
-  # gather deciles if necessary
-  if(GCAM_version == 'v7.1') {
-    tmp <- tmp %>%
-      tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
-      dplyr::group_by(Units, scenario, region, sector, subsector, technology, year, ghg) %>%
-      dplyr::summarise(value = sum(value)) %>%
-      dplyr::ungroup()
-  }
-
-  gross_co2_emiss_clean <-
-    tmp %>%
-    left_join_strict(filter_variables(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "co2_tech_emissions"),
-                     by = c("sector", "subsector", "technology"), mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
-    dplyr::group_by(scenario, region, year, var) %>%
-    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+  gross_co2_emiss_clean <- rbind(
+    co2_emissions_clean,
+    co2_sequestration_raw
+    ) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(var = gsub('Emissions', 'Gross Emissions', var)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
@@ -1636,11 +1616,12 @@ get_kyoto_gases <- function(GCAM_version = "v7.0", GWP_version = 'AR5') {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal co2
-#' @return `co2_sequestration_clean` global variable.
+#' @return `co2_sequestration_clean` and `co2_sequestration_raw` global variables.
 #' @importFrom magrittr %>%
 #' @export
 get_co2_sequestration <- function(GCAM_version = "v7.0") {
-  scenario <- region <- year <- var <- value <- unit_conv <- NULL
+  scenario <- region <- year <- var <- value <- unit_conv <-
+    co2_sequestration_raw <- co2_sequestration <- NULL
 
   co2_sequestration_clean <- suppressWarnings(
     rgcam::getQuery(prj, "CO2 sequestration by tech") %>%
@@ -1652,11 +1633,11 @@ get_co2_sequestration <- function(GCAM_version = "v7.0") {
                       var = unique(var),
                       fill = list(value = 0)
       ) %>%
-      dplyr::filter(!is.na(var)) %>% # , var!= "Carbon Sequestration|Feedstocks",var != "Carbon Sequestration|Feedstocks|Liquids") %>%
+      dplyr::filter(!is.na(var)) %>%
       dplyr::mutate(value = value * unit_conv) %>%
       dplyr::group_by(scenario, region, year, var) %>% #
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
-      dplyr::ungroup() %>% # tidyr::spread(year, value) -> d
+      dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
   ) %>%
     dplyr::bind_rows(
@@ -1666,6 +1647,38 @@ get_co2_sequestration <- function(GCAM_version = "v7.0") {
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
     )
 
+  # CO2 Removal items with further desegregation to compute later the Gross emissions
+  co2_sequestration_raw <- suppressWarnings(
+    rgcam::getQuery(prj, "CO2 sequestration by tech") %>%
+      # consider only carbon removal items
+      left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                       by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
+      dplyr::filter(grepl('Carbon Removal', var)) %>%
+      dplyr::mutate(value = value * unit_conv) %>%
+      dplyr::select(-var, -unit_conv) %>%
+      # desegregate further the items (DAC add only to Emissions|CO2)
+      left_join_strict(filter_variables(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                                        "co2_sequestration_clean"),
+                       by = c("sector", "subsector", "technology"), mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
+      dplyr::filter(var != 'NoReported') %>%
+      tidyr::complete(tidyr::nesting(scenario, region, year),
+                      var = unique(var),
+                      fill = list(value = 0)
+      ) %>%
+      dplyr::filter(!is.na(var)) %>%
+      dplyr::group_by(scenario, region, year, var) %>% #
+      dplyr::summarise(value = sum(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(gcamreport::long_columns))
+  ) %>%
+    dplyr::bind_rows(
+      # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
+      LUC_emiss %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
+    )
+
+
+  co2_sequestration_raw <<- co2_sequestration_raw
   co2_sequestration_clean <<- co2_sequestration_clean
 }
 
