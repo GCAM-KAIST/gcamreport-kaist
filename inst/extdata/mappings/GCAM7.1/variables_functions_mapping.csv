@@ -85,3 +85,4 @@ food_intake_clean;get_food_intake;population_clean;;food consumption by type (sp
 forestry_demand;get_forestry;;;inputs by tech
 forestry_production;get_forestry;;;inputs by tech
 labor_clean;get_labor;population_clean;;National Account
+goods_trade_clean;get_goods_trade;;;National Account

@@ -638,6 +638,37 @@ get_gdp_mer <- function(GCAM_version = "v7.0") {
 }
 
 
+#' get_goods_trade
+#'
+#' Compute net exports of all goods measured in monetary quantities: materials-net-export +
+#' capital-net-export + energy-net-export
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `goods_trade_clean` global variables.
+#' @keywords internal GDP
+#' @importFrom magrittr %>%
+#' @export
+get_goods_trade <- function(GCAM_version = "v7.0") {
+  goods_trade_clean <- NULL
+
+  goods_trade_clean <-
+    rgcam::getQuery(prj, "National Account") %>%
+    dplyr::filter(account %in% c('materials-net-export','energy-net-export','capital-net-export')) %>%
+    dplyr::mutate(
+      value = value *
+        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']] *
+        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']],
+      var = "Trade|Goods [Value]"
+    ) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  goods_trade_clean <<- goods_trade_clean
+}
+
+
 #' get_expenditure
 #'
 #' Computes HH and Government expenditure
