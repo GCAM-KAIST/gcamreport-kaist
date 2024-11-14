@@ -306,7 +306,7 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
                  <rewrite from="coal CCS" to="c coal CCS"/>
                  <rewrite from="traded LNG" to="b natural gas"/>
                  <rewrite from="wind-H2 renewable" to="g wind"/>
-                 <rewrite from="regional biomassOil CCS" to="d biomass CCS"/>
+                 <rewrite from="regional biomassOil CCS" to="d biomassOil CCS"/>
                  <rewrite from="traded coal" to="c coal"/>
                  <rewrite from="limestone" to=""/>
                  <rewrite from="seawater" to=""/>
@@ -335,16 +335,16 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
                  <rewrite from="coal" to="c coal"/>
                  <rewrite from="traded natural gas CCS" to="b natural gas CCS"/>
                  <rewrite from="traded RUS pipeline gas" to="b natural gas"/>
-                 <rewrite from="regional corn for ethanol" to="d biomass"/>
+                 <rewrite from="regional corn for ethanol" to="d corn for ethanol"/>
                  <rewrite from="geothermal-elect renewable" to="i geothermal"/>
                  <rewrite from="crude oil CCS" to="a oil CCS"/>
-                 <rewrite from="regional biomassOil" to="d biomass"/>
+                 <rewrite from="regional biomassOil" to="d biomassOil"/>
                  <rewrite from="wind-elect renewable CCS" to="g wind"/>
-                 <rewrite from="regional corn for ethanol CCS" to="d biomass CCS"/>
+                 <rewrite from="regional corn for ethanol CCS" to="d corn for ethanol CCS"/>
                  <rewrite from="traded N.Amer pipeline gas" to="b natural gas"/>
                  <rewrite from="hydro-elect renewable CCS" to="f hydro"/>
                  <rewrite from="traded LA pipeline gas CCS" to="b natural gas CCS"/>
-                 <rewrite from="regional sugar for ethanol CCS" to="d biomass CCS"/>
+                 <rewrite from="regional sugar for ethanol CCS" to="d sugar for ethanol CCS"/>
                  <rewrite from="traded unconventional oil CCS" to="a oil CCS"/>
                  <rewrite from="elect_td_ind" to=""/>
                  <rewrite from="biomass CCS" to="d biomass CCS"/>
@@ -356,11 +356,11 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
                  <rewrite from="traded N.Amer pipeline gas CCS" to="b natural gas CCS"/>
                  <rewrite from="solar-elect renewable CCS" to="h solar"/>
                  <rewrite from="traded unconventional oil" to="a oil"/>
-                 <rewrite from="regional sugar for ethanol" to="d biomass"/>
+                 <rewrite from="regional sugar for ethanol" to="d sugar for ethanol"/>
                  <rewrite from="natural gas" to="b natural gas"/>
                  <rewrite from="solar-elect renewable" to="h solar"/>
                  <rewrite from="traded natural gas" to="b natural gas"/>
-                 <rewrite from="regional sugarbeet for ethanol" to="d biomass"/>
+                 <rewrite from="regional sugarbeet for ethanol" to="d sugar for ethanol"/>
                  <rewrite from="water withdrawals" to=""/>
                  <rewrite from="solar-H2 renewable" to="h solar"/>
                  <rewrite from="global solar resource" to="h solar"/>
