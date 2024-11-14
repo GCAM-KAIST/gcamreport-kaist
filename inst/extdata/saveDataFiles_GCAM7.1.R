@@ -294,6 +294,7 @@ convert_v7.1 <- list(
   # NOTE: These values are only used for queries that don't have an associated mapping file
   # for queries such as primary_fuel_prices this conversion is specified in the mapping file
   # These values are taken from GDP inflator in the GCAM R package
+  conv_05USD_10USD = 1.100372,
   conv_90USD_10USD = 1.515897,
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
@@ -304,6 +305,8 @@ convert_v7.1 <- list(
   EJ_to_GWh = 0.0000036,
   bcm_to_EJ = 0.03600,
   GJ_to_EJ = 1.0E9,
+  # Energy content of biomass, GJ/ton
+  aglu.BIO_ENERGY_CONTENT_GJT = 17.5,
   # ghg * CO2_equivalent gives CO2 units
   CO2_equivalent = 3.666667
 )

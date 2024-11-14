@@ -738,9 +738,9 @@ get_expenditure <- function(GCAM_version = "v7.0") {
                        dplyr::filter(year %in% gcam_years, year <= final_year.global) %>%
                        dplyr::rename(demand = value, demand_unit = Units),
                      by = c('scenario','region','sector','year')) %>%
-    # 1EJ = 1e9GJ, from 1975$ to 2010$, 1billion = 1e9
-    dplyr::mutate(demand = demand * 1e9,
-                  cost = cost * gcamdata::gdp_deflator(2010, 1975) / 1e9) %>%
+    # from 1975$ to 2010$
+    dplyr::mutate(demand = demand * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['GJ_to_EJ']],
+                  cost = cost * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']] / 1e9) %>%
     dplyr::mutate(value = cost * demand) %>%
     # remove commercial bld
     dplyr::filter(!grepl('comm', sector)) %>%
@@ -764,9 +764,9 @@ get_expenditure <- function(GCAM_version = "v7.0") {
                        dplyr::filter(year %in% gcam_years, year <= final_year.global) %>%
                        dplyr::rename(demand = value, demand_unit = Units),
                      by = c('scenario','region','sector','mode','year')) %>%
-    # from 1990$ to 2010$, 1billion = 1e3million
-    dplyr::mutate(demand = demand * 1e3,
-                  cost = cost * gcamdata::gdp_deflator(2010, 1990) / 1e9) %>%
+    # from 1990$ to 2010$
+    dplyr::mutate(demand = demand / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
+                  cost = cost * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']] / 1e9) %>%
     dplyr::mutate(value = cost * demand) %>%
     # select pass trn
     dplyr::filter(grepl('trn_pass', sector),
@@ -792,7 +792,7 @@ get_expenditure <- function(GCAM_version = "v7.0") {
                      by = c('scenario','region','output','year')) %>%
     # from 2005$ to 2010$, 1Mcal = 1e9Pcal, 1billion = 1e9
     dplyr::mutate(demand = demand,
-                  cost = cost * gcamdata::gdp_deflator(2010, 2005)) %>%
+                  cost = cost * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_05USD_10USD']]) %>%
     dplyr::mutate(value = cost * demand) %>%
     # compute total HH food expenditure
     dplyr::group_by(scenario, region, year) %>%
@@ -839,11 +839,12 @@ get_capital_stock <- function(GCAM_version = "v7.0") {
   if (GCAM_version == 'v7.1') {
     capital_stock_clean <-
       rgcam::getQuery(prj, "National Account") %>%
-      dplyr::filter(Account == 'capital-stock') %>%
+      dplyr::filter(account == 'capital-stock') %>%
       tidyr::pivot_longer(cols = where(is.numeric), names_to = 'year', values_to = 'value') %>%
       dplyr::mutate(var = 'Capital Stock',
                     # million 1990$ to billion 2010$
-                    value = value * gcamdata::gdp_deflator(2010,1990) / 1e3) %>%
+                    value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']] *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']]) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
   } else {
     capital_stock_clean <- NULL
@@ -1035,7 +1036,9 @@ get_ag_trade <- function(GCAM_version = "v7.0") {
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # billion m3 to million m3 for Trade|Forestry
-    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var), value * 1e3, value)) %>%
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+                                         value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
+                                         value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   ag_trade <<- ag_trade
@@ -1886,8 +1889,8 @@ get_ag_production <- function() {
   ag_production_clean <-
     rgcam::getQuery(prj, "ag production by crop type") %>%
     rbind(rgcam::getQuery(prj, "meat and dairy production by type")) %>%
-    # 1 EJ = 1e9 GJ; 1 tDM = 17 GJ --> 1 Million t DM = 1e9 / (17 * 1e6)
-    dplyr::mutate(value = dplyr::if_else(sector == 'biomass', value * 1e3 / 17, value),
+    # 1 EJ = 1e9 GJ; 1 Million t DM = EJ * 1e9 / (aglu.BIO_ENERGY_CONTENT_GJT * 1e6)
+    dplyr::mutate(value = dplyr::if_else(sector == 'biomass', value * 1e3 / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['aglu.BIO_ENERGY_CONTENT_GJT']], value),
                   Units = dplyr::if_else(sector == 'biomass', 'Mt', Units)) %>%
     dplyr::filter(Units == "Mt") %>%  # Forests produce in units of billion m3
     left_join_strict(filter_variables(get(paste('ag_production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), "ag_production_clean"),
@@ -2368,7 +2371,7 @@ get_energy_service_transportation <- function(GCAM_version = "v7.0") {
                      by = c("sector", "mode"), mapping = paste('transport_en_service',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     # from million km/yr to billion km/yr
-    dplyr::mutate(value = value * unit_conv / 1e3) %>%
+    dplyr::mutate(value = value * unit_conv * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']]) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -2578,7 +2581,7 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.0") {
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     # compute index
     dplyr::group_by(scenario, region, sector) %>%
-    dplyr::mutate(value = value * unit_conv / value[year == 2015]) %>%
+    dplyr::mutate(value = value * unit_conv / value[year == 2020]) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
     # add weights
@@ -2622,7 +2625,7 @@ get_ag_price <- function(GCAM_version = "v7.0") {
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     # compute index
     dplyr::group_by(scenario, region, sector) %>%
-    dplyr::mutate(value = value * unit_conv / value[year == 2015]) %>%
+    dplyr::mutate(value = value * unit_conv / value[year == 2020]) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
     # add weights
