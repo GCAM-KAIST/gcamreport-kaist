@@ -342,9 +342,11 @@ use_data(queries_nonCO2_v7.1, overwrite = T)
 # TEMPLATE & VARIABLES
 
 # Read in template
-template_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata", "template/GCAM7.1/reporting_template.csv"),
-                          fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
-)
+template_v7.1 <- xlsx::read.xlsx(file.path(rawDataFolder, "inst/extdata", "template/GCAM7.1/common-definitions-template.xlsx"),
+                                 sheetName = 'variable', fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
+) %>%
+  dplyr::select(Variable = variable, Unit = unit, Tier = tier, Internal_variable) %>%
+  dplyr::mutate(model = "GCAM 7.1")
 decode_html <- function(text) {
   xml2::xml_text(xml2::read_xml(paste0("<x>", text, "</x>")))
 }
