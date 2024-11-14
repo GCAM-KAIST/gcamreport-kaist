@@ -4,7 +4,10 @@
 \alias{get_ag_production}
 \title{get_ag_production}
 \usage{
-get_ag_production()
+get_ag_production(GCAM_version = "7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `ag_production_clean` global variable.

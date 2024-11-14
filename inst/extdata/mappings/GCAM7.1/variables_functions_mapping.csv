@@ -27,7 +27,6 @@ primary_energy_clean;get_primary_energy;;;primary energy consumption with CCS by
 pe_trade_prod;get_pe_trade_prod;;;resource production
 pe_trade_supply;get_pe_trade_supply;;;supply of all markets
 pe_trade;get_pe_trade;pe_trade_prod,pe_trade_supply;check_trade;
-check_trade;do_check_trade;;;
 secondary_energy_clean;get_elec_gen_tech;secondary_solids;;elec gen by gen tech,gas production by tech,hydrogen production by tech,refined liquids production by tech
 secondary_solids;get_secondary_solids;;;inputs by sector
 fe_sector;get_fe_sector_tmp;;;final energy consumption by sector and fuel

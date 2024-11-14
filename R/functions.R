@@ -1874,11 +1874,12 @@ get_ag_weights <- function(GCAM_version = "v7.0") {
 #'
 #' Get agricultural production.
 #'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
 #' @keywords internal ag
 #' @return `ag_production_clean` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_ag_production <- function() {
+get_ag_production <- function(GCAM_version = "7.0") {
   Units <- scenario <- region <- year <- var <- value <-
     ag_production_clean <- NULL
 
