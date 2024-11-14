@@ -4104,54 +4104,6 @@ do_bind_results <- function(GCAM_version = "v7.0") {
 #########################################################################
 #                       CHECKS AND VETTING FUNCTIONS                    #
 #########################################################################
-#' do_check_trade
-#'
-#' Check global trade is zero.
-#' @keywords internal check
-#' @return A message confirming global trade is right.
-#' @importFrom magrittr %>%
-#' @export
-do_check_trade <- function() {
-  scenario <- resource <- year <- production <- demand <- check <- NULL
-
-  if (exists("pe_trade_prod")) {
-    # check global total is zero
-    trade <- pe_trade_prod %>%
-      left_join_strict(pe_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
-      dplyr::group_by(scenario, resource, year) %>%
-      dplyr::summarise(
-        production = sum(production, na.rm = T),
-        demand = sum(demand, na.rm = T)
-      ) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(
-        diff = (production - demand) / production,
-        check = dplyr::if_else(abs(diff) > 1, "ERROR", "OK")
-      )
-
-    check_trade_summary <- trade %>%
-      dplyr::rename("percentual_diff_between_production_and_demand" = "diff")
-
-    if (nrow(trade %>% dplyr::filter(check == "ERROR")) > 0) {
-      res <- list(
-        message = "Trade flows: ERROR",
-        summary = as.data.frame(check_trade_summary)
-      )
-    } else {
-      res <- list(
-        message = "Trade flows: OK",
-        summary = check_trade_summary
-      )
-    }
-  } else {
-    res <- list(
-      message = "Trade flows: Vetting not performed",
-      summary = "To check the trade flows, consider introducing `Trade*` as desired variable."
-    )
-  }
-  return(res)
-}
-
 
 #' do_check_vetting
 #'
