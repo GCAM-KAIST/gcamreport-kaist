@@ -762,7 +762,6 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   loaded_internal_variables.global <<- c()
   desired_regions <<- desired_regions
   desired_variables <<- desired_variables
-  energy_price_clean <<- NULL # TODO this variable
   for (i in 1:nrow(variables.global)) {
     if (variables.global$required[i]) {
       load_variable(variables.global[i, ], GCAM_version, GWP_version)

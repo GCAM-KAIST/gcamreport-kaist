@@ -3159,7 +3159,7 @@ get_energy_price_tmp <- function(GCAM_version = "v7.0") {
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # rearrange dataset
-    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   energy_price <<- energy_price
 }
