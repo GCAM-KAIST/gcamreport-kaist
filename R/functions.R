@@ -4218,16 +4218,16 @@ do_check_vetting <- function(GCAM_version = "v7.0") {
     dplyr::select(-year, -range, -diff, -check, -unit_vet) %>%
     tidyr::gather(type, value, -variable, -Scenario, -unit, -region)
 
-  ggplot(check_vet_plot, aes(x = variable, y = value, fill = type)) +
-    geom_bar(stat = "identity", position = "dodge") +
-    facet_wrap(~variable, scales = "free") +
-    labs(x = "", y = "value") +
-    theme_classic() +
-    theme(
-      axis.text.x = element_blank(),
+  ggplot2::ggplot(check_vet_plot, ggplot2::aes(x = variable, y = value, fill = type)) +
+    ggplot2::geom_bar(stat = "identity", position = "dodge") +
+    ggplot2::facet_wrap(~variable, scales = "free") +
+    ggplot2::labs(x = "", y = "value") +
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_blank(),
       legend.position = "bottom",
-      strip.text = element_text(size = 5),
-      legend.title = element_blank()
+      strip.text = ggplot2::element_text(size = 5),
+      legend.title = ggplot2::element_blank()
     )
   if (!dir.exists(file.path(here::here(), "output"))) {
     dir.create(file.path(here::here(), "output"))
@@ -4235,7 +4235,7 @@ do_check_vetting <- function(GCAM_version = "v7.0") {
   if (!dir.exists(file.path(here::here(), "output", "figure"))) {
     dir.create(file.path(here::here(), "output", "figure"))
   }
-  ggsave(file.path(here::here(), "output", "figure", "vetting.tiff"), last_plot(), "tiff", dpi = 200)
+  ggplot2::ggsave(file.path(here::here(), "output", "figure", "vetting.tiff"), ggplot2::last_plot(), "tiff", dpi = 200)
 
   # output
   if (nrow(check_vet_summary[check_vet_summary$check == "ERROR", ]) == 0) {
