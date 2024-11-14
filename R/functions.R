@@ -668,6 +668,41 @@ get_goods_trade <- function(GCAM_version = "v7.0") {
   goods_trade_clean <<- goods_trade_clean
 }
 
+#' get_value_added
+#'
+#' Compute value added by the the aggregated agr + ind + services sectors.
+#' Each sector receives 1/3 of the total value added
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @return `value_added_clean` global variables.
+#' @keywords internal econ
+#' @importFrom magrittr %>%
+#' @export
+get_value_added <- function(GCAM_version = "v7.0") {
+  value_added_clean <- NULL
+
+  value_added <-
+    rgcam::getQuery(prj, "National Account") %>%
+    dplyr::filter(account %in% c('value-added')) %>%
+    dplyr::mutate(
+      value = value *
+        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']] *
+        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']] / 3,
+      var = 'Value Added|Industry'
+    ) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  value_added_clean <- rbind(
+    value_added, #ind
+    value_added %>%
+      dplyr::mutate(var = 'Value Added|Agriculture'), #agr
+    value_added %>%
+      dplyr::mutate(var = 'Value Added|Services') #services
+  )
+
+  value_added_clean <<- value_added_clean
+}
+
 
 #' get_expenditure
 #'

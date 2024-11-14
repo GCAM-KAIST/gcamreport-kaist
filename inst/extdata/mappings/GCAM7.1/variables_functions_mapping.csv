@@ -86,3 +86,4 @@ forestry_demand;get_forestry;;;inputs by tech
 forestry_production;get_forestry;;;inputs by tech
 labor_clean;get_labor;population_clean;;National Account
 goods_trade_clean;get_goods_trade;;;National Account
+value_added_clean;get_value_added;;;National Account
