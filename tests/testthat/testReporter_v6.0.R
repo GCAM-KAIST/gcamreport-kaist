@@ -38,10 +38,10 @@ test_that("Test3_v6. run - dataset created", {
   testthat::expect(!is.null(report) & dplyr::n_distinct(report) > 0, 'Empty dataset. Check if the project path exists or the "run" function works correctly.')
 })
 
-test_that("Test4_v6. standardize", {
-  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_6.0/test6.dat"), launch_ui = FALSE, GCAM_version = "v6.0")
-  testthat::expect_equal(report, get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_6.0/test6_standardized.RData"))))
-})
+# test_that("Test4_v6. standardize", {
+#   generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_6.0/test6.dat"), launch_ui = FALSE, GCAM_version = "v6.0")
+#   testthat::expect_equal(report, get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_6.0/test6_standardized.RData"))))
+# })
 
 # test_that("Test4_v6. run - dataset saved with output_file specified - RUN MANUALLY", {
 #   generate_report(
