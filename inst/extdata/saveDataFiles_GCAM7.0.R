@@ -22,25 +22,24 @@ use_data(nonco2_emissions_list_v7.0, overwrite = T)
 
 # regions_continents_map
 reg_cont_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "regions_continents_map.csv"),
-                     skip = 1,
-                     stringsAsFactors = FALSE
+                          skip = 1,
+                          stringsAsFactors = FALSE
 )
 use_data(reg_cont_v7.0, overwrite = T)
 
 # variables_functions_mapping
 var_fun_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "variables_functions_mapping.csv"),
-                        sep = ";", header = T, na.strings = c("", "NA"), stringsAsFactors = FALSE
+                             sep = ";", header = T, na.strings = c("", "NA"), stringsAsFactors = FALSE
 )
 
 var_fun_map_v7.0$dependencies <- as.list(strsplit(var_fun_map_v7.0$dependencies, ","))
-var_fun_map_v7.0$checks <- as.list(strsplit(var_fun_map_v7.0$checks, ","))
 var_fun_map_v7.0$queries <- as.list(strsplit(var_fun_map_v7.0$queries, ","))
 use_data(var_fun_map_v7.0, overwrite = T)
 
 
 # Read in template
 template_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/template/GCAM7.0", "reporting_template.csv"),
-                     fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
+                          fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
 )
 decode_html <- function(text) {
   xml2::xml_text(xml2::read_xml(paste0("<x>", text, "</x>")))
@@ -50,165 +49,179 @@ template_v7.0$Unit <- sapply(template_v7.0$Unit, decode_html)
 use_data(template_v7.0, overwrite = T)
 
 # emissions maps
-co2_sector_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2_sector_map.csv"),
-                           skip = 1, na = "",
-                           stringsAsFactors = FALSE
-) %>% gather_map()
-use_data(co2_sector_map_v7.0, overwrite = T)
-
 co2_ets_sector_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2_ETS_sector_map.csv"),
-                               skip = 1, na = "",
-                               stringsAsFactors = FALSE
+                                    skip = 1, na = "",
+                                    stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(co2_ets_sector_map_v7.0, overwrite = T)
 
 co2_tech_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2_tech_map.csv"),
-                         skip = 1, na = "",
-                         stringsAsFactors = FALSE
+                              skip = 1, na = "",
+                              stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(co2_tech_map_v7.0, overwrite = T)
 
-kyoto_sector_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "Kyotogas_sector.csv"),
-                             skip = 1, na = "",
-                             stringsAsFactors = FALSE
+kyoto_sector_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "kyotogas_sector.csv"),
+                                  skip = 1, na = "",
+                                  stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(kyoto_sector_map_v7.0, overwrite = T)
 
 nonco2_emis_sector_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "nonCO2_emissions_sector_map.csv"),
-                                   skip = 1, na = "", stringsAsFactors = FALSE
+                                        skip = 1, na = "", stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(nonco2_emis_sector_map_v7.0, overwrite = T)
 
 nonco2_emis_resource_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "nonCO2_emissions_resource_map.csv"),
-                                     skip = 1, na = "", stringsAsFactors = FALSE
+                                          skip = 1, na = "", stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(nonco2_emis_resource_map_v7.0, overwrite = T)
 
 carbon_seq_tech_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "carbon_seq_tech_map.csv"),
-                                skip = 1, na = "",
-                                stringsAsFactors = FALSE
+                                     skip = 1, na = "",
+                                     stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(carbon_seq_tech_map_v7.0, overwrite = T)
 
 
 # ag maps
 ag_demand_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_demand_map.csv"),
-                          skip = 1,
-                          stringsAsFactors = FALSE
+                               skip = 1,
+                               stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(ag_demand_map_v7.0, overwrite = T)
 
-ag_prices_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_prices_map.csv"),
-                          skip = 1,
-                          stringsAsFactors = FALSE
+ag_price_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_price_map.csv"),
+                              skip = 1,
+                              stringsAsFactors = FALSE
 ) %>% gather_map()
-use_data(ag_prices_map_v7.0, overwrite = T)
+use_data(ag_price_map_v7.0, overwrite = T)
 
-ag_demand_prices_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_demand_price_map.csv"),
-                                      skip = 1,
-                                      stringsAsFactors = FALSE
+ag_production_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_production_map.csv"),
+                                   skip = 1,
+                                   stringsAsFactors = FALSE
+) %>% gather_map()
+use_data(ag_production_map_v7.0, overwrite = T)
+
+ag_demand_price_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_demand_price_map.csv"),
+                                     skip = 1,
+                                     stringsAsFactors = FALSE
 )
-use_data(ag_demand_prices_map_v7.0, overwrite = T)
+use_data(ag_demand_price_map_v7.0, overwrite = T)
+
+trade_ag_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "trade_ag.csv"), skip = 1,
+                          stringsAsFactors = FALSE) %>% gather_map()
+use_data(trade_ag_v7.0, overwrite = T)
 
 land_use_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "land_use_map.csv"),
-                         skip = 1,
-                         stringsAsFactors = FALSE
+                              skip = 1,
+                              stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(land_use_map_v7.0, overwrite = T)
 
+food_intake_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "food_intake_map.csv"),
+                                 skip = 1,
+                                 stringsAsFactors = FALSE
+) %>% gather_map()
+use_data(food_intake_map_v7.0, overwrite = T)
+
+food_items_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "food_items_map.csv"),
+                                skip = 1,
+                                stringsAsFactors = FALSE
+)
+use_data(food_items_map_v7.0, overwrite = T)
+
 
 # primary, secondary, final energy maps
-primary_energy_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_primary_map.csv"),
-                               skip = 1,
-                               stringsAsFactors = FALSE
+primary_energy_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "primary_energy_map.csv"),
+                                    skip = 1,
+                                    stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(primary_energy_map_v7.0, overwrite = T)
 
 production_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "production_map.csv"),
-                           skip = 1,
-                           stringsAsFactors = FALSE
+                                skip = 1,
+                                stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(production_map_v7.0, overwrite = T)
 
-elec_gen_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "elec_gen_map_core.csv"),
-                         skip = 1,
-                         stringsAsFactors = FALSE
+secondary_energy_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "capacity_map.csv"),
+                                      skip = 1,
+                                      stringsAsFactors = FALSE
 ) %>%
   dplyr::filter(!grepl("cogen", technology)) %>%
   gather_map()
-use_data(elec_gen_map_v7.0, overwrite = T)
+use_data(secondary_energy_map_v7.0, overwrite = T)
 
 capacity_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "capacity_map.csv"),
-                         skip = 1,
-                         stringsAsFactors = FALSE
+                              skip = 1,
+                              stringsAsFactors = FALSE
 ) %>%
   dplyr::filter(!grepl("cogen", technology)) %>%
   gather_map()
 use_data(capacity_map_v7.0, overwrite = T)
 
 cf_gcam_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "A23.globaltech_capacity_factor.csv"),
-                    skip = 9, na = "",
-                    stringsAsFactors = FALSE
+                         skip = 9, na = "",
+                         stringsAsFactors = FALSE
 )
 use_data(cf_gcam_v7.0, overwrite = T)
 
 cf_rgn_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.StubTechCapFactor_elec.csv"),
-                   skip = 1, na = "",
-                   stringsAsFactors = FALSE
+                        skip = 1, na = "",
+                        stringsAsFactors = FALSE
 )
 use_data(cf_rgn_v7.0, overwrite = T)
 
-se_gen_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "secondary_energy_gen_map.csv"),
-                       skip = 1,
-                       stringsAsFactors = FALSE
-) %>% gather_map()
-use_data(se_gen_map_v7.0, overwrite = T)
-
 final_energy_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "final_energy_map.csv"),
-                             skip = 1,
-                             stringsAsFactors = FALSE
+                                  skip = 1,
+                                  stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(final_energy_map_v7.0, overwrite = T)
 
-en_demand_prices_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_demand_prices_map.csv"),
-                                      skip = 1,
-                                      stringsAsFactors = FALSE
+en_demand_price_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_demand_price_map.csv"),
+                                     skip = 1,
+                                     stringsAsFactors = FALSE
 )
-use_data(en_demand_prices_map_v7.0, overwrite = T)
+use_data(en_demand_price_map_v7.0, overwrite = T)
 
 transport_final_en_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "transport_final_en_map.csv"),
-                                   skip = 1, na = "",
-                                   stringsAsFactors = FALSE
+                                        skip = 1, na = "",
+                                        stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(transport_final_en_map_v7.0, overwrite = T)
 
-energy_prices_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "energy_prices_map.csv"),
-                              skip = 1, na = "",
-                              stringsAsFactors = FALSE
-) %>%
-  dplyr::mutate(var = dplyr::coalesce(!!!rlang::syms(paste0("var", 8:1)))) %>%
-  dplyr::select(sector, subsector, unit_conv, var)
-use_data(energy_prices_map_v7.0, overwrite = T)
+energy_price_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_price_map.csv"),
+                                  skip = 1, na = "",
+                                  stringsAsFactors = FALSE
+) %>% gather_map()
+use_data(energy_price_map_v7.0, overwrite = T)
+
+en_demand_price_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_demand_price_map.csv"),
+                                     skip = 1, na = "",
+                                     stringsAsFactors = FALSE
+)
+use_data(en_demand_price_map_v7.0, overwrite = T)
 
 
 # Energy Service maps
 transport_en_service_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "transport_en_service.csv"),
-                                 skip = 1,
-                                 stringsAsFactors = FALSE
+                                      skip = 1,
+                                      stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(transport_en_service_v7.0, overwrite = T)
 
 buildings_en_service_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "buildings_en_service.csv"),
-                                 skip = 1,
-                                 stringsAsFactors = FALSE
+                                      skip = 1,
+                                      stringsAsFactors = FALSE
 ) %>% gather_map()
 use_data(buildings_en_service_v7.0, overwrite = T)
 
 
 # capital updates
 capital_gcam_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.GlobalIntTechCapital_elec.csv"),
-                         skip = 2, na = "",
-                         fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
+                              skip = 2, na = "",
+                              fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
 ) %>%
   dplyr::rename(technology = intermittent.technology) %>%
   dplyr::bind_rows(read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.GlobalTechCapital_elec.csv"),
@@ -219,8 +232,8 @@ capital_gcam_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GC
 use_data(capital_gcam_v7.0, overwrite = T)
 
 investment_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "investment.csv"),
-                       na = "",
-                       fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
+                            na = "",
+                            fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
 ) %>%
   tidyr::gather(year, value, X2015:X2100) %>%
   dplyr::mutate(year = as.integer(sub("X", "", year))) %>%
@@ -230,14 +243,14 @@ use_data(investment_v7.0, overwrite = T)
 
 
 carbon_content_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L202.CarbonCoef.csv"),
-                           skip = 2, na = "",
-                           stringsAsFactors = FALSE
+                                skip = 2, na = "",
+                                stringsAsFactors = FALSE
 )
 use_data(carbon_content_v7.0, overwrite = T)
 
 nonco2_content_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L201.ghg_res.csv"),
-                           skip = 2, na = "",
-                           stringsAsFactors = FALSE
+                                skip = 2, na = "",
+                                stringsAsFactors = FALSE
 )
 use_data(nonco2_content_v7.0, overwrite = T)
 
@@ -248,15 +261,20 @@ co2_market_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM
 use_data(co2_market_v7.0, overwrite = T)
 
 co2_market_frag_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2market_frag_map.csv"),
-                                skip = 1,
-                                stringsAsFactors = FALSE
+                                     skip = 1,
+                                     stringsAsFactors = FALSE
 )
 use_data(co2_market_frag_map_v7.0, overwrite = T)
 
 # iron and steel
 iron_steel_trade_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "iron_steel_trade.csv"), skip = 1,
-                                 stringsAsFactors = FALSE) %>% gather_map()
+                                      stringsAsFactors = FALSE) %>% gather_map()
 use_data(iron_steel_trade_map_v7.0, overwrite = T)
+
+# water
+water_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "water.csv"), skip = 1,
+                           stringsAsFactors = FALSE) %>% gather_map()
+use_data(water_map_v7.0, overwrite = T)
 
 
 # Reporting years
@@ -275,6 +293,7 @@ convert_v7.0 <- list(
   # NOTE: These values are only used for queries that don't have an associated mapping file
   # for queries such as primary_fuel_prices this conversion is specified in the mapping file
   # These values are taken from GDP inflator in the GCAM R package
+  conv_05USD_10USD = 1.100372,
   conv_90USD_10USD = 1.515897,
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
@@ -285,6 +304,8 @@ convert_v7.0 <- list(
   EJ_to_GWh = 0.0000036,
   bcm_to_EJ = 0.03600,
   GJ_to_EJ = 1.0E9,
+  # Energy content of biomass, GJ/ton
+  aglu.BIO_ENERGY_CONTENT_GJT = 17.5,
   # ghg * CO2_equivalent gives CO2 units
   CO2_equivalent = 3.666667
 )
@@ -316,12 +337,15 @@ queries_nonCO2_v7.0 <- rgcam::parse_batch_query(queryFile)
 use_data(queries_nonCO2_v7.0, overwrite = T)
 
 
+
 # TEMPLATE & VARIABLES
 
 # Read in template
-template_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata", "template/GCAM7.0/reporting_template.csv"),
-                          fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
-)
+template_v7.0 <- xlsx::read.xlsx(file.path(rawDataFolder, "inst/extdata", "template/GCAM7.0/common-definitions-template.xlsx"),
+                                 sheetName = 'variable', fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
+) %>%
+  dplyr::select(Variable = variable, Unit = unit, Tier = tier, Internal_variable) %>%
+  dplyr::mutate(Model = "GCAM 7.0")
 decode_html <- function(text) {
   xml2::xml_text(xml2::read_xml(paste0("<x>", text, "</x>")))
 }
@@ -329,14 +353,13 @@ decode_html <- function(text) {
 template_v7.0$Unit <- sapply(template_v7.0$Unit, decode_html)
 use_data(template_v7.0, overwrite = T)
 
+
 # variables_functions_mapping
 var_fun_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata", "mappings/GCAM7.0/variables_functions_mapping.csv"),
                              sep = ";", header = T, na.strings = c("", "NA"), stringsAsFactors = FALSE
 )
 
 var_fun_map_v7.0$dependencies <- as.list(strsplit(var_fun_map_v7.0$dependencies, ","))
-var_fun_map_v7.0$checks <- as.list(strsplit(var_fun_map_v7.0$checks, ","))
 var_fun_map_v7.0$queries <- as.list(strsplit(var_fun_map_v7.0$queries, ","))
 use_data(var_fun_map_v7.0, overwrite = T)
-
 
