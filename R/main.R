@@ -796,16 +796,6 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   if (identical(desired_regions, "All") || length(desired_regions) == gcamreport::GCAM_regions_number) {
     # checks, vetting, and errors summary
     vetting_summary <- list()
-    for (ch in variables.global$checks) {
-      if (!is.na(ch)) {
-        for (d in ch[[1]]) {
-          out <- get(variables.global$fun[which(variables.global$name == d)])()
-          vetting_summary[[stringr::str_sub(as.character(out$message),
-            end = stringr::str_locate(as.character(out$message), ":") - 1
-          )[1]]] <- out
-        }
-      }
-    }
     vet <- do_check_vetting()
     rlang::inform("Vetting summary:")
     vetting_summary[[stringr::str_sub(as.character(vet$message),
@@ -816,7 +806,6 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     }
     vetting_summary <<- vetting_summary
     cat("To view the vetting summary details, type:\n")
-    cat('  - `vetting_summary$`Trade flows``\n')
     cat('  - `vetting_summary$`Vetting variables` \n')
     cat("\nYou can find the vetting figure in: `output/figure/vetting.tiff`\n")
     cat("==============================================================\n")

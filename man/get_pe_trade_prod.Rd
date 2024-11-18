@@ -4,7 +4,10 @@
 \alias{get_pe_trade_prod}
 \title{get_pe_trade_prod}
 \usage{
-get_pe_trade_prod()
+get_pe_trade_prod(GCAM_version = "v7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `pe_trade_prod` global variable.

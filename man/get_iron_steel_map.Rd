@@ -4,7 +4,10 @@
 \alias{get_iron_steel_map}
 \title{get_iron_steel_map}
 \usage{
-get_iron_steel_map()
+get_iron_steel_map(GCAM_version = "v7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `iron_steel_map` global variable.

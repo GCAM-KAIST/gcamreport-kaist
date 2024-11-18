@@ -4,7 +4,10 @@
 \alias{get_se_trade}
 \title{get_se_trade}
 \usage{
-get_se_trade()
+get_se_trade(GCAM_version = "v7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `se_trade` global variable

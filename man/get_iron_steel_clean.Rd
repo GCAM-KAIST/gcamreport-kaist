@@ -4,7 +4,10 @@
 \alias{get_iron_steel_clean}
 \title{get_iron_steel_clean}
 \usage{
-get_iron_steel_clean()
+get_iron_steel_clean(GCAM_version = "v7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `iron_steel_clean` global variable

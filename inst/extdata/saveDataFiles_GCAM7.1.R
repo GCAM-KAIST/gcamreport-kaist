@@ -33,7 +33,6 @@ var_fun_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCA
 )
 
 var_fun_map_v7.1$dependencies <- as.list(strsplit(var_fun_map_v7.1$dependencies, ","))
-var_fun_map_v7.1$checks <- as.list(strsplit(var_fun_map_v7.1$checks, ","))
 var_fun_map_v7.1$queries <- as.list(strsplit(var_fun_map_v7.1$queries, ","))
 use_data(var_fun_map_v7.1, overwrite = T)
 
@@ -361,7 +360,6 @@ var_fun_map_v7.1 <- read.csv(file.path(rawDataFolder, "inst/extdata", "mappings/
 )
 
 var_fun_map_v7.1$dependencies <- as.list(strsplit(var_fun_map_v7.1$dependencies, ","))
-var_fun_map_v7.1$checks <- as.list(strsplit(var_fun_map_v7.1$checks, ","))
 var_fun_map_v7.1$queries <- as.list(strsplit(var_fun_map_v7.1$queries, ","))
 use_data(var_fun_map_v7.1, overwrite = T)
 

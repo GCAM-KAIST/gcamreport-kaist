@@ -4,7 +4,10 @@
 \alias{get_hydrogen_capacity_add_tmp}
 \title{get_hydrogen_capacity_add_tmp}
 \usage{
-get_hydrogen_capacity_add_tmp()
+get_hydrogen_capacity_add_tmp(GCAM_version = "v7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `hydrogen_capacity_add` global variable

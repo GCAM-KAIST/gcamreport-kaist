@@ -4,7 +4,10 @@
 \alias{get_gov_revenue}
 \title{get_gov_revenue}
 \usage{
-get_gov_revenue()
+get_gov_revenue(GCAM_version = "v7.0")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
 `gov_revenue_clean` global variable

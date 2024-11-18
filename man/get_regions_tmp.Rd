@@ -10,7 +10,7 @@ get_regions_tmp(GCAM_version = "v7.0")
 \item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
 }
 \value{
-The regions data as a global variable.
+`regions.global` global variable.
 }
 \description{
 Retrieve regions for carbon price computation. This function fetches the regions necessary for calculating carbon prices.
