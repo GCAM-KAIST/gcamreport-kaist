@@ -259,13 +259,19 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
 #' @param ... Additional arguments passed to `dplyr::left_join()`.
 #' @return A data frame resulting from the left join. If any rows in `left_df` do not have matching keys in `right_df`, an error is thrown.
 #' @export
-left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapping = "", ...) {
+left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapping = "", ignr = ignore.global, ...) {
   # Perform the left join
   result <- dplyr::left_join(left_df, right_df, by = by, ...)
 
   # Identify unmatched rows (rows with NA in any of the columns from right_df)
   unmatched <- result %>%
     dplyr::filter(dplyr::if_any(-one_of(names(left_df)), is.na))
+
+  # Ignore any unmatched rows which have names (in any column) specified as fine to be ignored
+  if (!is.null(ignr)) {
+    unmatched <- unmatched %>%
+    dplyr::filter(!(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignr, collapse = "|"), .))))
+  }
 
   # Check if there are any unmatched rows
   if (nrow(unmatched) > 0) {

@@ -534,6 +534,7 @@ available_variables <- function(print = TRUE, GCAM_version = "v7.0") {
 #' @param scenarios Names of the scenarios to consider. Defaults to all scenarios in the project or database.
 #' @param final_year Final year of the data. Defaults to 2100. Note: `final_year` must be at least 2025 and must align with available 5-year intervals, such as 2025, 2030, 2035, 2040, etc.
 #' @param desired_variables Variables to include in the report. Defaults to 'All'. Specify a vector for specific variables. To view available options, run `available_variables()`. Note: Global variables like "Emissions" will only account for selected variables. E.g., if you select "Emissions" and "Emissions|CO2", "Emissions" will only account for "Emissions|CO2", and will not account for other variables such as "Emissions|CH4" or "Emissions|NH3".
+#' @param ignore Policy names introduced by the user to ignore during gcamreport processing of physical quantities, since otherwise they will be flagged as names missing from mapping files and cause an error. Note: Currently having one of the specified name patterns in any column of the query results, such as sector, subsector, input, etc. will cause the error to be disregarded.
 #' @param desired_regions Regions to include in the report. Defaults to 'All'. Specify a vector for specific regions. To view available options, run `available_regions()`. Note: The dataset will include only the specified regions, which will make up "World".
 #' @param desired_continents Continent/region groups to include in the report. Defaults to 'All'. Specify a vector for specific groups. To view available options, run `available_continents()`. Note: The dataset will include only the specified groups, which will make up "World".
 #' @param save_output If `TRUE` (default), saves reporting data in CSV and XLSX formats. If `FALSE`, data is not saved. If 'CSV' or 'XLSX', data will be saved only in the specified format.
@@ -547,7 +548,7 @@ available_variables <- function(print = TRUE, GCAM_version = "v7.0") {
 #' @return Saves RData, CSV, and XLSX files with standardized variables, launches the user interface, and saves the GCAM project file if created.
 #' @export
 generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios = NULL, final_year = 2100,
-                            desired_variables = "All", desired_regions = "All", desired_continents = "All",
+                            desired_variables = "All", ignore = NULL, desired_regions = "All", desired_continents = "All",
                             save_output = TRUE, output_file = NULL, launch_ui = TRUE,
                             GCAM_version = 'v7.0', GWP_version = 'AR5',
                             queries_general_file = NULL, queries_nonCO2_file = NULL) {
@@ -749,6 +750,9 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
         FALSE, required
       ))
   }
+
+  # make ignore a global variable
+  ignore.global <<- ignore
 
   rlang::inform("Loading data, performing checks, and saving output...")
 
