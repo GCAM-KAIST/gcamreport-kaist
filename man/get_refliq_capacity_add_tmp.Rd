@@ -4,10 +4,10 @@
 \alias{get_refliq_capacity_add_tmp}
 \title{get_refliq_capacity_add_tmp}
 \usage{
-get_refliq_capacity_add_tmp(GCAM_version = "v7.0")
+get_refliq_capacity_add_tmp(GCAM_version = "v7.1")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 }
 \value{
 `refliq_capacity_add` global variable

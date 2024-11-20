@@ -17,7 +17,7 @@ generate_report(
   save_output = TRUE,
   output_file = NULL,
   launch_ui = TRUE,
-  GCAM_version = "v7.0",
+  GCAM_version = "v7.1",
   GWP_version = "AR5",
   queries_general_file = NULL,
   queries_nonCO2_file = NULL
@@ -48,7 +48,7 @@ generate_report(
 
 \item{launch_ui}{If `TRUE` (default), launches the User Interface. If `FALSE`, does not launch the UI.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 
 \item{GWP_version}{Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.}
 

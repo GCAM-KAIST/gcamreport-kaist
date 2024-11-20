@@ -4,10 +4,10 @@
 \alias{get_energy_service_buildings}
 \title{get_energy_service_buildings}
 \usage{
-get_energy_service_buildings(GCAM_version = "v7.0")
+get_energy_service_buildings(GCAM_version = "v7.1")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 }
 \value{
 `energy_service_buildings_clean` global variable
