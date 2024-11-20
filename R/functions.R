@@ -21,7 +21,7 @@ check_queries <- function(var, GCAM_version = 'v7.0') {
   queryItems <- var_fun_map[var_fun_map$name == var, "queries"][[1]]
 
   it = 1; allOk = TRUE
-  while (!(sum(is.na(queryItems))) & it <= as.numeric(length(queryItems)) & allOk) {
+  while (sum(is.na(queryItems)) == 0 & it <= as.numeric(length(queryItems)) & allOk) {
     qi <- var_fun_map[var_fun_map$name == var, "queries"][[1]][it]
     allOk = qi %in% rgcam::listQueries(prj)
     it = it + 1
