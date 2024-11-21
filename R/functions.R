@@ -609,7 +609,7 @@ get_labor <- function(GCAM_version = "v7.1") {
 
   check_queries('labor_clean', GCAM_version)
 
-  if (GCAM_version %in% c('v7.0','v7.1') & 'National Account' %in% rgcam::listQueries(prj)) {
+  if (GCAM_version %in% c('v7.0',get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) & 'National Account' %in% rgcam::listQueries(prj)) {
     labor_active <-
       rgcam::getQuery(prj, "National Account") %>%
       dplyr::filter(account == 'labor-force') %>%
@@ -730,7 +730,7 @@ get_goods_trade <- function(GCAM_version = "v7.1") {
 
   check_queries('goods_trade_clean', GCAM_version)
 
-  if (GCAM_version %in% c('v7.0','v7.1') & 'National Account' %in% rgcam::listQueries(prj)) {
+  if (GCAM_version %in% c('v7.0',get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) & 'National Account' %in% rgcam::listQueries(prj)) {
     goods_trade_clean <-
       rgcam::getQuery(prj, "National Account") %>%
       dplyr::filter(account %in% c('materials-net-export','energy-net-export','capital-net-export')) %>%
@@ -767,7 +767,7 @@ get_value_added <- function(GCAM_version = "v7.1") {
 
   check_queries('value_added_clean', GCAM_version)
 
-  if (GCAM_version %in% c('v7.0','v7.1') & 'National Account' %in% rgcam::listQueries(prj)) {
+  if (GCAM_version %in% c('v7.0',get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) & 'National Account' %in% rgcam::listQueries(prj)) {
     value_added <-
       rgcam::getQuery(prj, "National Account") %>%
       dplyr::filter(account %in% c('value-added')) %>%
@@ -934,7 +934,7 @@ get_capital_stock <- function(GCAM_version = "v7.1") {
 
   check_queries('capital_stock_clean', GCAM_version)
 
-  if (GCAM_version %in% c('v7.0','v7.1') & 'National Account' %in% rgcam::listQueries(prj)) {
+  if (GCAM_version %in% c('v7.0',get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) & 'National Account' %in% rgcam::listQueries(prj)) {
     capital_stock_clean <-
       rgcam::getQuery(prj, "National Account") %>%
       dplyr::filter(account == 'capital-stock') %>%
@@ -965,7 +965,7 @@ get_capital_formation <- function(GCAM_version = "v7.1") {
 
   check_queries('capital_formation_clean', GCAM_version)
 
-  if (GCAM_version %in% c('v7.0','v7.1') & 'National Account' %in% rgcam::listQueries(prj)) {
+  if (GCAM_version %in% c('v7.0',get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) & 'National Account' %in% rgcam::listQueries(prj)) {
     capital_formation_clean <-
       capital_stock_clean %>%
       dplyr::arrange(scenario, region, var, year) %>%
@@ -1365,7 +1365,7 @@ get_co2_tech_nobio_tmp <- function(GCAM_version = "v7.1") {
     dplyr::mutate(ghg = 'CO2')
 
   # gather deciles if necessary
-  if(GCAM_version == 'v7.1') {
+  if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     co2_tech_nobio_tmp %>%
       tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
       dplyr::group_by(scenario, region, sector, subsector, technology, year, ghg) %>%
@@ -1401,7 +1401,7 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     dplyr::mutate(ghg = 'CO2')
 
   # gather deciles if necessary
-  if(GCAM_version == 'v7.1') {
+  if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     tmp <- tmp %>%
       tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
       dplyr::group_by(Units, scenario, region, sector, subsector, technology, year, ghg) %>%
@@ -1611,7 +1611,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
   nonco2_clean <-
     rgcam::getQuery(prj, queryItem1)
 
-  if(GCAM_version == 'v7.1') {
+  if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     nonco2_clean <- nonco2_clean %>%
       tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
       dplyr::group_by(Units, scenario, region, sector, ghg, year) %>%
@@ -1705,7 +1705,7 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::rename(ghg = variable) %>%
     dplyr::mutate(sector = dplyr::if_else(is.na(sector), 'none', sector))
 
-  if(GCAM_version == 'v7.1') {
+  if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     tmp <- tmp %>%
       tidyr::separate(subsector, into = c("subsector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
       dplyr::group_by(Units, scenario, region, ghg, sector, subsector, year) %>%
@@ -2406,7 +2406,7 @@ get_fe_sector_tmp <- function(GCAM_version = "v7.1") {
   # gather deciles if necessary
   tmp <- rgcam::getQuery(prj, "final energy consumption by sector and fuel") %>%
     dplyr::filter(!stringr::str_starts(sector, 'trn'))
-  if(GCAM_version == 'v7.1') {
+  if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     tmp <- tmp %>%
       tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
       dplyr::group_by(Units, scenario, region, sector, input, year) %>%
@@ -2590,7 +2590,7 @@ get_energy_service_buildings <- function(GCAM_version = "v7.1") {
 
   # gather deciles if necessary
   tmp <- rgcam::getQuery(prj, "building floorspace")
-  if(GCAM_version == 'v7.1') {
+  if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     tmp <- tmp %>%
       tidyr::separate(building, into = c("building", "decile"), sep = "_d", extra = "merge", fill = "right") %>%
       dplyr::group_by(Units, scenario, region, building, nodeinput, `building-node-input`, year) %>%
@@ -3015,7 +3015,6 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
     co2_price_fragmented <-
       co2_price_fragmented_pre %>%
       left_join_strict(CO2_market_filteredReg, by = c("market"), mapping = paste('co2_market',GCAM_version,sep='_'), multiple = "all") %>%
-      dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       dplyr::filter(stats::complete.cases(.)) %>%
       dplyr::mutate(value = value /
                       get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']] *
@@ -3042,8 +3041,7 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
           dplyr::select(-'year', -'share_CO2_world') %>%
           dplyr::distinct(),
         by = c("scenario", "region")
-      ) %>%
-      dplyr::filter(var != 'NoReported', !is.na(var))
+      )
 
     if (!"CO2_ETS" %in% names(co2_price_fragmented)) {
       co2_price_fragmented <- co2_price_fragmented %>%
@@ -3055,7 +3053,6 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
       dplyr::select(Units, scenario, year, region, value, CO2, CO2_ETS, share_CO2_ETS, sector) %>%
       left_join_strict(get(paste('co2_market_frag_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = "sector", multiple = "all") %>%
-      dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       dplyr::filter(stats::complete.cases(.)) %>%
       tidyr::complete(tidyr::nesting(scenario, var, year, market, Units), region = regions.global, fill = list(value = 0)) %>%
       dplyr::select(all_of(gcamreport::long_columns))
@@ -4104,14 +4101,21 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
       dplyr::summarise(production = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       # expand the uranium regions, since only USA was present (it is a global market)
-      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = desired_regions, fill = list(production = 0)) %>%
+      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = desired_regions, fill = list(production = 0))
+  )
+  # fix Uranium regions
+  if ('uranium' %in% unique(resource_addition$fuel)) {
+    resource_addition <- resource_addition %>%
       dplyr::group_by(scenario, fuel, year) %>%
       dplyr::mutate(production = dplyr::if_else(fuel == 'uranium',
                                                 production[region == 'USA'],
                                                 production)) %>%
-      dplyr::ungroup()
-  ) %>%
-    filter_data_regions()
+      dplyr::ungroup() %>%
+      filter_data_regions()
+  } else {
+    resource_addition <- resource_addition %>%
+      filter_data_regions()
+  }
 
   # scale 2015 number - average of other model results from Mcollion et al. 2018
   extraction2015 <-

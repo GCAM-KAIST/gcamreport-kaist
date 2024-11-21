@@ -1,0 +1,12 @@
+# food intake
+subsector,var1,var2,var3,var4,var5,var6,var7,var8,unit_conv
+Corn,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Cereals [per capita],,,,,,1
+FruitsVeg,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Other Crops [per capita],,,,,,1
+MiscCrop,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Other Crops [per capita],,,,,,1
+Oil,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Oil Crops [per capita],,,,,,1
+OtherGrain,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Cereals [per capita],,,,,,1
+Protein,Food Intake [per capita],Food Intake|Livestock [per capita],,,,,,,1
+Rice,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Cereals [per capita],,,,,,1
+RootTuber,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Other Crops [per capita],,,,,,1
+SugarCrop,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Sugar Crops [per capita],,,,,,1
+Wheat,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Cereals [per capita],,,,,,1
