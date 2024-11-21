@@ -38,7 +38,7 @@ gas processing,natural gas,natural gas,Secondary Energy|Gases,Secondary Energy|G
 H2 central production,biomass,biomass to H2,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Biomass,,,,,,1
 H2 central production,electricity,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Electricity,,,,,,1
 H2 central production,gas,natural gas steam reforming,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,,,,,,1
-H2 central production,gas ATR CCS,natural gas steam reforming,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Gas|w/ CCS,,,,,1
+H2 central production,gas,gas ATR CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Gas|w/ CCS,,,,,1
 H2 central production,nuclear,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Nuclear,Secondary Energy|Hydrogen|Fossil,,,,,1
 H2 central production,solar,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Solar,,,,,,1
 H2 central production,wind,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Other,,,,,,1

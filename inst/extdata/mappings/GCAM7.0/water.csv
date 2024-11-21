@@ -620,6 +620,10 @@ Corn,CornC4_UsaCstE,Water XX,Water XX|Irrigation,,,1
 Corn,CornC4_UsaCstSE,Water XX,Water XX|Irrigation,,,1
 Dairy,Mixed,Water XX,Water XX|Livestock,,,1
 Dairy,Pastoral,Water XX,Water XX|Livestock,,,1
+elec_biomass (IGCC CCS),biomass (IGCC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
+elec_biomass (conv CCS),biomass (conv CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
+elec_coal (conv pul CCS),coal (conv pul CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
+elec_gas (CC CCS),gas (CC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
 electricity,biomass,Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
 electricity,coal,Water XX,Water XX|Electricity,Water XX|Electricity|Coal,Water XX|Electricity|Fossil,1
 electricity,gas,Water XX,Water XX|Electricity,Water XX|Electricity|Gas,Water XX|Electricity|Fossil,1
