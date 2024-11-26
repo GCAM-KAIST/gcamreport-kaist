@@ -36,6 +36,7 @@ gas processing,biomass gasification,biomass gasification,Secondary Energy|Gases,
 gas processing,coal gasification,coal gasification,Secondary Energy|Gases,Secondary Energy|Gases|Coal,Secondary Energy|Gases|Fossil,,,,,1
 gas processing,natural gas,natural gas,Secondary Energy|Gases,Secondary Energy|Gases|Gas,Secondary Energy|Gases|Fossil,,,,,1
 H2 central production,biomass,biomass to H2,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Biomass,,,,,,1
+H2 central production,biomass,biomass to H2 CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Biomass,,,,,,1
 H2 central production,electricity,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Electricity,,,,,,1
 H2 central production,gas,natural gas steam reforming,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,,,,,,1
 H2 central production,gas,gas ATR CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Gas|w/ CCS,,,,,1

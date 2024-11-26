@@ -46,7 +46,8 @@ docs/*
 
 # Attempt files
 prova*
- 
+
+tests/testthat/*.dat
 inst/doc
 *.tiff
 tests/testthat/testInputs/v_7.0/database_basexdb_ref_gcamv7.0_test_specify_queries.dat

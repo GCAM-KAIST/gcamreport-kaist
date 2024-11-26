@@ -48,6 +48,7 @@ iron and steel,EAF with DRI CCS,Carbon Capture,Carbon Capture|Geological Storage
 N fertilizer,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 N fertilizer,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 ammonia,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
+ammonia,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 process heat dac,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 refining,cellulosic ethanol CCS level 1,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 refining,cellulosic ethanol CCS level 2,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667

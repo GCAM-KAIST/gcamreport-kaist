@@ -618,6 +618,7 @@ Corn,CornC4_TexasCst,Water XX,Water XX|Irrigation,,,1
 Corn,CornC4_UsaColoRN,Water XX,Water XX|Irrigation,,,1
 Corn,CornC4_UsaCstE,Water XX,Water XX|Irrigation,,,1
 Corn,CornC4_UsaCstSE,Water XX,Water XX|Irrigation,,,1
+CO2 removal,dac,Water XX,Water XX|Electricity,Water XX|Electricity|Other,,1
 Dairy,Mixed,Water XX,Water XX|Livestock,,,1
 Dairy,Pastoral,Water XX,Water XX|Livestock,,,1
 elec_biomass (IGCC CCS),biomass (IGCC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1

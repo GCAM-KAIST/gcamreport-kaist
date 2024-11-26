@@ -2741,6 +2741,7 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.1") {
   ag_price_wld <-
     rgcam::getQuery(prj, "prices by sector") %>%
     dplyr::filter(Units == "1975$/kg" | sector == 'biomass') %>%
+    dplyr::filter(!grepl('CO2', sector)) %>%
     left_join_strict(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -2792,6 +2793,7 @@ get_ag_price <- function(GCAM_version = "v7.1") {
   ag_price_clean <-
     rgcam::getQuery(prj, "prices by sector") %>%
     dplyr::filter(Units == "1975$/kg" | sector == 'biomass') %>%
+    dplyr::filter(!grepl('CO2', sector)) %>%
     left_join_strict(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
