@@ -2379,6 +2379,8 @@ get_se_trade <- function(GCAM_version = 'v7.1') {
       resource = sub("hydrogen", "Hydrogen", resource),
       var = paste0("Trade|Secondary Energy|", resource, " [Volume]")
     ) %>%
+    # remove Electricity since it will always be 0
+    dplyr::filter(resource != 'Electricity') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   se_trade <<- se_trade
