@@ -3572,9 +3572,11 @@ get_production_price <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = 'sector') %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    # $/kg = 1e6 $/Mt
-    dplyr::mutate(value = dplyr::if_else(Units == '1975$/kg', value * 1e6, value)) %>%
-    # 18.6 $/GJ ammonia = 1 $/Mt ammonia
+    # 1e3 $/kg = 1 $/Mt
+    dplyr::mutate(value = dplyr::if_else(grepl('kg',Units),
+                                         value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['kg_to_Mt']],
+                                         value)) %>%
+    # 18.6 $/GJ ammonia = 1 $/Mt ammonia -> we use this chemical as a high value chemical proxy, but it should be refined
     dplyr::mutate(value = dplyr::if_else(Units == '1975$/GJ', value * 18.6, value)) %>%
     # 1975$ to 2010$
     dplyr::mutate(value = value *
