@@ -2056,14 +2056,15 @@ get_land <- function(GCAM_version = "v7.1") {
 
   land_clean <-
     rgcam::getQuery(prj, "land allocation by crop and water source") %>%
-    dplyr::filter(grepl('^[a-z]',crop)) %>%
     left_join_strict(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    # thous km2 to million ha
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   land_clean <<- land_clean
 }

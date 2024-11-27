@@ -308,6 +308,8 @@ convert_v7.1 <- list(
   aglu.BIO_ENERGY_CONTENT_GJT = 17.5,
   # 1Mt = 1e3kg
   kg_to_Mt = 1e3,
+  # land units
+  km2_to_ha = 100,
   # ghg * CO2_equivalent gives CO2 units
   CO2_equivalent = 3.666667
 )
