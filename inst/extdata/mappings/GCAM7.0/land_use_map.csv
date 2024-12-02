@@ -15,6 +15,9 @@ Fruits,RFD,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Rainfed,Land Cover
 FruitsTree,IRR,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Irrigated,Land Cover|Cropland|Other Crops,Land Cover|Cropland|Other Crops|Irrigated,,,,0.1
 FruitsTree,RFD,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Rainfed,Land Cover|Cropland|Other Crops,Land Cover|Cropland|Other Crops|Rainfed,,,,0.1
 Grassland,NA,Land Cover,Land Cover|Pasture,,,,,,,0.1
+Forest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
+ProtectedUnmanagedForest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
+UnmanagedForest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 Hardwood_Forest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 Legumes,IRR,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Irrigated,Land Cover|Cropland|Other Crops,Land Cover|Cropland|Other Crops|Irrigated,,,,0.1
 Legumes,RFD,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Rainfed,Land Cover|Cropland|Other Crops,Land Cover|Cropland|Other Crops|Rainfed,,,,0.1
