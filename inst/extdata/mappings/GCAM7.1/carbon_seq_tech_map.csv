@@ -1,29 +1,29 @@
 # CO2 Sequestration
 sector,technology,var1,var2,var3,var4,var5,var6,var7,var8,var9,unit_conv
-alumina,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+alumina,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 alumina,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 alumina,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 alumina,refined liquids CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-chemical feedstocks,refined liquids,Carbon Capture,Carbon Capture|Utilization,,,,,,,,3.666667
-construction feedstocks,refined liquids,Carbon Capture,Carbon Capture|Utilization,,,,,,,,3.666667
+chemical feedstocks,refined liquids,Carbon Capture,Carbon Capture|Utilization,Carbon Capture|Utilization|Liquids,,,,,,,3.666667
+construction feedstocks,refined liquids,Carbon Capture,Carbon Capture|Utilization,Carbon Capture|Utilization|Liquids,,,,,,,3.666667
 iron and steel,BLASTFUR CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-other industrial feedstocks,refined liquids,Carbon Capture,Carbon Capture|Utilization,,,,,,,,3.666667
+other industrial feedstocks,refined liquids,Carbon Capture,Carbon Capture|Utilization,Carbon Capture|Utilization|Liquids,,,,,,,3.666667
 cement,cement CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-chemical energy use,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+chemical energy use,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 chemical energy use,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 chemical energy use,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 chemical energy use,refined liquids CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 CO2 removal,hightemp DAC NG,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Direct Air Capture,,,,,,,3.666667
 CO2 removal,hightemp DAC elec,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Direct Air Capture,,,,,,,3.666667
 CO2 removal,lowtemp DAC heatpump,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Direct Air Capture,,,,,,,3.666667
-elec_biomass (conv CCS),biomass (conv CCS) (dry cooling),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (conv CCS),biomass (conv CCS) (once through),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (conv CCS),biomass (conv CCS) (recirculating),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (conv CCS),biomass (conv CCS) (seawater),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (IGCC CCS),biomass (IGCC CCS) (dry cooling),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (IGCC CCS),biomass (IGCC CCS) (once through),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (IGCC CCS),biomass (IGCC CCS) (recirculating),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-elec_biomass (IGCC CCS),biomass (IGCC CCS) (seawater),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS) (dry cooling),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS) (once through),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS) (recirculating),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (conv CCS),biomass (conv CCS) (seawater),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS) (dry cooling),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS) (once through),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS) (recirculating),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+elec_biomass (IGCC CCS),biomass (IGCC CCS) (seawater),Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 elec_coal (conv pul CCS),coal (conv pul CCS) (dry cooling),Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 elec_coal (conv pul CCS),coal (conv pul CCS) (once through),Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 elec_coal (conv pul CCS),coal (conv pul CCS) (recirculating),Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
@@ -40,7 +40,7 @@ elec_refined liquids (CC CCS),refined liquids (CC CCS) (dry cooling),Carbon Capt
 elec_refined liquids (CC CCS),refined liquids (CC CCS) (recirculating),Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 elec_refined liquids (CC CCS),refined liquids (CC CCS) (seawater),Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 elec_refined liquids (CC CCS),refined liquids (CC CCS) (once through),Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-H2 central production,biomass to H2 CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+H2 central production,biomass to H2 CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 H2 central production,coal chemical CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 H2 central production,gas ATR CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 H2 central production,natural gas steam reforming CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
@@ -50,10 +50,10 @@ N fertilizer,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.6
 ammonia,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 ammonia,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 process heat dac,gas CCS,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-refining,cellulosic ethanol CCS level 1,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-refining,cellulosic ethanol CCS level 2,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+refining,cellulosic ethanol CCS level 1,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+refining,cellulosic ethanol CCS level 2,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
 refining,coal to liquids CCS level 1,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
 refining,coal to liquids CCS level 2,Carbon Capture,Carbon Capture|Geological Storage,,,,,,,,3.666667
-refining,FT biofuels CCS level 1,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-refining,FT biofuels CCS level 2,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
-waste biomass for paper,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Bioenergy,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+refining,FT biofuels CCS level 1,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+refining,FT biofuels CCS level 2,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
+waste biomass for paper,biomass CCS,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,,Carbon Capture,Carbon Capture|Geological Storage,,,,3.666667
