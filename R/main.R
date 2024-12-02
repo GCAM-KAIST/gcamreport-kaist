@@ -797,24 +797,44 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     }
   }
 
+  # checks, vetting, and errors summary
+  vetting_summary <- list()
+  vet <- do_check_inf()
+  vetting_summary[[stringr::str_sub(as.character(vet$message),
+                                    end = stringr::str_locate(as.character(vet$message), ":") - 1
+  )[1]]] <- vet
+  vet <- do_check_na()
+  vetting_summary[[stringr::str_sub(as.character(vet$message),
+                                    end = stringr::str_locate(as.character(vet$message), ":") - 1
+  )[1]]] <- vet
+
   if (identical(desired_regions, "All") || length(desired_regions) == gcamreport::GCAM_regions_number) {
-    # checks, vetting, and errors summary
-    vetting_summary <- list()
     vet <- do_check_vetting()
-    rlang::inform("Vetting summary:")
     vetting_summary[[stringr::str_sub(as.character(vet$message),
-      end = stringr::str_locate(as.character(vet$message), ":") - 1
+                                      end = stringr::str_locate(as.character(vet$message), ":") - 1
     )[1]]] <- vet
+    rlang::inform("Vetting summary:")
     for (e in vetting_summary) {
       print(e$message)
     }
     vetting_summary <<- vetting_summary
-    cat("To view the vetting summary details, type:\n")
-    cat('  - `vetting_summary$`Vetting variables` \n')
-    cat("\nYou can find the vetting figure in: `output/figure/vetting.tiff`\n")
+    cat("To view the summary details, type:\n")
+    cat('  - `vetting_summary$`NA variables` to check for NA values\n')
+    cat('  - `vetting_summary$`Inf variables` to check for Inf values\n')
+    cat('  - `vetting_summary$`Vetting variables` to check with historical values\n')
+    cat("\nYou can find a supporting vetting figure in: `output/figure/vetting.tiff`\n")
     cat("==============================================================\n")
   } else {
-    rlang::inform("No checks or vetting were performed because no regions were selected.")
+    rlang::inform("Vetting summary:")
+    for (e in vetting_summary) {
+      print(e$message)
+    }
+    vetting_summary <<- vetting_summary
+    cat("To view the summary details, type:\n")
+    cat('  - `vetting_summary$`NA variables` to check for NA values\n')
+    cat('  - `vetting_summary$`Inf variables` to check for Inf values\n')
+    cat('Since not all regions were selected, there is no vetting related to historical values\n')
+    cat("==============================================================\n")
   }
 
   # remove internal variables from the environment

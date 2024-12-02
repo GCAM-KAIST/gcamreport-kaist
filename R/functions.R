@@ -4366,6 +4366,66 @@ do_bind_results <- function(GCAM_version = "v7.1") {
 #                       CHECKS AND VETTING FUNCTIONS                    #
 #########################################################################
 
+#' do_check_inf
+#'
+#' Verify standardized dataset does not contain Inf values
+#' @keywords internal check
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return A message confirming the success of the vetting process.
+#' @importFrom magrittr %>%
+#' @export
+do_check_inf <- function(GCAM_version = "v7.1") {
+  # Check vetting results from SM
+  report_inf_summary <- report %>%
+    dplyr::filter(dplyr::across(`2005`:last_col(), ~ is.infinite(.)))
+
+  # output
+  if (nrow(report_inf_summary) == 0) {
+    res <- list(
+      message = "Inf variables: OK",
+      summary = report_inf_summary
+    )
+  } else {
+    res <- list(
+      message = "Inf variables: ERROR",
+      summary = as.data.frame(report_inf_summary)
+    )
+  }
+  return(res)
+
+}
+
+
+#' do_check_na
+#'
+#' Verify standardized dataset does not contain NA values
+#' @keywords internal check
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return A message confirming the success of the vetting process.
+#' @importFrom magrittr %>%
+#' @export
+do_check_na <- function(GCAM_version = "v7.1") {
+  # Check vetting results from SM
+  report_na_summary <- report %>%
+    dplyr::filter(dplyr::across(`2005`:last_col(), ~ is.na(.)))
+
+  # output
+  if (nrow(report_na_summary) == 0) {
+    res <- list(
+      message = "NA variables: OK",
+      summary = report_na_summary
+    )
+  } else {
+    res <- list(
+      message = "NA variables: ERROR",
+      summary = as.data.frame(report_na_summary)
+    )
+  }
+  return(res)
+
+}
+
+
 #' do_check_vetting
 #'
 #' Verify vetting and produce plot.
