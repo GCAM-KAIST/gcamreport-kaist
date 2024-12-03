@@ -4258,12 +4258,12 @@ get_total_investment <- function(GCAM_version = "v7.1") {
 
   check_queries("total_investment_clean", GCAM_version)
 
-  total_investment_clean <- rbind(
+  total_investment_clean <- dplyr::bind_rows(
     resource_investment_clean,
     elec_investment_clean
   ) %>%
-    dplyr::group_by('scenario','region','year') %>%
-    dplyr::mutate(value = sum(value)) %>%
+    dplyr::group_by(scenario,region,year) %>%
+    dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(var = 'Investment|Energy Supply') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
