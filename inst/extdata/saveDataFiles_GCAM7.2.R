@@ -306,8 +306,8 @@ convert_v7.2 <- list(
   GJ_to_EJ = 1.0E9,
   # Energy content of biomass, GJ/ton
   aglu.BIO_ENERGY_CONTENT_GJT = 17.5,
-  # 1Mt = 1e3kg
-  kg_to_Mt = 1e3,
+  # 1Mt (million metric ton) = 1e6kg
+  kg_to_Mt = 1e6,
   # land units
   km2_to_ha = 100,
   # ghg * CO2_equivalent gives CO2 units
