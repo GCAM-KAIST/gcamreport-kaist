@@ -819,8 +819,8 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     }
     vetting_summary <<- vetting_summary
     cat("To view the summary details, type:\n")
-    cat('  - `vetting_summary$`NA variables` to check for NA values\n')
     cat('  - `vetting_summary$`Inf variables` to check for Inf values\n')
+    cat('  - `vetting_summary$`NA variables` to check for NA values\n')
     cat('  - `vetting_summary$`Vetting variables` to check with historical values\n')
     cat("\nYou can find a supporting vetting figure in: `output/figure/vetting.tiff`\n")
     cat("==============================================================\n")

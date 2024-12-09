@@ -4377,7 +4377,7 @@ do_bind_results <- function(GCAM_version = "v7.1") {
 do_check_inf <- function(GCAM_version = "v7.1") {
   # Check vetting results from SM
   report_inf_summary <- report %>%
-    dplyr::filter(dplyr::across(`2005`:last_col(), ~ is.infinite(.)))
+    dplyr::filter(dplyr::if_any(`2005`:dplyr::last_col(), ~ is.infinite(.)))
 
   # output
   if (nrow(report_inf_summary) == 0) {
@@ -4407,7 +4407,7 @@ do_check_inf <- function(GCAM_version = "v7.1") {
 do_check_na <- function(GCAM_version = "v7.1") {
   # Check vetting results from SM
   report_na_summary <- report %>%
-    dplyr::filter(dplyr::across(`2005`:last_col(), ~ is.na(.)))
+    dplyr::filter(dplyr::if_any(`2005`:last_col(), ~ is.na(.)))
 
   # output
   if (nrow(report_na_summary) == 0) {
