@@ -1722,8 +1722,10 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
     dplyr::bind_rows(
       LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = "Emissions|Kyoto Gases"),
       LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = "Emissions|Kyoto Gases|AFOLU")
     ) %>%
     dplyr::group_by(scenario, region, var, year) %>%
@@ -1750,7 +1752,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
   check_queries("co2_sequestration_clean", GCAM_version)
   check_queries("co2_sequestration_raw", GCAM_version)
 
-  co2_sequestration_clean <- suppressWarnings(
+  co2_sequestration <- suppressWarnings(
     rgcam::getQuery(prj, "CO2 sequestration by tech") %>%
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
@@ -1769,9 +1771,23 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     dplyr::bind_rows(
       # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
       LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = 'Carbon Removal|Land Use') %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
     )
+
+  # add Gross Removals|CO2 = Carbon Removal
+  # add Gross Removals|CO2|AFOLU = Carbon Removal|Land Use"
+  co2_sequestration_clean <- dplyr::bind_rows(
+    co2_sequestration,
+    co2_sequestration %>%
+      dplyr::filter(var == 'Carbon Removal') %>%
+      dplyr::mutate(var = 'Gross Removals|CO2'),
+    co2_sequestration %>%
+      dplyr::filter(var == 'Carbon Removal|Land Use') %>%
+      dplyr::mutate(var = 'Gross Removals|CO2|AFOLU')
+  )
+
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
   co2_sequestration_raw <- suppressWarnings(
