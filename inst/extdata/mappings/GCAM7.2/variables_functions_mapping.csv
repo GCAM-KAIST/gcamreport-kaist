@@ -21,7 +21,7 @@ kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by sector (excludin
 co2_sequestration_clean;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
 co2_sequestration_raw;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
 ag_demand_clean;get_ag_demand;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
-ag_production_clean;get_ag_production;;ag production by crop type
+ag_production_clean;get_ag_production;;ag production by crop type,meat and dairy production by type
 land_clean;get_land;;land allocation by crop and water source
 primary_energy_clean;get_primary_energy;;primary energy consumption with CCS by region (direct equivalent)
 pe_trade_prod;get_pe_trade_prod;;resource production
