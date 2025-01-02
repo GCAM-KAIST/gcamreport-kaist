@@ -4294,6 +4294,221 @@ get_total_investment <- function(GCAM_version = "v7.1") {
   total_investment_clean <<- total_investment_clean
 }
 
+# Transport
+# ==============================================================================================
+#' get_transport_sales
+#'
+#' Computes the regional transport vehicles sales.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return `trn_sales_clean` global variable.
+#' @keywords internal transport
+#' @importFrom magrittr %>%
+#' @export
+get_transport_sales <- function(GCAM_version = "v7.1") {
+  value <- trn_sales_clean <- NULL
+
+  check_queries('trn_sales_clean', GCAM_version)
+
+  # get transport service
+  trn_serv <- rgcam::getQuery(prj, "transport service output by tech and vintage") %>%
+    tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
+    dplyr::mutate(vintage = as.integer(sub("year=", "", vintage))) %>%
+    dplyr::filter(vintage <= year) %>%    ##Only vintages from the model year or before will be in existence
+    dplyr::rename("mode" = "subsector")
+
+  trn_regions <- unique(trn_serv$region)
+
+  # Use the UCD dataset which has load factors and vehicle miles traveled values
+  ucd_core_values <- get(paste('ucd_core',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    left_join_error_no_match(get(paste('ucd_size_class',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                             by = c('UCD_region', 'mode', 'size.class')) %>%
+    # Both types of rail simply called 'Rail' causing errors later
+    dplyr::mutate(rev.mode = dplyr::if_else(rev.mode == "Rail",
+                                            dplyr::if_else(UCD_sector == "Passenger",
+                                                           "Passenger Rail", dplyr::if_else(UCD_sector == "Freight",
+                                                                                            "Freight Rail", rev.mode)), rev.mode)) %>%
+    dplyr::select(-UCD_fuel, -UCD_sector, -mode, -size.class)
+
+  ucd_techs <- unique(ucd_core_values$UCD_technology)[!(unique(ucd_core_values$UCD_technology) == "All")]
+
+  # Annual vehicle, is the same across all fuels of cars, so explicity show that:
+  ucd_core_loads <- ucd_core_values %>%
+    dplyr::filter(variable == "annual travel per vehicle") %>%
+    dplyr::mutate(UCD_technology = ifelse(UCD_technology == "All", ucd_techs[1], UCD_technology)) %>%
+    tidyr::complete(nesting(UCD_region, rev_size.class, rev.mode, variable, unit, year, value), UCD_technology = ucd_techs) %>%
+    dplyr::bind_rows(ucd_core_values %>%
+                       dplyr::filter(variable == "load factor"))
+
+
+  # For regions in the UCD dataset that are GCAM regions, keep their values,
+  # and for regions that aren't represented in there, use the mean of the other regions
+
+  ucd_core_A <- ucd_core_loads %>%
+    dplyr::filter(UCD_region %in% trn_regions) %>%
+    dplyr::group_by(UCD_region, rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
+    dplyr::summarise(value=mean(value, na.rm = T)) %>%
+    dplyr::ungroup()
+
+  ucd_core_B <- ucd_core_loads %>%
+    dplyr::filter(!(UCD_region %in% trn_regions)) %>%
+    ##filter(rev_size.class %in% c("Car", "Light truck")) %>%
+    dplyr::group_by(rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
+    dplyr::summarise(value=mean(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(UCD_region = "South America_Northern") %>%
+    tidyr::complete(nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
+                    UCD_region = trn_regions[!(trn_regions %in% unique(ucd_core_A$UCD_region))])
+
+  ## Check that
+  ## a) annual travel per vehicle is in vkt/(vehicle*yr)
+  ## b) load factors are in pass/vehicle and tonnes/vehicle
+  check <- unique(ucd_core_loads %>%
+                    dplyr::select(-UCD_region, -year, -value, -UCD_technology))
+  if(check %>% dplyr::filter(variable == 'annual travel per vehicle') %>% pull(unit) %>% unique() != 'vkt/veh/yr'){
+    stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `annual travel per vehicle` units should be specified as 'vkt/veh/yr'.")
+  }
+  if(!all(check %>% dplyr::filter(variable == 'load factor') %>% pull(unit) %>% unique() %in% c('pers/veh', 'tonnes/veh'))){
+    stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `load factor` units should be specified as 'pers/veh' or 'tonnes/veh'.")
+  }
+
+  ucd_core_gcamRegions <- dplyr::bind_rows(ucd_core_A, ucd_core_B) %>%
+    dplyr::select(-unit) %>%
+    tidyr::pivot_wider(names_from = "variable", values_from = "value")
+
+  vintaged_modes = trn_serv %>%
+    dplyr::filter(year != vintage,
+                  value != 0) %>%
+    dplyr::select(sector, mode, Units) %>%
+    dplyr::distinct()
+
+  trn_sales_clean <- trn_serv %>%
+    # only look at new sales in each year
+    dplyr::filter(year == vintage) %>%
+    # dplyr left_join due to missing transport modes
+    dplyr::left_join(ucd_core_gcamRegions,
+                     by = c("region"="UCD_region","mode"="rev_size.class", "year", "technology"="UCD_technology")) %>%
+    dplyr::filter(!(is.na(`annual travel per vehicle`)),
+                  !(is.na(`load factor`)),
+                  mode %in% unique(vintaged_modes$mode)) %>%
+    # Assume constant sales during the 5 year period
+    dplyr::mutate(value=(value / `load factor` / `annual travel per vehicle` / 5),
+                  Units = "million vehicles") %>%
+    left_join_strict(get(paste('transport_sales_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("sector", "mode", "technology"), relationship = "many-to-many") %>%
+    dplyr::filter(!is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, year, var, Units) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(all_of(gcamreport::long_columns))
+
+  trn_sales_clean <<- trn_sales_clean
+
+
+}
+
+#' get_transport_stock
+#'
+#' Computes the regional transport vehicles stock.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return `trn_stock_clean` global variable.
+#' @keywords internal transport
+#' @importFrom magrittr %>%
+#' @export
+get_transport_stock <- function(GCAM_version = "v7.1") {
+  value <- trn_stock_clean <- NULL
+
+  check_queries('trn_stock_clean', GCAM_version)
+
+
+  # get transport service
+  trn_serv <- rgcam::getQuery(prj, "transport service output by tech and vintage") %>%
+    tidyr::separate(technology, into = c("technology", "vintage"), sep = ",") %>%
+    dplyr::mutate(vintage = as.integer(sub("year=", "", vintage))) %>%
+    dplyr::filter(vintage <= year) %>%    ##Only vintages from the model year or before will be in existence
+    dplyr::rename("mode" = "subsector")
+
+  trn_regions <- unique(trn_serv$region)
+
+  # Use the UCD dataset which has load factors and vehicle miles traveled values
+  ucd_core_values <- get(paste('ucd_core',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    left_join_error_no_match(get(paste('ucd_size_class',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                             by = c('UCD_region', 'mode', 'size.class')) %>%
+    # Both types of rail simply called 'Rail' causing errors later
+    dplyr::mutate(rev.mode = dplyr::if_else(rev.mode == "Rail",
+                                            dplyr::if_else(UCD_sector == "Passenger",
+                                                           "Passenger Rail", dplyr::if_else(UCD_sector == "Freight",
+                                                                                            "Freight Rail", rev.mode)), rev.mode)) %>%
+    dplyr::select(-UCD_fuel, -UCD_sector, -mode, -size.class)
+
+  ucd_techs <- unique(ucd_core_values$UCD_technology)[!(unique(ucd_core_values$UCD_technology) == "All")]
+
+  # Annual vehicle, is the same across all fuels of cars, so explicity show that:
+  ucd_core_loads <- ucd_core_values %>%
+    dplyr::filter(variable == "annual travel per vehicle") %>%
+    dplyr::mutate(UCD_technology = ifelse(UCD_technology == "All", ucd_techs[1], UCD_technology)) %>%
+    tidyr::complete(nesting(UCD_region, rev_size.class, rev.mode, variable, unit, year, value), UCD_technology = ucd_techs) %>%
+    dplyr::bind_rows(ucd_core_values %>%
+                       dplyr::filter(variable == "load factor"))
+
+
+  # For regions in the UCD dataset that are GCAM regions, keep their values,
+  # and for regions that aren't represented in there, use the mean of the other regions
+
+  ucd_core_A <- ucd_core_loads %>%
+    dplyr::filter(UCD_region %in% trn_regions) %>%
+    dplyr::group_by(UCD_region, rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
+    dplyr::summarise(value=mean(value, na.rm = T)) %>%
+    dplyr::ungroup()
+
+  ucd_core_B <- ucd_core_loads %>%
+    dplyr::filter(!(UCD_region %in% trn_regions)) %>%
+    ##filter(rev_size.class %in% c("Car", "Light truck")) %>%
+    dplyr::group_by(rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
+    dplyr::summarise(value=mean(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(UCD_region = "South America_Northern") %>%
+    tidyr::complete(nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
+                    UCD_region = trn_regions[!(trn_regions %in% unique(ucd_core_A$UCD_region))])
+
+  ## Check that
+  ## a) annual travel per vehicle is in vkt/(vehicle*yr)
+  ## b) load factors are in pass/vehicle and tonnes/vehicle
+  check <- unique(ucd_core_loads %>%
+                    dplyr::select(-UCD_region, -year, -value, -UCD_technology))
+  if(check %>% dplyr::filter(variable == 'annual travel per vehicle') %>% pull(unit) %>% unique() != 'vkt/veh/yr'){
+    stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `annual travel per vehicle` units should be specified as 'vkt/veh/yr'.")
+  }
+  if(!all(check %>% dplyr::filter(variable == 'load factor') %>% pull(unit) %>% unique() %in% c('pers/veh', 'tonnes/veh'))){
+    stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `load factor` units should be specified as 'pers/veh' or 'tonnes/veh'.")
+  }
+
+  ucd_core_gcamRegions <- dplyr::bind_rows(ucd_core_A, ucd_core_B) %>%
+    dplyr::select(-unit) %>%
+    tidyr::pivot_wider(names_from = "variable", values_from = "value")
+
+  trn_stock_clean <- trn_serv %>%
+    # dplyr left_join due to missing transport modes
+    dplyr::left_join(ucd_core_gcamRegions,
+                     by = c("region"="UCD_region","mode"="rev_size.class", "year", "technology"="UCD_technology")) %>%
+    dplyr::filter(!(is.na(`annual travel per vehicle`)),
+                  !(is.na(`load factor`))) %>%
+    dplyr::mutate(value=(value / `load factor` / `annual travel per vehicle`),
+                  Units = "million vehicles") %>%
+    left_join_strict(get(paste('transport_stock_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("sector", "mode", "technology"), relationship = "many-to-many") %>%
+    dplyr::filter(!is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, year, var, Units) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(all_of(gcamreport::long_columns))
+
+  trn_stock_clean <<- trn_stock_clean
+}
+
 
 #########################################################################
 #                        BIND TO TEMPLATE FUNCTIONS                     #

@@ -234,3 +234,6 @@ gcamv7.0_test_specify_queries.dat
 /harmonization_doc
 myenv.yml
 vetting.py
+/tests/testthat/db_scenmip_h5_241217a
+R/vehicleStockAndSalesUsingUCD.R
+R/update_template.R
