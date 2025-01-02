@@ -764,8 +764,8 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # for all desired variables, load the corresponding data
   loaded_internal_variables.global <<- c()
-  desired_regions <<- desired_regions
-  desired_variables <<- desired_variables
+  assign("desired_regions", desired_regions, envir = globalenv())
+  assign("desired_variables", desired_variables, envir = globalenv())
   for (i in 1:nrow(variables.global)) {
     if (variables.global$required[i]) {
       load_variable(variables.global[i, ], GCAM_version, GWP_version)

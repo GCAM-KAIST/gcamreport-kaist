@@ -4336,7 +4336,7 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
   ucd_core_loads <- ucd_core_values %>%
     dplyr::filter(variable == "annual travel per vehicle") %>%
     dplyr::mutate(UCD_technology = ifelse(UCD_technology == "All", ucd_techs[1], UCD_technology)) %>%
-    tidyr::complete(nesting(UCD_region, rev_size.class, rev.mode, variable, unit, year, value), UCD_technology = ucd_techs) %>%
+    tidyr::complete(tidyr::nesting(UCD_region, rev_size.class, rev.mode, variable, unit, year, value), UCD_technology = ucd_techs) %>%
     dplyr::bind_rows(ucd_core_values %>%
                        dplyr::filter(variable == "load factor"))
 
@@ -4357,7 +4357,7 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value=mean(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(UCD_region = "South America_Northern") %>%
-    tidyr::complete(nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
+    tidyr::complete(tidyr::nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
                     UCD_region = trn_regions[!(trn_regions %in% unique(ucd_core_A$UCD_region))])
 
   ## Check that
@@ -4365,10 +4365,10 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
   ## b) load factors are in pass/vehicle and tonnes/vehicle
   check <- unique(ucd_core_loads %>%
                     dplyr::select(-UCD_region, -year, -value, -UCD_technology))
-  if(check %>% dplyr::filter(variable == 'annual travel per vehicle') %>% pull(unit) %>% unique() != 'vkt/veh/yr'){
+  if(check %>% dplyr::filter(variable == 'annual travel per vehicle') %>% dplyr::pull(unit) %>% unique() != 'vkt/veh/yr'){
     stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `annual travel per vehicle` units should be specified as 'vkt/veh/yr'.")
   }
-  if(!all(check %>% dplyr::filter(variable == 'load factor') %>% pull(unit) %>% unique() %in% c('pers/veh', 'tonnes/veh'))){
+  if(!all(check %>% dplyr::filter(variable == 'load factor') %>% dplyr::pull(unit) %>% unique() %in% c('pers/veh', 'tonnes/veh'))){
     stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `load factor` units should be specified as 'pers/veh' or 'tonnes/veh'.")
   }
 
@@ -4449,7 +4449,7 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
   ucd_core_loads <- ucd_core_values %>%
     dplyr::filter(variable == "annual travel per vehicle") %>%
     dplyr::mutate(UCD_technology = ifelse(UCD_technology == "All", ucd_techs[1], UCD_technology)) %>%
-    tidyr::complete(nesting(UCD_region, rev_size.class, rev.mode, variable, unit, year, value), UCD_technology = ucd_techs) %>%
+    tidyr::complete(tidyr::nesting(UCD_region, rev_size.class, rev.mode, variable, unit, year, value), UCD_technology = ucd_techs) %>%
     dplyr::bind_rows(ucd_core_values %>%
                        dplyr::filter(variable == "load factor"))
 
@@ -4470,7 +4470,7 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value=mean(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(UCD_region = "South America_Northern") %>%
-    tidyr::complete(nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
+    tidyr::complete(tidyr::nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
                     UCD_region = trn_regions[!(trn_regions %in% unique(ucd_core_A$UCD_region))])
 
   ## Check that
@@ -4478,10 +4478,10 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
   ## b) load factors are in pass/vehicle and tonnes/vehicle
   check <- unique(ucd_core_loads %>%
                     dplyr::select(-UCD_region, -year, -value, -UCD_technology))
-  if(check %>% dplyr::filter(variable == 'annual travel per vehicle') %>% pull(unit) %>% unique() != 'vkt/veh/yr'){
+  if(check %>% dplyr::filter(variable == 'annual travel per vehicle') %>% dplyr::pull(unit) %>% unique() != 'vkt/veh/yr'){
     stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `annual travel per vehicle` units should be specified as 'vkt/veh/yr'.")
   }
-  if(!all(check %>% dplyr::filter(variable == 'load factor') %>% pull(unit) %>% unique() %in% c('pers/veh', 'tonnes/veh'))){
+  if(!all(check %>% dplyr::filter(variable == 'load factor') %>% dplyr::pull(unit) %>% unique() %in% c('pers/veh', 'tonnes/veh'))){
     stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `load factor` units should be specified as 'pers/veh' or 'tonnes/veh'.")
   }
 
