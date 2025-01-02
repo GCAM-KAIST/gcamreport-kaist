@@ -240,3 +240,5 @@ R/update_template.R
 *t_diff.xlsx
 *var.xlsx
 *common-definitions-template_updated.xlsx
+R/gcamreport_zt_g7_def.R
+debugging.R
