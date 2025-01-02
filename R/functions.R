@@ -2713,7 +2713,7 @@ get_iron_steel_exports <- function(GCAM_version = "v7.1") {
     left_join_error_no_match(get(paste('iron_steel_trade_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), by = c("sector")) %>%
     # extract region
     dplyr::mutate(region = stringr::str_replace_all(subsector, " traded iron and steel", "")) %>%
-    dplyr::filter(region %in% desired_regions) %>%
+    filter_desired_regions() %>%
     # filter variables that are in terms of Mt
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -4130,7 +4130,8 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
       dplyr::summarise(production = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       # expand the uranium regions, since only USA was present (it is a global market)
-      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = desired_regions, fill = list(production = 0))
+      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = available_regions(print = F)[available_regions(print = F) != 'World'],
+                      fill = list(production = 0))
   )
   # fix Uranium regions
   if ('uranium' %in% unique(resource_addition$fuel)) {
@@ -4174,7 +4175,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 dplyr::select(-market) %>%
                 # from 1975$/kg to 1975$/EJ; 1EJ = 0.08314kg
                 dplyr::mutate(value = value / 0.08314) %>%
-                tidyr::expand_grid(region = desired_regions)) %>%
+                tidyr::expand_grid(region = available_regions(print = F)[available_regions(print = F) != 'World'])) %>%
         filter_data_regions(),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
@@ -4202,7 +4203,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 dplyr::select(-market) %>%
                 # from 1975$/kg to 1975$/GJ; 1GJ = 83.14kg
                 dplyr::mutate(value = value / 83.14) %>%
-                tidyr::expand_grid(region = desired_regions)) %>%
+                tidyr::expand_grid(region = available_regions(print = F)[available_regions(print = F) != 'World'])) %>%
         filter_data_regions(),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
