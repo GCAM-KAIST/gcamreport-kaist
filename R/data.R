@@ -622,6 +622,54 @@
 #' }
 "water_map_v7.2"
 
+#' ucd_size_class_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_v7.2
+#' }
+"ucd_size_class_v7.2"
+
+#' ucd_core_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_v7.2
+#' }
+"ucd_core_v7.2"
+
+#' transport_sales_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_v7.2
+#' }
+"transport_sales_map_v7.2"
+
+#' transport_stock_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_v7.2
+#' }
+"transport_stock_map_v7.2"
+
 #' convert_v7.2
 #'
 #' @description units conversion list
@@ -1144,6 +1192,54 @@
 #' gcamreport::water_map_v7.1
 #' }
 "water_map_v7.1"
+
+#' ucd_size_class_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_v7.1
+#' }
+"ucd_size_class_v7.1"
+
+#' ucd_core_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_v7.1
+#' }
+"ucd_core_v7.1"
+
+#' transport_sales_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_v7.1
+#' }
+"transport_sales_map_v7.1"
+
+#' transport_stock_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_v7.1
+#' }
+"transport_stock_map_v7.1"
 
 #' convert_v7.1
 #'
@@ -1668,6 +1764,54 @@
 #' gcamreport::water_map_v7.0
 #' }
 "water_map_v7.0"
+
+#' ucd_size_class_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_v7.0
+#' }
+"ucd_size_class_v7.0"
+
+#' ucd_core_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_v7.0
+#' }
+"ucd_core_v7.0"
+
+#' transport_sales_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_v7.0
+#' }
+"transport_sales_map_v7.0"
+
+#' transport_stock_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_v7.0
+#' }
+"transport_stock_map_v7.0"
 
 #' convert_v7.0
 #'

@@ -89,3 +89,5 @@ goods_trade_clean;get_goods_trade;;National Account
 value_added_clean;get_value_added;;National Account
 gross_co2_emiss_clean;get_gross_co2_emiss;co2_emissions_clean,co2_sequestration_raw;
 production_price_clean;get_production_price;;iron and steel prices,chemical prices,ammonia and N fertilizer prices,aluminum prices
+trn_stock_clean;get_transport_stock;;transport service output by tech and vintage
+trn_sales_clean;get_transport_sales;;transport service output by tech and vintage

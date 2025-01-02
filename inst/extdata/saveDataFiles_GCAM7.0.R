@@ -27,26 +27,6 @@ reg_cont_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.
 )
 use_data(reg_cont_v7.0, overwrite = T)
 
-# variables_functions_mapping
-var_fun_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "variables_functions_mapping.csv"),
-                             sep = ";", header = T, na.strings = c("", "NA"), stringsAsFactors = FALSE
-)
-
-var_fun_map_v7.0$dependencies <- as.list(strsplit(var_fun_map_v7.0$dependencies, ","))
-var_fun_map_v7.0$queries <- as.list(strsplit(var_fun_map_v7.0$queries, ","))
-use_data(var_fun_map_v7.0, overwrite = T)
-
-
-# Read in template
-template_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/template/GCAM7.0", "reporting_template.csv"),
-                          fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE
-)
-decode_html <- function(text) {
-  xml2::xml_text(xml2::read_xml(paste0("<x>", text, "</x>")))
-}
-# Applying the function to decode HTML entities in col1
-template_v7.0$Unit <- sapply(template_v7.0$Unit, decode_html)
-use_data(template_v7.0, overwrite = T)
 
 # emissions maps
 co2_ets_sector_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2_ETS_sector_map.csv"),
@@ -276,6 +256,23 @@ water_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7
                            stringsAsFactors = FALSE) %>% gather_map()
 use_data(water_map_v7.0, overwrite = T)
 
+
+# transport sales & stock
+ucd_size_class_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0",
+                                          "UCD_size_class_revisions.csv"), skip=7)
+use_data(ucd_size_class_v7.0, overwrite = T)
+ucd_core_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0",
+                                    "UCD_trn_data_CORE.csv"), skip=5) %>%
+  tidyr::gather(year, value, X2005:X2100) %>%
+  dplyr::mutate(year = as.integer(sub("X", "", year)))
+use_data(ucd_core_v7.0, overwrite = T)
+
+transport_stock_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0",
+                                               "trn_stock_map.csv"), skip = 1) %>% gather_map()
+use_data(transport_stock_map_v7.0, overwrite = T)
+transport_sales_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0",
+                                               "trn_sales_map.csv"), skip = 1) %>% gather_map()
+use_data(transport_sales_map_v7.0, overwrite = T)
 
 # Reporting years
 last_historical_year_v7.0 <- 2015

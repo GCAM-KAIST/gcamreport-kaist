@@ -237,3 +237,6 @@ vetting.py
 /tests/testthat/db_scenmip_h5_241217a
 R/vehicleStockAndSalesUsingUCD.R
 R/update_template.R
+*t_diff.xlsx
+*var.xlsx
+*common-definitions-template_updated.xlsx
