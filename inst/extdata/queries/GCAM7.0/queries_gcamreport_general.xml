@@ -1301,4 +1301,16 @@ A user can adjust the query to search for any of:
          </labelRewriteList>
       </supplyDemandQuery>
    </aQuery>
+   <aQuery>   
+      <all-regions />
+                <supplyDemandQuery title="transport service output by tech and vintage">
+                    <axis1 name="technology">technology</axis1>
+                    <axis2 name="Year">physical-output[@vintage]</axis2>
+                    <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='transportation' or (exists(child::keyword[@final-energy='transportation'])))]/
+               *[@type='subsector']/*[@type='technology']/*[@type='output' (:collapse:) and not (@name='CAFEcredit')]/
+               physical-output/node()</xPath>
+                    <comments/>
+                    <showAttribute attribute-name="year" level="technology"/>
+                </supplyDemandQuery>
+   </aQuery>
 </queries>

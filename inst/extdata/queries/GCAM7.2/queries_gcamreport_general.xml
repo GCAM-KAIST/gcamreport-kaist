@@ -325,6 +325,8 @@ local:run-input-by-primary((:scenarios:), (:regions:), (:collection:))
                  <rewrite from="traded biomass" to="d biomass"/>
                  <rewrite from="traded RUS pipeline gas CCS" to="b natural gas CCS"/>
                  <rewrite from="traded PAC pipeline gas" to="b natural gas"/>
+                 <rewrite from="regional woodpulp for energy" to="d biomass"/>
+                 <rewrite from="regional woodpulp for energy CCS" to="d biomass CCS"/>
                  <rewrite from="geothermal-elect" to="i geothermal"/>
                  <rewrite from="traded Afr_MidE pipeline gas" to="b natural gas"/>
                  <rewrite from="water consumption" to=""/>
@@ -1372,4 +1374,16 @@ A user can adjust the query to search for any of:
          </labelRewriteList>
      </supplyDemandQuery>
    </aQuery>   
+   <aQuery>   
+      <all-regions />
+         <supplyDemandQuery title="transport service output by tech and vintage">
+         <axis1 name="technology">technology</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='transportation' or (exists(child::keyword[@final-energy='transportation'])))]/
+   *[@type='subsector']/*[@type='technology']/*[@type='output' (:collapse:) and not (@name='CAFEcredit')]/
+   physical-output/node()</xPath>
+         <comments/>
+         <showAttribute attribute-name="year" level="technology"/>
+      </supplyDemandQuery>
+   </aQuery>
 </queries>
