@@ -1026,7 +1026,7 @@ get_food_intake <- function(GCAM_version = "v7.1") {
     dplyr::filter(year <= final_year.global, year >= 1990) %>%
     dplyr::rename(subsector = `subsector...4`) %>%
     left_join_strict(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
-                   by = c("subsector"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
+                   by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, var, year) %>%

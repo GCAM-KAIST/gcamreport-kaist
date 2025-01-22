@@ -30,11 +30,11 @@ regional oilpalm,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|C
 regional soybean,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Oil Crops,Agricultural Demand|Crops|Food|SoyBean,,,,1
 regional sugarcrop,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Sugar Crops,,,,,1
 regional vegetables,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Food,Agricultural Demand|Crops|Food|Other Crops,,,,,1
-regional beef,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Ruminant,,,,,1
-regional dairy,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Dairy,,,,,1
-regional pork,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Non-Ruminant,,,,,1
-regional poultry,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Non-Ruminant,,,,,1
-regional sheepgoat,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Ruminant,,,,,1
+regional beef,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Ruminant,Agricultural Demand|Livestock|Food|Ruminant|Meet,,,,1
+regional dairy,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Ruminant,Agricultural Demand|Livestock|Food|Ruminant|Dairy,,,,1
+regional pork,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Non-Ruminant,Agricultural Demand|Livestock|Food|Non-Ruminant|Meat,Agricultural Demand|Livestock|Food|Non-Ruminant|Meat|Pig,,,1
+regional poultry,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Non-Ruminant,Agricultural Demand|Livestock|Food|Non-Ruminant|Meat,Agricultural Demand|Livestock|Food|Non-Ruminant|Meat|Poultry,,,1
+regional sheepgoat,FoodDemand_NonStaples,Agricultural Demand,Agricultural Demand|Livestock,Agricultural Demand|Livestock|Food,Agricultural Demand|Livestock|Food|Ruminant,Agricultural Demand|Livestock|Food|Ruminant|Meet,,,,1
 regional corn,NonFoodDemand_Crops,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Other,,,,,,1
 regional fibercrop,NonFoodDemand_Crops,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Other,,,,,,1
 regional fruits,NonFoodDemand_Crops,Agricultural Demand,Agricultural Demand|Crops,Agricultural Demand|Crops|Other,,,,,,1
