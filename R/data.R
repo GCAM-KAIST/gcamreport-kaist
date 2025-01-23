@@ -2024,7 +2024,7 @@
 #' }
 "ag_demand_map_v6.0"
 
-#' ag_prices_map_v6.0
+#' ag_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -2032,11 +2032,11 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_prices_map_v6.0
+#' gcamreport::ag_price_map_v6.0
 #' }
-"ag_prices_map_v6.0"
+"ag_price_map_v6.0"
 
-#' ag_demand_prices_map_v6.0
+#' ag_demand_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -2044,9 +2044,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_demand_prices_map_v6.0
+#' gcamreport::ag_demand_price_map_v6.0
 #' }
-"ag_demand_prices_map_v6.0"
+"ag_demand_price_map_v6.0"
 
 #' land_use_map_v6.0
 #'
@@ -2156,7 +2156,7 @@
 #' }
 "final_energy_map_v6.0"
 
-#' en_demand_prices_map_v6.0
+#' en_demand_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -2164,9 +2164,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::en_demand_prices_map_v6.0
+#' gcamreport::en_demand_price_map_v6.0
 #' }
-"en_demand_prices_map_v6.0"
+"en_demand_price_map_v6.0"
 
 #' transport_final_en_map_v6.0
 #'
@@ -2180,7 +2180,7 @@
 #' }
 "transport_final_en_map_v6.0"
 
-#' energy_prices_map_v6.0
+#' energy_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -2188,9 +2188,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::energy_prices_map_v6.0
+#' gcamreport::energy_price_map_v6.0
 #' }
-"energy_prices_map_v6.0"
+"energy_price_map_v6.0"
 
 #' transport_en_service_v6.0
 #'

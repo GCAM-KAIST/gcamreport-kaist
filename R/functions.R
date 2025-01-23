@@ -3499,15 +3499,15 @@ get_energy_price <- function(GCAM_version = "v7.1") {
   check_queries("energy_price_clean", GCAM_version)
 
   # weighted sum of energy prices by energy consumption
-  en_demand_prices_map <- get(paste('en_demand_prices_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  en_demand_price_map <- get(paste('en_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
 
   # Final Energy
   energy_price_clean_fe <- energy_price %>%
     dplyr::filter(stringr::str_starts(var, "Price\\|Final Energy")) %>%
     dplyr::rename(en_price_variable = var) %>%
     # add weights
-    left_join_strict(en_demand_prices_map,
-                     mapping = paste('en_demand_prices_map',GCAM_version,sep='_'),
+    left_join_strict(en_demand_price_map,
+                     mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
                      by = 'en_price_variable') %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     left_join_strict(compute_reg_sec_weight(fe_sector_clean) %>%
@@ -3527,7 +3527,7 @@ get_energy_price <- function(GCAM_version = "v7.1") {
     dplyr::filter(stringr::str_starts(var, "Price\\|Primary Energy")) %>%
     dplyr::rename(en_price_variable = var) %>%
     # add weights
-    left_join_strict(en_demand_prices_map,
+    left_join_strict(en_demand_price_map,
                      by = 'en_price_variable') %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     left_join_strict(compute_reg_sec_weight(primary_energy_clean) %>%
@@ -3548,7 +3548,7 @@ get_energy_price <- function(GCAM_version = "v7.1") {
     dplyr::filter(stringr::str_starts(var, "Price\\|Secondary Energy")) %>%
     dplyr::rename(en_price_variable = var) %>%
     # add weights
-    left_join_strict(en_demand_prices_map,
+    left_join_strict(en_demand_price_map,
                      by = 'en_price_variable') %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     left_join_strict(compute_reg_sec_weight(secondary_energy_clean) %>%
