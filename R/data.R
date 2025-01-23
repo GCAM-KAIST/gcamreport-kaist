@@ -466,6 +466,19 @@
 #' }
 "en_demand_price_map_v7.2"
 
+#' res_extraction_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_v7.2
+#' }
+"res_extraction_map_v7.2"
+
+
 #' transport_final_en_map_v7.2
 #'
 #' @source github
@@ -1036,6 +1049,18 @@
 #' gcamreport::en_demand_price_map_v7.1
 #' }
 "en_demand_price_map_v7.1"
+
+#' res_extraction_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_v7.1
+#' }
+"res_extraction_map_v7.1"
 
 #' transport_final_en_map_v7.1
 #'
@@ -1608,6 +1633,18 @@
 #' }
 
 "en_demand_price_map_v7.0"
+
+#' res_extraction_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_v7.0
+#' }
+"res_extraction_map_v7.0"
 
 #' transport_final_en_map_v7.0
 #'

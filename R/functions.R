@@ -3574,6 +3574,30 @@ get_energy_price <- function(GCAM_version = "v7.1") {
 }
 
 
+#' get_resource_extraction
+#'
+#' Compute resource extraction
+#' @keywords internal resource
+#' @return `resource_extraction_clean` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_resource_extraction <- function(GCAM_version = "v7.1") {
+  resource_extraction_clean <- NULL
+
+  resource_extraction_clean <- rgcam::getQuery(prj, "resource production") %>%
+    left_join_strict(get(paste('res_extraction_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = 'resource') %>%
+    dplyr::filter(var != "NoReported") %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  resource_extraction_clean <<- resource_extraction_clean
+
+}
+
 #' get_production_price
 #'
 #' Compute industry production prices
