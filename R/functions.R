@@ -3311,6 +3311,15 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
   check_queries("energy_price", GCAM_version)
 
   CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+  for (ign in unique(ignore.global)) {
+    CO2_market_filteredReg <- rbind(
+      CO2_market_filteredReg,
+      CO2_market_filteredReg %>%
+        dplyr::mutate(market = region) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(market = paste0(market, ign))
+    )
+  }
 
   tmp1 <- rgcam::getQuery(prj, "CO2 prices") %>%
     dplyr::filter(!grepl("LUC", market))
@@ -3323,7 +3332,9 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
                     paste(missing_markets, collapse = ", ")))
 
     # user response
-    user_input <- readline(prompt = "Do you want to add them before continue (Y/N)? Press Y or N: ")
+    user_input <- readline(prompt =
+                             sprintf('ATTENTION: The CO2 markets %s are not present in the `co2_market_new` mapping file.\n"Do you want to continue without adding them (Y/N)? Press Y or N: ',
+                                     paste(missing_markets, collapse = ", ")))
 
     # handling user response
     if (toupper(user_input) %in% c("n","N")) {
@@ -3336,25 +3347,36 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
 
   energy_price_map <- get(paste('energy_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
 
-  prices_subsector_pre <-
-    rgcam::getQuery(prj, "prices by sector") %>%
+  prices_subsector_pre1 <-
+    rgcam::getQuery(prj, "prices of all markets") %>%
+    dplyr::mutate(region = stringr::str_extract(market, paste(as.character(gcamreport::reg_cont_v7.1$region), collapse = '|')),
+                  market = stringr::str_replace(market, paste(as.character(gcamreport::reg_cont_v7.1$region), collapse = '|'), "")) %>%
     dplyr::select(-Units) %>%
-    left_join_strict(energy_price_map,
-                     by = c("sector"),
-                     mapping = paste('energy_price_map',GCAM_version,sep='_'),
+    dplyr::mutate(region = dplyr::if_else(region == 'NA', NA, region))
+
+  prices_subsector_pre2 <- prices_subsector_pre1 %>%
+    dplyr::filter(is.na(region)) %>%
+    tidyr::complete(tidyr::nesting(scenario, year, market, value), region = unique(na.omit(prices_subsector_pre1$region))) %>%
+    dplyr::filter(!is.na(region))
+
+  prices_subsector_pre <- rbind(
+    prices_subsector_pre1 %>%
+      dplyr::filter(!is.na(region)),
+    prices_subsector_pre2) %>%
+    left_join_strict(energy_price_map,by = c("market"),
                      relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::filter(var != 'NoReported') %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::select(-unit_conv)
 
   energy_price_fragmented_biomass <- prices_subsector_pre %>%
-    dplyr::filter(grepl("biomass", sector)) %>%
+    dplyr::filter(grepl("biomass", market)) %>%
     # read in carbon content in kg C per GJ -> convert to tC per GJ
     left_join_strict(
       get(paste('carbon_content',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
         dplyr::filter(grepl("biomass", PrimaryFuelCO2Coef.name)) %>%
-        dplyr::rename("sector" = "PrimaryFuelCO2Coef.name"),
-      by = c("region", "sector")
+        dplyr::rename("market" = "PrimaryFuelCO2Coef.name"),
+      by = c("region", "market")
     ) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(PrimaryFuelCO2Coef = PrimaryFuelCO2Coef / 1000) %>%
@@ -3373,23 +3395,20 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
       value = value *
         get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']] + price_C
     ) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns), sector)
+    dplyr::select(dplyr::all_of(gcamreport::long_columns), market)
 
   energy_price <-
     rbind(prices_subsector_pre %>%
-            dplyr::filter(!grepl("biomass", sector)),
+            dplyr::filter(!grepl("biomass", market)),
           energy_price_fragmented_biomass) %>%
-    # add weights
-    dplyr::filter(year %in% gcam_years[gcam_years <= min(final_year.global, max(unique(en_weights$year)))]) %>%
-    left_join_strict(en_weights,
-                     by = c('scenario','region','year','sector','var'),
-                     by_message = c('sector')) %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    # compute var weighted average price
-    dplyr::mutate(value = value * weight) %>%
-    dplyr::group_by(scenario, region, var, year) %>%
-    dplyr::summarise(value = sum(value)) %>%
+    # consider the nº of items for each variable to do the average
+    dplyr::group_by(scenario, year, region, var) %>%
+    dplyr::mutate(n_count = dplyr::n()) %>%
     dplyr::ungroup() %>%
+    dplyr::group_by(scenario, year, region, var) %>%
+    dplyr::reframe(value = sum(value) / n_count) %>%
+    dplyr::ungroup() %>%
+    dplyr::distinct() %>%
     # rearrange dataset
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
@@ -3493,82 +3512,40 @@ get_regional_emission <- function(GCAM_version = "v7.1") {
 #' @export
 get_energy_price <- function(GCAM_version = "v7.1") {
   var <- scenario <- region <- value <- year <- energy_price_clean <-
-    energy_price_clean_fe <- energy_price_clean_pe <-
-    energy_price_clean_se <- reg_sec_weight <- sector <- NULL
+    energy_price_w <- weights_sec_reg <- sector <- NULL
 
   check_queries("energy_price_clean", GCAM_version)
 
   # weighted sum of energy prices by energy consumption
   en_demand_price_map <- get(paste('en_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  weights_sec_reg <- rbind(
+    compute_reg_sec_weight(fe_sector_clean),
+    compute_reg_sec_weight(primary_energy_clean),
+    compute_reg_sec_weight(secondary_energy_clean)
+  )
 
-  # Final Energy
-  energy_price_clean_fe <- energy_price %>%
-    dplyr::filter(stringr::str_starts(var, "Price\\|Final Energy")) %>%
-    dplyr::rename(en_price_variable = var) %>%
+  energy_price_w <- energy_price %>%
+    dplyr::rename('en_price_var' = 'var') %>%
     # add weights
     left_join_strict(en_demand_price_map,
                      mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
-                     by = 'en_price_variable') %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    left_join_strict(compute_reg_sec_weight(fe_sector_clean) %>%
-                       dplyr::rename(en_demand_variable = var),
-                     by = c('scenario', 'region', 'year', 'en_demand_variable'),
-                     by_message = c('en_price_variable','en_demand_variable'), relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+                     by = 'en_price_var') %>%
+    left_join_strict(weights_sec_reg %>%
+                       dplyr::rename(en_consumption_var = var),
+                     by = c('scenario', 'region', 'year', 'en_consumption_var'),
+                     by_message = c('en_consumption_var','en_price_var'),
+                     relationship = "many-to-many") %>%
     dplyr::mutate(value = value * reg_sec_weight) %>%
     # compute Global values
-    dplyr::group_by(scenario, var = en_price_variable, year) %>%
+    dplyr::group_by(scenario, var = en_price_var, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(region = "World")
 
-  # Primary Energy
-  energy_price_clean_pe <- energy_price %>%
-    dplyr::filter(stringr::str_starts(var, "Price\\|Primary Energy")) %>%
-    dplyr::rename(en_price_variable = var) %>%
-    # add weights
-    left_join_strict(en_demand_price_map,
-                     by = 'en_price_variable') %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    left_join_strict(compute_reg_sec_weight(primary_energy_clean) %>%
-                       dplyr::rename(en_demand_variable = var),
-                     by = c('scenario', 'region', 'year', 'en_demand_variable'),
-                     by_message = c('en_price_variable','en_demand_variable'),
-                     relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * reg_sec_weight) %>%
-    # compute Global values
-    dplyr::group_by(scenario, var = en_price_variable, year) %>%
-    dplyr::summarise(value = sum(value, na.rm = T)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(region = "World")
-
-  # Secondary Energy
-  energy_price_clean_se <- energy_price %>%
-    dplyr::filter(stringr::str_starts(var, "Price\\|Secondary Energy")) %>%
-    dplyr::rename(en_price_variable = var) %>%
-    # add weights
-    left_join_strict(en_demand_price_map,
-                     by = 'en_price_variable') %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    left_join_strict(compute_reg_sec_weight(secondary_energy_clean) %>%
-                       dplyr::rename(en_demand_variable = var),
-                     by = c('scenario', 'region', 'year', 'en_demand_variable'),
-                     by_message = c('en_price_variable','en_demand_variable'),
-                     relationship = "many-to-many") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * reg_sec_weight) %>%
-    # compute Global values
-    dplyr::group_by(scenario, var = en_price_variable, year) %>%
-    dplyr::summarise(value = sum(value, na.rm = T)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(region = "World")
 
   energy_price_clean <-
     rbind(energy_price,
-          energy_price_clean_fe,
-          energy_price_clean_pe,
-          energy_price_clean_se)
+          energy_price_w)
 
   energy_price_clean <<- energy_price_clean
 }

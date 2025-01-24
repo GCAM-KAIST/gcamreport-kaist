@@ -77,6 +77,7 @@ se_trade_prod;get_se_trade_prod;;elec gen by subsector,hydrogen production by te
 se_trade_supply;get_se_trade_supply;;supply of all markets
 se_trade;get_se_trade;se_trade_prod,se_trade_supply;
 energy_price;get_energy_price_tmp;;CO2 prices,prices by sector,costs by subsector
+energy_price_clean;get_energy_price;energy_price,fe_sector_clean,primary_energy_clean,secondary_energy_clean;
 en_weights;get_en_weights;fe_sector_raw,fe_transportation_raw,primary_energy_clean,secondary_energy_raw;
 en_wld_weights;get_en_weights;fe_sector_raw,fe_transportation_raw,primary_energy_clean,secondary_energy_raw;
 fert_consumption_clean;get_fert_consumption;;fertilizer consumption by region
