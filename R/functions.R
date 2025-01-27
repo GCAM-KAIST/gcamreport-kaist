@@ -1611,6 +1611,8 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
   LUC_emiss <- rbind(
     LUC_emiss,
     LUC_emiss %>%
+      dplyr::mutate(var = 'Emissions|CO2'),
+    LUC_emiss %>%
       dplyr::mutate(var = 'Emissions|CO2|AFOLU [NGHGI]')
   )
 
