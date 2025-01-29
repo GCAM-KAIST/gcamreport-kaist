@@ -242,3 +242,4 @@ R/update_template.R
 *common-definitions-template_updated.xlsx
 R/gcamreport_zt_g7_def.R
 debugging.R
+R/water_content_computation.R
