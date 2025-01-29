@@ -74,3 +74,12 @@ en_blocks <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/common", "
                       fileEncoding = "UTF-8-BOM"
 )
 use_data(en_blocks, overwrite = T)
+
+# water content in agricultural items
+water_content <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/common", "ag_water_content.csv"),
+                          skip = 1,
+                          stringsAsFactors = FALSE,
+                          fileEncoding = "UTF-8-BOM"
+) %>%
+  dplyr::select(GCAM_commodity, mean_water_content = mean)
+use_data(water_content, overwrite = T)

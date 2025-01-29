@@ -1186,7 +1186,12 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('trade_ag',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('trade_ag',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    # add water content data
+    left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::mutate(input = GCAM_commodity),
+                     by = 'input') %>%
+    # units to annual million t DM
+    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
@@ -1981,7 +1986,15 @@ get_ag_demand <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    # add water content data
+    left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::rename(input = regional_item,
+                                     GCAM_commodity = item),
+                     by = c("input")) %>%
+    left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")),
+                     by = 'GCAM_commodity') %>%
+    # units to annual million t DM
+    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -2117,7 +2130,12 @@ get_ag_production <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('ag_production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_production_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    dplyr::mutate(value = value * unit_conv) %>%
+    # add water content data
+    left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::mutate(sector = GCAM_commodity),
+                     by = 'sector') %>%
+    # units to annual million t DM
+    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
