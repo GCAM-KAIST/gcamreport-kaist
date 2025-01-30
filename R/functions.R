@@ -257,16 +257,18 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
     warning(sprintf('ATTENTION: The mapping files `%s` and `%s` have a mismatch with the query `%s`.', mapping_name1, mapping_name2, query_name))
   }
 
-  # prompt for user input
-  user_input <- readline(prompt = "Do you want to manually check (M) or continue (C)? Press M or C: ")
+  if (interactive()) {
+    # prompt for user input
+    user_input <- readline(prompt = "Do you want to manually check (M) or continue (C)? Press M or C: ")
 
-  # handling user response
-  if (toupper(user_input) %in% c("m","M")) {
-    stop("Manual check requested. Stopping execution.")
-  } else if (!toupper(user_input) %in% c("c","C")) {
-    stop("Invalid input. Stopping execution.")
-  }
-  # if user chooses "C", the script continues
+    # handling user response
+    if (toupper(user_input) %in% c("m","M")) {
+      stop("Manual check requested. Stopping execution.")
+    } else if (!toupper(user_input) %in% c("c","C")) {
+      stop("Invalid input. Stopping execution.")
+    }
+    # if user chooses "C", the script continues
+  } # end of checking if the script was run interactively or from commandline
 }
 
 
@@ -3443,7 +3445,7 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
     warning('ATTENTION: At least one scenario does not contain CO2 price')
   }
   missing_markets <- setdiff(unique(tmp1$market), c(unique(CO2_market_filteredReg$market),NA))
-  if (length(missing_markets) != 0) {
+  if (interactive() & length(missing_markets) != 0) {
     warning(sprintf('ATTENTION: The CO2 markets %s are not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
 
