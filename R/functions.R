@@ -4160,13 +4160,12 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
     elec_capacity_add %>%
     dplyr::filter(technology != 'hydro') %>%
     left_join_strict(
-      get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-        dplyr::mutate(
-          capital.overnight = replace(capital.overnight, technology == "wind_storage", capital.overnight[technology == "wind"] * .484),
-          capital.overnight = replace(capital.overnight, technology == "CSP_storage", 760 *
-                                        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_19USD_75USD']]),
-          capital.overnight = replace(capital.overnight, technology == "PV_storage", capital.overnight[technology == "PV"] * .518)
-        ),
+      get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+        # dplyr::mutate(
+        #   capital.overnight = replace(capital.overnight, technology == "wind_storage", capital.overnight[technology == "wind"] * .484),
+        #   capital.overnight = replace(capital.overnight, technology == "CSP_storage", 760 *
+        #                                 get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_19USD_75USD']]),
+        #   capital.overnight = replace(capital.overnight, technology == "PV_storage", capital.overnight[technology == "PV"] * .518))
       by = c("technology", "year"), mapping = paste('capital_gcam',GCAM_version,sep='_')
     ) %>%
     # gw * 10e6 * $/kw / 10e9 = bill$
