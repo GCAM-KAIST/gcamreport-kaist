@@ -13,7 +13,7 @@ test_that("Test1_v7. download db, create project, and run", {
   testthat::expect_equal(1, 1)
 
   # create the prj
-  db_name <- "database_basexdb_ref"
+  db_name <- "database_basexdb_ref7"
   prj_name <- "gcamv7.0_test.dat"
   scenarios <- "Reference"
 

@@ -4,13 +4,13 @@
 \alias{get_elec_gen_tech}
 \title{get_elec_gen_tech}
 \usage{
-get_elec_gen_tech(GCAM_version = "v7.0")
+get_elec_gen_tech(GCAM_version = "v7.1")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 }
 \value{
-`elec_gen_tech_clean` global variable
+`secondary_energy_clean` and `secondary_energy_raw` global variables
 }
 \description{
 Retrieve electricity generation.

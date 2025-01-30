@@ -5,7 +5,6 @@ on:
     branches:
       - gcam-core
       - gcam-iamcompact
-      - dev
       
 jobs:
   R-CMD:

@@ -4,14 +4,17 @@
 \alias{get_energy_price_tmp}
 \title{get_energy_price_tmp}
 \usage{
-get_energy_price_tmp()
+get_energy_price_tmp(GCAM_version = "v7.1")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 }
 \value{
 `energy_price` global variable
 }
 \description{
-Bind regional oil, gas, coal prices with other energy prices
+Binds regional oil, gas, coal prices with other energy prices.
 }
 \keyword{internal}
-\keyword{price}
-\keyword{tmp}
+\keyword{prices}
+\keyword{process}

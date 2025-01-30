@@ -31,8 +31,12 @@ use_data(ghg_GWP_AR6, overwrite = T)
 long_columns <- c("scenario", "region", "var", "year", "value")
 use_data(long_columns, overwrite = T)
 
+# GCAM versions with deciles
+deciles_GCAM_versions <- c('v7.1', 'v7.2')
+use_data(deciles_GCAM_versions, overwrite = T)
+
 # Available GCAM versions
-available_GCAM_versions <- c('v6.0', 'v7.0', 'v7.1')
+available_GCAM_versions <- c('v6.0', 'v7.0', 'v7.1', 'v7.2')
 use_data(available_GCAM_versions, overwrite = T)
 
 # Available GWP versions
@@ -70,3 +74,12 @@ en_blocks <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/common", "
                       fileEncoding = "UTF-8-BOM"
 )
 use_data(en_blocks, overwrite = T)
+
+# water content in agricultural items
+water_content <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/common", "ag_water_content.csv"),
+                          skip = 1,
+                          stringsAsFactors = FALSE,
+                          fileEncoding = "UTF-8-BOM"
+) %>%
+  dplyr::select(GCAM_commodity, mean_water_content = mean)
+use_data(water_content, overwrite = T)

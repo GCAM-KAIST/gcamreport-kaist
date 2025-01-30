@@ -46,7 +46,8 @@ docs/*
 
 # Attempt files
 prova*
- 
+
+tests/testthat/*.dat
 inst/doc
 *.tiff
 tests/testthat/testInputs/v_7.0/database_basexdb_ref_gcamv7.0_test_specify_queries.dat
@@ -233,3 +234,12 @@ gcamv7.0_test_specify_queries.dat
 /harmonization_doc
 myenv.yml
 vetting.py
+/tests/testthat/db_scenmip_h5_241217a
+R/vehicleStockAndSalesUsingUCD.R
+R/update_template.R
+*t_diff.xlsx
+*var.xlsx
+*common-definitions-template_updated.xlsx
+R/gcamreport_zt_g7_def.R
+debugging.R
+R/water_content_computation.R
