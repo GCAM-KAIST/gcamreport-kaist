@@ -622,6 +622,31 @@ get_population <- function(GCAM_version = "v7.1") {
 }
 
 
+#' get_population_weights
+#'
+#' Retrieves the population weight by region. World = 1
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return `pop_weights` global variable.
+#' @keywords internal population
+#' @importFrom magrittr %>%
+#' @export
+get_population_weights <- function(GCAM_version = "v7.1") {
+  value <- pop_weights <- NULL
+
+  check_queries('pop_weights', GCAM_version)
+
+  pop_weights <- population_clean %>%
+    dplyr::group_by(scenario, year) %>%
+    dplyr::mutate(total = sum(value)) %>%
+    dplyr::mutate(share = value / total) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(scenario, region, year, share)
+
+  pop_weights <<- pop_weights
+}
+
+
 #' get_labor
 #'
 #' Compute active and inactive labor force
@@ -1043,7 +1068,8 @@ get_food_availability <- function(GCAM_version = "v7.1") {
 
   # GCAM does not track consumer waste, so food availability and intake are the reported equally
   food_availability_clean <- food_intake_clean %>%
-    dplyr::mutate(gsub('Food Intake','Food Availability',var))
+    dplyr::filter(region != 'World') %>% # World value will be the sum, not the weighted average
+    dplyr::mutate(var = gsub('Food Intake','Food Availability',var))
 
   food_availability_clean <<- food_availability_clean
 }
@@ -1059,7 +1085,7 @@ get_food_availability <- function(GCAM_version = "v7.1") {
 #' @importFrom magrittr %>%
 #' @export
 get_food_intake <- function(GCAM_version = "v7.1") {
-  value <- food_intake_clean <- NULL
+  value <- food_intake_clean <- food_intake_clean_w <- NULL
 
   check_queries('food_intake_clean', GCAM_version)
 
@@ -1084,6 +1110,23 @@ get_food_intake <- function(GCAM_version = "v7.1") {
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * 1e6 / pop / 365.25) %>% # pop in million
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  # World value: pop weighted average
+  food_intake_clean_w <- food_intake_clean %>%
+    # add regional weights (World = 1)
+    left_join_strict(pop_weights, by = c('scenario','region','year')) %>%
+    # compute World weighted average
+    dplyr::mutate(value = value * share) %>%
+    dplyr::group_by(scenario, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::mutate(region = 'World') %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  food_intake_clean <- rbind(
+    food_intake_clean,
+    food_intake_clean_w
+  )
 
   food_intake_clean <<- food_intake_clean
 
@@ -4692,6 +4735,8 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Forcing", var),
       !grepl("Temperature\\|Global Mean", var),
       !grepl("Concentration\\|CO2", var),
+      # food intake
+      !grepl("Food Intake", var),
     ) %>%
     dplyr::group_by(scenario, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
