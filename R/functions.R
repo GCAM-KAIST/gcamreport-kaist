@@ -1735,6 +1735,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
                        by = c("ghg", "resource"), multiple = "all", relationship = "many-to-many")
     ) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    # 1Tg = 1Mt; 1Gg = 1kt; 1Tg = 1000kt
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%

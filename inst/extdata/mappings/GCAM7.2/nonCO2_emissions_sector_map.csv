@@ -3,7 +3,7 @@ sector,ghg,var1,var2,var3,var4,var5,var6,var7,var8,unit_conv
 agricultural energy use,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|AFOFI,,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 agricultural energy use,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|BC|Energy|Demand,Emissions|CH4|Energy|Demand|AFOFI,,,Emissions|CH4|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH4|Energy and Industrial Processes,1
 agricultural energy use,CO,Emissions|CO,Emissions|CO|Energy,Emissions|BC|Energy|Demand,Emissions|CO|Energy|Demand|AFOFI,,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-agricultural energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|AFOFI,,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+agricultural energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|AFOFI,,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 agricultural energy use,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|AFOFI,,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 agricultural energy use,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|AFOFI,,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 agricultural energy use,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|AFOFI,,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -15,7 +15,7 @@ agricultural energy use,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions
 alumina,BC,Emissions|BC,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|BC|Energy and Industrial Processes,1
 alumina,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|CH4|Energy and Industrial Processes,1
 alumina,CO,Emissions|CO,Emissions|CO|Industrial Processes,Emissions|CO|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|CO|Energy and Industrial Processes,1
-alumina,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|N2O|Energy and Industrial Processes,1
+alumina,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 alumina,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|NH3|Energy and Industrial Processes,1
 alumina,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|VOC|Energy and Industrial Processes,1
 alumina,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Non-Ferrous Metals,,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -27,7 +27,7 @@ alumina,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Industrial Processes,Emissions|S
 ammonia,BC,Emissions|BC,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Chemicals,Emissions|BC|Industrial Processes|Chemicals|Ammonia,,,,Emissions|BC|Energy and Industrial Processes,1
 ammonia,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Chemicals,Emissions|CH4|Industrial Processes|Chemicals|Ammonia,,,,Emissions|CH4|Energy and Industrial Processes,1
 ammonia,CO,Emissions|CO,Emissions|CO|Industrial Processes,Emissions|CO|Industrial Processes|Chemicals,Emissions|CO|Industrial Processes|Chemicals|Ammonia,,,,Emissions|CO|Energy and Industrial Processes,1
-ammonia,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Chemicals,Emissions|N2O|Industrial Processes|Chemicals|Ammonia,,,,Emissions|N2O|Energy and Industrial Processes,1
+ammonia,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Chemicals,Emissions|N2O|Industrial Processes|Chemicals|Ammonia,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 ammonia,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Chemicals,Emissions|NH3|Industrial Processes|Chemicals|Ammonia,,,,Emissions|NH3|Energy and Industrial Processes,1
 ammonia,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Chemicals,Emissions|VOC|Industrial Processes|Chemicals|Ammonia,,,,Emissions|VOC|Energy and Industrial Processes,1
 ammonia,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Chemicals,Emissions|NOx|Industrial Processes|Chemicals|Ammonia,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -38,7 +38,7 @@ ammonia,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Industrial Processes,Emissions|S
 ammonia,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Industrial Processes,Emissions|Sulfur|Industrial Processes|Chemicals,Emissions|Sulfur|Industrial Processes|Chemicals|Ammonia,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 backup_electricity,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Supply,Emissions|CH4|Energy|Supply|Electricity,,,,Emissions|CH4|Energy and Industrial Processes,1
 backup_electricity,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Supply,Emissions|CO|Energy|Supply|Electricity,,,,Emissions|CO|Energy and Industrial Processes,1
-backup_electricity,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Electricity,,,,Emissions|N2O|Energy and Industrial Processes,1
+backup_electricity,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Electricity,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 backup_electricity,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Supply,Emissions|NH3|Energy|Supply|Electricity,,,,Emissions|NH3|Energy and Industrial Processes,1
 backup_electricity,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Supply,Emissions|VOC|Energy|Supply|Electricity,,,,Emissions|VOC|Energy and Industrial Processes,1
 backup_electricity,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Supply,Emissions|NOx|Energy|Supply|Electricity,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -48,15 +48,15 @@ backup_electricity,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulf
 backup_electricity,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Supply,Emissions|Sulfur|Energy|Supply|Electricity,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 backup_electricity,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Supply,Emissions|Sulfur|Energy|Supply|Electricity,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 Beef,CH4_AGR,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Livestock,Emissions|CH4|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|CH4|AFOLU [NGHGI],,,1
-Beef,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,Emissions|N2O|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|N2O|AFOLU [NGHGI],,,1
+Beef,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,Emissions|N2O|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Beef,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Livestock,Emissions|NH3|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|NH3|AFOLU [NGHGI],,,1
 Beef,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Livestock,Emissions|NOx|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|NOx|AFOLU [NGHGI],,,1
 Beef,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Livestock,Emissions|VOC|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|VOC|AFOLU [NGHGI],,,1
-biomass,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|Sulfur|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+biomass,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|Sulfur|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 chemical energy use,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 chemical energy use,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 chemical energy use,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-chemical energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+chemical energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 chemical energy use,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 chemical energy use,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 chemical energy use,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -72,7 +72,7 @@ comm cooling,HFC134a,Emissions|HFC,Emissions|HFC|HFC134a,Emissions|F-Gases,,,,,,
 comm cooling,HFC143a,Emissions|HFC,Emissions|HFC|HFC143a,Emissions|F-Gases,,,,,,1
 comm cooling,HFC23,Emissions|HFC,Emissions|HFC|HFC23,Emissions|F-Gases,,,,,,1
 comm cooling,HFC32,Emissions|HFC,Emissions|HFC|HFC32,Emissions|F-Gases,,,,,,1
-comm cooling,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Commercial,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+comm cooling,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Commercial,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 comm cooling,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Commercial,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 comm cooling,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Commercial,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 comm cooling,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Commercial,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -83,7 +83,7 @@ comm cooling,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Ene
 comm heating,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Commercial,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 comm heating,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Commercial,,Emissions|CH4|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH4|Energy and Industrial Processes,1
 comm heating,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Commercial,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-comm heating,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Commercial,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+comm heating,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Commercial,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 comm heating,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Commercial,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 comm heating,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Commercial,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 comm heating,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Commercial,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -95,7 +95,7 @@ comm heating,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Ene
 comm others,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Commercial,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 comm others,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Commercial,,Emissions|CH4|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH4|Energy and Industrial Processes,1
 comm others,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Commercial,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-comm others,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Commercial,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+comm others,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Commercial,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 comm others,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Commercial,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 comm others,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Commercial,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 comm others,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Commercial,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -107,7 +107,7 @@ comm others,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Ener
 construction energy use,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 construction energy use,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 construction energy use,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-construction energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+construction energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 construction energy use,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 construction energy use,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 construction energy use,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -120,8 +120,8 @@ Corn,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Emiss
 Corn,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 Corn,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 Corn,H2_AWB,NoReported,,,,,,,,1
-Corn,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-Corn,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+Corn,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Corn,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Corn,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Corn,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Corn,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -134,14 +134,14 @@ Corn,SO2_4_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Ag
 Corn,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 Corn,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 Dairy,CH4_AGR,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Livestock,Emissions|CH4|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|CH4|AFOLU [NGHGI],,,1
-Dairy,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,Emissions|N2O|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|N2O|AFOLU [NGHGI],,,1
+Dairy,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,Emissions|N2O|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Dairy,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Livestock,Emissions|NH3|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|NH3|AFOLU [NGHGI],,,1
 Dairy,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Livestock,Emissions|NOx|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|NOx|AFOLU [NGHGI],,,1
 Dairy,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Livestock,Emissions|VOC|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|VOC|AFOLU [NGHGI],,,1
 district heat,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Supply,Emissions|BC|Energy|Supply|Heat,,,,Emissions|BC|Energy and Industrial Processes,1
 district heat,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Supply,Emissions|CH4|Energy|Supply|Heat,,,,Emissions|CH4|Energy and Industrial Processes,1
 district heat,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Supply,Emissions|CO|Energy|Supply|Heat,,,,Emissions|CO|Energy and Industrial Processes,1
-district heat,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Heat,,,,Emissions|N2O|Energy and Industrial Processes,1
+district heat,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Heat,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 district heat,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Supply,Emissions|NH3|Energy|Supply|Heat,,,,Emissions|NH3|Energy and Industrial Processes,1
 district heat,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Supply,Emissions|VOC|Energy|Supply|Heat,,,,Emissions|VOC|Energy and Industrial Processes,1
 district heat,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Supply,Emissions|NOx|Energy|Supply|Heat,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -153,7 +153,7 @@ district heat,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|En
 electricity,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Supply,Emissions|BC|Energy|Supply|Electricity,,,,Emissions|BC|Energy and Industrial Processes,1
 electricity,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Supply,Emissions|CH4|Energy|Supply|Electricity,,,,Emissions|CH4|Energy and Industrial Processes,1
 electricity,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Supply,Emissions|CO|Energy|Supply|Electricity,,,,Emissions|CO|Energy and Industrial Processes,1
-electricity,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Electricity,,,,Emissions|N2O|Energy and Industrial Processes,1
+electricity,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Electricity,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 electricity,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Supply,Emissions|NH3|Energy|Supply|Electricity,,,,Emissions|NH3|Energy and Industrial Processes,1
 electricity,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Supply,Emissions|VOC|Energy|Supply|Electricity,,,,Emissions|VOC|Energy and Industrial Processes,1
 electricity,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Supply,Emissions|NOx|Energy|Supply|Electricity,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -167,8 +167,8 @@ FiberCrop,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,
 FiberCrop,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 FiberCrop,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 FiberCrop,H2_AWB,NoReported,,,,,,,,1
-FiberCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-FiberCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+FiberCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+FiberCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 FiberCrop,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 FiberCrop,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 FiberCrop,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -180,18 +180,18 @@ FiberCrop,SO2_3_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFO
 FiberCrop,SO2_4_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Agriculture,Emissions|Sulfur|AFOLU|Agriculture|Managed Soils,,Emissions|Sulfur|AFOLU [NGHGI],,,1
 FiberCrop,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 FiberCrop,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
-FodderGrass,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,,,Emissions|N2O|AFOLU [NGHGI],,,1
+FodderGrass,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 FodderGrass,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Land,,,Emissions|NH3|AFOLU [NGHGI],,,1
 FodderGrass,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Land,,,Emissions|NOx|AFOLU [NGHGI],,,1
-FodderHerb,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,,,Emissions|N2O|AFOLU [NGHGI],,,1
+FodderHerb,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 FodderHerb,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Land,,,Emissions|NH3|AFOLU [NGHGI],,,1
 FodderHerb,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Land,,,Emissions|NOx|AFOLU [NGHGI],,,1
 Fruits,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Emissions|BC|AFOLU|Agriculture|Managed Soils,,Emissions|BC|AFOLU [NGHGI],,,1
 Fruits,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 Fruits,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 Fruits,H2_AWB,NoReported,,,,,,,,1
-Fruits,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-Fruits,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+Fruits,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Fruits,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Fruits,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Fruits,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Fruits,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -221,7 +221,7 @@ H2 wholesale dispensing,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Ene
 industrial energy use,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 industrial energy use,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 industrial energy use,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-industrial energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+industrial energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 industrial energy use,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 industrial energy use,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 industrial energy use,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -239,7 +239,7 @@ industrial processes,HFC23,Emissions|HFC,Emissions|HFC|HFC23,Emissions|F-Gases,,
 industrial processes,HFC245fa,Emissions|HFC,Emissions|HFC|HFC245fa,Emissions|F-Gases,,,,,,1
 industrial processes,HFC365mfc,Emissions|HFC,,Emissions|F-Gases,,,,,,1
 industrial processes,HFC43,Emissions|HFC,Emissions|HFC|HFC43-10,Emissions|F-Gases,,,,,,1
-industrial processes,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Other Sector,,,,,Emissions|N2O|Energy and Industrial Processes,1
+industrial processes,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Other Sector,,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 industrial processes,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Other Sector,,,,,Emissions|NH3|Energy and Industrial Processes,1
 industrial processes,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Other Sector,,,,,Emissions|VOC|Energy and Industrial Processes,1
 industrial processes,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Other Sector,,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -251,7 +251,7 @@ industrial processes,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Industrial Processe
 iron and steel,BC,Emissions|BC,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Iron and Steel,,,,,Emissions|BC|Energy and Industrial Processes,1
 iron and steel,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Iron and Steel,,,,,Emissions|CH4|Energy and Industrial Processes,1
 iron and steel,CO,Emissions|CO,Emissions|CO|Industrial Processes,Emissions|CO|Industrial Processes|Iron and Steel,,,,,Emissions|CO|Energy and Industrial Processes,1
-iron and steel,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Iron and Steel,,,,,Emissions|N2O|Energy and Industrial Processes,1
+iron and steel,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Iron and Steel,,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 iron and steel,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Iron and Steel,,,,,Emissions|NH3|Energy and Industrial Processes,1
 iron and steel,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Iron and Steel,,,,,Emissions|VOC|Energy and Industrial Processes,1
 iron and steel,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Iron and Steel,,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -264,8 +264,8 @@ Legumes,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Em
 Legumes,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 Legumes,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 Legumes,H2_AWB,NoReported,,,,,,,,1
-Legumes,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-Legumes,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+Legumes,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Legumes,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Legumes,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Legumes,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Legumes,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -280,7 +280,7 @@ Legumes,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agricult
 mining energy use,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 mining energy use,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 mining energy use,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-mining energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+mining energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 mining energy use,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 mining energy use,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 mining energy use,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -293,8 +293,8 @@ MiscCrop,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,E
 MiscCrop,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 MiscCrop,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 MiscCrop,H2_AWB,NoReported,,,,,,,,1
-MiscCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-MiscCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+MiscCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+MiscCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 MiscCrop,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 MiscCrop,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 MiscCrop,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -309,7 +309,7 @@ MiscCrop,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agricul
 N fertilizer,BC,Emissions|BC,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Chemicals,Emissions|BC|Industrial Processes|Chemicals|Ammonia,,,,Emissions|BC|Energy and Industrial Processes,1
 N fertilizer,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Chemicals,Emissions|CH4|Industrial Processes|Chemicals|Ammonia,,,,Emissions|CH4|Energy and Industrial Processes,1
 N fertilizer,CO,Emissions|CO,Emissions|CO|Industrial Processes,Emissions|CO|Industrial Processes|Chemicals,Emissions|CO|Industrial Processes|Chemicals|Ammonia,,,,Emissions|CO|Energy and Industrial Processes,1
-N fertilizer,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Chemicals,Emissions|N2O|Industrial Processes|Chemicals|Ammonia,,,,Emissions|N2O|Energy and Industrial Processes,1
+N fertilizer,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Chemicals,Emissions|N2O|Industrial Processes|Chemicals|Ammonia,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 N fertilizer,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Chemicals,Emissions|NH3|Industrial Processes|Chemicals|Ammonia,,,,Emissions|NH3|Energy and Industrial Processes,1
 N fertilizer,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Chemicals,Emissions|VOC|Industrial Processes|Chemicals|Ammonia,,,,Emissions|VOC|Energy and Industrial Processes,1
 N fertilizer,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Chemicals,Emissions|NOx|Industrial Processes|Chemicals|Ammonia,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -322,8 +322,8 @@ NutsSeeds,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,
 NutsSeeds,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 NutsSeeds,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 NutsSeeds,H2_AWB,NoReported,,,,,,,,1
-NutsSeeds,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-NutsSeeds,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+NutsSeeds,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+NutsSeeds,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 NutsSeeds,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 NutsSeeds,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 NutsSeeds,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -339,8 +339,8 @@ OilCrop,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Em
 OilCrop,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 OilCrop,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 OilCrop,H2_AWB,NoReported,,,,,,,,1
-OilCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-OilCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+OilCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+OilCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 OilCrop,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 OilCrop,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 OilCrop,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -356,8 +356,8 @@ OilPalm,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Em
 OilPalm,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 OilPalm,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 OilPalm,H2_AWB,NoReported,,,,,,,,1
-OilPalm,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-OilPalm,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+OilPalm,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+OilPalm,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 OilPalm,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 OilPalm,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 OilPalm,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -372,7 +372,7 @@ OilPalm,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agricult
 other industrial energy use,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 other industrial energy use,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 other industrial energy use,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-other industrial energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+other industrial energy use,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 other industrial energy use,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 other industrial energy use,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 other industrial energy use,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -385,8 +385,8 @@ OtherGrain,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture
 OtherGrain,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 OtherGrain,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 OtherGrain,H2_AWB,NoReported,,,,,,,,1
-OtherGrain,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-OtherGrain,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+OtherGrain,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+OtherGrain,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 OtherGrain,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 OtherGrain,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 OtherGrain,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -402,8 +402,8 @@ PalmFruit,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,
 PalmFruit,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 PalmFruit,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 PalmFruit,H2_AWB,NoReported,,,,,,,,1
-PalmFruit,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-PalmFruit,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+PalmFruit,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+PalmFruit,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 PalmFruit,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 PalmFruit,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 PalmFruit,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -416,19 +416,19 @@ PalmFruit,SO2_4_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFO
 PalmFruit,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 PalmFruit,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 Pork,CH4_AGR,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Livestock,,Emissions|CH4|AFOLU [NGHGI],,,1
-Pork,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,,Emissions|N2O|AFOLU [NGHGI],,,1
+Pork,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Pork,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Livestock,,Emissions|NH3|AFOLU [NGHGI],,,1
 Pork,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Livestock,,Emissions|NOx|AFOLU [NGHGI],,,1
 Pork,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Livestock,,Emissions|VOC|AFOLU [NGHGI],,,1
 Poultry,CH4_AGR,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Livestock,,Emissions|CH4|AFOLU [NGHGI],,,1
-Poultry,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,,Emissions|N2O|AFOLU [NGHGI],,,1
+Poultry,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Poultry,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Livestock,,Emissions|NH3|AFOLU [NGHGI],,,1
 Poultry,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Livestock,,Emissions|NOx|AFOLU [NGHGI],,,1
 Poultry,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Livestock,,Emissions|VOC|AFOLU [NGHGI],,,1
 process heat cement,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 process heat cement,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 process heat cement,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-process heat cement,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+process heat cement,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 process heat cement,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 process heat cement,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 process heat cement,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -440,7 +440,7 @@ process heat cement,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sul
 process heat food processing,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 process heat food processing,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 process heat food processing,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-process heat food processing,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+process heat food processing,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 process heat food processing,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 process heat food processing,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 process heat food processing,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -452,7 +452,7 @@ process heat food processing,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emis
 process heat paper,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Industry,,,,Emissions|BC|Energy and Industrial Processes,1
 process heat paper,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Industry,,,,Emissions|CH4|Energy and Industrial Processes,1
 process heat paper,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Industry,,,,Emissions|CO|Energy and Industrial Processes,1
-process heat paper,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1
+process heat paper,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Industry,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 process heat paper,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Industry,,,,Emissions|NH3|Energy and Industrial Processes,1
 process heat paper,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Industry,,,,Emissions|VOC|Energy and Industrial Processes,1
 process heat paper,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Industry,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -463,7 +463,7 @@ process heat paper,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulf
 process heat paper,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 refining,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Supply,Emissions|CH4|Energy|Supply|Liquids,,,,Emissions|CH4|Energy and Industrial Processes,1
 refining,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Supply,Emissions|CO|Energy|Supply|Liquids,,,,Emissions|CO|Energy and Industrial Processes,1
-refining,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Liquids,,,,Emissions|N2O|Energy and Industrial Processes,1
+refining,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Supply,Emissions|N2O|Energy|Supply|Liquids,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 refining,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Supply,Emissions|VOC|Energy|Supply|Liquids,,,,Emissions|VOC|Energy and Industrial Processes,1
 refining,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Supply,Emissions|NOx|Energy|Supply|Liquids,,,,Emissions|NOx|Energy and Industrial Processes,1
 refining,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Supply,Emissions|Sulfur|Energy|Supply|Liquids,,,,Emissions|Sulfur|Energy and Industrial Processes,1
@@ -478,7 +478,7 @@ resid cooling,HFC134a,Emissions|HFC,Emissions|HFC|HFC134a,Emissions|F-Gases,,,,,
 resid cooling,HFC143a,Emissions|HFC,Emissions|HFC|HFC143a,Emissions|F-Gases,,,,,,1
 resid cooling,HFC23,Emissions|HFC,Emissions|HFC|HFC23,Emissions|F-Gases,,,,,,1
 resid cooling,HFC32,Emissions|HFC,Emissions|HFC|HFC32,Emissions|F-Gases,,,,,,1
-resid cooling,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid cooling,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid cooling,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid cooling,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid cooling,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -495,7 +495,7 @@ resid cooling modern,HFC134a,Emissions|HFC,Emissions|HFC|HFC134a,Emissions|F-Gas
 resid cooling modern,HFC143a,Emissions|HFC,Emissions|HFC|HFC143a,Emissions|F-Gases,,,,,,1
 resid cooling modern,HFC23,Emissions|HFC,Emissions|HFC|HFC23,Emissions|F-Gases,,,,,,1
 resid cooling modern,HFC32,Emissions|HFC,Emissions|HFC|HFC32,Emissions|F-Gases,,,,,,1
-resid cooling modern,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid cooling modern,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid cooling modern,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid cooling modern,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid cooling modern,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -507,7 +507,7 @@ resid cooling modern,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Su
 resid heating,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid heating,CH4,Emissions|CH5,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH5|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH5|Energy and Industrial Processes,1
 resid heating,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid heating,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid heating,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid heating,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid heating,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid heating,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -519,7 +519,7 @@ resid heating,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|En
 resid heating coal,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid heating coal,CH4,Emissions|CH6,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH6|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH6|Energy and Industrial Processes,1
 resid heating coal,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid heating coal,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid heating coal,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid heating coal,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid heating coal,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid heating coal,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -531,7 +531,7 @@ resid heating coal,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulf
 resid heating modern,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid heating modern,CH4,Emissions|CH7,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH7|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH7|Energy and Industrial Processes,1
 resid heating modern,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid heating modern,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid heating modern,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid heating modern,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid heating modern,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid heating modern,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -543,7 +543,7 @@ resid heating modern,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Su
 resid heating TradBio,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid heating TradBio,CH4,Emissions|CH8,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH8|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH8|Energy and Industrial Processes,1
 resid heating TradBio,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid heating TradBio,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid heating TradBio,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid heating TradBio,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid heating TradBio,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid heating TradBio,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -555,7 +555,7 @@ resid heating TradBio,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|S
 resid others,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid others,CH4,Emissions|CH9,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH9|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH9|Energy and Industrial Processes,1
 resid others,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid others,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid others,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid others,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid others,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid others,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -567,7 +567,7 @@ resid others,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Ene
 resid others coal,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid others coal,CH4,Emissions|CH10,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH10|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH10|Energy and Industrial Processes,1
 resid others coal,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid others coal,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid others coal,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid others coal,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid others coal,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid others coal,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -579,7 +579,7 @@ resid others coal,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfu
 resid others modern,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid others modern,CH4,Emissions|CH11,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH11|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH11|Energy and Industrial Processes,1
 resid others modern,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid others modern,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid others modern,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid others modern,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid others modern,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid others modern,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -591,7 +591,7 @@ resid others modern,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sul
 resid others TradBio,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Residential,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 resid others TradBio,CH4,Emissions|CH12,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Residential,,Emissions|CH12|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH12|Energy and Industrial Processes,1
 resid others TradBio,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Residential,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
-resid others TradBio,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1
+resid others TradBio,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Residential and Commercial,Emissions|N2O|Energy|Demand|Residential,,Emissions|N2O|Energy|Demand|Residential and Commercial and AFOFI,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 resid others TradBio,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Residential,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 resid others TradBio,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Residential,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 resid others TradBio,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Residential,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
@@ -605,8 +605,8 @@ Rice,CH4_AGR,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,E
 Rice,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,,,Emissions|CH4|AFOLU [NGHGI],,,1
 Rice,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Rice,,Emissions|CO|AFOLU [NGHGI],,,1
 Rice,H2_AWB,NoReported,,,,,,,,1
-Rice,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Rice,,Emissions|N2O|AFOLU [NGHGI],,,1
-Rice,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Rice,,Emissions|N2O|AFOLU [NGHGI],,,1
+Rice,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Rice,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Rice,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Rice,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Rice,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Rice,,Emissions|NH3|AFOLU [NGHGI],,,1
 Rice,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Rice,,Emissions|NH3|AFOLU [NGHGI],,,1
 Rice,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Rice,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -622,8 +622,8 @@ RootTuber,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,
 RootTuber,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 RootTuber,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 RootTuber,H2_AWB,NoReported,,,,,,,,1
-RootTuber,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-RootTuber,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+RootTuber,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+RootTuber,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 RootTuber,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 RootTuber,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 RootTuber,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -636,7 +636,7 @@ RootTuber,SO2_4_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFO
 RootTuber,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 RootTuber,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 SheepGoat,CH4_AGR,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Livestock,Emissions|CH4|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|CH4|AFOLU [NGHGI],,,1
-SheepGoat,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,Emissions|N2O|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|N2O|AFOLU [NGHGI],,,1
+SheepGoat,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Livestock,Emissions|N2O|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 SheepGoat,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Livestock,Emissions|NH3|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|NH3|AFOLU [NGHGI],,,1
 SheepGoat,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Livestock,Emissions|NOx|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|NOx|AFOLU [NGHGI],,,1
 SheepGoat,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Livestock,Emissions|VOC|AFOLU|Agriculture|Livestock|Enteric Fermentation,Emissions|VOC|AFOLU [NGHGI],,,1
@@ -644,8 +644,8 @@ Soybean,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Em
 Soybean,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 Soybean,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 Soybean,H2_AWB,NoReported,,,,,,,,1
-Soybean,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-Soybean,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+Soybean,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Soybean,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Soybean,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Soybean,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Soybean,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -661,8 +661,8 @@ SugarCrop,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,
 SugarCrop,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 SugarCrop,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 SugarCrop,H2_AWB,NoReported,,,,,,,,1
-SugarCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-SugarCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+SugarCrop,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+SugarCrop,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 SugarCrop,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 SugarCrop,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 SugarCrop,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -676,7 +676,7 @@ SugarCrop,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agricu
 SugarCrop,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 trn_aviation_intl,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Bunkers,Emissions|BC|Energy|Demand|Bunkers|International Aviation,,,Emissions|BC|Energy and Industrial Processes,1
 trn_aviation_intl,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Bunkers,Emissions|CO|Energy|Demand|Bunkers|International Aviation,,,Emissions|CO|Energy and Industrial Processes,1
-trn_aviation_intl,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Bunkers,Emissions|N2O|Energy|Demand|Bunkers|International Aviation,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_aviation_intl,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Bunkers,Emissions|N2O|Energy|Demand|Bunkers|International Aviation,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_aviation_intl,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Bunkers,Emissions|NH3|Energy|Demand|Bunkers|International Aviation,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_aviation_intl,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Bunkers,Emissions|VOC|Energy|Demand|Bunkers|International Aviation,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_aviation_intl,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Bunkers,Emissions|NOx|Energy|Demand|Bunkers|International Aviation,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -688,7 +688,7 @@ trn_aviation_intl,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfu
 trn_freight,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Transportation,Emissions|BC|Energy|Demand|Transportation,,,Emissions|BC|Energy and Industrial Processes,1
 trn_freight,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Transportation,Emissions|CH4|Energy|Demand|Transportation,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_freight,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Transportation,Emissions|CO|Energy|Demand|Transportation,,,Emissions|CO|Energy and Industrial Processes,1
-trn_freight,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_freight,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_freight,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Transportation,Emissions|NH3|Energy|Demand|Transportation,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_freight,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Transportation,Emissions|VOC|Energy|Demand|Transportation,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_freight,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Transportation,Emissions|NOx|Energy|Demand|Transportation,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -700,7 +700,7 @@ trn_freight,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Ener
 trn_freight_road,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Transportation,Emissions|BC|Energy|Demand|Transportation|Truck,,,Emissions|BC|Energy and Industrial Processes,1
 trn_freight_road,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Transportation,Emissions|CH4|Energy|Demand|Transportation|Truck,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_freight_road,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Transportation,Emissions|CO|Energy|Demand|Transportation|Truck,,,Emissions|CO|Energy and Industrial Processes,1
-trn_freight_road,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation|Truck,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_freight_road,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation|Truck,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_freight_road,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Transportation,Emissions|NH3|Energy|Demand|Transportation|Truck,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_freight_road,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Transportation,Emissions|VOC|Energy|Demand|Transportation|Truck,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_freight_road,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Transportation,Emissions|NOx|Energy|Demand|Transportation|Truck,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -712,7 +712,7 @@ trn_freight_road,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur
 trn_pass,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Transportation,Emissions|BC|Energy|Demand|Transportation,,,Emissions|BC|Energy and Industrial Processes,1
 trn_pass,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Transportation,Emissions|CH4|Energy|Demand|Transportation,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_pass,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Transportation,Emissions|CO|Energy|Demand|Transportation,,,Emissions|CO|Energy and Industrial Processes,1
-trn_pass,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_pass,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_pass,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Transportation,Emissions|NH3|Energy|Demand|Transportation,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_pass,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Transportation,Emissions|VOC|Energy|Demand|Transportation,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_pass,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Transportation,Emissions|NOx|Energy|Demand|Transportation,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -724,7 +724,7 @@ trn_pass,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|
 trn_pass_road,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Transportation,Emissions|BC|Energy|Demand|Transportation,,,Emissions|BC|Energy and Industrial Processes,1
 trn_pass_road,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Transportation,Emissions|CH4|Energy|Demand|Transportation,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_pass_road,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Transportation,Emissions|CO|Energy|Demand|Transportation,,,Emissions|CO|Energy and Industrial Processes,1
-trn_pass_road,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_pass_road,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_pass_road,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Transportation,Emissions|NH3|Energy|Demand|Transportation,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_pass_road,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Transportation,Emissions|VOC|Energy|Demand|Transportation,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_pass_road,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Transportation,Emissions|NOx|Energy|Demand|Transportation,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -736,7 +736,7 @@ trn_pass_road,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|En
 trn_pass_road_LDV,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Transportation,Emissions|BC|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|BC|Energy and Industrial Processes,1
 trn_pass_road_LDV,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Transportation,Emissions|CH4|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_pass_road_LDV,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Transportation,Emissions|CO|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|CO|Energy and Industrial Processes,1
-trn_pass_road_LDV,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_pass_road_LDV,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_pass_road_LDV,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Transportation,Emissions|NH3|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_pass_road_LDV,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Transportation,Emissions|VOC|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_pass_road_LDV,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Transportation,Emissions|NOx|Energy|Demand|Transportation|Light-Duty Vehicle,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -748,7 +748,7 @@ trn_pass_road_LDV,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfu
 trn_pass_road_LDV_4W,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Transportation,Emissions|BC|Energy|Demand|Transportation,,,Emissions|BC|Energy and Industrial Processes,1
 trn_pass_road_LDV_4W,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Transportation,Emissions|CH4|Energy|Demand|Transportation,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_pass_road_LDV_4W,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Transportation,Emissions|CO|Energy|Demand|Transportation,,,Emissions|CO|Energy and Industrial Processes,1
-trn_pass_road_LDV_4W,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_pass_road_LDV_4W,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Transportation,Emissions|N2O|Energy|Demand|Transportation,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_pass_road_LDV_4W,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Transportation,Emissions|NH3|Energy|Demand|Transportation,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_pass_road_LDV_4W,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Transportation,Emissions|VOC|Energy|Demand|Transportation,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_pass_road_LDV_4W,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Transportation,Emissions|NOx|Energy|Demand|Transportation,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -760,7 +760,7 @@ trn_pass_road_LDV_4W,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Su
 trn_shipping_intl,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Bunkers,Emissions|BC|Energy|Demand|Bunkers|International Shipping,,,Emissions|BC|Energy and Industrial Processes,1
 trn_shipping_intl,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Bunkers,Emissions|CH4|Energy|Demand|Bunkers|International Shipping,,,Emissions|CH4|Energy and Industrial Processes,1
 trn_shipping_intl,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Bunkers,Emissions|CO|Energy|Demand|Bunkers|International Shipping,,,Emissions|CO|Energy and Industrial Processes,1
-trn_shipping_intl,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Bunkers,Emissions|N2O|Energy|Demand|Bunkers|International Shipping,,,Emissions|N2O|Energy and Industrial Processes,1
+trn_shipping_intl,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand,Emissions|N2O|Energy|Demand|Bunkers,Emissions|N2O|Energy|Demand|Bunkers|International Shipping,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 trn_shipping_intl,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Bunkers,Emissions|NH3|Energy|Demand|Bunkers|International Shipping,,,Emissions|NH3|Energy and Industrial Processes,1
 trn_shipping_intl,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Bunkers,Emissions|VOC|Energy|Demand|Bunkers|International Shipping,,,Emissions|VOC|Energy and Industrial Processes,1
 trn_shipping_intl,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Bunkers,Emissions|NOx|Energy|Demand|Bunkers|International Shipping,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -773,7 +773,7 @@ UnmanagedLand,BC,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Land,,,Emiss
 UnmanagedLand,CH4,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Land,,,Emissions|CH4|AFOLU [NGHGI],,,1
 UnmanagedLand,CO,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Land,,,Emissions|CO|AFOLU [NGHGI],,,1
 UnmanagedLand,H2,NoReported,,,,,,,,1
-UnmanagedLand,N2O,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,,,Emissions|N2O|AFOLU [NGHGI],,,1
+UnmanagedLand,N2O,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 UnmanagedLand,NH3,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Land,,,Emissions|NH3|AFOLU [NGHGI],,,1
 UnmanagedLand,NMVOC,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Land,,,Emissions|VOC|AFOLU [NGHGI],,,1
 UnmanagedLand,NOx,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Land,,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -789,7 +789,7 @@ urban processes,HFC134a,Emissions|HFC,Emissions|HFC|HFC134a,Emissions|F-Gases,,,
 urban processes,HFC152a,Emissions|HFC,Emissions|HFC|HFC152a,Emissions|F-Gases,,,,,,1
 urban processes,HFC227ea,Emissions|HFC,Emissions|HFC|HFC227ea,Emissions|F-Gases,,,,,,1
 urban processes,HFC236fa,Emissions|HFC,,Emissions|F-Gases,,,,,,1
-urban processes,N2O,Emissions|N2O,Emissions|N2O|Other,,,,,,,1
+urban processes,N2O,Emissions|N2O,Emissions|N2O|Other,,,,,,,1.00E+03
 urban processes,NH3,Emissions|NH3,Emissions|NH3|Other,,,,,,,1
 urban processes,NMVOC,Emissions|VOC,Emissions|VOC|Other,,,,,,,1
 urban processes,NOx,Emissions|NOx,Emissions|NOx|Other,,,,,,,1
@@ -802,8 +802,8 @@ Vegetables,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture
 Vegetables,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 Vegetables,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 Vegetables,H2_AWB,NoReported,,,,,,,,1
-Vegetables,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-Vegetables,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+Vegetables,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Vegetables,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Vegetables,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Vegetables,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Vegetables,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
@@ -818,7 +818,7 @@ Vegetables,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agric
 waste biomass for paper,BC,Emissions|BC,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Pulp and Paper,,,,,Emissions|BC|Energy and Industrial Processes,1
 waste biomass for paper,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Pulp and Paper,,,,,Emissions|CH4|Energy and Industrial Processes,1
 waste biomass for paper,CO,Emissions|CO,Emissions|CO|Industrial Processes,Emissions|CO|Industrial Processes|Pulp and Paper,,,,,Emissions|CO|Energy and Industrial Processes,1
-waste biomass for paper,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Pulp and Paper,,,,,Emissions|N2O|Energy and Industrial Processes,1
+waste biomass for paper,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emissions|N2O|Industrial Processes|Pulp and Paper,,,,,Emissions|N2O|Energy and Industrial Processes,1.00E+03
 waste biomass for paper,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Pulp and Paper,,,,,Emissions|NH3|Energy and Industrial Processes,1
 waste biomass for paper,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Pulp and Paper,,,,,Emissions|VOC|Energy and Industrial Processes,1
 waste biomass for paper,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Pulp and Paper,,,,,Emissions|NOx|Energy and Industrial Processes,1
@@ -831,8 +831,8 @@ Wheat,BC_AWB,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Agriculture,Emis
 Wheat,CH4_AWB,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Agriculture,Emissions|CH4|AFOLU|Agriculture|Managed Soils,,Emissions|CH4|AFOLU [NGHGI],,,1
 Wheat,CO_AWB,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Agriculture,Emissions|CO|AFOLU|Agriculture|Managed Soils,,Emissions|CO|AFOLU [NGHGI],,,1
 Wheat,H2_AWB,NoReported,,,,,,,,1
-Wheat,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
-Wheat,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1
+Wheat,N2O_AGR,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+Wheat,N2O_AWB,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Agriculture,Emissions|N2O|AFOLU|Agriculture|Managed Soils,,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
 Wheat,NH3_AGR,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Wheat,NH3_AWB,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Agriculture,Emissions|NH3|AFOLU|Agriculture|Managed Soils,,Emissions|NH3|AFOLU [NGHGI],,,1
 Wheat,NOx_AGR,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Agriculture,Emissions|NOx|AFOLU|Agriculture|Managed Soils,,Emissions|NOx|AFOLU [NGHGI],,,1
