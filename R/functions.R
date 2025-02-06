@@ -3490,12 +3490,12 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
   }
   missing_markets <- setdiff(unique(tmp1$market), c(unique(CO2_market_filteredReg$market),NA))
   if (interactive() & length(missing_markets) != 0) {
-    warning(sprintf('ATTENTION: The CO2 markets %s are not present in the `co2_market_new` mapping file.',
+    warning(sprintf('ATTENTION: CO2 markets including:\n %.100s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
 
     # user response
     user_input <- readline(prompt =
-                             sprintf('ATTENTION: The CO2 markets %s are not present in the `co2_market_new` mapping file.\nDo you want to continue without adding them (Y/N)? Press Y or N: ',
+                             sprintf('CO2 markets including:\n %.100s \nare not present in the `co2_market_new` mapping file.\nDo you want to continue without adding them (Y/N)? Press Y or N: ',
                                      paste(missing_markets, collapse = ", ")))
 
     # handling user response
