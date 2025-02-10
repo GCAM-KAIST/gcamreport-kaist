@@ -889,6 +889,20 @@ output-primary/physical-output/node()</xPath>
       </marketQuery>
    </aQuery>
    <aQuery>
+      <all-regions/>
+      <emissionsQueryBuilder title="CO2 emissions by resource production">
+            <axis1 name="GHG">GHG</axis1>
+            <axis2 name="Year">emissions</axis2>
+            <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'resource']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions/node()</xPath>
+            <comments/>
+            <labelRewriteList append-values="false">
+               <level name="GHG">
+                  <rewrite from="CO2_FUG" to="CO2"/>
+               </level>
+            </labelRewriteList>
+      </emissionsQueryBuilder>
+   </aQuery>
+   <aQuery>
       <all-regions />
       <supplyDemandQuery title="CO2 emissions by sector (no bio) (excluding resource production)">
          <axis1 name="sector">sector[@name]</axis1>

@@ -1495,7 +1495,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
   check_queries("co2_emiss", GCAM_version)
 
   var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
-  queryItem1 <- var_fun_map[var_fun_map$name == "co2_emiss", "queries"][[1]]
+  queryItem1 <- var_fun_map[var_fun_map$name == "co2_emiss", "queries"][[1]][1]
+  queryItem2 <- var_fun_map[var_fun_map$name == "co2_emiss", "queries"][[1]][2]
 
   tmp <-
     check_inf(rgcam::getQuery(prj, queryItem1), dataset_name = queryItem1) %>%
@@ -1510,13 +1511,37 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
       dplyr::ungroup()
   }
 
-  co2_emiss <-
+  # CO2 emissions by technology
+  co2_emiss_tech <-
     tmp %>%
     left_join_strict(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector", "subsector", "technology"),
                      mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  # CO2 emissions by resource production
+  co2_emiss_resource <-
+    check_inf(rgcam::getQuery(prj, queryItem2), dataset_name = queryItem2) %>%
+    left_join_strict(get(paste('co2_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("resource", "subresource", "ghg"),
+                     mapping = paste('co2_resource_map',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  # Total CO2 emissions
+  co2_emiss <- rbind(
+    co2_emiss_tech,
+    co2_emiss_resource
+  ) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%

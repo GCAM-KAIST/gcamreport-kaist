@@ -238,6 +238,18 @@
 #' }
 "co2_tech_map_v7.2"
 
+#' co2_resource_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions map by resource production compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_resource_map_v7.2
+#' }
+"co2_resource_map_v7.2"
+
 #' kyoto_sector_map_v7.2
 #'
 #' @source github
@@ -822,6 +834,18 @@
 #' }
 "co2_tech_map_v7.1"
 
+#' co2_resource_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description emissions map by resource production compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_resource_map_v7.1
+#' }
+"co2_resource_map_v7.1"
+
 #' kyoto_sector_map_v7.1
 #'
 #' @source github
@@ -1404,6 +1428,18 @@
 #' gcamreport::co2_tech_map_v7.0
 #' }
 "co2_tech_map_v7.0"
+
+#' co2_resource_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description emissions map by resource production compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_resource_map_v7.0
+#' }
+"co2_resource_map_v7.0"
 
 #' kyoto_sector_map_v7.0
 #'
