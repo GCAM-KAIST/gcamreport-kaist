@@ -890,6 +890,15 @@ output-primary/physical-output/node()</xPath>
    </aQuery>
    <aQuery>
       <all-regions/>
+      <emissionsQueryBuilder title="CO2 emissions by region">
+            <axis1 name="region">region</axis1>
+            <axis2 name="Year">emissions</axis2>
+            <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' (:collapse:) or @type = 'resource' (:collapse:)](: / *[@type = 'subresource' (: collapse :)] :)//*[((@name='CO2' or @name = 'CO2_FUG'))]/emissions/node()</xPath>
+            <comments/>
+      </emissionsQueryBuilder>
+   </aQuery>
+   <aQuery>
+      <all-regions/>
       <emissionsQueryBuilder title="CO2 emissions by resource production">
             <axis1 name="GHG">GHG</axis1>
             <axis2 name="Year">emissions</axis2>
