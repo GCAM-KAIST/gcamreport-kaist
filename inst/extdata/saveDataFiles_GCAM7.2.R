@@ -40,6 +40,12 @@ co2_tech_map_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GC
 ) %>% gather_map()
 use_data(co2_tech_map_v7.2, overwrite = T)
 
+co2_resource_map_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "CO2_resource_map.csv"),
+                              skip = 1, na = "",
+                              stringsAsFactors = FALSE
+) %>% gather_map()
+use_data(co2_resource_map_v7.2, overwrite = T)
+
 kyoto_sector_map_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "kyotogas_sector.csv"),
                                   skip = 1, na = "",
                                   stringsAsFactors = FALSE
