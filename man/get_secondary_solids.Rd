@@ -4,7 +4,10 @@
 \alias{get_secondary_solids}
 \title{get_secondary_solids}
 \usage{
-get_secondary_solids()
+get_secondary_solids(GCAM_version = "v7.1")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 }
 \value{
 `secondary_solids` global variable

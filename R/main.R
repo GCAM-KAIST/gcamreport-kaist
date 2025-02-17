@@ -10,13 +10,13 @@
 #' @param scenarios Names of the scenarios to consider. Defaults to all scenarios available in the project or database.
 #' @param type Type of non-CO2 emissions query. Must be one of 'nonCO2 emissions by region' or 'nonCO2 emissions by sector'.
 #' @param desired_regions Regions to include in the report. Defaults to 'All'. Specify a vector for specific regions. To view available options, run `available_regions()`. Note: The dataset will include only the specified regions, which will make up "World".
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @param queries_nonCO2_file Full path to an XML query file (including file name and extension) for long non-CO2 queries: "nonCO2 emissions by sector (excluding resource production)" and "nonCO2 emissions by region". Defaults to the nonCO2 query file compatible with the specified `GCAM_version`.
 #'
 #' @return A dataframe containing the data retrieved from the specified non-CO2 emissions query.
 #' @export
 data_query <- function(type, db_path, db_name, prj_name, scenarios,
-                       desired_regions = "All", GCAM_version = 'v7.0',
+                       desired_regions = "All", GCAM_version = 'v7.1',
                        queries_nonCO2_file = NULL) {
   if (identical(desired_regions, "All")) {
     desired_regions <- NULL
@@ -142,7 +142,7 @@ load_project <- function(project_path, desired_regions = "All", scenarios = NULL
 #' @param scenarios Names of the scenarios to include. Defaults to all scenarios available in the project or database.
 #' @param desired_regions Regions to include in the report. Defaults to 'All'. Specify a vector for specific regions. To view available options, run `available_regions()`. Note: The dataset will include only the specified regions, forming the "World" for the project.
 #' @param desired_variables Variables to include in the report. Defaults to 'All'. Specify a vector for specific variables. To view available options, run `available_variables()`. Note: Global variables like "Emissions" will only account for selected variables. For example, selecting "Emissions" and "Emissions|CO2" will make "Emissions" account only for "Emissions|CO2", excluding other variables such as "Emissions|CH4" or "Emissions|NH3".
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @param queries_general_file Optional. Full path to a general XML query file (including file name and extension). Defaults to a general query file compatible with the specified `GCAM_version` that reports all standardized variables.
 #' @param queries_nonCO2_file Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by sector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.
 #'
@@ -150,7 +150,7 @@ load_project <- function(project_path, desired_regions = "All", scenarios = NULL
 #' @export
 create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
                            desired_regions = "All", desired_variables = "All",
-                           GCAM_version = 'v7.0',
+                           GCAM_version = 'v7.1',
                            queries_general_file = NULL, queries_nonCO2_file = NULL) {
   Internal_variable <- Variable <- required <- available_scenarios <- name <- NULL
 
@@ -355,14 +355,14 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
 #' This internal function is used to load a given variable from the GCAM project along with any dependent variables that are required for its proper context and calculations.
 #'
 #' @param var The name of the variable to be loaded. This should be specified as a character string.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
 #'
 #' @return Loads the specified variable and its dependencies into the environment. This function does not return a value but ensures that the variable and its dependencies are available for further processing.
 #'
 #' @keywords internal
 #' @export
-load_variable <- function(var, GCAM_version = "v7.0", GWP_version = 'AR5') {
+load_variable <- function(var, GCAM_version = 'v7.1', GWP_version = 'AR5') {
 
   # base case: if variable already loaded, return
   if (exists(var$name)) {
@@ -436,12 +436,12 @@ load_query <- function(var, base_data, final_queries) {
 #' This function provides a list of regions that are available for use in IAMC reporting. By default, it prints this list, but it can also be used to obtain the list programmatically.
 #'
 #' @param print Logical. If TRUE (default), prints the list of available regions to the console. If FALSE, suppresses the printing and only returns the list.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #'
 #' @return A vector of character strings representing the names of all available regions. If `print` is TRUE, the function also prints this list to the console.
 #'
 #' @export
-available_regions <- function(print = TRUE, GCAM_version = 'v7.0') {
+available_regions <- function(print = TRUE, GCAM_version = 'v7.1') {
   continent <- region <- NULL
 
   av_reg <- get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
@@ -464,12 +464,12 @@ available_regions <- function(print = TRUE, GCAM_version = 'v7.0') {
 #' This function provides a list of regions' groups that are available for use in IAMC reporting. By default, it prints this list, but it can also be used to obtain the list programmatically.
 #'
 #' @param print Logical. If TRUE (default), prints the list of available regions' groups. to the console. If FALSE, suppresses the printing and only returns the list.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #'
 #' @return A vector of character strings representing the names of all available regions' groups. If `print` is TRUE, the function also prints this list to the console.
 #'
 #' @export
-available_continents <- function(print = TRUE, GCAM_version = 'v7.0') {
+available_continents <- function(print = TRUE, GCAM_version = 'v7.1') {
   continent <- region <- NULL
 
   av_cont <- unique(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['continent']])
@@ -491,12 +491,12 @@ available_continents <- function(print = TRUE, GCAM_version = 'v7.0') {
 #' This function provides a list of variables that are available for use in IAMC reporting. By default, it prints this list, but it can also be used to obtain the list programmatically.
 #'
 #' @param print Logical. If TRUE (default), prints the list of available variables to the console. If FALSE, suppresses the printing and only returns the list.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #'
 #' @return A vector of character strings representing the names of all available variables. If `print` is TRUE, the function also prints this list to the console.
 #'
 #' @export
-available_variables <- function(print = TRUE, GCAM_version = "v7.0") {
+available_variables <- function(print = TRUE, GCAM_version = 'v7.1') {
   Internal_variable <- NULL
 
   av_var <- get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
@@ -534,12 +534,13 @@ available_variables <- function(print = TRUE, GCAM_version = "v7.0") {
 #' @param scenarios Names of the scenarios to consider. Defaults to all scenarios in the project or database.
 #' @param final_year Final year of the data. Defaults to 2100. Note: `final_year` must be at least 2025 and must align with available 5-year intervals, such as 2025, 2030, 2035, 2040, etc.
 #' @param desired_variables Variables to include in the report. Defaults to 'All'. Specify a vector for specific variables. To view available options, run `available_variables()`. Note: Global variables like "Emissions" will only account for selected variables. E.g., if you select "Emissions" and "Emissions|CO2", "Emissions" will only account for "Emissions|CO2", and will not account for other variables such as "Emissions|CH4" or "Emissions|NH3".
+#' @param ignore Policy names introduced by the user to ignore during gcamreport processing of physical quantities, since otherwise they will be flagged as names missing from mapping files and cause an error. Note: Currently having one of the specified name patterns in any column of the query results, such as sector, subsector, input, etc. will cause the error to be disregarded. Same behavior than adding the policy names to the corresponding mappings indicating `NoReported`.
 #' @param desired_regions Regions to include in the report. Defaults to 'All'. Specify a vector for specific regions. To view available options, run `available_regions()`. Note: The dataset will include only the specified regions, which will make up "World".
 #' @param desired_continents Continent/region groups to include in the report. Defaults to 'All'. Specify a vector for specific groups. To view available options, run `available_continents()`. Note: The dataset will include only the specified groups, which will make up "World".
 #' @param save_output If `TRUE` (default), saves reporting data in CSV and XLSX formats. If `FALSE`, data is not saved. If 'CSV' or 'XLSX', data will be saved only in the specified format.
 #' @param output_file File path and name for saving the data. If not specified, defaults to the directory of the database or project file with a default name containing 'standardized'. Provide a full path without an extension, which will be automatically added.
 #' @param launch_ui If `TRUE` (default), launches the User Interface. If `FALSE`, does not launch the UI.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
 #' @param queries_general_file Optional. Full path to a general XML query file (including file name and extension). Defaults to a general query file compatible with the specified `GCAM_version` that reports all standardized variables.
 #' @param queries_nonCO2_file Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by sector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.
@@ -547,9 +548,9 @@ available_variables <- function(print = TRUE, GCAM_version = "v7.0") {
 #' @return Saves RData, CSV, and XLSX files with standardized variables, launches the user interface, and saves the GCAM project file if created.
 #' @export
 generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios = NULL, final_year = 2100,
-                            desired_variables = "All", desired_regions = "All", desired_continents = "All",
+                            desired_variables = "All", ignore = NULL, desired_regions = "All", desired_continents = "All",
                             save_output = TRUE, output_file = NULL, launch_ui = TRUE,
-                            GCAM_version = 'v7.0', GWP_version = 'AR5',
+                            GCAM_version = 'v7.1', GWP_version = 'AR5',
                             queries_general_file = NULL, queries_nonCO2_file = NULL) {
   continent <- region <- name <- Variable <- Internal_variable <- required <- prj_loaded <- NULL
 
@@ -566,7 +567,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     }
   } else {
     stop(sprintf(
-      "GCAM_version must be a character string, but you provided a value of type '%s'. Please specify the GCAM_version as a string, e.g., GCAM_version = 'v7.0'.",
+      "GCAM_version must be a character string, but you provided a value of type '%s'. Please specify the GCAM_version as a string, e.g., GCAM_version = 'v7.1'.",
       class(GCAM_version)
     ))
   }
@@ -750,6 +751,9 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
       ))
   }
 
+  # make ignore a global variable
+  ignore.global <<- ignore
+
   rlang::inform("Loading data, performing checks, and saving output...")
 
   # consider the dependencies and checking functions
@@ -760,8 +764,8 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # for all desired variables, load the corresponding data
   loaded_internal_variables.global <<- c()
-  desired_regions <<- desired_regions
-  desired_variables <<- desired_variables
+  assign("desired_regions", desired_regions, envir = globalenv())
+  assign("desired_variables", desired_variables, envir = globalenv())
   for (i in 1:nrow(variables.global)) {
     if (variables.global$required[i]) {
       load_variable(variables.global[i, ], GCAM_version, GWP_version)
@@ -793,35 +797,44 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     }
   }
 
+  # checks, vetting, and errors summary
+  vetting_summary <- list()
+  vet <- do_check_inf()
+  vetting_summary[[stringr::str_sub(as.character(vet$message),
+                                    end = stringr::str_locate(as.character(vet$message), ":") - 1
+  )[1]]] <- vet
+  vet <- do_check_na()
+  vetting_summary[[stringr::str_sub(as.character(vet$message),
+                                    end = stringr::str_locate(as.character(vet$message), ":") - 1
+  )[1]]] <- vet
+
   if (identical(desired_regions, "All") || length(desired_regions) == gcamreport::GCAM_regions_number) {
-    # checks, vetting, and errors summary
-    vetting_summary <- list()
-    for (ch in variables.global$checks) {
-      if (!is.na(ch)) {
-        for (d in ch[[1]]) {
-          out <- get(variables.global$fun[which(variables.global$name == d)])()
-          vetting_summary[[stringr::str_sub(as.character(out$message),
-            end = stringr::str_locate(as.character(out$message), ":") - 1
-          )[1]]] <- out
-        }
-      }
-    }
     vet <- do_check_vetting()
-    rlang::inform("Vetting summary:")
     vetting_summary[[stringr::str_sub(as.character(vet$message),
-      end = stringr::str_locate(as.character(vet$message), ":") - 1
+                                      end = stringr::str_locate(as.character(vet$message), ":") - 1
     )[1]]] <- vet
+    rlang::inform("Vetting summary:")
     for (e in vetting_summary) {
       print(e$message)
     }
     vetting_summary <<- vetting_summary
-    cat("To view the vetting summary details, type:\n")
-    cat('  - `vetting_summary$`Trade flows``\n')
-    cat('  - `vetting_summary$`Vetting variables` \n')
-    cat("\nYou can find the vetting figure in: `output/figure/vetting.tiff`\n")
+    cat("To view the summary details, type:\n")
+    cat('  - `vetting_summary$`Inf variables` to check for Inf values\n')
+    cat('  - `vetting_summary$`NA variables` to check for NA values\n')
+    cat('  - `vetting_summary$`Vetting variables` to check with historical values\n')
+    cat("\nYou can find a supporting vetting figure in: `output/figure/vetting.tiff`\n")
     cat("==============================================================\n")
   } else {
-    rlang::inform("No checks or vetting were performed because no regions were selected.")
+    rlang::inform("Vetting summary:")
+    for (e in vetting_summary) {
+      print(e$message)
+    }
+    vetting_summary <<- vetting_summary
+    cat("To view the summary details, type:\n")
+    cat('  - `vetting_summary$`NA variables` to check for NA values\n')
+    cat('  - `vetting_summary$`Inf variables` to check for Inf values\n')
+    cat('Since not all regions were selected, there is no vetting related to historical values\n')
+    cat("==============================================================\n")
   }
 
   # remove internal variables from the environment
@@ -847,12 +860,12 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 #'
 #' @param data_path Optional. Path to an RData file containing the standardized data. If provided, this file will be used to load the data into the Shiny application. You can obtain this dataset using `gcamreport::generate_report`.
 #' @param data Optional. An R dataframe or list containing the standardized data. If provided, this data will be used directly in the Shiny application. You can obtain this dataset using `gcamreport::generate_report`.
-#' @param GCAM_version Main GCAM compatible version: 'v7.0' (default), 'v7.1', or 'v6.0'.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #'
 #' @return Launches the Shiny interactive UI. This function does not return a value but starts the Shiny application for user interaction.
 #'
 #' @export
-launch_gcamreport_ui <- function(data_path = NULL, data = NULL, GCAM_version = 'v7.0') {
+launch_gcamreport_ui <- function(data_path = NULL, data = NULL, GCAM_version = 'v7.1') {
   # check the user input
   if (is.null(data_path) && is.null(data)) {
     stop("Error: Neither 'data_path' nor 'data' has been provided. Please specify at least one of these: 'data_path' to point to the location of the dataset file or 'data' to provide the dataset directly.")

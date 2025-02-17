@@ -22,6 +22,18 @@
 #' }
 "available_GCAM_versions"
 
+#' deciles_GCAM_versions
+#'
+#' @source local
+#' @format .csv
+#' @description GCAM_versions containing deciles
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::deciles_GCAM_versions
+#' }
+"deciles_GCAM_versions"
+
 #' available_GWP_versions
 #'
 #' @source local
@@ -140,6 +152,590 @@
 
 
 
+#' queries_general_v7.2
+#'
+#' @source local
+#' @format vector
+#' @description gcamreport queries compatible with GCAM 7.2 version.
+#' Contain all queries except for nonCO2 queries
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::queries_general_v7.2
+#' }
+"queries_general_v7.2"
+
+#' queries_nonCO2_v7.2
+#'
+#' @source local
+#' @format vector
+#' @description gcamreport nonCO2 query compatible with GCAM 7.2 version compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::queries_nonCO2_v7.2
+#' }
+"queries_nonCO2_v7.2"
+
+
+#' nonco2_emissions_list_v7.2
+#'
+#' @source local
+#' @format vector
+#' @description nonCO2 pollutants list
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_emissions_list_v7.2
+#' }
+"nonco2_emissions_list_v7.2"
+
+#' var_fun_map_v7.2
+#'
+#' @source local
+#' @format .csv
+#' @description mapping between variables, functions to load them, dependent variables, and available verifications compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::var_fun_map_v7.2
+#' }
+"var_fun_map_v7.2"
+
+#' template_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description read in template compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::template_v7.2
+#' }
+"template_v7.2"
+
+#' co2_ets_sector_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_ets_sector_map_v7.2
+#' }
+"co2_ets_sector_map_v7.2"
+
+#' co2_tech_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_tech_map_v7.2
+#' }
+"co2_tech_map_v7.2"
+
+#' kyoto_sector_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::kyoto_sector_map_v7.2
+#' }
+"kyoto_sector_map_v7.2"
+
+#' nonco2_emis_sector_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_emis_sector_map_v7.2
+#' }
+"nonco2_emis_sector_map_v7.2"
+
+#' nonco2_emis_resource_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_emis_resource_map_v7.2
+#' }
+"nonco2_emis_resource_map_v7.2"
+
+#' carbon_seq_tech_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::carbon_seq_tech_map_v7.2
+#' }
+"carbon_seq_tech_map_v7.2"
+
+#' ag_demand_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_demand_map_v7.2
+#' }
+"ag_demand_map_v7.2"
+
+#' ag_price_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_price_map_v7.2
+#' }
+"ag_price_map_v7.2"
+
+#' ag_demand_price_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_demand_price_map_v7.2
+#' }
+"ag_demand_price_map_v7.2"
+
+#' ag_production_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_production_map_v7.2
+#' }
+"ag_production_map_v7.2"
+
+#' trade_ag_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::trade_ag_v7.2
+#' }
+"trade_ag_v7.2"
+
+#' land_use_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::land_use_map_v7.2
+#' }
+"land_use_map_v7.2"
+
+#' food_intake_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_intake_map_v7.2
+#' }
+"food_intake_map_v7.2"
+
+#' food_items_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_items_map_v7.2
+#' }
+"food_items_map_v7.2"
+
+#' primary_energy_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::primary_energy_map_v7.2
+#' }
+"primary_energy_map_v7.2"
+
+#' production_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::production_map_v7.2
+#' }
+"production_map_v7.2"
+
+#' capacity_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::capacity_map_v7.2
+#' }
+"capacity_map_v7.2"
+
+#' cf_gcam_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::cf_gcam_v7.2
+#' }
+"cf_gcam_v7.2"
+
+#' cf_rgn_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::cf_rgn_v7.2
+#' }
+"cf_rgn_v7.2"
+
+#' final_energy_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::final_energy_map_v7.2
+#' }
+"final_energy_map_v7.2"
+
+#' en_demand_price_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy demand - price maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_demand_price_map_v7.2
+#' }
+"en_demand_price_map_v7.2"
+
+#' res_extraction_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_v7.2
+#' }
+"res_extraction_map_v7.2"
+
+
+#' transport_final_en_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_final_en_map_v7.2
+#' }
+"transport_final_en_map_v7.2"
+
+#' energy_price_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::energy_price_map_v7.2
+#' }
+"energy_price_map_v7.2"
+
+#' transport_en_service_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport energy services compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_en_service_v7.2
+#' }
+"transport_en_service_v7.2"
+
+#' buildings_en_service_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description buildings energy services compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::buildings_en_service_v7.2
+#' }
+"buildings_en_service_v7.2"
+
+#' capital_gcam_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description capital update compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::capital_gcam_v7.2
+#' }
+"capital_gcam_v7.2"
+
+#' investment_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description capital investment compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::investment_v7.2
+#' }
+"investment_v7.2"
+
+#' carbon_content_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description carbon content compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::carbon_content_v7.2
+#' }
+"carbon_content_v7.2"
+
+#' nonco2_content_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description non CO2 content compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_content_v7.2
+#' }
+"nonco2_content_v7.2"
+
+#' iea_capacity_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description iea 2019 capacity compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::iea_capacity_v7.2
+#' }
+"iea_capacity_v7.2"
+
+#' co2_market_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description new CO2 market compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_market_v7.2
+#' }
+"co2_market_v7.2"
+
+#' co2_market_frag_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description new CO2 regional markets map compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_market_frag_map_v7.2
+#' }
+"co2_market_frag_map_v7.2"
+
+#' iron_steel_trade_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description iron steel imports and exports map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::iron_steel_trade_map_v7.2
+#' }
+"iron_steel_trade_map_v7.2"
+
+#' water_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description water withdrawals/consumption map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::water_map_v7.2
+#' }
+"water_map_v7.2"
+
+#' ucd_size_class_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_v7.2
+#' }
+"ucd_size_class_v7.2"
+
+#' ucd_core_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_v7.2
+#' }
+"ucd_core_v7.2"
+
+#' transport_sales_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_v7.2
+#' }
+"transport_sales_map_v7.2"
+
+#' transport_stock_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_v7.2
+#' }
+"transport_stock_map_v7.2"
+
+#' convert_v7.2
+#'
+#' @description units conversion list
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::convert_v7.2
+#' }
+"convert_v7.2"
+
+#' F_GASES_v7.2
+#'
+#' @description ghg emission conversion.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::F_GASES_v7.2
+#' }
+"F_GASES_v7.2"
+
+#' GHG_gases_v7.2
+#'
+#' @description ghg emission conversion.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::GHG_gases_v7.2
+#' }
+"GHG_gases_v7.2"
+
+#' last_historical_year_v7.2
+#'
+#' @description last historical year compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::last_historical_year_v7.2
+#' }
+"last_historical_year_v7.2"
+
+#' reg_cont_v7.2
+#'
+#' @source local
+#' @format .csv
+#' @description mapping between regions and continents compatible with GCAM7.2
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::reg_cont_v7.2
+#' }
+"reg_cont_v7.2"
+
+
 #' queries_general_v7.1
 #'
 #' @source local
@@ -201,18 +797,6 @@
 #' gcamreport::template_v7.1
 #' }
 "template_v7.1"
-
-#' co2_sector_map_v7.1
-#'
-#' @source github
-#' @format .csv
-#' @description emissions maps compatible with GCAM7.1.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::co2_sector_map_v7.1
-#' }
-"co2_sector_map_v7.1"
 
 #' co2_ets_sector_map_v7.1
 #'
@@ -298,7 +882,7 @@
 #' }
 "ag_demand_map_v7.1"
 
-#' ag_prices_map_v7.1
+#' ag_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -306,11 +890,11 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_prices_map_v7.1
+#' gcamreport::ag_price_map_v7.1
 #' }
-"ag_prices_map_v7.1"
+"ag_price_map_v7.1"
 
-#' ag_demand_prices_map_v7.1
+#' ag_demand_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -318,9 +902,33 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_demand_prices_map_v7.1
+#' gcamreport::ag_demand_price_map_v7.1
 #' }
-"ag_demand_prices_map_v7.1"
+"ag_demand_price_map_v7.1"
+
+#' ag_production_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_production_map_v7.1
+#' }
+"ag_production_map_v7.1"
+
+#' trade_ag_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::trade_ag_v7.1
+#' }
+"trade_ag_v7.1"
 
 #' land_use_map_v7.1
 #'
@@ -333,6 +941,30 @@
 #' gcamreport::land_use_map_v7.1
 #' }
 "land_use_map_v7.1"
+
+#' food_intake_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_intake_map_v7.1
+#' }
+"food_intake_map_v7.1"
+
+#' food_items_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_items_map_v7.1
+#' }
+"food_items_map_v7.1"
 
 #' primary_energy_map_v7.1
 #'
@@ -357,18 +989,6 @@
 #' gcamreport::production_map_v7.1
 #' }
 "production_map_v7.1"
-
-#' elec_gen_map_v7.1
-#'
-#' @source github
-#' @format .csv
-#' @description primary, secondary, final energy maps compatible with GCAM7.1.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::elec_gen_map_v7.1
-#' }
-"elec_gen_map_v7.1"
 
 #' capacity_map_v7.1
 #'
@@ -406,18 +1026,6 @@
 #' }
 "cf_rgn_v7.1"
 
-#' se_gen_map_v7.1
-#'
-#' @source github
-#' @format .csv
-#' @description primary, secondary, final energy maps compatible with GCAM7.1.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::se_gen_map_v7.1
-#' }
-"se_gen_map_v7.1"
-
 #' final_energy_map_v7.1
 #'
 #' @source github
@@ -430,7 +1038,7 @@
 #' }
 "final_energy_map_v7.1"
 
-#' en_demand_prices_map_v7.1
+#' en_demand_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -438,9 +1046,21 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::en_demand_prices_map_v7.1
+#' gcamreport::en_demand_price_map_v7.1
 #' }
-"en_demand_prices_map_v7.1"
+"en_demand_price_map_v7.1"
+
+#' res_extraction_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_v7.1
+#' }
+"res_extraction_map_v7.1"
 
 #' transport_final_en_map_v7.1
 #'
@@ -454,7 +1074,7 @@
 #' }
 "transport_final_en_map_v7.1"
 
-#' energy_prices_map_v7.1
+#' energy_price_map_v7.1
 #'
 #' @source github
 #' @format .csv
@@ -462,9 +1082,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::energy_prices_map_v7.1
+#' gcamreport::energy_price_map_v7.1
 #' }
-"energy_prices_map_v7.1"
+"energy_price_map_v7.1"
 
 #' transport_en_service_v7.1
 #'
@@ -586,6 +1206,66 @@
 #' }
 "iron_steel_trade_map_v7.1"
 
+#' water_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description water withdrawals/consumption map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::water_map_v7.1
+#' }
+"water_map_v7.1"
+
+#' ucd_size_class_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_v7.1
+#' }
+"ucd_size_class_v7.1"
+
+#' ucd_core_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_v7.1
+#' }
+"ucd_core_v7.1"
+
+#' transport_sales_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_v7.1
+#' }
+"transport_sales_map_v7.1"
+
+#' transport_stock_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_v7.1
+#' }
+"transport_stock_map_v7.1"
+
 #' convert_v7.1
 #'
 #' @description units conversion list
@@ -701,18 +1381,6 @@
 #' }
 "template_v7.0"
 
-#' co2_sector_map_v7.0
-#'
-#' @source github
-#' @format .csv
-#' @description emissions maps compatible with GCAM7.0.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::co2_sector_map_v7.0
-#' }
-"co2_sector_map_v7.0"
-
 #' co2_ets_sector_map_v7.0
 #'
 #' @source github
@@ -797,7 +1465,7 @@
 #' }
 "ag_demand_map_v7.0"
 
-#' ag_prices_map_v7.0
+#' ag_price_map_v7.0
 #'
 #' @source github
 #' @format .csv
@@ -805,11 +1473,11 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_prices_map_v7.0
+#' gcamreport::ag_price_map_v7.0
 #' }
-"ag_prices_map_v7.0"
+"ag_price_map_v7.0"
 
-#' ag_demand_prices_map_v7.0
+#' ag_demand_price_map_v7.0
 #'
 #' @source github
 #' @format .csv
@@ -817,9 +1485,33 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_demand_prices_map_v7.0
+#' gcamreport::ag_demand_price_map_v7.0
 #' }
-"ag_demand_prices_map_v7.0"
+"ag_demand_price_map_v7.0"
+
+#' ag_production_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_production_map_v7.0
+#' }
+"ag_production_map_v7.0"
+
+#' trade_ag_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::trade_ag_v7.0
+#' }
+"trade_ag_v7.0"
 
 #' land_use_map_v7.0
 #'
@@ -832,6 +1524,30 @@
 #' gcamreport::land_use_map_v7.0
 #' }
 "land_use_map_v7.0"
+
+#' food_intake_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_intake_map_v7.0
+#' }
+"food_intake_map_v7.0"
+
+#' food_items_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_items_map_v7.0
+#' }
+"food_items_map_v7.0"
 
 #' primary_energy_map_v7.0
 #'
@@ -856,18 +1572,6 @@
 #' gcamreport::production_map_v7.0
 #' }
 "production_map_v7.0"
-
-#' elec_gen_map_v7.0
-#'
-#' @source github
-#' @format .csv
-#' @description primary, secondary, final energy maps compatible with GCAM7.0.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::elec_gen_map_v7.0
-#' }
-"elec_gen_map_v7.0"
 
 #' capacity_map_v7.0
 #'
@@ -905,18 +1609,6 @@
 #' }
 "cf_rgn_v7.0"
 
-#' se_gen_map_v7.0
-#'
-#' @source github
-#' @format .csv
-#' @description primary, secondary, final energy maps compatible with GCAM7.0.
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::se_gen_map_v7.0
-#' }
-"se_gen_map_v7.0"
-
 #' final_energy_map_v7.0
 #'
 #' @source github
@@ -929,7 +1621,7 @@
 #' }
 "final_energy_map_v7.0"
 
-#' en_demand_prices_map_v7.0
+#' en_demand_price_map_v7.0
 #'
 #' @source github
 #' @format .csv
@@ -937,10 +1629,22 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::en_demand_prices_map_v7.0
+#' gcamreport::en_demand_price_map_v7.0
 #' }
 
-"en_demand_prices_map_v7.0"
+"en_demand_price_map_v7.0"
+
+#' res_extraction_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_v7.0
+#' }
+"res_extraction_map_v7.0"
 
 #' transport_final_en_map_v7.0
 #'
@@ -954,7 +1658,7 @@
 #' }
 "transport_final_en_map_v7.0"
 
-#' energy_prices_map_v7.0
+#' energy_price_map_v7.0
 #'
 #' @source github
 #' @format .csv
@@ -962,9 +1666,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::energy_prices_map_v7.0
+#' gcamreport::energy_price_map_v7.0
 #' }
-"energy_prices_map_v7.0"
+"energy_price_map_v7.0"
 
 #' transport_en_service_v7.0
 #'
@@ -1085,6 +1789,66 @@
 #' gcamreport::iron_steel_trade_map_v7.0
 #' }
 "iron_steel_trade_map_v7.0"
+
+#' water_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description water withdrawals/consumption map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::water_map_v7.0
+#' }
+"water_map_v7.0"
+
+#' ucd_size_class_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_v7.0
+#' }
+"ucd_size_class_v7.0"
+
+#' ucd_core_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_v7.0
+#' }
+"ucd_core_v7.0"
+
+#' transport_sales_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_v7.0
+#' }
+"transport_sales_map_v7.0"
+
+#' transport_stock_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_v7.0
+#' }
+"transport_stock_map_v7.0"
 
 #' convert_v7.0
 #'
@@ -1297,7 +2061,7 @@
 #' }
 "ag_demand_map_v6.0"
 
-#' ag_prices_map_v6.0
+#' ag_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -1305,11 +2069,11 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_prices_map_v6.0
+#' gcamreport::ag_price_map_v6.0
 #' }
-"ag_prices_map_v6.0"
+"ag_price_map_v6.0"
 
-#' ag_demand_prices_map_v6.0
+#' ag_demand_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -1317,9 +2081,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::ag_demand_prices_map_v6.0
+#' gcamreport::ag_demand_price_map_v6.0
 #' }
-"ag_demand_prices_map_v6.0"
+"ag_demand_price_map_v6.0"
 
 #' land_use_map_v6.0
 #'
@@ -1429,7 +2193,7 @@
 #' }
 "final_energy_map_v6.0"
 
-#' en_demand_prices_map_v6.0
+#' en_demand_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -1437,9 +2201,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::en_demand_prices_map_v6.0
+#' gcamreport::en_demand_price_map_v6.0
 #' }
-"en_demand_prices_map_v6.0"
+"en_demand_price_map_v6.0"
 
 #' transport_final_en_map_v6.0
 #'
@@ -1453,7 +2217,7 @@
 #' }
 "transport_final_en_map_v6.0"
 
-#' energy_prices_map_v6.0
+#' energy_price_map_v6.0
 #'
 #' @source github
 #' @format .csv
@@ -1461,9 +2225,9 @@
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
-#' gcamreport::energy_prices_map_v6.0
+#' gcamreport::energy_price_map_v6.0
 #' }
-"energy_prices_map_v6.0"
+"energy_price_map_v6.0"
 
 #' transport_en_service_v6.0
 #'

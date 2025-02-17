@@ -5,7 +5,7 @@
 \alias{convert_v7.0}
 \title{convert_v7.0}
 \format{
-An object of class \code{list} of length 12.
+An object of class \code{list} of length 16.
 }
 \usage{
 convert_v7.0

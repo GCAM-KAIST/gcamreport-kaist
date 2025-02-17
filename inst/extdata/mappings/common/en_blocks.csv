@@ -1,4 +1,4 @@
-﻿# energy blocks. Each column is a block which contains all the items that start with this strings and end up forming the previous ones present in the block,,,,,,,
+﻿# energy blocks. Each column is a block which contains all the items that start with this strings and end up forming the previous ones present in the block
 final_energy_input,final_energy_sector,final_energy_industry_sectors1,final_energy_industry_sectors2,final_energy_residcomm_sectors,final_energy_residcomm_space,final_energy_transport_mode,final_energy_transport_sector
 Final Energy_makeup,Final Energy_makeup,Final Energy\|Industry_makeup,Final Energy\|Industry\|Chemicals_makeup,Final Energy\|Residential and Commercial_makeup,Final Energy\|Residential and Commercial_makeup,Final Energy\|Transportation,Final Energy\|Transportation
 Final Energy\|Electricity,Final Energy\|Carbon Removal,Final Energy\|Industry\|NoReported,Final Energy\|Industry\|Chemicals\|NoReported,Final Energy\|Residential and Commercial\|Commercial,Final Energy\|Residential and Commercial\|NoReported,Final Energy\|Transportation\|Freight,Final Energy\|Transportation\|Aviation

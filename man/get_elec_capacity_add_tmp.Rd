@@ -4,13 +4,16 @@
 \alias{get_elec_capacity_add_tmp}
 \title{get_elec_capacity_add_tmp}
 \usage{
-get_elec_capacity_add_tmp()
+get_elec_capacity_add_tmp(GCAM_version = "v7.1")
+}
+\arguments{
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
 }
 \value{
 `elec_capacity_add` global variable
 }
 \description{
-Calculate added total capacity.
+Calculate added total electricity capacity.
 }
 \keyword{capacity}
 \keyword{internal}
