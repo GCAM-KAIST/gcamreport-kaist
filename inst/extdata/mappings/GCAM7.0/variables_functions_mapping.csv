@@ -1,5 +1,6 @@
 name;fun;dependencies;queries
 population_clean;get_population;;population by region
+pop_weights;get_population_weights;population_clean;
 GDP_PPP_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_PPP_pc_growth_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_MER_clean;get_gdp_mer;;GDP MER by region
@@ -8,8 +9,8 @@ global_temp_clean;get_temperature;;global mean temperature
 co2_concentration_clean;get_co2_concentration;;CO2 concentrations
 nonbio_share;get_nonbio_tmp;;CO2 emissions by sector (excluding resource production),CO2 emissions by sector (no bio) (excluding resource production)
 co2_tech_nobio;get_co2_tech_nobio_tmp;nonbio_share;CO2 emissions by tech (excluding resource production)
-co2_emiss;get_co2_emiss;;CO2 emissions by tech (excluding resource production)
-gross_co2_emiss;get_gross_co2_emiss;;CO2 emissions by tech (excluding resource production)
+co2_emiss;get_co2_emiss;;CO2 emissions by tech (excluding resource production),CO2 emissions by resource production,CO2 emissions by region
+gross_co2_emiss;get_gross_co2_emiss;co2_emissions_clean,co2_sequestration_raw;
 iron_steel_map;get_iron_steel_map;;industry final energy by tech and fue
 co2_tech_ironsteel;get_co2_iron_steel;co2_tech_nobio,iron_steel_map;
 LUC_emiss;get_lu_co2;;LUC emissions by region
@@ -82,7 +83,7 @@ en_weights;get_en_weights;fe_sector_raw,fe_transportation_raw,primary_energy_cle
 en_wld_weights;get_en_weights;fe_sector_raw,fe_transportation_raw,primary_energy_clean,secondary_energy_raw;
 fert_consumption_clean;get_fert_consumption;;fertilizer consumption by region
 food_availability_clean;get_food_availability;food_intake_clean;
-food_intake_clean;get_food_intake;population_clean;food consumption by type (specific)
+food_intake_clean;get_food_intake;population_clean,pop_weights;food consumption by type (specific)
 forestry_demand_clean;get_forestry;;inputs by tech
 forestry_production_clean;get_forestry;;inputs by tech
 labor_clean;get_labor;population_clean;National Account
