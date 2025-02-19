@@ -588,6 +588,60 @@ approx_fun <- function(year, value, rule = 1) {
 }
 
 
+#' check_match
+#'
+#' Check for excluded and included variables: find the unique values of
+#' x$colmn_x that are not covered in y$colmn_y, unless opt is set to "i",
+#' in which case it returns the ones that are included
+#' @param x base dataset containing colmn_x.
+#' @param y base dataset containing colmn_y.
+#' @param colmn_x column name present in dataset x.
+#' @param colmn_y column name present in dataset y. If set to NULL, colmn_x will be used for both datasets (x and y).
+#' @param opt if "e", find values present in x$colmn_x NOT PRESENT in y$colmn_y, if "i", find values PRESENT in x$colmn_x that are also present in y$colmn_y.
+#' @keywords internal
+#' @export
+check_match <- function(x, y, colmn_x, colmn_y = NULL, opt = "e") {
+
+  colmn_y <- ifelse(is.null(colmn_y), colmn_x, colmn_y)
+
+  x <- tibble::as_tibble(x)
+  y <- tibble::as_tibble(y)
+
+  if (!colmn_x %in% names(x)) {
+    stop(sprintf(
+      "Invalid colmn_x '%s'. It is not present in dataset `x`.",
+      colmn_x
+    ))
+  }
+  if (!colmn_y %in% names(y)) {
+    stop(sprintf(
+      "Invalid colmn_y '%s'. It is not present in dataset `y`.",
+      colmn_y
+    ))
+  }
+
+  loc_x <- which(names(x) == colmn_x)
+  loc_y <- which(names(y) == colmn_y)
+
+  x <- as.matrix(x)
+  y <- as.matrix(y)
+
+  val_x <- as.data.frame(x[,loc_x])
+  val_y <- as.data.frame(y[,loc_y])
+
+  if(opt == "e") {
+    excl = unique(val_x[!(val_x[,1] %in% val_y[,1]),1])
+    lst <- ifelse(length(excl) == 0, print("There are no variables in the first one that are not in the second one."),
+                  print(list("The following are in the first one, but not in the second one:", excl)))
+  }
+  if(opt == "i") {
+    incl = unique(val_x[(val_x[,1] %in% val_y[,1]),1])
+    lst <- ifelse(length(incl) == 0, print("There are no variables in the first one that are included in the second one."),
+                  print(list("The following are in both:", incl)))
+  }
+}
+
+
 #########################################################################
 #                         LOAD QUERIES FUNCTIONS                        #
 #########################################################################
@@ -3534,12 +3588,12 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
   }
   missing_markets <- setdiff(unique(tmp1$market), c(unique(CO2_market_filteredReg$market),NA))
   if (interactive() & length(missing_markets) != 0) {
-    warning(sprintf('ATTENTION: CO2 markets including:\n %.100s \nare not present in the `co2_market_new` mapping file.',
+    warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
 
     # user response
     user_input <- readline(prompt =
-                             sprintf('CO2 markets including:\n %.100s \nare not present in the `co2_market_new` mapping file.\nDo you want to continue without adding them (Y/N)? Press Y or N: ',
+                             sprintf('ATTENTION: CO2 markets including:\n %.100s \nare not present in the `co2_market_new` mapping file.\nDo you want to continue without adding them (Y/N)? Press Y or N: ',
                                      paste(missing_markets, collapse = ", ")))
 
     # handling user response
@@ -4562,7 +4616,7 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
 
   ucd_techs <- unique(ucd_core_values$UCD_technology)[!(unique(ucd_core_values$UCD_technology) == "All")]
 
-  # Annual vehicle, is the same across all fuels of cars, so explicity show that:
+  # Annual vehicle, is the same across all fuels of cars, so explicitly show that:
   ucd_core_loads <- ucd_core_values %>%
     dplyr::filter(variable == "annual travel per vehicle") %>%
     dplyr::mutate(UCD_technology = ifelse(UCD_technology == "All", ucd_techs[1], UCD_technology)) %>%
@@ -4571,24 +4625,10 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
                        dplyr::filter(variable == "load factor"))
 
 
-  # For regions in the UCD dataset that are GCAM regions, keep their values,
-  # and for regions that aren't represented in there, use the mean of the other regions
-
-  ucd_core_A <- ucd_core_loads %>%
-    dplyr::filter(UCD_region %in% trn_regions) %>%
+  ucd_core_gcamRegions <- ucd_core_loads %>%
     dplyr::group_by(UCD_region, rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
     dplyr::summarise(value=mean(value, na.rm = T)) %>%
     dplyr::ungroup()
-
-  ucd_core_B <- ucd_core_loads %>%
-    dplyr::filter(!(UCD_region %in% trn_regions)) %>%
-    ##filter(rev_size.class %in% c("Car", "Light truck")) %>%
-    dplyr::group_by(rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
-    dplyr::summarise(value=mean(value, na.rm = T)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(UCD_region = "South America_Northern") %>%
-    tidyr::complete(tidyr::nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
-                    UCD_region = trn_regions[!(trn_regions %in% unique(ucd_core_A$UCD_region))])
 
   ## Check that
   ## a) annual travel per vehicle is in vkt/(vehicle*yr)
@@ -4602,22 +4642,39 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
     stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `load factor` units should be specified as 'pers/veh' or 'tonnes/veh'.")
   }
 
-  ucd_core_gcamRegions <- dplyr::bind_rows(ucd_core_A, ucd_core_B) %>%
+  ucd_core_gcamRegions <- ucd_core_gcamRegions %>%
     dplyr::select(-unit) %>%
     tidyr::pivot_wider(names_from = "variable", values_from = "value")
 
+  # Assume vkt values for trucks
+  ucd_core_gcamRegions <- ucd_core_gcamRegions %>%
+    dplyr::mutate(`annual travel per vehicle` = dplyr::case_when(
+      rev_size.class == "Light truck" ~ 20000,
+      rev_size.class == "Medium truck" ~ 35000,
+      rev_size.class == "Heavy truck" ~ 50000,
+      TRUE ~ `annual travel per vehicle`
+    ))
+
+  # See which transportation modes in GCAM are "vintaged",
+  # as in show new sales and track vintages through the years
   vintaged_modes = trn_serv %>%
     dplyr::filter(year != vintage,
                   value != 0) %>%
     dplyr::select(sector, mode, Units) %>%
     dplyr::distinct()
 
+  # Map UCD data based on GCAM region mapping
+  region_mapping_ucd <- get(paste('region_mapping_ucd',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  region_mapping_ucd$GCAM_region <- trimws(region_mapping_ucd$GCAM_region)
+  region_mapping_ucd$UCD_region <- trimws(region_mapping_ucd$UCD_region)
+
   trn_sales_clean <- trn_serv %>%
     # only look at new sales in each year
     dplyr::filter(year == vintage) %>%
     # dplyr left_join due to missing transport modes
+    dplyr::left_join(region_mapping_ucd, by = c("region"="GCAM_region")) %>%
     dplyr::left_join(ucd_core_gcamRegions,
-                     by = c("region"="UCD_region","mode"="rev_size.class", "year", "technology"="UCD_technology")) %>%
+                     by = c("UCD_region", "mode"="rev_size.class", "year", "technology"="UCD_technology")) %>%
     dplyr::filter(!(is.na(`annual travel per vehicle`)),
                   !(is.na(`load factor`)),
                   mode %in% unique(vintaged_modes$mode)) %>%
@@ -4685,24 +4742,10 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
                        dplyr::filter(variable == "load factor"))
 
 
-  # For regions in the UCD dataset that are GCAM regions, keep their values,
-  # and for regions that aren't represented in there, use the mean of the other regions
-
-  ucd_core_A <- ucd_core_loads %>%
-    dplyr::filter(UCD_region %in% trn_regions) %>%
+  ucd_core_gcamRegions <- ucd_core_loads %>%
     dplyr::group_by(UCD_region, rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
     dplyr::summarise(value=mean(value, na.rm = T)) %>%
     dplyr::ungroup()
-
-  ucd_core_B <- ucd_core_loads %>%
-    dplyr::filter(!(UCD_region %in% trn_regions)) %>%
-    ##filter(rev_size.class %in% c("Car", "Light truck")) %>%
-    dplyr::group_by(rev_size.class, rev.mode, variable, UCD_technology, unit, year) %>%
-    dplyr::summarise(value=mean(value, na.rm = T)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(UCD_region = "South America_Northern") %>%
-    tidyr::complete(tidyr::nesting(rev_size.class, rev.mode, variable, UCD_technology, unit, year, value),
-                    UCD_region = trn_regions[!(trn_regions %in% unique(ucd_core_A$UCD_region))])
 
   ## Check that
   ## a) annual travel per vehicle is in vkt/(vehicle*yr)
@@ -4716,14 +4759,30 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
     stop("ERROR: The `Stock|Transportation` variable has a units mismatch. The `load factor` units should be specified as 'pers/veh' or 'tonnes/veh'.")
   }
 
-  ucd_core_gcamRegions <- dplyr::bind_rows(ucd_core_A, ucd_core_B) %>%
+
+  ucd_core_gcamRegions <- ucd_core_gcamRegions %>%
     dplyr::select(-unit) %>%
     tidyr::pivot_wider(names_from = "variable", values_from = "value")
 
+  # Assume vkt values for trucks
+  ucd_core_gcamRegions <- ucd_core_gcamRegions %>%
+    dplyr::mutate(`annual travel per vehicle` = dplyr::case_when(
+      rev_size.class == "Light truck" ~ 20000,
+      rev_size.class == "Medium truck" ~ 35000,
+      rev_size.class == "Heavy truck" ~ 50000,
+      TRUE ~ `annual travel per vehicle`
+    ))
+
+  # Map UCD data based on GCAM region mapping
+  region_mapping_ucd <- get(paste('region_mapping_ucd',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  region_mapping_ucd$GCAM_region <- trimws(region_mapping_ucd$GCAM_region)
+  region_mapping_ucd$UCD_region <- trimws(region_mapping_ucd$UCD_region)
+
   trn_stock_clean <- trn_serv %>%
     # dplyr left_join due to missing transport modes
+    dplyr::left_join(region_mapping_ucd, by = c("region"="GCAM_region")) %>%
     dplyr::left_join(ucd_core_gcamRegions,
-                     by = c("region"="UCD_region","mode"="rev_size.class", "year", "technology"="UCD_technology")) %>%
+                     by = c("UCD_region", "mode"="rev_size.class", "year", "technology"="UCD_technology")) %>%
     dplyr::filter(!(is.na(`annual travel per vehicle`)),
                   !(is.na(`load factor`))) %>%
     dplyr::mutate(value=(value / `load factor` / `annual travel per vehicle`),

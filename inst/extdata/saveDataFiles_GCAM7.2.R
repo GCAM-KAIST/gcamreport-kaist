@@ -271,11 +271,16 @@ use_data(water_map_v7.2, overwrite = T)
 ucd_size_class_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
                                           "UCD_size_class_revisions.csv"), skip=7)
 use_data(ucd_size_class_v7.2, overwrite = T)
+
 ucd_core_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
                                     "UCD_trn_data_CORE.csv"), skip=5) %>%
   tidyr::gather(year, value, X2005:X2100) %>%
   dplyr::mutate(year = as.integer(sub("X", "", year)))
 use_data(ucd_core_v7.2, overwrite = T)
+
+region_mapping_ucd_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
+                                          "region_mapping_ucd.csv"), skip = 1)
+use_data(region_mapping_ucd_v7.2, overwrite = T)
 
 transport_stock_map_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
                                                "trn_stock_map.csv"), skip = 1) %>% gather_map()
