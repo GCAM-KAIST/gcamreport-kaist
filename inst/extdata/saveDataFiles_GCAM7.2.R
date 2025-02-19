@@ -279,7 +279,7 @@ ucd_core_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.
 use_data(ucd_core_v7.2, overwrite = T)
 
 region_mapping_ucd_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
-                                          "region_mapping_ucd.csv"))
+                                          "region_mapping_ucd.csv"), skip = 1)
 use_data(region_mapping_ucd_v7.2, overwrite = T)
 
 transport_stock_map_v7.2 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
