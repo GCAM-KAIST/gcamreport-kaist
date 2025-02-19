@@ -587,15 +587,38 @@ approx_fun <- function(year, value, rule = 1) {
   return(invisible(res))
 }
 
-# check for excluded and included variables -----------
-# find the unique values of x$colmn_x that are not covered in y$colmn_y,
-# unless opt is set to "i", in which case it returns the ones that are included
+
+#' check_match
+#'
+#' Check for excluded and included variables: find the unique values of
+#' x$colmn_x that are not covered in y$colmn_y, unless opt is set to "i",
+#' in which case it returns the ones that are included
+#' @param x base dataset containing colmn_x.
+#' @param y base dataset containing colmn_y.
+#' @param colmn_x column name present in dataset x.
+#' @param colmn_y column name present in dataset y. If set to NULL, colmn_x will be used for both datasets (x and y).
+#' @param opt if "e", find values present in x$colmn_x NOT PRESENT in y$colmn_y, if "i", find values PRESENT in x$colmn_x that are also present in y$colmn_y.
+#' @keywords internal
+#' @export
 check_match <- function(x, y, colmn_x, colmn_y = NULL, opt = "e") {
 
   colmn_y <- ifelse(is.null(colmn_y), colmn_x, colmn_y)
 
-  x <- as_tibble(x)
-  y <- as_tibble(y)
+  x <- tibble::as_tibble(x)
+  y <- tibble::as_tibble(y)
+
+  if (!colmn_x %in% names(x)) {
+    stop(sprintf(
+      "Invalid colmn_x '%s'. It is not present in dataset `x`.",
+      colmn_x
+    ))
+  }
+  if (!colmn_y %in% names(y)) {
+    stop(sprintf(
+      "Invalid colmn_y '%s'. It is not present in dataset `y`.",
+      colmn_y
+    ))
+  }
 
   loc_x <- which(names(x) == colmn_x)
   loc_y <- which(names(y) == colmn_y)
