@@ -15,10 +15,10 @@ iron_steel_map;get_iron_steel_map;;industry final energy by tech and fue
 co2_tech_ironsteel;get_co2_iron_steel;co2_tech_nobio,iron_steel_map;
 LUC_emiss;get_lu_co2;;LUC emissions by region
 co2_emissions_clean;get_co2_emissions;co2_emiss,LUC_emiss;
-nonco2_clean;get_nonco2_emissions;;nonCO2 emissions by sector (excluding resource production),nonCO2 emissions by resource production
+nonco2_clean;get_nonco2_emissions;;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production
 f_gas_clean;get_fgas;;nonCO2 emissions by region
 ghg_all;get_ghg;LUC_emiss;nonCO2 emissions by region
-kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by sector (excluding resource production),nonCO2 emissions by resource production,CO2 emissions by sector (no bio) (excluding resource production)
+kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production,CO2 emissions by sector (no bio) (excluding resource production)
 co2_sequestration_clean;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
 co2_sequestration_raw;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
 ag_demand_clean;get_ag_demand;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
@@ -46,9 +46,8 @@ ag_price_clean;get_ag_price;ag_weights,ag_price_wld;prices by sector
 price_var;get_price_var_tmp;;
 regions.global;get_regions_tmp;;
 co2_ets_byreg;get_co2_ets;;nonCO2 emissions by region
-co2_ets_bysec;get_co2_ets;;nonCO2 emissions by sector (excluding resource production)
-co2_price_share_byreg;get_co2_price_share_byreg;co2_emiss;nonCO2 emissions by region
-co2_price_share_bysec;get_co2_price_share_bysec;co2_emiss,co2_ets_bysec;nonCO2 emissions by sector (excluding resource production),nonCO2 emissions by region
+co2_ets_bysec;get_co2_ets;;nonCO2 emissions by subsector (excluding resource production)
+co2_price_share_bysec;get_co2_price_share_bysec;co2_emiss,co2_ets_bysec;
 co2_price_global;get_co2_price_global_tmp;regions.global,price_var,fe_sector_clean;CO2 prices
 co2_price_fragmented;get_co2_price_fragmented_tmp;price_var,regions.global,co2_price_share_bysec;CO2 prices
 co2_price_clean;get_co2_price;co2_price_fragmented,co2_price_global,fe_sector_clean;
