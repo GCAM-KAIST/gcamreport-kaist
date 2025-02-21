@@ -1498,7 +1498,7 @@ get_co2_ets <- function(GCAM_version = 'v7.1') {
   co2_ets_bysec <-
     tibble::as_tibble(check_inf(rgcam::getQuery(prj, queryItemSec), dataset_name = queryItemSec)) %>%
     dplyr::filter(ghg == "CO2_ETS") %>%
-    dplyr::group_by(scenario, region, secor, ghg, year) %>%
+    dplyr::group_by(scenario, region, sector, ghg, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # change units to CO2 equivalent and group by sector
