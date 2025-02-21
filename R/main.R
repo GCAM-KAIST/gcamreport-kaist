@@ -550,7 +550,7 @@ available_variables <- function(print = TRUE, GCAM_version = 'v7.1') {
 #' @export
 generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios = NULL, final_year = 2100,
                             desired_variables = "All", ignore = NULL, desired_regions = "All", desired_continents = "All",
-                            save_output = TRUE, output_file = NULL, launch_ui = TRUE,
+                            save_output = TRUE, output_file = NULL, launch_ui = TRUE, interactive = F,
                             GCAM_version = 'v7.1', GWP_version = 'AR5',
                             queries_general_file = NULL, queries_nonCO2_file = NULL) {
   continent <- region <- name <- Variable <- Internal_variable <- required <- prj_loaded <- NULL
