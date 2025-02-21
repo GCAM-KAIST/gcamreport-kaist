@@ -5175,6 +5175,27 @@ do_bind_results <- function(GCAM_version = "v7.1") {
     dplyr::filter(!is.na(Region)) %>%
     dplyr::filter(Variable %in% unique(get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['Variable']]))
 
+  # Add "Other" category when variables present as reportable (Internal_variable column not empty in the template)
+  missing_var <- get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(!Variable %in% unique(report$Variable),
+                  grepl('Other', Variable),
+                  !is.na(Internal_variable))
+  year_cols <- names(report)[sapply(names(report), function(x) grepl("^\\d{4}$", x))]
+  zero_df <- as.data.frame(matrix(0, nrow = 1, ncol = length(year_cols)))
+  year_cols -> colnames(zero_df)
+
+  report <- report %>%
+    rbind(missing_var %>%
+            dplyr::distinct(Variable, Unit) %>%
+            dplyr::mutate(Model = unique(report$Model)[1],
+                          Scenario = unique(report$Scenario)[1],
+                          Region = unique(report$Region)[1]) %>%
+            tidyr::complete(tidyr::nesting(Variable, Unit),
+                            Model = unique(report$Model),
+                            Scenario = unique(report$Scenario),
+                            Region = unique(report$Region)) %>%
+            cbind(zero_df))
+
   # Filter user selected variables
   if (!(length(desired_variables) == 1 && desired_variables == "All")) {
     report <- report %>%
