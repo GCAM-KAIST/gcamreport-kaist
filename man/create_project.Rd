@@ -33,7 +33,7 @@ create_project(
 
 \item{queries_general_file}{Optional. Full path to a general XML query file (including file name and extension). Defaults to a general query file compatible with the specified `GCAM_version` that reports all standardized variables.}
 
-\item{queries_nonCO2_file}{Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by sector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.}
+\item{queries_nonCO2_file}{Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by subsector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.}
 }
 \value{
 Loads the specified project into the global environment and saves the project locally if it is created. The function sets up the project with the given parameters and makes it available for further analysis and reporting.

@@ -54,7 +54,9 @@ generate_report(
 
 \item{queries_general_file}{Optional. Full path to a general XML query file (including file name and extension). Defaults to a general query file compatible with the specified `GCAM_version` that reports all standardized variables.}
 
-\item{queries_nonCO2_file}{Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by sector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.}
+\item{queries_nonCO2_file}{Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by subsector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.}
+
+\item{interactive}{If `TRUE` (not default), asks the user what to do when Warnings appear. Otherwise, the Warnings are displayed at the end of the script.}
 }
 \value{
 Saves RData, CSV, and XLSX files with standardized variables, launches the user interface, and saves the GCAM project file if created.

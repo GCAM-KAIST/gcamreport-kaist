@@ -257,7 +257,7 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
     warning(sprintf('ATTENTION: The mapping files `%s` and `%s` have a mismatch with the query `%s`.', mapping_name1, mapping_name2, query_name))
   }
 
-  if (interactive()) {
+  if (interactive.global & interactive()) {
     # prompt for user input
     user_input <- readline(prompt = "Do you want to manually check (M) or continue (C)? Press M or C: ")
 
@@ -3816,10 +3816,13 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
     warning('ATTENTION: At least one scenario does not contain CO2 price')
   }
   missing_markets <- setdiff(unique(tmp1$market), c(unique(CO2_market_filteredReg$market),NA))
-  if (interactive() & length(missing_markets) != 0) {
+  if (length(missing_markets) != 0 & !interactive.global) {
     warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
+  } else if (length(missing_markets) != 0 & interactive.global & interactive()) {
 
+    warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
+                    paste(missing_markets, collapse = ", ")))
     # user response
     user_input <- readline(prompt =
                              sprintf('ATTENTION: CO2 markets including:\n %.100s \nare not present in the `co2_market_new` mapping file.\nDo you want to continue without adding them (Y/N)? Press Y or N: ',
