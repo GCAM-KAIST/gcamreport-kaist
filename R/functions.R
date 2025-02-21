@@ -4451,6 +4451,64 @@ get_elec_capacity_add <- function(GCAM_version = "v7.1") {
 }
 
 
+
+
+#' get_elec_capital
+#'
+#' Calculate capital cost of a newly installed plants.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @keywords internal capital process
+#' @return `elec_capital_clean` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_elec_capital <- function(GCAM_version = "v7.1") {
+  year <- region <- var <- capital.overnight <- technology <-
+    GW <- scenario <- output <- value <- unit_conv <- elec_capital_clean <- NULL
+
+  check_queries("elec_capital_clean", GCAM_version)
+  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+
+
+  # Capital costs from GCAM in $1975/kw -> convert to $2010/kw
+  elec_capital_tmp <-
+    get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::mutate(region = unique(cf_rgn_filteredReg$region)[1],
+                  scenario = scenarios.global[1]) %>%
+    dplyr::select(-sector) %>%
+    tidyr::complete(tidyr::nesting(subsector, technology, year, capital.overnight),
+                    region = unique(cf_rgn_filteredReg$region),
+                    scenario = scenarios.global) %>%
+    # gw * 10e6 * $/kw / 10e9 = bill$
+    dplyr::mutate(value = capital.overnight * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']]) %>%
+    left_join_strict(get(paste('capacity_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::select(-output),
+                     by = c("subsector", "technology"),
+                     mapping = paste('capacity_map',GCAM_version,sep='_'),
+                     multiple = "all") %>%
+    dplyr::filter(!is.na(var), var != 'NoReported') %>%
+    dplyr::mutate(value = value * unit_conv,
+                  var = sub("Secondary Energy", "Capital Cost", var)) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = mean(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  # average mean for global tech capital cost
+  elec_capital_clean <- rbind(
+    elec_capital_tmp,
+    elec_capital_tmp %>%
+      dplyr::group_by(scenario, var, year) %>%
+      dplyr::summarise(value = mean(value, na.rm = T)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(region = "World")
+  )
+
+  elec_capital_clean <<- elec_capital_clean
+}
+
+
+
+
 #' get_elec_investment
 #'
 #' Calculate electricity investment = annual capacity additions * capital costs.
