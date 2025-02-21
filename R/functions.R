@@ -2695,6 +2695,52 @@ get_se_trade <- function(GCAM_version = 'v7.1') {
 # ==============================================================================================
 # demand by sector by technology
 
+
+
+#' get_consumption_hh
+#'
+#' Compute share of total energy household consumption my decile
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return `consumption_hh_clean` global variables.
+#' @keywords internal deciles
+#' @importFrom magrittr %>%
+#' @export
+get_consumption_hh <- function(GCAM_version = "v7.1") {
+  consumption_hh_clean <- NULL
+
+  check_queries('consumption_hh_clean', GCAM_version)
+
+  if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
+    consumption_hh_clean <-
+      check_inf(rgcam::getQuery(prj, "building total final energy by service"),
+                dataset_name = "building total final energy by service") %>%
+      dplyr::filter(grepl('resid',sector)) %>%
+      # update variable name
+      dplyr::mutate(var = paste0('Consumption|Housing|Energy|D',
+                                 stringr::str_extract(sector, "(?<=_d)\\d+"),
+                                 ' [Share]')) %>%
+      dplyr::group_by(scenario, region, year, var) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
+      # compute income share by decile
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(total_consumption = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(value = 100 * value / total_consumption) %>%
+      dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  } else {
+    consumption_hh_clean <- NULL
+    warning("The 'Household Consumption by Decile' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `building total final energy by service` query is valid and not returning empty results.")
+  }
+
+  consumption_hh_clean <<- consumption_hh_clean
+
+}
+
+
+
 #' get_fe_sector_tmp
 #'
 #' Retrieve final energy demand by sector.
@@ -4880,7 +4926,7 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Temperature\\|Global Mean", var),
       !grepl("Concentration\\|CO2", var),
       # food intake
-      !grepl("Food Intake", var),
+      !grepl("Food Intake", var)
     ) %>%
     dplyr::group_by(scenario, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%

@@ -95,3 +95,4 @@ trn_stock_clean;get_transport_stock;;transport service output by tech and vintag
 trn_sales_clean;get_transport_sales;;transport service output by tech and vintage
 resource_extraction_clean;get_resource_extraction;;resource production
 income_clean;get_income;;subregional income
+consumption_hh_clean;get_consumption_hh;;building total final energy by service
