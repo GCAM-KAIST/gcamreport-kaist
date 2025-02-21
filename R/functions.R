@@ -1151,7 +1151,7 @@ get_capital_formation <- function(GCAM_version = "v7.1") {
       capital_stock_clean %>%
       dplyr::arrange(scenario, region, var, year) %>%
       dplyr::group_by(scenario, region, var) %>%
-      dplyr::mutate(net_addition = value - lag(value)) %>%
+      dplyr::mutate(net_addition = value - dplyr::lag(value)) %>%
       dplyr::select(-value) %>%
       dplyr::rename(value = net_addition) %>%
       dplyr::mutate(var = 'Capital Formation') %>%
@@ -2363,7 +2363,7 @@ get_land <- function(GCAM_version = "v7.1") {
 
   check_queries("land_clean", GCAM_version)
 
-  land_clean <-
+  land_tmp <-
     check_inf(rgcam::getQuery(prj, "land allocation by crop and water source"),
               dataset_name = "land allocation by crop and water source") %>%
     left_join_strict(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
@@ -2375,6 +2375,28 @@ get_land <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  # forest area change (annual diff between reported years)
+  land_achange <- land_tmp %>%
+    dplyr::filter(var == 'Land Cover|Forest') %>%
+    dplyr::mutate(year = as.numeric(year),
+                  var = 'Forest Area Change') %>%
+    dplyr::distinct() %>%
+    dplyr::group_by(scenario, region, var) %>%
+    dplyr::arrange(year) %>%
+    dplyr::mutate(year_diff = year - dplyr::lag(year),
+                  value_diff = (value - dplyr::lag(value)) / year_diff) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-value) %>%
+    dplyr::rename(value = value_diff) %>%
+    dplyr::select(all_of(gcamreport::long_columns))
+
+
+  # aggregate
+  land_clean <- rbind(
+    land_tmp,
+    land_achange
+  )
 
   land_clean <<- land_clean
 }
