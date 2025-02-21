@@ -31,7 +31,7 @@ electricity,wind,wind,Secondary Energy|Electricity,Secondary Energy|Electricity|
 electricity,wind,wind_offshore,Secondary Energy|Electricity,Secondary Energy|Electricity|Wind,Secondary Energy|Electricity|Wind|Offshore,,Secondary Energy|Electricity|Non-Biomass Renewables,,,1
 electricity,wind,wind_storage,Secondary Energy|Electricity,Secondary Energy|Electricity|Wind,Secondary Energy|Electricity|Wind|Onshore,,Secondary Energy|Electricity|Non-Biomass Renewables,,,1
 electricity,hydrogen,hydrogen cogen,Secondary Energy|Electricity,Secondary Energy|Electricity|Hydrogen,,,,,,1
-elect_td_bld,rooftop_pv,rooftop_pv,Secondary Energy|Electricity,Secondary Energy|Electricity|Solar,Secondary Energy|Electricity|Solar|PV,Secondary Energy|Electricity|Solar|PV|Residential,Secondary Energy|Electricity|Non-Biomass Renewables,,,1
+elect_td_bld,rooftop_pv,rooftop_pv,Secondary Energy|Electricity,Secondary Energy|Electricity|Solar,Secondary Energy|Electricity|Solar|PV,Secondary Energy|Electricity|Solar|PV|Residential,Secondary Energy|Electricity|Non-Biomass Renewables,Secondary Energy|Electricity|Solar|PV|Commercial,,1
 gas processing,biomass gasification,biomass gasification,Secondary Energy|Gases,Secondary Energy|Gases|Biomass,,,,,,1
 gas processing,coal gasification,coal gasification,Secondary Energy|Gases,Secondary Energy|Gases|Coal,Secondary Energy|Gases|Fossil,,,,,1
 gas processing,natural gas,natural gas,Secondary Energy|Gases,Secondary Energy|Gases|Gas,Secondary Energy|Gases|Fossil,,,,,1

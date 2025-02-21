@@ -16,7 +16,7 @@ data_query(
 )
 }
 \arguments{
-\item{type}{Type of non-CO2 emissions query. Must be one of 'nonCO2 emissions by region' or 'nonCO2 emissions by sector'.}
+\item{type}{Type of non-CO2 emissions query. Must be one of 'nonCO2 emissions by region' or 'nonCO2 emissions by subsector'.}
 
 \item{db_path}{Path to the GCAM database. Required for accessing the database.}
 
