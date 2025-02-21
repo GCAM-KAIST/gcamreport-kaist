@@ -701,13 +701,53 @@ get_population_weights <- function(GCAM_version = "v7.1") {
 }
 
 
+#' get_income
+#'
+#' Compute share of total income my decile
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
+#' @return `income_clean` global variables.
+#' @keywords internal econ
+#' @importFrom magrittr %>%
+#' @export
+get_income <- function(GCAM_version = "v7.1") {
+  income_clean <- NULL
+
+  check_queries('income_clean', GCAM_version)
+
+  if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
+    income_clean <-
+      check_inf(rgcam::getQuery(prj, "subregional income"),
+                dataset_name = "subregional income") %>%
+      dplyr::filter(grepl('resid',`gcam-consumer`)) %>%
+      # compute income share by decile
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(total_income = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(value = 100 * value / total_income) %>%
+      # update variable name
+      dplyr::mutate(var = paste0('Income|D',
+                                 stringr::str_extract(`gcam-consumer`, "(?<=_d)\\d+"),
+                                 ' [Share]')) %>%
+      dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  } else {
+    income_clean <- NULL
+    warning("The 'Income' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
+  }
+
+  income_clean <<- income_clean
+
+}
+
+
 #' get_labor
 #'
 #' Compute active and inactive labor force
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @return `labor_clean` global variables.
-#' @keywords internal GDP
+#' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_labor <- function(GCAM_version = "v7.1") {
@@ -757,7 +797,7 @@ get_labor <- function(GCAM_version = "v7.1") {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @return `GDP_PPP_clean` and `GDP_PPP_pc_growth_clean` global variables.
-#' @keywords internal GDP
+#' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_gdp_ppp <- function(GCAM_version = "v7.1") {
@@ -802,7 +842,7 @@ get_gdp_ppp <- function(GCAM_version = "v7.1") {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @return `GDP_MER_clean` global variable.
-#' @keywords internal GDP
+#' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_gdp_mer <- function(GCAM_version = "v7.1") {
@@ -832,7 +872,7 @@ get_gdp_mer <- function(GCAM_version = "v7.1") {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.
 #' @return `goods_trade_clean` global variables.
-#' @keywords internal GDP
+#' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_goods_trade <- function(GCAM_version = "v7.1") {
