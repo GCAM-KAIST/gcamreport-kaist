@@ -753,7 +753,7 @@ get_income <- function(GCAM_version = "v7.1") {
 
   } else {
     income_clean <- NULL
-    warning("The 'Income' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
+    warning("The 'Income by Decile' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
   }
 
   income_clean <<- income_clean

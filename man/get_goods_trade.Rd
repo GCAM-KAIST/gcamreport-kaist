@@ -16,5 +16,5 @@ get_goods_trade(GCAM_version = "v7.1")
 Compute net exports of all goods measured in monetary quantities: materials-net-export +
 capital-net-export + energy-net-export
 }
-\keyword{GDP}
+\keyword{econ}
 \keyword{internal}

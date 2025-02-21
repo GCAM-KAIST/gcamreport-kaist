@@ -15,5 +15,5 @@ get_labor(GCAM_version = "v7.1")
 \description{
 Compute active and inactive labor force
 }
-\keyword{GDP}
+\keyword{econ}
 \keyword{internal}
