@@ -711,25 +711,45 @@ get_population_weights <- function(GCAM_version = "v7.1") {
 #' @importFrom magrittr %>%
 #' @export
 get_income <- function(GCAM_version = "v7.1") {
-  income_clean <- NULL
+  income_clean <- income_tmp <- income_w <- income <- NULL
 
   check_queries('income_clean', GCAM_version)
 
   if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
-    income_clean <-
+    income_tmp <-
       check_inf(rgcam::getQuery(prj, "subregional income"),
                 dataset_name = "subregional income") %>%
       dplyr::filter(grepl('resid',`gcam-consumer`)) %>%
-      # compute income share by decile
-      dplyr::group_by(scenario, region, year) %>%
-      dplyr::mutate(total_income = sum(value)) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(value = 100 * value / total_income) %>%
       # update variable name
       dplyr::mutate(var = paste0('Income|D',
                                  stringr::str_extract(`gcam-consumer`, "(?<=_d)\\d+"),
-                                 ' [Share]')) %>%
+                                 ' [Share]'))
+
+    # compute income share by decile
+    income <- income_tmp %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(total = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(value = 100 * value / total) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+    # compute income share by decile at the World level
+    income_w <- income_tmp %>%
+      dplyr::group_by(scenario, year, var) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::group_by(scenario, year) %>%
+      dplyr::mutate(total = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(value = 100 * value / total,
+                    region = 'World') %>%
+      dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+    # aggregate regional and global data
+    income_clean <- rbind(
+      income,
+      income_w
+    )
 
   } else {
     income_clean <- NULL
@@ -2707,12 +2727,13 @@ get_se_trade <- function(GCAM_version = 'v7.1') {
 #' @importFrom magrittr %>%
 #' @export
 get_consumption_hh <- function(GCAM_version = "v7.1") {
-  consumption_hh_clean <- NULL
+  consumption_hh_clean <- consumption_hh_w <- consumption_hh <-
+    consumption_hh_tmp <- NULL
 
   check_queries('consumption_hh_clean', GCAM_version)
 
   if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
-    consumption_hh_clean <-
+    consumption_hh_tmp <-
       check_inf(rgcam::getQuery(prj, "building total final energy by service"),
                 dataset_name = "building total final energy by service") %>%
       dplyr::filter(grepl('resid',sector)) %>%
@@ -2722,14 +2743,33 @@ get_consumption_hh <- function(GCAM_version = "v7.1") {
                                  ' [Share]')) %>%
       dplyr::group_by(scenario, region, year, var) %>%
       dplyr::summarise(value = sum(value)) %>%
-      dplyr::ungroup() %>%
-      # compute income share by decile
+      dplyr::ungroup()
+
+    # compute consumption share by decile
+    consumption_hh <- consumption_hh_tmp %>%
       dplyr::group_by(scenario, region, year) %>%
-      dplyr::mutate(total_consumption = sum(value)) %>%
+      dplyr::mutate(total = sum(value)) %>%
       dplyr::ungroup() %>%
-      dplyr::mutate(value = 100 * value / total_consumption) %>%
+      dplyr::mutate(value = 100 * value / total) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+    # compute consumption share by decile at the World level
+    consumption_hh_w <- consumption_hh_tmp %>%
+      dplyr::group_by(scenario, year, var) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::group_by(scenario, year) %>%
+      dplyr::mutate(total = sum(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(value = 100 * value / total,
+                    region = 'World') %>%
+      dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+    # aggregate regional and global data
+    consumption_hh_clean <- rbind(
+      consumption_hh,
+      consumption_hh_w
+    )
   } else {
     consumption_hh_clean <- NULL
     warning("The 'Household Consumption by Decile' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `building total final energy by service` query is valid and not returning empty results.")
@@ -2909,7 +2949,7 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  # compute Active & Public share
+  # compute Active & Public share (regional)
   energy_service_transportation_share <-
     energy_service_transportation %>%
     dplyr::filter(grepl("Passenger", var), var != 'Energy Service|Transportation|Passenger|Road') %>%
@@ -2925,11 +2965,31 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
                                                         value))) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  # compute Active & Public share (World)
+  energy_service_transportation_share_w <- energy_service_transportation %>%
+    dplyr::filter(grepl("Passenger", var), var != 'Energy Service|Transportation|Passenger|Road') %>%
+    dplyr::group_by(scenario, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(scenario, year) %>%
+    dplyr::mutate(
+      total_p = value[var == "Energy Service|Transportation|Passenger"],
+      ratio_active_p = dplyr::if_else(var == "Energy Service|Transportation|Passenger|Active Transport [Share]", 100 * value / total_p, NA),
+      ratio_public_p = dplyr::if_else(var == "Energy Service|Transportation|Passenger|Public Transport [Share]", 100 * value / total_p, NA)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(value = dplyr::if_else(var == "Energy Service|Transportation|Passenger|Active Transport [Share]", ratio_active_p,
+                                         dplyr::if_else(var == "Energy Service|Transportation|Passenger|Public Transport [Share]", ratio_public_p,
+                                                        value)),
+                  region = 'World') %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
 
   energy_service_transportation_clean <- dplyr::bind_rows(
     energy_service_transportation %>%
       dplyr::filter(!grepl('Share', var)),
-    energy_service_transportation_share
+    energy_service_transportation_share,
+    energy_service_transportation_share_w
   )
 
   energy_service_transportation_clean <<- energy_service_transportation_clean
@@ -4926,7 +4986,9 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Temperature\\|Global Mean", var),
       !grepl("Concentration\\|CO2", var),
       # food intake
-      !grepl("Food Intake", var)
+      !grepl("Food Intake", var),
+      # shares
+      !grepl("[Share]", var),
     ) %>%
     dplyr::group_by(scenario, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
