@@ -1912,10 +1912,12 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
               dplyr::group_by(Units, scenario, region, sector, subsector, ghg, year) %>%
               dplyr::summarise(value = sum(value)) %>%
               dplyr::ungroup()) %>%
+      dplyr::filter(!grepl('CO2',ghg)) %>%
       left_join_strict(get(paste('nonco2_emis_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("ghg", "sector", "subsector"), mapping = paste('nonco2_emis_sector_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many"),
     check_inf(rgcam::getQuery(prj, queryItem2),
               dataset_name = queryItem2) %>%
+      dplyr::filter(!grepl('CO2',ghg)) %>%
       left_join_strict(get(paste('nonco2_emis_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("ghg", "resource"), multiple = "all", relationship = "many-to-many")
     ) %>%
@@ -3521,15 +3523,18 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
     dplyr::filter(!grepl("LUC", market)) %>%
     dplyr::filter(!grepl("global|Global|world|World", market)) %>%
     dplyr::filter(Units == "1990$/tC") %>%
-    tibble::as_tibble()
+    tibble::as_tibble() %>%
+    dplyr::filter(!grepl(paste(ignore.global, collapse = "|"), market))
+
 
   if (nrow(co2_price_fragmented_pre) > 1) {
     CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
-      dplyr::filter(region != 'NoReported')
+      dplyr::filter(region != 'NoReported') %>%
+      dplyr::filter(!grepl(paste(ignore.global, collapse = "|"), market))
 
     co2_price_fragmented <-
       co2_price_fragmented_pre %>%
-      left_join_strict(CO2_market_filteredReg, by = c("market"), mapping = paste('co2_market',GCAM_version,sep='_'), multiple = "all") %>%
+      dplyr::left_join(CO2_market_filteredReg, by = c("market"), multiple = "all") %>%
       dplyr::filter(stats::complete.cases(.)) %>%
       dplyr::mutate(value = value /
                       get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']] *
@@ -4027,10 +4032,10 @@ get_energy_price <- function(GCAM_version = "v7.1") {
     left_join_strict(en_demand_price_map,
                      mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
                      by = 'en_price_var') %>%
-    left_join_strict(weights_sec_reg %>%
+    dplyr::left_join(weights_sec_reg %>%
                        dplyr::rename(en_consumption_var = var),
                      by = c('scenario', 'region', 'year', 'en_consumption_var'),
-                     by_message = c('en_consumption_var','en_price_var'),
+                     # by_message = c('en_consumption_var','en_price_var'),
                      relationship = "many-to-many") %>%
     dplyr::mutate(value = value * reg_sec_weight) %>%
     # compute Global values
@@ -4342,8 +4347,9 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
       dplyr::ungroup() %>%
       # use GCAM cf for capacity additions
       left_join_strict(elec_cf %>%
-                         dplyr::select(-'cf.rgn'),
-                       by = c("region", "technology", "year" = "vintage")) %>%
+                         dplyr::select(-'cf.rgn') %>%
+                         dplyr::rename(year = vintage),
+                       by = c("region", "technology", "year")) %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
       conv_EJ_GW() %>%

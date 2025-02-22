@@ -623,8 +623,10 @@ Dairy,Mixed,Water XX,Water XX|Livestock,,,1
 Dairy,Pastoral,Water XX,Water XX|Livestock,,,1
 elec_biomass (IGCC CCS),biomass (IGCC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
 elec_biomass (conv CCS),biomass (conv CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
-elec_coal (conv pul CCS),coal (conv pul CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
-elec_gas (CC CCS),gas (CC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
+elec_coal (conv pul CCS),coal (conv pul CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Coal,,1
+elec_coal (IGCC CCS),coal (IGCC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Coal,,1
+elec_gas (CC CCS),gas (CC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Gas,,1
+elec_refined liquids (CC CCS),refined liquids (CC CCS),Water XX,Water XX|Electricity,Water XX|Electricity|Oil,,1
 electricity,biomass,Water XX,Water XX|Electricity,Water XX|Electricity|Biomass,,1
 electricity,coal,Water XX,Water XX|Electricity,Water XX|Electricity|Coal,Water XX|Electricity|Fossil,1
 electricity,gas,Water XX,Water XX|Electricity,Water XX|Electricity|Gas,Water XX|Electricity|Fossil,1
@@ -1462,12 +1464,14 @@ Fruits,Fruits_UsaColoRN,Water XX,Water XX|Irrigation,,,1
 Fruits,Fruits_UsaCstE,Water XX,Water XX|Irrigation,,,1
 Fruits,Fruits_UsaCstSE,Water XX,Water XX|Irrigation,,,1
 H2 central production,biomass,Water XX,Water XX|Industrial Water,,,1
+H2 central production,coal,Water XX,Water XX|Industrial Water,,,1
 H2 central production,electricity,Water XX,Water XX|Industrial Water,,,1
 H2 central production,gas,Water XX,Water XX|Industrial Water,,,1
 H2 central production,nuclear,Water XX,Water XX|Industrial Water,,,1
 H2 central production,solar,Water XX,Water XX|Industrial Water,,,1
 H2 central production,wind,Water XX,Water XX|Industrial Water,,,1
 H2 industrial,onsite production,Water XX,Water XX|Industrial Water,,,1
+H2 industrial,forecourt production,Water XX,Water XX|Industrial Water,,,1
 H2 wholesale dispensing,forecourt production,Water XX,Water XX|Industrial Water,,,1
 Legumes,Legumes_AfrCstNE,Water XX,Water XX|Irrigation,,,1
 Legumes,Legumes_LChad,Water XX,Water XX|Irrigation,,,1
@@ -1626,6 +1630,7 @@ Legumes,Legumes_TexasCst,Water XX,Water XX|Irrigation,,,1
 Legumes,Legumes_UsaColoRN,Water XX,Water XX|Irrigation,,,1
 Legumes,Legumes_UsaCstE,Water XX,Water XX|Irrigation,,,1
 Legumes,Legumes_UsaPacNW,Water XX,Water XX|Irrigation,,,1
+MiscCrop,MiscCrop_NemanR,Water XX,Water XX|Irrigation,,,1
 MiscCrop,MiscCropTree_AfrCstE,Water XX,Water XX|Irrigation,,,1
 MiscCrop,MiscCropTree_AfrCstNE,Water XX,Water XX|Irrigation,,,1
 MiscCrop,MiscCropTree_CongoR,Water XX,Water XX|Irrigation,,,1
