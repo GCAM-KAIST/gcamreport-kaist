@@ -1912,10 +1912,12 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
               dplyr::group_by(Units, scenario, region, sector, subsector, ghg, year) %>%
               dplyr::summarise(value = sum(value)) %>%
               dplyr::ungroup()) %>%
+      dplyr::filter(!grepl('CO2',ghg)) %>%
       left_join_strict(get(paste('nonco2_emis_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("ghg", "sector", "subsector"), mapping = paste('nonco2_emis_sector_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many"),
     check_inf(rgcam::getQuery(prj, queryItem2),
               dataset_name = queryItem2) %>%
+      dplyr::filter(!grepl('CO2',ghg)) %>%
       left_join_strict(get(paste('nonco2_emis_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("ghg", "resource"), multiple = "all", relationship = "many-to-many")
     ) %>%
@@ -4342,8 +4344,9 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
       dplyr::ungroup() %>%
       # use GCAM cf for capacity additions
       left_join_strict(elec_cf %>%
-                         dplyr::select(-'cf.rgn'),
-                       by = c("region", "technology", "year" = "vintage")) %>%
+                         dplyr::select(-'cf.rgn') %>%
+                         dplyr::rename(year = vintage),
+                       by = c("region", "technology", "year")) %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
       conv_EJ_GW() %>%
