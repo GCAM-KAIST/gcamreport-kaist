@@ -5135,7 +5135,7 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       # food intake
       !grepl("Food Intake", var),
       # shares
-      !grepl("[Share]", var),
+      !grepl("\\[Share\\]", var),
     ) %>%
     dplyr::group_by(scenario, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
