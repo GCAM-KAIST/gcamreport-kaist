@@ -3073,8 +3073,10 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
   energy_service_transportation_clean <- dplyr::bind_rows(
     energy_service_transportation %>%
       dplyr::filter(!grepl('Share', var)),
-    energy_service_transportation_share,
-    energy_service_transportation_share_w
+    energy_service_transportation_share %>%
+      dplyr::filter(grepl('Share', var)),
+    energy_service_transportation_share_w %>%
+      dplyr::filter(grepl('Share', var))
   )
 
   energy_service_transportation_clean <<- energy_service_transportation_clean
