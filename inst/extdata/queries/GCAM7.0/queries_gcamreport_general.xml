@@ -1036,8 +1036,22 @@ local:generate-sector-input-coefs(remove($outputNameQueue, 1), $currTree, $coefs
       <emissionsQueryBuilder title="CO2 emissions by sector (excluding resource production)">
          <axis1 name="sector">sector</axis1>
          <axis2 name="Year">emissions</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type='sector']//CO2/emissions/node()</xPath>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type='sector']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions/node()</xPath>
          <comments />
+      </emissionsQueryBuilder>
+   </aQuery>
+      <aQuery>
+      <all-regions/>
+      <emissionsQueryBuilder title="CO2 emissions by resource production">
+            <axis1 name="GHG">GHG</axis1>
+            <axis2 name="Year">emissions</axis2>
+            <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'resource']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions/node()</xPath>
+            <comments/>
+            <labelRewriteList append-values="false">
+               <level name="GHG">
+                  <rewrite from="CO2_FUG" to="CO2"/>
+               </level>
+            </labelRewriteList>
       </emissionsQueryBuilder>
    </aQuery>
    <aQuery>
@@ -1054,8 +1068,7 @@ local:generate-sector-input-coefs(remove($outputNameQueue, 1), $currTree, $coefs
       <emissionsQueryBuilder title="CO2 emissions by tech (excluding resource production)">
          <axis1 name="technology">technology</axis1>
          <axis2 name="Year">emissions</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//
-            CO2/emissions/node()</xPath>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions/node()</xPath>
          <comments />
       </emissionsQueryBuilder>
    </aQuery>
@@ -1064,8 +1077,7 @@ local:generate-sector-input-coefs(remove($outputNameQueue, 1), $currTree, $coefs
       <emissionsQueryBuilder title="CO2 sequestration by tech">
          <axis1 name="subsector">subsector</axis1>
          <axis2 name="Year">emissions-sequestered</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//
-            CO2/emissions-sequestered/node()</xPath>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions-sequestered/node()</xPath>
          <comments />
       </emissionsQueryBuilder>
    </aQuery>
