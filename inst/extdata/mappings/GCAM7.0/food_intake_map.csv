@@ -21,3 +21,4 @@ Rice,Rice,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Cr
 RootTuber,RootTuber,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Other Crops [per capita],,,,,,1
 SugarCrop,SugarCrop,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Sugar Crops [per capita],,,,,,1
 Wheat,Wheat,Food Intake [per capita],Food Intake|Crops [per capita],Food Intake|Crops|Cereals [per capita],,,,,,1
+FiberCrop,FiberCrop,NoReported,,,,,,,,1

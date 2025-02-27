@@ -235,7 +235,7 @@ use_data(investment_v7.0, overwrite = T)
 
 
 carbon_content_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L202.CarbonCoef.csv"),
-                                skip = 2, na = "",
+                                skip = 0, na = "",
                                 stringsAsFactors = FALSE
 )
 use_data(carbon_content_v7.0, overwrite = T)
