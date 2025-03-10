@@ -18,23 +18,16 @@
 
 <!-- ------------------------>
 
--   [Contents](#contents)
-
--   [Introduction](#introduction)
-
--   [Installation Guide](#installation-guide)
-
-    -   [With R](#with-r)
-    
-        -   [Light mode installation](#with-R-light-mode-installation)
-        
-        -   [Full mode installation](#with-R-full-mode-installation)
-
-    -   [With Docker](#with-docker)
-
--   [Getting Started](#get-started)
-
--   [Top common Warnings and Error Messages](#bugs)
+- [gcamreport](#gcamreport)
+  - [Contents](#contents)
+  - [Introduction](#introduction)
+  - [Installation Guide](#installation-guide)
+    - [With R](#with-r)
+      - [Light mode installation](#light-mode-installation)
+      - [Full mode installation](#full-mode-installation)
+    - [With Docker](#with-docker)
+  - [Getting Started](#getting-started)
+  - [Top common Warnings and Error Messages](#top-common-warnings-and-error-messages)
 
 
 <br>
