@@ -588,19 +588,6 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     ))
   }
 
-  # check that final_year is >= 2025
-  if (final_year < 2025) {
-    stop(sprintf(
-      "'final_year' is set to '%s' but must be at least 2025. Please select a valid year: '%s.\n",
-      final_year, paste(gcamreport::available_final_year, collapse = ", ")))
-  }
-  # check that final_year is availabe (5-year interval)
-  if (!final_year %in% gcamreport::available_final_year) {
-    stop(sprintf(
-      "'final_year' is set to '%s' but must align with available 5-year intervals. Please select a valid year: '%s.\n",
-      final_year, paste(gcamreport::available_final_year, collapse = ", ")))
-  }
-
   # check that desired_regions and desired_continents are not specified at the same time
   if (!identical(desired_regions, "All") && !identical(desired_continents, "All")) {
     stop("You specified both 'desired_regions' and 'desired_continents'. Only one can be specified at a time.\n")
@@ -727,6 +714,36 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # make final_year as a global variable
   final_year.global <<- final_year
+
+  # compute available years
+  years_in_prj <- listYears(prj)
+  # base year
+  base_year <<- dplyr::if_else(2021 %in% years_in_prj, 2021, 2015)
+  if (base_year == 2021) years_in_prj <- setdiff(years_in_prj, 2020)
+  years_in_prj <- setdiff(years_in_prj, NA)
+  # base year prima: year used for multiple computations
+  base_year_p <<- dplyr::if_else(base_year == 2021, base_year, 2020)
+  # gcam model years
+  gcam_years <<- years_in_prj[years_in_prj >= 1990]
+  # gcamreport available reporting years
+  available_reporting_years <<- years_in_prj[years_in_prj >= 2005]
+  # gcamreport available final year
+  available_final_year <<- years_in_prj[years_in_prj >= 2025]
+
+
+  # check that final_year is >= 2025
+  if (final_year < 2025) {
+    stop(sprintf(
+      "'final_year' is set to '%s' but must be at least 2025. Please select a valid year: '%s.\n",
+      final_year, paste(available_final_year, collapse = ", ")))
+  }
+  # check that final_year is availabe (5-year interval)
+  if (!final_year %in% available_final_year) {
+    stop(sprintf(
+      "'final_year' is set to '%s' but must align with the available years in your project data. Please select a valid year: '%s.\n",
+      final_year, paste(available_final_year, collapse = ", ")))
+  }
+
 
   # final reporting columns
   reporting_columns.global <<- append(c("Model", "Scenario", "Region", "Variable", "Unit"), as.character(seq(2005, final_year.global, by = 5)))

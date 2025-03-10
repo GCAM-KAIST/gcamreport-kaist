@@ -5,6 +5,94 @@ options(summarise.inform = FALSE)
 #########################################################################
 
 
+#' find_closest_values
+#'
+#' Find the two closest values (one smaller and one bigger) of values_vector to target_value.
+#'
+#' @param values_vector Vector of values.
+#' @param target_value Target value.
+#' @return The two closest values (one smaller and one bigger) in one vector.
+#' @export
+find_closest_values <- function(values_vector, target_value) {
+  smaller <- max(values_vector[values_vector <= target_value], na.rm = TRUE)
+  larger  <- min(values_vector[values_vector >= target_value], na.rm = TRUE)
+  return(c(smaller, larger))
+}
+
+
+#' interpolateGCAMdata
+#'
+#' Interpolate GCAM data between the years 2015 2021.
+#'
+#' @param data The data set to interpolate on.
+#' @param yearcol The year column name. By default, `year`.
+#' @param valuecol The value column name. By default, `value`.
+#' @param year_to_appear The year that must be present in the interpolated data. By default, `base_year`.
+#' @return data with the year year_to_appear interpolated linearly.
+#' @export
+interpolateGCAMdata <- function (data, yearcol = 'year', valuecol = 'value',
+                                 year_to_appear = base_year) {
+
+  # interpolate GCAM data if needed to ensure yearly resolution presence
+  if (!year_to_appear %in% unique(data[[yearcol]])) {
+    years_to_interp <- sort(find_closest_values(unique(data[[yearcol]]), year_to_appear))
+
+    data <- data %>%
+      dplyr::group_by(across(setdiff(names(.), c(yearcol, valuecol)))) %>%
+      tidyr::complete(!!yearcol := sort(unique(c(.data[[yearcol]],tidyr::full_seq(years_to_interp[1]:years_to_interp[2], 1))))) %>%
+      dplyr::arrange(.data[[yearcol]]) %>%
+      dplyr::mutate(!!valuecol := approx(.data[[yearcol]], .data[[valuecol]], .data[[yearcol]], method = "linear", rule = 2)$y) %>%
+      dplyr::ungroup()
+  }
+
+  return(data)
+}
+
+
+#' listYears
+#'
+#' Return the years of the queries available for a scenario in a project data set.
+#' This function requires the data set to have been previously loaded, so it cannot take a file name.
+#'
+#' @param projData The data set to report on.
+#' @param scenarios The name(s) of the scenario(s) to report on. If NULL, report on all of them.
+#' @param queries The name(s) of the queries(s) to report on. If NULL, report on all of them.
+#' @param anyscen If TRUE, then list queries that are in any scenario. If FALSE, list queries that are in all scenarios.
+#' @return list of years reported in the project/scenario/queries.
+#' @export
+listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRUE) {
+  if (is.character(projData)) {
+    stop("This function requires the data set to have been already loaded.")
+  }
+  if (is.null(scenarios)) {
+    scenarios <- rgcam::listScenarios(projData)
+  }
+  if (is.null(queries)) {
+    queries <- rgcam::listQueries(projData)
+  }
+  sqlist <- lapply(scenarios, function(scen) {
+    lapply(queries, function(quer) {
+      if ("year" %in% names(projData[[scen]][[quer]])) {
+        yy = unique(projData[[scen]][[quer]][['year']])
+        if (length(yy) > 100) {
+          NULL
+        } else {
+          yy
+          # if (2020 %in% yy) {
+          #   print(quer)
+          # }
+        }
+      } else {
+        NULL
+      }
+    })
+  })
+  combine <- if (anyscen)
+    union
+  else intersect
+  Reduce(combine, Reduce(combine, sqlist))
+}
+
 
 
 #' check_inf
@@ -779,6 +867,7 @@ get_labor <- function(GCAM_version = "v7.1") {
     labor_active <-
       check_inf(rgcam::getQuery(prj, "National Account"),
                 dataset_name = "National Account") %>%
+      dplyr::filter(year != dplyr::if_else(base_year == 2021, 2020, 2021)) %>% # avoid null values present in the data due to the byu
       dplyr::filter(account == 'labor-force') %>%
       dplyr::mutate(
         value = value *
@@ -829,6 +918,7 @@ get_gdp_ppp <- function(GCAM_version = "v7.1") {
   GDP_PPP_clean <-
     check_inf(rgcam::getQuery(prj, "GDP per capita PPP by region"),
               dataset_name = "GDP per capita PPP by region") %>%
+    dplyr::filter(value != 0) %>% # avoid null values present in the data due to the byu
     left_join_error_no_match(population_clean %>% dplyr::rename(pop_mill = value), by = c("scenario", "region", "year")) %>%
     dplyr::mutate(
       value = value * pop_mill * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']],
@@ -839,6 +929,7 @@ get_gdp_ppp <- function(GCAM_version = "v7.1") {
   GDP_PPP_pc_growth_clean <-
     check_inf(rgcam::getQuery(prj, "GDP per capita PPP by region"),
               dataset_name = "GDP per capita PPP by region") %>%
+    dplyr::filter(value != 0) %>% # avoid null values present in the data due to the byu
     dplyr::arrange(year) %>%
     tibble::as_tibble() %>%
     dplyr::group_by(scenario, region) %>%
@@ -873,6 +964,7 @@ get_gdp_mer <- function(GCAM_version = "v7.1") {
   GDP_MER_clean <-
     check_inf(rgcam::getQuery(prj, "GDP MER by region"),
               dataset_name = "GDP MER by region") %>%
+    dplyr::filter(value != 0) %>% # avoid null values present in the data due to the byu
     dplyr::mutate(
       value = value *
         get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']] *
@@ -904,6 +996,7 @@ get_goods_trade <- function(GCAM_version = "v7.1") {
     goods_trade_clean <-
       check_inf(rgcam::getQuery(prj, "National Account"),
                 dataset_name = "National Account") %>%
+      dplyr::filter(year != dplyr::if_else(base_year == 2021, 2020, 2021)) %>% # avoid null values present in the data due to the byu
       dplyr::filter(account %in% c('materials-net-export','energy-net-export','capital-net-export')) %>%
       dplyr::mutate(
         value = value *
@@ -942,6 +1035,7 @@ get_value_added <- function(GCAM_version = "v7.1") {
     value_added <-
       check_inf(rgcam::getQuery(prj, "National Account"),
                 dataset_name = "National Account") %>%
+      dplyr::filter(year != dplyr::if_else(base_year == 2021, 2020, 2021)) %>% # avoid null values present in the data due to the byu
       dplyr::filter(account %in% c('value-added')) %>%
       dplyr::mutate(
         value = value *
@@ -1118,6 +1212,7 @@ get_capital_stock <- function(GCAM_version = "v7.1") {
     capital_stock_clean <-
       check_inf(rgcam::getQuery(prj, "National Account"),
                 dataset_name = "National Account") %>%
+      dplyr::filter(year != dplyr::if_else(base_year == 2021, 2020, 2021)) %>% # avoid null values present in the data due to the byu
       dplyr::filter(account == 'capital-stock') %>%
       dplyr::mutate(var = 'Capital Stock',
                     # million 1990$ to billion 2010$
@@ -1409,7 +1504,7 @@ get_forcing <- function(GCAM_version = "v7.1") {
   forcing_clean <-
     check_inf(rgcam::getQuery(prj, "total climate forcing"),
               dataset_name = "total climate forcing") %>%
-    dplyr::filter(year %in% gcamreport::gcam_years) %>%
+    dplyr::filter(year %in% gcam_years) %>%
     dplyr::mutate(var = "Forcing", region = "World") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
@@ -1434,7 +1529,7 @@ get_temperature <- function(GCAM_version = "v7.1") {
   global_temp_clean <-
     check_inf(rgcam::getQuery(prj, "global mean temperature"),
               dataset_name = "global mean temperature") %>%
-    dplyr::filter(year %in% gcamreport::gcam_years) %>%
+    dplyr::filter(year %in% gcam_years) %>%
     dplyr::mutate(var = "Temperature|Global Mean", region = "World") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
@@ -1459,7 +1554,7 @@ get_co2_concentration <- function(GCAM_version = "v7.1") {
   co2_concentration_clean <-
     check_inf(rgcam::getQuery(prj, "CO2 concentrations"),
               dataset_name = "CO2 concentrations") %>%
-    dplyr::filter(year %in% gcamreport::gcam_years) %>%
+    dplyr::filter(year %in% gcam_years) %>%
     dplyr::mutate(var = "Concentration|CO2", region = "World") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
@@ -1809,7 +1904,7 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
     # Land use CO2
     check_inf(rgcam::getQuery(prj, "LUC emissions by region"),
               dataset_name = "LUC emissions by region") %>%
-    dplyr::filter(year %in% gcamreport::gcam_years) %>%
+    dplyr::filter(year %in% gcam_years) %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -3257,8 +3352,10 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.1") {
     dplyr::filter(Units == "1975$/kg" | sector == 'biomass') %>%
     dplyr::filter(!grepl('CO2', sector)) %>%
     left_join_strict(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
-                     by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
+                     by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_'),
+                     relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    interpolateGCAMdata(year_to_appear = 2020) %>%
     # compute index for non biomass items. Biomass units: from 1975$/GJ to 2010$GJ
     dplyr::group_by(scenario, region, sector) %>%
     dplyr::mutate(value = dplyr::if_else(sector != 'biomass',
@@ -3312,6 +3409,7 @@ get_ag_price <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('ag_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_price_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    interpolateGCAMdata(year_to_appear = 2020) %>%
     # compute index for non biomass items. Biomass units: from 1975$/GJ to 2010$GJ
     dplyr::group_by(scenario, region, sector) %>%
     dplyr::mutate(value = dplyr::if_else(sector != 'biomass',
@@ -4140,17 +4238,20 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
 
   check_queries("cf_iea", GCAM_version)
 
-  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+    interpolateGCAMdata(valuecol = 'capacity.factor')
+  iea_capacity <- get(paste('iea_capacity',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    interpolateGCAMdata(yearcol = 'period')
 
   # check if the mapping files have a mismatch
   tmp1 <- secondary_energy_clean %>%
-    dplyr::filter(year == 2020, scenario == unique(secondary_energy_clean$scenario)[1]) %>%
+    dplyr::filter(year == base_year_p, scenario == unique(secondary_energy_clean$scenario)[1]) %>%
     dplyr::group_by(var) %>%
     dplyr::summarise(EJ = sum(value, na.rm = T)) %>%
     dplyr::ungroup()
 
-  tmp2 <- get(paste('iea_capacity',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::filter(period == 2020, scenario == "Current Policies Scenario") %>%
+  tmp2 <- iea_capacity %>%
+    dplyr::filter(period == base_year_p, scenario == "Current Policies Scenario") %>%
     dplyr::mutate(
       variable = gsub("Capacity\\|Electricity\\|CSP", "Capacity\\|Electricity\\|Solar\\|CSP", variable),
       variable = gsub("Capacity\\|Electricity\\|Biomass", "Capacity\\|Electricity\\|Biomass\\|w/o CCS", variable),
@@ -4181,9 +4282,9 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
                      by = "var", mapping = paste('capacity_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     dplyr::select(technology, cf) %>%
-    dplyr::mutate(region = "USA", vintage = 2020) %>%
+    dplyr::mutate(region = "USA", vintage = base_year_p) %>%
     tidyr::complete(tidyr::nesting(technology, cf),
-                    vintage = c(1990, seq(2005, 2020, by = 5)),
+                    vintage = unique(c(1990, seq(2005, base_year_p, by = 5), base_year_p)),
                     region = unique(cf_rgn_filteredReg$region)
     )
 
@@ -4204,8 +4305,10 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
 
   check_queries("elec_cf", GCAM_version)
 
-  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
-  cf_iea_filteredReg <- filter_data_regions(cf_iea)
+  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+    interpolateGCAMdata(valuecol = 'capacity.factor')
+  cf_iea_filteredReg <- filter_data_regions(cf_iea) %>%
+    interpolateGCAMdata(valuecol = 'cf', yearcol = 'vintage')
 
   tmp1 <- get(paste('cf_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
     dplyr::select(technology, cf = X2100) %>%
@@ -4233,7 +4336,7 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
     dplyr::mutate(cf = replace(cf, !is.na(cf.rgn), cf.rgn[!is.na(cf.rgn)])) %>%
     # second, use iea capacity consistent cf for existing vintage
     dplyr::bind_rows(cf_iea_filteredReg) %>%
-    tidyr::complete(tidyr::nesting(technology, region), vintage = c(1990, seq(2005, 2100, by = 5))) %>%
+    tidyr::complete(tidyr::nesting(technology, region), vintage = sort(unique(c(1990, seq(2005, 2100, by = 5), base_year_p)))) %>%
     dplyr::group_by(technology, region) %>%
     dplyr::mutate(cf = approx_fun(vintage, cf, rule = 2)) %>%
     dplyr::ungroup() %>%
@@ -4593,13 +4696,15 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
   check_queries("elec_investment_clean", GCAM_version)
 
   secondary_energy_map <- get(paste('secondary_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>% dplyr::select(-output)
+  capital_gcam <- get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    interpolateGCAMdata(valuecol = 'capital.overnight')
 
   elec_investment_clean <-
     # Electricity investment = annual capacity additions * capital costs
     elec_capacity_add %>%
     dplyr::filter(technology != 'hydro') %>%
     left_join_strict(
-      get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+      capital_gcam,
         # dplyr::mutate(
         #   capital.overnight = replace(capital.overnight, technology == "wind_storage", capital.overnight[technology == "wind"] * .484),
         #   capital.overnight = replace(capital.overnight, technology == "CSP_storage", 760 *
@@ -4658,6 +4763,7 @@ get_transmission_invest <- function(GCAM_version = "v7.1") {
   transmission_invest_clean <-
     elec_capacity_add_clean %>%
     dplyr::filter(var == "Capacity Additions|Electricity") %>%
+    interpolateGCAMdata(year_to_appear = 2020) %>%
     dplyr::group_by(scenario, region) %>%
     dplyr::mutate(rate = value / value[year == 2020]) %>%
     dplyr::ungroup() %>%
@@ -5148,7 +5254,7 @@ do_bind_results <- function(GCAM_version = "v7.1") {
     GCAM_DATA_WORLD %>%
     dplyr::bind_rows(GCAM_DATA %>% dplyr::filter(region != "World")) %>%
     dplyr::bind_rows(GCAM_DATA %>% dplyr::filter(region == "World" & !var %in% unique(GCAM_DATA_WORLD$var))) %>%
-    tidyr::complete(tidyr::nesting(scenario, region, var), year = gcamreport::available_reporting_years) %>%
+    tidyr::complete(tidyr::nesting(scenario, region, var), year = available_reporting_years) %>%
     tidyr::replace_na(list(value = 0)) %>%
     dplyr::distinct(.)
 

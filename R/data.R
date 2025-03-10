@@ -82,42 +82,6 @@
 #' }
 "ghg_GWP_AR6"
 
-#' gcam_years
-#'
-#' @source local
-#' @format vector
-#' @description GCAM model years
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::gcam_years
-#' }
-"gcam_years"
-
-#' available_reporting_years
-#'
-#' @source local
-#' @format vector
-#' @description gcamreport reporting available years
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::available_reporting_years
-#' }
-"available_reporting_years"
-
-#' available_final_year
-#'
-#' @source local
-#' @format vector
-#' @description gcamreport available final years
-#' @examples
-#' \dontrun{
-#' library(gcamreport)
-#' gcamreport::available_final_year
-#' }
-"available_final_year"
-
 #' global_vet_values
 #'
 #' @source local

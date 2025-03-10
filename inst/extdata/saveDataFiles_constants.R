@@ -47,18 +47,6 @@ use_data(available_GWP_versions, overwrite = T)
 GCAM_regions_number <- 32
 use_data(GCAM_regions_number, overwrite = T)
 
-# gcamreport available final year
-available_final_year <- seq(2025, 2100, by = 5)
-use_data(available_final_year, overwrite = T)
-
-# gcamreport available reporting years
-available_reporting_years <- seq(2005, 2100, by = 5)
-use_data(available_reporting_years, overwrite = T)
-
-# gcam model years
-gcam_years <- c(1990, seq(2005, 2100, by = 5))
-use_data(gcam_years, overwrite = T)
-
 
 # vetting test
 global_vet_values <- read.csv(file.path(rawDataFolder, "inst/extdata/vetting", "global_vet_values.csv"),

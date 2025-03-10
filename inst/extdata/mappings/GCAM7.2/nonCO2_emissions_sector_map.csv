@@ -65,6 +65,8 @@ chemical energy use,,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Su
 chemical energy use,,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 chemical energy use,,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 chemical energy use,,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
+comm cooling,,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Commercial,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
+comm cooling,,OC,Emissions|OC,Emissions|OC|Energy,Emissions|OC|Energy|Demand,Emissions|OC|Energy|Demand|Residential and Commercial,Emissions|OC|Energy|Demand|Commercial,,Emissions|OC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|OC|Energy and Industrial Processes,1
 comm cooling,,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Commercial,,Emissions|CH4|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH4|Energy and Industrial Processes,1
 comm cooling,,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Commercial,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
 comm cooling,,HFC125,Emissions|HFC,Emissions|HFC|HFC125,Emissions|F-Gases,,,,,,1
@@ -230,6 +232,8 @@ industrial energy use,,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|
 industrial energy use,,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 industrial energy use,,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 industrial energy use,,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
+industrial processes,,BC,Emissions|BC,Emissions|PFC,Emissions|F-Gases,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Other Sector,,,Emissions|BC|Energy and Industrial Processes,1
+industrial processes,,OC,Emissions|OC,Emissions|PFC,Emissions|F-Gases,Emissions|OC|Industrial Processes,Emissions|OC|Industrial Processes|Other Sector,,,Emissions|OC|Energy and Industrial Processes,1
 industrial processes,,C2F6,Emissions|C2F6,Emissions|PFC,Emissions|F-Gases,Emissions|C2F6|Industrial Processes,Emissions|C2F6|Industrial Processes|Other Sector,,,Emissions|C2F6|Energy and Industrial Processes,1
 industrial processes,,CF4,Emissions|CF4,Emissions|PFC,Emissions|F-Gases,,,,,,1
 industrial processes,,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Other Sector,,,,,Emissions|CH4|Energy and Industrial Processes,1
