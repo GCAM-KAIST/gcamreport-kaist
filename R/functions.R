@@ -4241,7 +4241,7 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
   cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
     interpolateGCAMdata(valuecol = 'capacity.factor')
   iea_capacity <- get(paste('iea_capacity',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    interpolateGCAMdata(yearcol = 'period')
+    interpolateGCAMdata(yearcol = 'period', year_to_appear = base_year_p)
 
   # check if the mapping files have a mismatch
   tmp1 <- secondary_energy_clean %>%
