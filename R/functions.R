@@ -4123,16 +4123,16 @@ get_energy_price <- function(GCAM_version = "v7.1") {
     compute_reg_sec_weight(secondary_energy_clean)
   )
 
-  energy_price_w <- energy_price %>%
-    dplyr::rename('en_price_var' = 'var') %>%
-    # add weights
-    left_join_strict(en_demand_price_map,
-                     mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
-                     by = 'en_price_var') %>%
-    left_join_strict(weights_sec_reg %>%
+  energy_price_w <-
+    dplyr::left_join(weights_sec_reg %>%
                        dplyr::rename(en_consumption_var = var),
+                     energy_price %>%
+                       dplyr::rename('en_price_var' = 'var') %>%
+                       # add weights
+                       left_join_strict(en_demand_price_map,
+                                        mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
+                                        by = 'en_price_var'),
                      by = c('scenario', 'region', 'year', 'en_consumption_var'),
-                     by_message = c('en_consumption_var','en_price_var'),
                      relationship = "many-to-many") %>%
     dplyr::mutate(value = value * reg_sec_weight) %>%
     # compute Global values
@@ -4143,7 +4143,8 @@ get_energy_price <- function(GCAM_version = "v7.1") {
 
 
   energy_price_clean <-
-    rbind(energy_price,
+    rbind(energy_price %>%
+            dplyr::filter(var %in% unique(weights_sec_reg$var)),
           energy_price_w)
 
   energy_price_clean <<- energy_price_clean
