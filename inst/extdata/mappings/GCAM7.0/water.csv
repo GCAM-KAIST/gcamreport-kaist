@@ -1468,6 +1468,7 @@ H2 central production,nuclear,Water XX,Water XX|Industrial Water,,,1
 H2 central production,solar,Water XX,Water XX|Industrial Water,,,1
 H2 central production,wind,Water XX,Water XX|Industrial Water,,,1
 H2 industrial,onsite production,Water XX,Water XX|Industrial Water,,,1
+H2 industrial,forecourt production,Water XX,Water XX|Industrial Water,,,1
 H2 wholesale dispensing,forecourt production,Water XX,Water XX|Industrial Water,,,1
 Legumes,Legumes_AfrCstNE,Water XX,Water XX|Irrigation,,,1
 Legumes,Legumes_LChad,Water XX,Water XX|Irrigation,,,1
