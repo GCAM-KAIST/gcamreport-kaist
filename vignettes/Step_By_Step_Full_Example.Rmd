@@ -75,7 +75,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 8) Note that a file named `example1_v7.1_standardized.RData` has appeared in the `examples` folder. This is the report file generated from the provided database. If you want to launch the user interface in the future, you can use this file directly and avoid creating or loading the project again. If you want to proceed as mentioned, you can follow [Example 3](#example3).
 
 
-**Note**: You can do this step-by-step example using the provided [GCAM7.0 database](https://zenodo.org/records/10258919), the default [GCAM6.0 database](https://zenodo.org/record/8162970), or your own database! Remember to indicate the `GCAM_version` when generating the report ;)
+**Note**: You can do this step-by-step example using the provided [GCAM7.0 database](https://zenodo.org/records/10258919) or your own database! Remember to indicate the `GCAM_version` when generating the report ;)
 
 <span style="color:white">newline</span>
 
@@ -132,7 +132,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 
 7) Note that a file called `example2_v7.1_standardized.RData` has appeared in the `examples` folder. This is the report file generated from the provided database. If you want to launch the user interface in the future, you can use this file directly and avoid creating or loading the project again. If you want to proceed as mentioned, you can follow [Example 3](#example3).
 
-**Note**: You can do this step-by-step example using the provided `example2_v7.0.dat` or `example2_v6.0.dat` projects, or the projects generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
+**Note**: You can do this step-by-step example using the provided `example2_v7.0.dat` project or any project generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
 
 <span style="color:white">newline</span>
 
@@ -194,4 +194,4 @@ GCAMv <- "v7.1"
 launch_gcamreport_ui(data = dataname, GCAM_version = GCAMv)
 ```
 
-**Note**: You can do this step-by-step example using the provided `example3_v7.0.RData` or `example3_v6.0.RData` files, or the files generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
+**Note**: You can do this step-by-step example using the provided `example3_v7.0.RData` file or any file generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
