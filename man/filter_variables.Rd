@@ -4,7 +4,7 @@
 \alias{filter_variables}
 \title{filter_variables}
 \usage{
-filter_variables(data, variable)
+filter_variables(data, variable = NULL, extra = NULL)
 }
 \arguments{
 \item{data}{Dataframe to filter.}
