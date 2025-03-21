@@ -4733,6 +4733,7 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
     # Electricity investment = annual capacity additions * capital costs
     elec_capacity_add %>%
     dplyr::filter(technology != 'hydro') %>%
+    dplyr::filter(technology != 'desalinated water') %>%
     left_join_strict(
       capital_gcam,
         # dplyr::mutate(
