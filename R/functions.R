@@ -78,9 +78,6 @@ listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRU
           NULL
         } else {
           yy
-          # if (2020 %in% yy) {
-          #   print(quer)
-          # }
         }
       } else {
         NULL
@@ -441,15 +438,18 @@ left_join_error_no_match <- function (d, ..., ignore_columns = NULL) {
 filter_desired_regions <- function(des_reg) {
   r <- 1
   rmax <- length(rgcam::listQueries(prj))
+  void_tmp = TRUE
   while (r <= rmax) {
     tmp <- check_inf(rgcam::getQuery(prj, rgcam::listQueries(prj)[r]))
     if ("region" %in% colnames(tmp)) {
       des_reg <- unique(tmp$region)
       return(des_reg)
+    } else if (nrow(tmp) != 0) {
+      void_tmp = FALSE
     }
     r <- r + 1
   }
-  warning("Desired regions could not be filtered through the loaded project data. The standardize report will contain the regions specified by the user.")
+  if (!void_tmp) warning("Desired regions could not be filtered through the loaded project data. The standardize report will contain the regions specified by the user.")
   return(des_reg)
 }
 
@@ -530,18 +530,18 @@ filter_loading_regions <- function(data, desired_regions = "All", variable) {
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
       "total climate forcing"
-    ))) {
+    )) & ('region' %in% colnames(data))) {
       # check the desired regions are available in the data
       avail_reg <- unique(data$region)
       if (!desired_regions %in% avail_reg) {
         not_avail <- setdiff(desired_regions, avail_reg)
         if (length(not_avail) == 1) {
-          stop(sprintf(
+          warning(sprintf(
             "The desired region '%s' is not available in the loaded project. Specifically, it is missing from the query '%s'. Please check the available regions in the project or update the query.",
             not_avail, variable
           ))
         } else if (length(not_avail) > 1) {
-          stop(sprintf(
+          warning(sprintf(
             "The desired regions %s are not available in the loaded project. Specifically, they are missing from the query '%s'. Please check the available regions in the project or update the query.",
             paste(shQuote(not_avail), collapse = ", "), variable
           ))
@@ -549,6 +549,33 @@ filter_loading_regions <- function(data, desired_regions = "All", variable) {
       }
       data <- data %>%
         dplyr::filter(region %in% desired_regions)
+    } else if (!(variable %in% c(
+        "CO2 concentrations", "global mean temperature",
+        "total climate forcing"
+      )) & ('market' %in% colnames(data))) {
+        # check the desired regions are available in the data
+        avail_markets <- unique(data$market)
+        pattern <- paste0("(", paste(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']], collapse = "|"), ")")
+        avail_reg <- unique(stringr::str_extract(avail_markets, pattern))
+        avail_reg <- avail_reg[!is.na(avail_reg) & avail_reg != "NA"]
+        if (!desired_regions %in% avail_reg) {
+          not_avail <- setdiff(desired_regions, avail_reg)
+          if (length(not_avail) == 1) {
+            warning(sprintf(
+              "The desired region '%s' is not available in the loaded project. Specifically, it is missing from the query '%s'. Please check the available regions in the project or update the query.",
+              not_avail, variable
+            ))
+          } else if (length(not_avail) > 1) {
+            warning(sprintf(
+              "The desired regions %s are not available in the loaded project. Specifically, they are missing from the query '%s'. Please check the available regions in the project or update the query.",
+              paste(shQuote(not_avail), collapse = ", "), variable
+            ))
+          }
+        }
+      data <- data %>%
+        dplyr::mutate(region = stringr::str_extract(market, pattern)) %>%
+        dplyr::filter(region %in% desired_regions) %>%
+        dplyr::select(-region)
     }
   }
 
