@@ -13,7 +13,7 @@ conv_EJ_GW(data, cf, EJ, GCAM_version = "v7.1")
 
 \item{EJ}{Amount of energy in EJ.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
 }
 \description{
 Converts energy from EJ to GW.
