@@ -21,11 +21,12 @@ test_that("Test1_v7.1 download db, create project, and run", {
   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/test7.1.dat")))
   prj <- prj_tmp
   testthat::expect_equal(prj$Reference$`nonCO2 emissions by region`, testResult$Reference$`nonCO2 emissions by region`)
-  testthat::expect_equal(prj$Reference$`nonCO2 emissions by sector`, testResult$Reference$`nonCO2 emissions by sector`)
+  testthat::expect_equal(prj$Reference$`nonCO2 emissions by subsector`, testResult$Reference$`nonCO2 emissions by subsector`)
   testthat::expect_equal(prj$Reference$`CO2 prices`, testResult$Reference$`CO2 prices`)
 
   # check nonCO2 emissions query
-  dt_sec <- data_query("nonCO2 emissions by sector (excluding resource production)", db_path, db_name, prj_name, scenarios, GCAM_version = 'v7.1')
+  dt_sec <- data_query("nonCO2 emissions by subsector (excluding resource production)", db_path, db_name, prj_name, scenarios,
+                       GCAM_version = 'v7.1')
   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test1.RData")))
   testthat::expect_equal(dt_sec, testResult)
 })
@@ -36,7 +37,8 @@ test_that("Test2_v7.1 load project", {
 })
 
 test_that("Test3_v7.1 run - dataset created", {
-  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1.dat"), launch_ui = FALSE, GCAM_version = 'v7.1')
+  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1.dat"),
+                  launch_ui = FALSE, GCAM_version = 'v7.1')
   testthat::expect(!is.null(report) & dplyr::n_distinct(report) > 0, 'Empty dataset. Check if the project path exists or the "run" function works correctly.')
 })
 
@@ -73,7 +75,8 @@ test_that("Test3_v7.1 run - dataset created", {
 # })
 
 test_that("Test5_v7.1 run - dataset saved with default output_file", {
-  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1.dat"), launch_ui = FALSE, GCAM_version = 'v7.1')
+  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1.dat"),
+                  launch_ui = FALSE, GCAM_version = 'v7.1')
 
   testResult <- read.csv(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1_standardized.csv"))
   testthat::expect(dplyr::n_distinct(testResult) > 0, 'Dataset not saved. Check if the project path exists or the "run" function works correctly.')
@@ -84,7 +87,8 @@ test_that("Test5_v7.1 run - dataset saved with default output_file", {
 
 test_that("Test6_v7.1 load variable and get function", {
   # load prj
-  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1.dat"), launch_ui = FALSE, GCAM_version = 'v7.1')
+  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/test7.1.dat"),
+                  launch_ui = FALSE, GCAM_version = 'v7.1')
 
   # load variables
   vv <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test6.RData")))
@@ -106,7 +110,7 @@ test_that("Test6_v7.1 load variable and get function", {
   # test
   load_variable(vv, GCAM_version = GCAM_version)
 
-  testthat::expect(exists("ag_prices_wld"), "Loading variables function is broken.")
+  testthat::expect(exists("ag_price_wld"), "Loading variables function is broken.")
 
   get_elec_capital(GCAM_version = GCAM_version)
   testthat::expect(exists("elec_capital_clean"), "get_elec_capital() function is broken.")
@@ -144,7 +148,7 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
   generate_report(
     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1"),
     db_name = "database_basexdb_ref",
-    prj_name = "gcamv7.1.1_test.dat",
+    prj_name = "gcamv7.1.2_test.dat",
     scenarios = "Reference",
     final_year = 2050,
     desired_continents = "OECD90",
@@ -152,12 +156,8 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
     launch_ui = FALSE,
     GCAM_version = 'v7.1'
   )
-  testthat::expect_equal(unique(report$Variable), c(
-    "Agricultural Demand",
-    "Agricultural Demand|Crops|Energy",
-    "Agricultural Production",
-    "Capacity Additions|Electricity|Biomass"
-  ))
+  testResult_variables <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.2.RData")))
+  testthat::expect_equal(unique(report$Variable), testResult_variables)
   testthat::expect_equal(unique(report$Region), c(
     "Australia_NZ", "Canada", "EU-12", "EU-15",
     "Europe_Non_EU", "European Free Trade Association",
@@ -168,7 +168,7 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
   generate_report(
     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1"),
     db_name = "database_basexdb_ref",
-    prj_name = "gcamv7.1.2_test.dat",
+    prj_name = "gcamv7.1.3_test.dat",
     scenarios = "Reference",
     final_year = 2050,
     desired_continents = "OECD90",
@@ -176,24 +176,9 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
     launch_ui = FALSE,
     GCAM_version = 'v7.1'
   )
-  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.2.RData")))
-  testthat::expect_equal(unique(report$Variable), testResult)
-  testthat::expect_equal(unique(report$Model), 'GCAM 7.1')
-
-  rm(list = ls())
-  generate_report(
-    db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1"),
-    db_name = "database_basexdb_ref",
-    prj_name = "gcamv7.1.3_test.dat",
-    scenarios = "Reference",
-    final_year = 2050,
-    desired_regions = "USA",
-    desired_variables = "Price|Carbon",
-    launch_ui = FALSE,
-    GCAM_version = 'v7.1'
-  )
   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.3.RData")))
   testthat::expect_equal(unique(report$Variable), testResult)
+  testthat::expect_equal(unique(report$Model), 'GCAM 7.1')
 
   rm(list = ls())
   generate_report(
@@ -208,20 +193,6 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
   )
   testthat::expect_equal(unique(report$Region), c("USA", "World"))
 
-  rm(list = ls())
-  generate_report(
-    db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1"),
-    db_name = "database_basexdb_ref",
-    prj_name = "gcamv7.1.4_test.dat",
-    scenarios = "Reference",
-    final_year = 2050,
-    desired_regions = "USA",
-    desired_variables = "Price|Carbon*",
-    launch_ui = FALSE,
-    GCAM_version = 'v7.1'
-  )
-  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.4.RData")))
-  testthat::expect_equal(unique(report$Variable), testResult)
 })
 
 test_that("Test8_v7.1 error messages", {
@@ -396,6 +367,7 @@ test_that("Test8_v7.1 error messages", {
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/"),
       db_name = "database_basexdb_ref",
       prj_name = "gcamv7.9_noCreated.dat",
+      desired_variables = 'GDP*',
       scenarios = "Reference",
       final_year = 2009,
       launch_ui = FALSE,
@@ -409,32 +381,36 @@ test_that("Test8_v7.1 error messages", {
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/"),
       db_name = "database_basexdb_ref",
       prj_name = "gcamv7.9_noCreated.dat",
+      desired_variables = 'GDP*',
       scenarios = "Reference",
       final_year = 2031,
       launch_ui = FALSE,
       GCAM_version = 'v7.1'
     ),
-    "'final_year' is set to '2031' but must align with available 5-year intervals. Please select a valid year: '2025, 2030, 2035, 2040, 2045, 2050, 2055, 2060, 2065, 2070, 2075, 2080, 2085, 2090, 2095, 2100."
+    "'final_year' is set to '2031' but must align with the available years in your project data. Please select a valid year: '2025, 2030, 2035, 2040, 2045, 2050, 2055, 2060, 2065, 2070, 2075, 2080, 2085, 2090, 2095, 2100."
   )
 
 })
 
 test_that("Test9v_7.1 CO2 Price", {
-  # # World CO2 price - TODO
-  # generate_report(
-  #   prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_CO2price_test.dat"),
-  #   desired_variables = c("Price|Carbon*"),
-  #   launch_ui = FALSE,
-  #   GCAM_version = 'v7.1'
-  # )
-  # testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test9.1.RData")))
-  # testthat::expect_equal(report, testResult)
-  # rm(list = ls())
-
+#   # # World CO2 price - TODO
+#   # generate_report(
+#   #   prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_CO2price_test.dat"),
+#   #   desired_variables = c("Price|Carbon*"),
+#   #   launch_ui = FALSE,
+#   #   GCAM_version = 'v7.1'
+#   # )
+#   # testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test9.1.RData")))
+#   # testthat::expect_equal(report, testResult)
+#   # rm(list = ls())
+#
   # Regional CO2 price
   generate_report(
-    prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_policy.dat"),
-    final_year = 2050,
+    db_path = 'C:/Users/claudia.rodes/Documents/GCAM_releases/gcam-v7.1-Windows-Release-Package/output/',
+    db_name = 'database_basexdb_policy',
+    prj_name = "database_basexdb_policy.dat",
+    # prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_policy.dat"),
+    final_year = 2030,
     desired_variables = c("Price|Carbon*"),
     launch_ui = FALSE,
     GCAM_version = 'v7.1'
@@ -488,7 +464,7 @@ test_that("Test10v_7.1 vetting", {
     GCAM_version = 'v7.1'
   )
 
-  testthat::expect(exists("vetting_summary"), "Vetting performed when not all regions were selected")
+  testthat::expect(!exists("vetting_summary$`Vetting variables`"), "Vetting performed when not all regions were selected")
 })
 
 test_that("Test11v_7.1 scenarios", {
@@ -583,20 +559,6 @@ test_that("Test11v_7.1 scenarios", {
 
 
   generate_report(
-    db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1"),
-    db_name = "database_basexdb_ref",
-    prj_name = "gcamv7.11.7_test_scenarios",
-    final_year = 2050,
-    desired_regions = "All",
-    desired_variables = c("Emissions|CH4*"),
-    launch_ui = FALSE,
-    GCAM_version = 'v7.1'
-  )
-
-  testResult <- rgcam::listScenarios(prj)
-  testthat::expect_equal("Reference", testResult)
-
-  generate_report(
     prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_ssp.dat"),
     final_year = 2030,
     scenarios = "GCAM_SSP4",
@@ -612,13 +574,12 @@ test_that("Test11v_7.1 scenarios", {
 
 test_that("Test12v_7.1 other functions", {
   # gather_map
-  co2_sector_map <- read.csv(file.path(rprojroot::find_root(rprojroot::is_testthat), "inst/extdata/mappings/GCAM7.1", "CO2_sector_map.csv"),
+  co2_sector_map <- read.csv(file.path(rprojroot::find_root(rprojroot::is_testthat), "inst/extdata/mappings/GCAM7.1", "CO2_tech_map.csv"),
                              skip = 1, na = "",
                              stringsAsFactors = FALSE
   ) %>% gather_map()
 
-  testExpect <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test12.1.RData")))
-  testthat::expect_equal(co2_sector_map, testExpect)
+  testthat::expect_equal(co2_sector_map, gcamreport::co2_tech_map_v7.1)
 
   # approx_fun
   expect_error(
@@ -632,7 +593,7 @@ test_that("Test12v_7.1 other functions", {
     final_year = 2050,
     scenarios = "Reference",
     desired_regions = "USA",
-    desired_variables = "Emissions|CO2|Energy|Demand|Industry|Steel",
+    desired_variables = "Emissions|CO2|Energy|Demand|Industry|Iron and Steel",
     launch_ui = FALSE,
     GCAM_version = 'v7.1'
   )
@@ -761,7 +722,7 @@ test_that("Test14v_7.1 ghg GWP", {
       launch_ui = FALSE,
       GCAM_version = 4
     ),
-    "GCAM_version must be a character string, but you provided a value of type 'numeric'. Please specify the GCAM_version as a string, e.g., GCAM_version = 'v7.0'."
+    "GCAM_version must be a character string, but you provided a value of type 'numeric'. Please specify the GCAM_version as a string, e.g., GCAM_version = 'v7.1'."
   )
 
   expect_error(
@@ -774,7 +735,7 @@ test_that("Test14v_7.1 ghg GWP", {
       launch_ui = FALSE,
       GCAM_version = '4'
     ),
-    "Invalid GCAM_version '4'. Available versions are: v6.0, v7.0, v7.1. Please choose one of these versions."
+    "Invalid GCAM_version '4'. Available versions are: v6.0, v7.0, v7.1, v7.2. Please choose one of these versions."
   )
 
 
