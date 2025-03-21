@@ -406,10 +406,7 @@ test_that("Test9v_7.1 CO2 Price", {
 #
   # Regional CO2 price
   generate_report(
-    db_path = 'C:/Users/claudia.rodes/Documents/GCAM_releases/gcam-v7.1-Windows-Release-Package/output/',
-    db_name = 'database_basexdb_policy',
-    prj_name = "database_basexdb_policy.dat",
-    # prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_policy.dat"),
+    prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/database_basexdb_policy.dat"),
     final_year = 2030,
     desired_variables = c("Price|Carbon*"),
     launch_ui = FALSE,
