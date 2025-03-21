@@ -1792,6 +1792,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     check_inf(rgcam::getQuery(prj, queryItem3), dataset_name = queryItem3) %>%
     dplyr::mutate(value = value *
                     get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['CO2_equivalent']]) %>%
+    # Don't worry if there is a missing value in 1990:
+    dplyr::filter(year %in% available_reporting_years) |>
     left_join_error_no_match(co2_emiss %>%
                                dplyr::filter(var == 'Emissions|CO2'),
                              by = c('scenario','region','year')) %>%
