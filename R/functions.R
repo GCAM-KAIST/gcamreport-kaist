@@ -1767,9 +1767,18 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector", "subsector", "technology"),
                      mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
-    filter_variables() %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    filter_variables(extra = c("Emissions|CO2|Energy and Industrial Processes",
+                               "Emissions|CO2|Energy|Demand|Industry",
+                               "Emissions|CO2|Energy|Demand|Transportation",
+                               "Emissions|CO2|Energy|Demand|Residential and Commercial",
+                               "Emissions|CO2|Energy|Supply",
+                               "Emissions|CO2_ETS|Energy and Industrial Processes",
+                               "Emissions|CO2_ETS|Energy|Demand|Industry",
+                               "Emissions|CO2_ETS|Energy|Demand|Transportation",
+                               "Emissions|CO2_ETS|Energy|Demand|Residential and Commercial",
+                               "Emissions|CO2_ETS|Energy|Supply"
+    )) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -1782,9 +1791,18 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('co2_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("resource", "subresource", "ghg"),
                      mapping = paste('co2_resource_map',GCAM_version,sep='_'), multiple = "all") %>%
-    filter_variables() %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    filter_variables(extra = c("Emissions|CO2|Energy and Industrial Processes",
+                               "Emissions|CO2|Energy|Demand|Industry",
+                               "Emissions|CO2|Energy|Demand|Transportation",
+                               "Emissions|CO2|Energy|Demand|Residential and Commercial",
+                               "Emissions|CO2|Energy|Supply",
+                               "Emissions|CO2_ETS|Energy and Industrial Processes",
+                               "Emissions|CO2_ETS|Energy|Demand|Industry",
+                               "Emissions|CO2_ETS|Energy|Demand|Transportation",
+                               "Emissions|CO2_ETS|Energy|Demand|Residential and Commercial",
+                               "Emissions|CO2_ETS|Energy|Supply"
+    )) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -3640,7 +3658,8 @@ get_co2_price_share_bysec <- function(GCAM_version = "v7.1") {
       region = unique(co2_emiss$region),
       scenario = unique(co2_emiss$scenario),
       year = get(paste('last_historical_year',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
-    )) %>%
+    ),
+    by = c('scenario', 'region', 'var', 'year')) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     # compute the share
     dplyr::mutate(sector = sub(".*\\|([^|]+)$", "\\1", var),
