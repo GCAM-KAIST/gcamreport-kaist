@@ -31,7 +31,6 @@ Imports:
     stringr,
     here,
     xml2,
-    xlsx,
     shiny,
     shinyTree,
     shinyWidgets,

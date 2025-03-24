@@ -4,7 +4,7 @@ library(magrittr)
 
 test_that("Test1. test tree functions", {
   GCAM_version <<- 'v7.0'
-  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"), launch_ui = FALSE)
+  generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"), launch_ui = FALSE, GCAM_version = "v7.0")
   # load data
   data <- report
   # define the dataset for launching the ui

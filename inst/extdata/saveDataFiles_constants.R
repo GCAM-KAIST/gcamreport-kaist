@@ -36,7 +36,7 @@ deciles_GCAM_versions <- c('v7.1', 'v7.2')
 use_data(deciles_GCAM_versions, overwrite = T)
 
 # Available GCAM versions
-available_GCAM_versions <- c('v6.0', 'v7.0', 'v7.1', 'v7.2')
+available_GCAM_versions <- c('v7.0', 'v7.1', 'v7.2')
 use_data(available_GCAM_versions, overwrite = T)
 
 # Available GWP versions
@@ -46,18 +46,6 @@ use_data(available_GWP_versions, overwrite = T)
 # Number of GCAM regions
 GCAM_regions_number <- 32
 use_data(GCAM_regions_number, overwrite = T)
-
-# gcamreport available final year
-available_final_year <- seq(2025, 2100, by = 5)
-use_data(available_final_year, overwrite = T)
-
-# gcamreport available reporting years
-available_reporting_years <- seq(2005, 2100, by = 5)
-use_data(available_reporting_years, overwrite = T)
-
-# gcam model years
-gcam_years <- c(1990, seq(2005, 2100, by = 5))
-use_data(gcam_years, overwrite = T)
 
 
 # vetting test

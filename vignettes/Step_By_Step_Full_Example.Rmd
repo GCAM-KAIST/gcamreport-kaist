@@ -64,7 +64,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 
 5) Once the project has been generated and the standardized dataset created, the user interface will prompt. If you are using Rstudio, it will automatically open. For a better experience, click the `open in browser` button. If you are using Docker, either type <http://localhost:4000> in the browser or go to Docker Desktop and click the last started port.
 
-<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-v7.0/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="80%" height="80%"/>
+<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-core/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="80%" height="80%"/>
 
 **Note**: Remember that the user interface can only be launched through the [full R installation](https://bc3lc.github.io/gcamreport/index.html#with-r-full-mode-installation) or the [Docker installation](https://bc3lc.github.io/gcamreport/index.html#with-docker).
 
@@ -75,7 +75,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 8) Note that a file named `example1_v7.1_standardized.RData` has appeared in the `examples` folder. This is the report file generated from the provided database. If you want to launch the user interface in the future, you can use this file directly and avoid creating or loading the project again. If you want to proceed as mentioned, you can follow [Example 3](#example3).
 
 
-**Note**: You can do this step-by-step example using the provided [GCAM7.0 database](https://zenodo.org/records/10258919), the default [GCAM6.0 database](https://zenodo.org/record/8162970), or your own database! Remember to indicate the `GCAM_version` when generating the report ;)
+**Note**: You can do this step-by-step example using the provided [GCAM7.0 database](https://zenodo.org/records/10258919) or your own database! Remember to indicate the `GCAM_version` when generating the report ;)
 
 <span style="color:white">newline</span>
 
@@ -124,7 +124,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 
 5) Once the project has been generated and the standardized dataset created, the user interface will prompt. If you are using Rstudio, it will automatically open. For a better experience, click the `open in browser` button. If you are using Docker, either type <http://localhost:4000> in the browser or go to Docker Desktop and click the last started port.
 
-<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-v7.0/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="80%" height="80%"/>
+<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-core/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="80%" height="80%"/>
 
 **Note**: Remember that the user interface can only be launched through the [full R installation](https://bc3lc.github.io/gcamreport/index.html#with-r-full-mode-installation) or the [Docker installation](https://bc3lc.github.io/gcamreport/index.html#with-docker).
 
@@ -132,7 +132,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 
 7) Note that a file called `example2_v7.1_standardized.RData` has appeared in the `examples` folder. This is the report file generated from the provided database. If you want to launch the user interface in the future, you can use this file directly and avoid creating or loading the project again. If you want to proceed as mentioned, you can follow [Example 3](#example3).
 
-**Note**: You can do this step-by-step example using the provided `example2_v7.0.dat` or `example2_v6.0.dat` projects, or the projects generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
+**Note**: You can do this step-by-step example using the provided `example2_v7.0.dat` project or any project generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
 
 <span style="color:white">newline</span>
 
@@ -177,7 +177,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 
 5) Once the project has been generated and the standardized dataset created, the user interface will prompt. If you are using Rstudio, it will automatically open. For a better experience, click the `open in browser` button. If you are using Docker, either type <http://localhost:4000> in the browser or go to Docker Desktop and click the last started port.
 
-<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-v7.0/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="80%" height="80%"/>
+<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-core/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="80%" height="80%"/>
 
 6) If you just ran [Example 1](#example1) or [Example 2](#example2), you should have a variable called `report` in the environment. You can also use it to launch the user interface:
 
@@ -194,4 +194,4 @@ GCAMv <- "v7.1"
 launch_gcamreport_ui(data = dataname, GCAM_version = GCAMv)
 ```
 
-**Note**: You can do this step-by-step example using the provided `example3_v7.0.RData` or `example3_v6.0.RData` files, or the files generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
+**Note**: You can do this step-by-step example using the provided `example3_v7.0.RData` file or any file generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)

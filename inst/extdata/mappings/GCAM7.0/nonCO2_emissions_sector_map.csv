@@ -65,6 +65,7 @@ chemical energy use,,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Su
 chemical energy use,,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 chemical energy use,,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 chemical energy use,,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
+comm cooling,,BC,Emissions|BC,Emissions|BC|Energy,Emissions|BC|Energy|Demand,Emissions|BC|Energy|Demand|Residential and Commercial,Emissions|BC|Energy|Demand|Commercial,,Emissions|BC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|BC|Energy and Industrial Processes,1
 comm cooling,,CH4,Emissions|CH4,Emissions|CH4|Energy,Emissions|CH4|Energy|Demand,Emissions|CH4|Energy|Demand|Residential and Commercial,Emissions|CH4|Energy|Demand|Commercial,,Emissions|CH4|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CH4|Energy and Industrial Processes,1
 comm cooling,,CO,Emissions|CO,Emissions|CO|Energy,Emissions|CO|Energy|Demand,Emissions|CO|Energy|Demand|Residential and Commercial,Emissions|CO|Energy|Demand|Commercial,,Emissions|CO|Energy|Demand|Residential and Commercial and AFOFI,Emissions|CO|Energy and Industrial Processes,1
 comm cooling,,HFC125,Emissions|HFC,Emissions|HFC|HFC125,Emissions|F-Gases,,,,,,1
@@ -76,6 +77,7 @@ comm cooling,,N2O,Emissions|N2O,Emissions|N2O|Energy,Emissions|N2O|Energy|Demand
 comm cooling,,NH3,Emissions|NH3,Emissions|NH3|Energy,Emissions|NH3|Energy|Demand,Emissions|NH3|Energy|Demand|Residential and Commercial,Emissions|NH3|Energy|Demand|Commercial,,Emissions|NH3|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NH3|Energy and Industrial Processes,1
 comm cooling,,NMVOC,Emissions|VOC,Emissions|VOC|Energy,Emissions|VOC|Energy|Demand,Emissions|VOC|Energy|Demand|Residential and Commercial,Emissions|VOC|Energy|Demand|Commercial,,Emissions|VOC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|VOC|Energy and Industrial Processes,1
 comm cooling,,NOx,Emissions|NOx,Emissions|NOx|Energy,Emissions|NOx|Energy|Demand,Emissions|NOx|Energy|Demand|Residential and Commercial,Emissions|NOx|Energy|Demand|Commercial,,Emissions|NOx|Energy|Demand|Residential and Commercial and AFOFI,Emissions|NOx|Energy and Industrial Processes,1
+comm cooling,,OC,Emissions|OC,Emissions|OC|Energy,Emissions|OC|Energy|Demand,Emissions|OC|Energy|Demand|Residential and Commercial,Emissions|OC|Energy|Demand|Commercial,,Emissions|OC|Energy|Demand|Residential and Commercial and AFOFI,Emissions|OC|Energy and Industrial Processes,1
 comm cooling,,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Residential and Commercial,Emissions|Sulfur|Energy|Demand|Commercial,,Emissions|Sulfur|Energy|Demand|Residential and Commercial and AFOFI,Emissions|Sulfur|Energy and Industrial Processes,1
 comm cooling,,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Residential and Commercial,Emissions|Sulfur|Energy|Demand|Commercial,,Emissions|Sulfur|Energy|Demand|Residential and Commercial and AFOFI,Emissions|Sulfur|Energy and Industrial Processes,1
 comm cooling,,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Residential and Commercial,Emissions|Sulfur|Energy|Demand|Commercial,,Emissions|Sulfur|Energy|Demand|Residential and Commercial and AFOFI,Emissions|Sulfur|Energy and Industrial Processes,1
@@ -230,6 +232,7 @@ industrial energy use,,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|
 industrial energy use,,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 industrial energy use,,SO2_3,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 industrial energy use,,SO2_4,Emissions|Sulfur,Emissions|Sulfur|Energy,Emissions|Sulfur|Energy|Demand,Emissions|Sulfur|Energy|Demand|Industry,,,,Emissions|Sulfur|Energy and Industrial Processes,1
+industrial processes,,BC,Emissions|BC,Emissions|BC|Industrial Processes,Emissions|BC|Industrial Processes|Other Sector,,,,,Emissions|BC|Energy and Industrial Processes,1
 industrial processes,,C2F6,Emissions|C2F6,Emissions|PFC,Emissions|F-Gases,Emissions|C2F6|Industrial Processes,Emissions|C2F6|Industrial Processes|Other Sector,,,Emissions|C2F6|Energy and Industrial Processes,1
 industrial processes,,CF4,Emissions|CF4,Emissions|PFC,Emissions|F-Gases,,,,,,1
 industrial processes,,CH4,Emissions|CH4,Emissions|CH4|Industrial Processes,Emissions|CH4|Industrial Processes|Other Sector,,,,,Emissions|CH4|Energy and Industrial Processes,1
@@ -243,6 +246,7 @@ industrial processes,,N2O,Emissions|N2O,Emissions|N2O|Industrial Processes,Emiss
 industrial processes,,NH3,Emissions|NH3,Emissions|NH3|Industrial Processes,Emissions|NH3|Industrial Processes|Other Sector,,,,,Emissions|NH3|Energy and Industrial Processes,1
 industrial processes,,NMVOC,Emissions|VOC,Emissions|VOC|Industrial Processes,Emissions|VOC|Industrial Processes|Other Sector,,,,,Emissions|VOC|Energy and Industrial Processes,1
 industrial processes,,NOx,Emissions|NOx,Emissions|NOx|Industrial Processes,Emissions|NOx|Industrial Processes|Other Sector,,,,,Emissions|NOx|Energy and Industrial Processes,1
+industrial processes,,OC,Emissions|OC,Emissions|OC|Industrial Processes,Emissions|OC|Industrial Processes|Other Sector,,,,,Emissions|OC|Energy and Industrial Processes,1
 industrial processes,,SF6,Emissions|SF6,,Emissions|F-Gases,,,,,,1
 industrial processes,,SO2_1,Emissions|Sulfur,Emissions|Sulfur|Industrial Processes,Emissions|Sulfur|Industrial Processes|Other Sector,,,,,Emissions|Sulfur|Energy and Industrial Processes,1
 industrial processes,,SO2_2,Emissions|Sulfur,Emissions|Sulfur|Industrial Processes,Emissions|Sulfur|Industrial Processes|Other Sector,,,,,Emissions|Sulfur|Energy and Industrial Processes,1
@@ -844,18 +848,18 @@ Wheat,,SO2_3_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|
 Wheat,,SO2_4_AWB,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Agricultural Waste Burning,,,Emissions|Sulfur|AFOLU [NGHGI],,,1
 Wheat,,NMVOC_AGR,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agriculture,Emissions|VOC|AFOLU|Agriculture|Managed Soils,,Emissions|VOC|AFOLU [NGHGI],,,1
 Wheat,,NMVOC_AWB,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Agricultural Waste Burning,,,Emissions|VOC|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,BC,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Land,Emissions|BC|AFOLU|Land|Fires,Emissions|BC|AFOLU|Land|Fires|Forest Burning,Emissions|BC|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,CH4,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Land,Emissions|CH4|AFOLU|Land|Fires,Emissions|CH4|AFOLU|Land|Fires|Forest Burning,Emissions|CH4|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,CO,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Land,Emissions|CO|AFOLU|Land|Fires,Emissions|CO|AFOLU|Land|Fires|Forest Burning,Emissions|CO|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,N2O,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,Emissions|N2O|AFOLU|Land|Fires,Emissions|N2O|AFOLU|Land|Fires|Forest Burning,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
-UnmanagedLand,GrasslandFires,NH3,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Land,Emissions|NH3|AFOLU|Land|Fires,Emissions|NH3|AFOLU|Land|Fires|Forest Burning,Emissions|NH3|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,NMVOC,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Land,Emissions|VOC|AFOLU|Land|Fires,Emissions|VOC|AFOLU|Land|Fires|Forest Burning,Emissions|VOC|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,NOx,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Land,Emissions|NOx|AFOLU|Land|Fires,Emissions|NOx|AFOLU|Land|Fires|Forest Burning,Emissions|NOx|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,OC,Emissions|OC,Emissions|OC|AFOLU,Emissions|OC|AFOLU|Land,Emissions|OC|AFOLU|Land|Fires,Emissions|OC|AFOLU|Land|Fires|Forest Burning,Emissions|OC|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,SO2_1,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Forest Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,SO2_2,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Forest Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,SO2_3,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Forest Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
-UnmanagedLand,GrasslandFires,SO2_4,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Forest Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,BC,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Land,Emissions|BC|AFOLU|Land|Fires,Emissions|BC|AFOLU|Land|Fires|Grassland Burning,Emissions|BC|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,CH4,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Land,Emissions|CH4|AFOLU|Land|Fires,Emissions|CH4|AFOLU|Land|Fires|Grassland Burning,Emissions|CH4|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,CO,Emissions|CO,Emissions|CO|AFOLU,Emissions|CO|AFOLU|Land,Emissions|CO|AFOLU|Land|Fires,Emissions|CO|AFOLU|Land|Fires|Grassland Burning,Emissions|CO|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,N2O,Emissions|N2O,Emissions|N2O|AFOLU,Emissions|N2O|AFOLU|Land,Emissions|N2O|AFOLU|Land|Fires,Emissions|N2O|AFOLU|Land|Fires|Grassland Burning,Emissions|N2O|AFOLU [NGHGI],,,1.00E+03
+UnmanagedLand,GrasslandFires,NH3,Emissions|NH3,Emissions|NH3|AFOLU,Emissions|NH3|AFOLU|Land,Emissions|NH3|AFOLU|Land|Fires,Emissions|NH3|AFOLU|Land|Fires|Grassland Burning,Emissions|NH3|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,NMVOC,Emissions|VOC,Emissions|VOC|AFOLU,Emissions|VOC|AFOLU|Land,Emissions|VOC|AFOLU|Land|Fires,Emissions|VOC|AFOLU|Land|Fires|Grassland Burning,Emissions|VOC|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,NOx,Emissions|NOx,Emissions|NOx|AFOLU,Emissions|NOx|AFOLU|Land,Emissions|NOx|AFOLU|Land|Fires,Emissions|NOx|AFOLU|Land|Fires|Grassland Burning,Emissions|NOx|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,OC,Emissions|OC,Emissions|OC|AFOLU,Emissions|OC|AFOLU|Land,Emissions|OC|AFOLU|Land|Fires,Emissions|OC|AFOLU|Land|Fires|Grassland Burning,Emissions|OC|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,SO2_1,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Grassland Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,SO2_2,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Grassland Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,SO2_3,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Grassland Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
+UnmanagedLand,GrasslandFires,SO2_4,Emissions|Sulfur,Emissions|Sulfur|AFOLU,Emissions|Sulfur|AFOLU|Land,Emissions|Sulfur|AFOLU|Land|Fires,Emissions|Sulfur|AFOLU|Land|Fires|Grassland Burning,Emissions|Sulfur|AFOLU [NGHGI],,,1
 UnmanagedLand,GrasslandFires,H2,NoReported,,,,,,,,1
 UnmanagedLand,,BC,Emissions|BC,Emissions|BC|AFOLU,Emissions|BC|AFOLU|Land,Emissions|BC|AFOLU|Land|Other,,Emissions|BC|AFOLU [NGHGI],,,1
 UnmanagedLand,,CH4,Emissions|CH4,Emissions|CH4|AFOLU,Emissions|CH4|AFOLU|Land,Emissions|CH4|AFOLU|Land|Other,,Emissions|CH4|AFOLU [NGHGI],,,1

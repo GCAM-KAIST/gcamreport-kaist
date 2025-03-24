@@ -18,23 +18,16 @@
 
 <!-- ------------------------>
 
--   [Contents](#contents)
-
--   [Introduction](#introduction)
-
--   [Installation Guide](#installation-guide)
-
-    -   [With R](#with-r)
-    
-        -   [Light mode installation](#with-R-light-mode-installation)
-        
-        -   [Full mode installation](#with-R-full-mode-installation)
-
-    -   [With Docker](#with-docker)
-
--   [Getting Started](#get-started)
-
--   [Top common Warnings and Error Messages](#bugs)
+- [gcamreport](#gcamreport)
+  - [Contents](#contents)
+  - [Introduction](#introduction)
+  - [Installation Guide](#installation-guide)
+    - [With R](#with-r)
+      - [Light mode installation](#light-mode-installation)
+      - [Full mode installation](#full-mode-installation)
+    - [With Docker](#with-docker)
+  - [Getting Started](#getting-started)
+  - [Top common Warnings and Error Messages](#top-common-warnings-and-error-messages)
 
 
 <br>
@@ -51,7 +44,7 @@
 
 [Back to Contents](#contents)
 
-`gcamreport` is a tool designed to generate consistent datasets from any scenario run by the Global Change Analysis Model ([GCAM](http://www.globalchange.umd.edu/gcam/)), ensuring they meet the reporting standards of the Integrated Assessment Modeling Consortium ([IAMC](https://www.iamconsortium.org/)). In addition, `gcamreport` features an interactive user interface that allows users to create and download plots in real time and export reduced, formatted datasets in spreadsheet format. The tool is currently compatible with GCAM-core versions [6.0](https://zenodo.org/records/6619287), [7.0](https://zenodo.org/records/8010145), and [7.1](https://zenodo.org/records/11481167), as outlined in the [version guide](file:///C:/Users/claudia.rodes/Documents/IAM_COMPACT/gcamreport/docs/articles/Version_Guide.html).
+`gcamreport` is a tool designed to generate consistent datasets from any scenario run by the Global Change Analysis Model ([GCAM](http://www.globalchange.umd.edu/gcam/)), ensuring they meet the reporting standards of the Integrated Assessment Modeling Consortium ([IAMC](https://www.iamconsortium.org/)) defined in the [Common Definitions](https://github.com/IAMconsortium/common-definitions) repository. In addition, `gcamreport` features an interactive user interface that allows users to create and download plots in real time and export reduced, formatted datasets in spreadsheet format. The tool is currently compatible with GCAM-core versions [6.0](https://zenodo.org/records/6619287), [7.0](https://zenodo.org/records/8010145), [7.1](https://zenodo.org/records/11481167), and [7.2](https://zenodo.org/records/13946379). Moreover, we support the 2015 and 2021 GCAM base years. Check the [version guide](file:///C:/Users/claudia.rodes/Documents/IAM_COMPACT/gcamreport/docs/articles/Version_Guide.html) to see how to run your version! :rocket:
 
 <br>
 
@@ -173,7 +166,7 @@ Now `gcamreport` package is fully loaded. Enjoy! :smile:
 
 **Note**:exclamation:: If you followed the [Docker installation](#with-Docker), to open the user interface (UI) once it has been launched, either go to the Docker Desktop and type the last port started, or type <http://localhost:4000> in your browser.
 
-<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-v7.0/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="60%" height="60%"/>
+<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-core/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="60%" height="60%"/>
 
 
 
@@ -193,7 +186,7 @@ Now `gcamreport` package is fully loaded. Enjoy! :smile:
 
 The `gcamreport` package consists of a set of functions divided into two different blocks:
 
-- Dataset generation: It creates or loads an existing project and automatically saves the generated dataset that meets the reporting requirements of the [IAMC](https://www.iamconsortium.org/). Main function: `generate_report()`. For more information, see this [tutorial](https://bc3lc.github.io/gcamreport/articles/Dataset_Generation_Tutorial.html) or type `??generate_report` in your R console. If you get any warning or error messages, you might want to look at the [Warnings and Error Messages](#bugs) section.
+- Dataset generation: It creates or loads an existing project and automatically saves the generated dataset that meets the reporting requirements of the [IAMC](https://www.iamconsortium.org/) following the naming conventions, definitions, and units established by the [Common Definitions](https://github.com/IAMconsortium/common-definitions) repository. Main function: `generate_report()`. For more information, see this [tutorial](https://bc3lc.github.io/gcamreport/articles/Dataset_Generation_Tutorial.html) or type `??generate_report` in your R console. If you get any warning or error messages, you might want to look at the [Warnings and Error Messages](#bugs) section.
 
 - Interactive user block: it launches an interactive widget that displays the dataset in tabular form, with the ability to filter, reorder and download live. It also displays plots and allows them to be downloaded, aggregated by variables, regions and scenarios. Main function: `launch_gcamreport_ui()`. For more information see this [tutorial](https://bc3lc.github.io/gcamreport/articles/Interactive_UI_Tutorial.html) or type `??launch_gcamreport_ui` in your R console. If you get any warning or error messages, it might be useful to have a look at the [Top common Warnings and Error Messages](#bugs) section.
 
@@ -297,7 +290,7 @@ After using the functions `generate_report()` or `launch_gcamreport_ui()` to lau
 
 This is not an error! You simply need to either go to your Docker Desktop program and click the last started port
 
-<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-v7.0/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="50%" height="50%"/>
+<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-core/vignettes/readme_fig/shiny_error1.png" title="Click the last started docker port" alt="UI error" width="50%" height="50%"/>
 
 or open this url <http://localhost:4000> in your favourite browser.
 
@@ -309,7 +302,7 @@ or open this url <http://localhost:4000> in your favourite browser.
 
 When oppening your *localhost*, you might see this error:
 
-<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-v7.0/vignettes/readme_fig/shiny_error2.png" title="UI error" alt="UI error" width="40%" height="40%"/>
+<img src="https://raw.githubusercontent.com/bc3LC/gcamreport/gcam-core/vignettes/readme_fig/shiny_error2.png" title="UI error" alt="UI error" width="40%" height="40%"/>
 
 <details>
 
