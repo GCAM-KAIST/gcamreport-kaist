@@ -714,6 +714,9 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   # compute available years
   years_in_prj <- listYears(prj)
   years_in_prj <- years_in_prj[!is.na(years_in_prj)]
+  if (length(years_in_prj) == 0) {
+    stop('The prj (considering only the selected regions and variables) is empty. Please, check that it is the expected behaviour and/or add more regions/variables to the desired output.')
+  }
   # make final_year as a global variable
   final_year.global <<- min(final_year, max(years_in_prj))
 
