@@ -3611,7 +3611,7 @@ get_co2_price_global_tmp <- function(GCAM_version = "v7.1") {
                        by = "market", mapping = paste('co2_market_frag_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       filter_variables() %>%
-      tidyr::expand_grid(tibble::tibble(region = unique(fe_sector_clean$region))) %>%
+      tidyr::expand_grid(tibble::tibble(region = unique(co2_emiss$region))) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
   } else {
     co2_price_global <- NULL
@@ -3798,14 +3798,14 @@ get_co2_price <- function(GCAM_version = "v7.1") {
   if (nrow(co2_price_clean_pre) < 1) {
     co2_price_clean <-
       tibble::tibble(var = unique(get(paste('co2_market_frag_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))$var)) %>%
-      tidyr::expand_grid(tibble::tibble(scenario = unique(fe_sector_clean$scenario))) %>%
-      tidyr::expand_grid(tibble::tibble(year = unique(fe_sector_clean$year))) %>%
-      tidyr::expand_grid(tibble::tibble(region = c(unique(fe_sector_clean$region), "Global"))) %>%
+      tidyr::expand_grid(tibble::tibble(scenario = unique(co2_emiss$scenario))) %>%
+      tidyr::expand_grid(tibble::tibble(year = unique(co2_emiss$year))) %>%
+      tidyr::expand_grid(tibble::tibble(region = c(unique(co2_emiss$region), "Global"))) %>%
       dplyr::mutate(value = 0) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
   } else {
     co2_price_regional <- co2_price_clean_pre %>%
-      tidyr::complete(tidyr::nesting(region, var, year), scenario = unique(fe_sector_clean$scenario), fill = list(value = 0))
+      tidyr::complete(tidyr::nesting(region, var, year), scenario = unique(co2_emiss$scenario), fill = list(value = 0))
 
     # compute Global value using the emission weights
     co2_price_world <- co2_price_regional %>%
