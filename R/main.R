@@ -711,12 +711,12 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     )
   }
 
-
-  # make final_year as a global variable
-  final_year.global <<- final_year
-
   # compute available years
   years_in_prj <- listYears(prj)
+  years_in_prj <- years_in_prj[!is.na(years_in_prj)]
+  # make final_year as a global variable
+  final_year.global <<- min(final_year, max(years_in_prj))
+
   # base year
   base_year <<- dplyr::if_else(2021 %in% years_in_prj, 2021, 2015)
   if (base_year == 2021) years_in_prj <- setdiff(years_in_prj, 2020)
@@ -732,16 +732,16 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
 
   # check that final_year is >= 2025
-  if (final_year < 2025) {
+  if (final_year.global < 2025) {
     stop(sprintf(
       "'final_year' is set to '%s' but must be at least 2025. Please select a valid year: '%s.\n",
-      final_year, paste(available_final_year, collapse = ", ")))
+      final_year.global, paste(available_final_year, collapse = ", ")))
   }
   # check that final_year is availabe (5-year interval)
-  if (!final_year %in% available_final_year) {
+  if (!final_year.global %in% available_final_year) {
     stop(sprintf(
       "'final_year' is set to '%s' but must align with the available years in your project data. Please select a valid year: '%s.\n",
-      final_year, paste(available_final_year, collapse = ", ")))
+      final_year.global, paste(available_final_year, collapse = ", ")))
   }
 
 
