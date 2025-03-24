@@ -51,7 +51,7 @@ generate_report(
 
 \item{interactive}{If `TRUE` (not default), asks the user what to do when Warnings appear. Otherwise, the Warnings are displayed at the end of the script.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
 
 \item{GWP_version}{Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.}
 

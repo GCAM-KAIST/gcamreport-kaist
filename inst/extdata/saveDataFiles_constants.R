@@ -36,7 +36,7 @@ deciles_GCAM_versions <- c('v7.1', 'v7.2')
 use_data(deciles_GCAM_versions, overwrite = T)
 
 # Available GCAM versions
-available_GCAM_versions <- c('v6.0', 'v7.0', 'v7.1', 'v7.2')
+available_GCAM_versions <- c('v7.0', 'v7.1', 'v7.2')
 use_data(available_GCAM_versions, overwrite = T)
 
 # Available GWP versions

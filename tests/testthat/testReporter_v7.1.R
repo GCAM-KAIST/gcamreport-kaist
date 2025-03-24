@@ -157,7 +157,7 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
     GCAM_version = 'v7.1'
   )
   testResult_variables <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.2.RData")))
-  testthat::expect_equal(unique(report$Variable), testResult_variables)
+  testthat::expect_equal(sort(unique(report$Variable)), sort(testResult_variables))
   testthat::expect_equal(unique(report$Region), c(
     "Australia_NZ", "Canada", "EU-12", "EU-15",
     "Europe_Non_EU", "European Free Trade Association",
@@ -176,8 +176,8 @@ test_that("Test7_v7.1 specify variables, regions, continents", {
     launch_ui = FALSE,
     GCAM_version = 'v7.1'
   )
-  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.3.RData")))
-  testthat::expect_equal(unique(report$Variable), testResult)
+  testResult_variables <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test7.3.RData")))
+  testthat::expect_equal(sort(unique(report$Variable)), sort(testResult_variables))
   testthat::expect_equal(unique(report$Model), 'GCAM 7.1')
 
   rm(list = ls())
@@ -632,7 +632,7 @@ test_that("Test13v_7.1 specify queries", {
   prj_name <- "gcamv7.1_test_specify_queries.dat"
   scenarios <- "Reference"
   generate_report(db_path = db_path, db_name = db_name, prj_name = prj_name,
-                  scenarios = scenarios, final_year = 2050, desired_variables = c('Price|Carbon*'),
+                  scenarios = scenarios, final_year = 2050, desired_variables = c('Price|Carbon*','GDP*'),
                   save_output = T, launch_ui = F, GCAM_version = 'v7.1',
                   queries_general_file = file.path(rprojroot::find_root(rprojroot::is_testthat), "inst/extdata/queries/GCAM7.1/queries_gcamreport_general.xml"))
   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/gcamv7.1_test_specify_queries_standardized.RData")))
@@ -732,7 +732,7 @@ test_that("Test14v_7.1 ghg GWP", {
       launch_ui = FALSE,
       GCAM_version = '4'
     ),
-    "Invalid GCAM_version '4'. Available versions are: v6.0, v7.0, v7.1, v7.2. Please choose one of these versions."
+    "Invalid GCAM_version '4'. Available versions are: v7.0, v7.1, v7.2. Please choose one of these versions."
   )
 
 
