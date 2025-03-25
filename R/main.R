@@ -85,10 +85,11 @@ data_query <- function(type, db_path, db_name, prj_name, scenarios,
 #' @param project_path Full path to the GCAM project file, including the project name and extension (e.g., .dat, .proj). This file is loaded into the global environment.
 #' @param desired_regions Regions to include in the project data. Defaults to 'All'. Specify a vector to include specific regions. To view available regions, run `available_regions()`. Note: Only the specified regions will be included in the dataset, forming the "World" for the project.
 #' @param scenarios Names of the scenarios to consider from the project. Defaults to all scenarios available within the project. If specific scenarios are needed, provide a vector of scenario names.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #'
 #' @return The function loads the specified GCAM project into the global environment. It does not return a value, but the project data becomes available for use in further analysis or reporting.
 #' @export
-load_project <- function(project_path, desired_regions = "All", scenarios = NULL) {
+load_project <- function(project_path, desired_regions = "All", scenarios = NULL, GCAM_version = 'v7.1') {
   # rm variable "prj" from the environment if exists
   if (exists("prj")) rm(prj, envir = .GlobalEnv)
 
@@ -121,7 +122,7 @@ load_project <- function(project_path, desired_regions = "All", scenarios = NULL
     for (s in names(prj)) {
       # for all variables in prj
       for (v in names(prj[[s]])) {
-        prj[[s]][[v]] <- filter_loading_regions(prj[[s]][[v]], desired_regions, v)
+        prj[[s]][[v]] <- filter_loading_regions(prj[[s]][[v]], desired_regions, v, GCAM_version)
       }
     }
   }
@@ -693,7 +694,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   if (file.exists(prj_name)) {
     # check if the project exists and load it if possible
     prj_loaded <- TRUE
-    load_project(prj_name, desired_regions, scenarios)
+    load_project(prj_name, desired_regions, scenarios, GCAM_version)
     # update desired_regions with the regions present in the project
     desired_regions <- filter_desired_regions(desired_regions)
   } else {

@@ -497,11 +497,12 @@ start_with_pattern <- function(vector, pattern) {
 #' @param data Dataframe to filter.
 #' @param desired_regions Vector of regions to include. Defaults to 'All'. To view available regions, run `available_regions()`. The dataset will only include the specified regions.
 #' @param variable Variable information for the dataset.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @return Filtered dataframe.
 #' @importFrom magrittr %>%
 #' @keywords internal
 #' @export
-filter_loading_regions <- function(data, desired_regions = "All", variable) {
+filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM_version = 'v7.1') {
   market <- region <- NULL
 
   if (!(identical(desired_regions, "All"))) {
