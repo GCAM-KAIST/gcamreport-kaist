@@ -4,7 +4,12 @@
 \alias{filter_loading_regions}
 \title{filter_loading_regions}
 \usage{
-filter_loading_regions(data, desired_regions = "All", variable)
+filter_loading_regions(
+  data,
+  desired_regions = "All",
+  variable,
+  GCAM_version = "v7.1"
+)
 }
 \arguments{
 \item{data}{Dataframe to filter.}
@@ -12,6 +17,8 @@ filter_loading_regions(data, desired_regions = "All", variable)
 \item{desired_regions}{Vector of regions to include. Defaults to 'All'. To view available regions, run `available_regions()`. The dataset will only include the specified regions.}
 
 \item{variable}{Variable information for the dataset.}
+
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
 }
 \value{
 Filtered dataframe.

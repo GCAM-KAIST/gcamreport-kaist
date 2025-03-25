@@ -512,6 +512,8 @@ NigerR_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
 NileRNileR_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 NileRNileR_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 NileR_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
+NonFoodDemand_Forest,NoReported,,,,,,,,,,,,,,,,,,1
+NonFoodDemand_Forest-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 NonFoodDemand_Crops,NoReported,,,,,,,,,,,,,,,,,,1
 NonFoodDemand_Crops-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 NonFoodDemand_Forest,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1102,6 +1104,8 @@ traded forest,NoReported,,,,,,,,,,,,,,,,,,1
 traded forestDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 traded fibercrop,NoReported,,,,,,,,,,,,,,,,,,1
 traded fibercropDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+traded forest,NoReported,,,,,,,,,,,,,,,,,,1
+traded forestDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 traded fruits,NoReported,,,,,,,,,,,,,,,,,,1
 traded fruitsDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 traded industrial_roundwood,NoReported,,,,,,,,,,,,,,,,,,1

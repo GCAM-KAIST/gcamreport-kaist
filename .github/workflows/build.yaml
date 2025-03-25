@@ -5,7 +5,8 @@ on:
     branches:
       - gcam-core
       - gcam-iamcompact
-      
+      - dev_commdef
+
 jobs:
   R-CMD:
     runs-on: ${{ matrix.config.os }}

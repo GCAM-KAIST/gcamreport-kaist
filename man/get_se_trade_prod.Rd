@@ -7,7 +7,7 @@
 get_se_trade_prod(GCAM_version = "v7.1")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0', or 'v6.0'.}
+\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
 }
 \value{
 `se_trade_prod` global variable.
