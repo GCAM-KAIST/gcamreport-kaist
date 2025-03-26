@@ -508,7 +508,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
   if (!(identical(desired_regions, "All"))) {
     # the variable CO2 prices does not contain "region", but "markets". Now we
     # filter for all market items that do not contain the desired regions
-    if (variable %in% c("CO2 prices", "supply of all markets")) {
+    if (variable %in% c("CO2 prices")) {
       pattern <- paste(c(
         "CO2", "airCO2", "nonCO2", "CO2_FUG", "CO2 removal",
         "H2", "Exports"
@@ -520,7 +520,6 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
       } else {
         desired_regions_tmp <- desired_regions
       }
-
       data <- data %>%
         dplyr::mutate(region = sapply(
           strsplit(as.character(market), pattern),
@@ -528,6 +527,14 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         )) %>%
         dplyr::filter(region %in% desired_regions_tmp) %>%
         dplyr::select(-region)
+    } else if (variable %in% "supply of all markets") {
+      # Create regex pattern for regions
+      region_pattern <- paste0("(", paste(c(available_regions(F, GCAM_version),'EU'), collapse = "|"), ")")
+      data <- data %>%
+        dplyr::mutate(region = stringr::str_extract(market, region_pattern)) %>%
+        dplyr::filter(region %in% desired_regions_tmp) %>%
+        dplyr::select(-region)
+
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
       "total climate forcing"
