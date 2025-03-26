@@ -530,6 +530,11 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
     } else if (variable %in% "supply of all markets") {
       # Create regex pattern for regions
       region_pattern <- paste0("(", paste(c(available_regions(F, GCAM_version),'EU'), collapse = "|"), ")")
+      if (any(grepl("^EU", desired_regions))) {
+        desired_regions_tmp <- c(desired_regions, "EU")
+      } else {
+        desired_regions_tmp <- desired_regions
+      }
       data <- data %>%
         dplyr::mutate(region = stringr::str_extract(market, region_pattern)) %>%
         dplyr::filter(region %in% desired_regions_tmp) %>%
