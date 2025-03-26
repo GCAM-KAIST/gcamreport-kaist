@@ -243,3 +243,4 @@ R/update_template.R
 R/gcamreport_zt_g7_def.R
 debugging.R
 R/water_content_computation.R
+/tests/testthat/Rongqi_prj

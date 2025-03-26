@@ -750,7 +750,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
 
   # final reporting columns
-  reporting_columns.global <<- append(c("Model", "Scenario", "Region", "Variable", "Unit"), as.character(seq(2005, final_year.global, by = 5)))
+  reporting_columns.global <<- append(c("Model", "Scenario", "Region", "Variable", "Unit"), as.character(available_reporting_years[available_reporting_years <= final_year.global]))
 
   # desired variables to have in the report
   template_internal_variable <- get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['Internal_variable']]
