@@ -629,13 +629,13 @@ test_that("Test13v_7.1 specify queries", {
   # generate standardize report specifying the query file
   db_path <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1")
   db_name <- "database_basexdb_ref"
-  prj_name <- "gcamv7.1_test_specify_queries.dat"
+  prj_name <- "gcamv7.2_test_specify_queries.dat"
   scenarios <- "Reference"
   generate_report(db_path = db_path, db_name = db_name, prj_name = prj_name,
                   scenarios = scenarios, final_year = 2050, desired_variables = c('Price|Carbon*','GDP*'),
                   save_output = T, launch_ui = F, GCAM_version = 'v7.1',
                   queries_general_file = file.path(rprojroot::find_root(rprojroot::is_testthat), "inst/extdata/queries/GCAM7.1/queries_gcamreport_general.xml"))
-  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/gcamv7.1_test_specify_queries_standardized.RData")))
+  testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.1/gcamv7.2_test_specify_queries_standardized.RData")))
   testExpect <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.1/result_test13.2.RData")))
   testthat::expect_equal(testResult, testExpect)
 
