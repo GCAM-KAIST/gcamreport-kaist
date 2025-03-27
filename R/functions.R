@@ -506,6 +506,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
   market <- region <- NULL
 
   if (!(identical(desired_regions, "All"))) {
+    desired_regions <- c(desired_regions, "global")
     # the variable CO2 prices does not contain "region", but "markets". Now we
     # filter for all market items that do not contain the desired regions
     if (variable %in% c("CO2 prices")) {
@@ -529,7 +530,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         dplyr::select(-region)
     } else if (variable %in% "supply of all markets") {
       # Create regex pattern for regions
-      region_pattern <- paste0("(", paste(c(available_regions(F, GCAM_version),'EU'), collapse = "|"), ")")
+      region_pattern <- paste0("(", paste(c(available_regions(F, GCAM_version),'EU','global'), collapse = "|"), ")")
       if (any(grepl("^EU", desired_regions))) {
         desired_regions_tmp <- c(desired_regions, "EU")
       } else {
@@ -546,7 +547,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
     )) & ('region' %in% colnames(data))) {
       # check the desired regions are available in the data
       avail_reg <- unique(data$region)
-      if (!desired_regions %in% avail_reg) {
+      if (!all(desired_regions %in% avail_reg)) {
         not_avail <- setdiff(desired_regions, avail_reg)
         if (length(not_avail) == 1) {
           warning(sprintf(
@@ -568,10 +569,13 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
       )) & ('market' %in% colnames(data))) {
         # check the desired regions are available in the data
         avail_markets <- unique(data$market)
-        pattern <- paste0("(", paste(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']], collapse = "|"), ")")
+        default_regions <- get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']]
+        default_regions <- default_regions[!is.na(default_regions)]
+        default_regions <- c(default_regions, 'global')
+        pattern <- paste0("(", paste(default_regions, collapse = "|"), ")")
         avail_reg <- unique(stringr::str_extract(avail_markets, pattern))
         avail_reg <- avail_reg[!is.na(avail_reg) & avail_reg != "NA"]
-        if (!desired_regions %in% avail_reg) {
+        if (!all(desired_regions %in% avail_reg)) {
           not_avail <- setdiff(desired_regions, avail_reg)
           if (length(not_avail) == 1) {
             warning(sprintf(

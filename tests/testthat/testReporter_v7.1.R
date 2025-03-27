@@ -619,7 +619,7 @@ test_that("Test12v_7.1 other functions", {
 
 })
 
-test_that("Test13v_7.1 specify queries", {
+test_that("Test13v_7.1 specify queries", { # RUN MANUAL
 
   # transform_to_xml ancillary function
   testResult <- transform_to_xml(gcamreport::queries_nonCO2_v7.1)
