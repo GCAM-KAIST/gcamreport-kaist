@@ -546,7 +546,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
     )) & ('region' %in% colnames(data))) {
       # check the desired regions are available in the data
       avail_reg <- unique(data$region)
-      if (!desired_regions %in% avail_reg) {
+      if (!all(desired_regions %in% avail_reg)) {
         not_avail <- setdiff(desired_regions, avail_reg)
         if (length(not_avail) == 1) {
           warning(sprintf(
@@ -571,7 +571,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         pattern <- paste0("(", paste(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']], collapse = "|"), ")")
         avail_reg <- unique(stringr::str_extract(avail_markets, pattern))
         avail_reg <- avail_reg[!is.na(avail_reg) & avail_reg != "NA"]
-        if (!desired_regions %in% avail_reg) {
+        if (!all(desired_regions %in% avail_reg)) {
           not_avail <- setdiff(desired_regions, avail_reg)
           if (length(not_avail) == 1) {
             warning(sprintf(
