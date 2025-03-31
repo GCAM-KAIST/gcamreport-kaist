@@ -506,9 +506,10 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
   market <- region <- NULL
 
   if (!(identical(desired_regions, "All"))) {
+    desired_regions <- c(desired_regions, "global")
     # the variable CO2 prices does not contain "region", but "markets". Now we
     # filter for all market items that do not contain the desired regions
-    if (variable %in% c("CO2 prices", "supply of all markets")) {
+    if (variable %in% c("CO2 prices")) {
       pattern <- paste(c(
         "CO2", "airCO2", "nonCO2", "CO2_FUG", "CO2 removal",
         "H2", "Exports"
@@ -520,7 +521,6 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
       } else {
         desired_regions_tmp <- desired_regions
       }
-
       data <- data %>%
         dplyr::mutate(region = sapply(
           strsplit(as.character(market), pattern),
@@ -528,13 +528,26 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         )) %>%
         dplyr::filter(region %in% desired_regions_tmp) %>%
         dplyr::select(-region)
+    } else if (variable %in% "supply of all markets") {
+      # Create regex pattern for regions
+      region_pattern <- paste0("(", paste(c(available_regions(F, GCAM_version),'EU','global'), collapse = "|"), ")")
+      if (any(grepl("^EU", desired_regions))) {
+        desired_regions_tmp <- c(desired_regions, "EU")
+      } else {
+        desired_regions_tmp <- desired_regions
+      }
+      data <- data %>%
+        dplyr::mutate(region = stringr::str_extract(market, region_pattern)) %>%
+        dplyr::filter(region %in% desired_regions_tmp) %>%
+        dplyr::select(-region)
+
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
       "total climate forcing"
     )) & ('region' %in% colnames(data))) {
       # check the desired regions are available in the data
       avail_reg <- unique(data$region)
-      if (!desired_regions %in% avail_reg) {
+      if (!all(desired_regions %in% avail_reg)) {
         not_avail <- setdiff(desired_regions, avail_reg)
         if (length(not_avail) == 1) {
           warning(sprintf(
@@ -556,10 +569,13 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
       )) & ('market' %in% colnames(data))) {
         # check the desired regions are available in the data
         avail_markets <- unique(data$market)
-        pattern <- paste0("(", paste(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']], collapse = "|"), ")")
+        default_regions <- get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']]
+        default_regions <- default_regions[!is.na(default_regions)]
+        default_regions <- c(default_regions, 'global')
+        pattern <- paste0("(", paste(default_regions, collapse = "|"), ")")
         avail_reg <- unique(stringr::str_extract(avail_markets, pattern))
         avail_reg <- avail_reg[!is.na(avail_reg) & avail_reg != "NA"]
-        if (!desired_regions %in% avail_reg) {
+        if (!all(desired_regions %in% avail_reg)) {
           not_avail <- setdiff(desired_regions, avail_reg)
           if (length(not_avail) == 1) {
             warning(sprintf(
@@ -1778,7 +1794,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
                                "Emissions|CO2_ETS|Energy|Demand|Industry",
                                "Emissions|CO2_ETS|Energy|Demand|Transportation",
                                "Emissions|CO2_ETS|Energy|Demand|Residential and Commercial",
-                               "Emissions|CO2_ETS|Energy|Supply"
+                               "Emissions|CO2_ETS|Energy|Supply",
+                               available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))]
     )) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -1802,7 +1819,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
                                "Emissions|CO2_ETS|Energy|Demand|Industry",
                                "Emissions|CO2_ETS|Energy|Demand|Transportation",
                                "Emissions|CO2_ETS|Energy|Demand|Residential and Commercial",
-                               "Emissions|CO2_ETS|Energy|Supply"
+                               "Emissions|CO2_ETS|Energy|Supply",
+                               available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))]
     )) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -1864,7 +1882,8 @@ get_gross_co2_emiss <- function(GCAM_version = "v7.1") {
 
   gross_co2_emiss_clean <- rbind(
     co2_emissions_clean,
-    co2_sequestration_raw
+    co2_removal_raw %>%
+      dplyr::mutate(value = -value) # substract Removal items from the total CO2 emission
     ) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
@@ -1975,7 +1994,7 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
       value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']],
       var = "Emissions|CO2|AFOLU"
     ) %>%
-    filter_variables() %>%
+    filter_variables(extra = c('Emissions|CO2', available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))])) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   LUC_emiss <- rbind(
@@ -1985,7 +2004,7 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
     LUC_emiss %>%
       dplyr::mutate(var = 'Emissions|CO2|AFOLU [NGHGI]')
   ) %>%
-    filter_variables()
+    filter_variables(extra = available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))])
 
   LUC_emiss <<- LUC_emiss
 }
@@ -2237,15 +2256,15 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @keywords internal co2
-#' @return `co2_sequestration_clean` and `co2_sequestration_raw` global variables.
+#' @return `co2_sequestration_clean` and `co2_removal_raw` global variables.
 #' @importFrom magrittr %>%
 #' @export
 get_co2_sequestration <- function(GCAM_version = "v7.1") {
   scenario <- region <- year <- var <- value <- unit_conv <-
-    co2_sequestration_raw <- co2_sequestration <- NULL
+    co2_removal_raw <- co2_sequestration <- NULL
 
   check_queries("co2_sequestration_clean", GCAM_version)
-  check_queries("co2_sequestration_raw", GCAM_version)
+  check_queries("co2_removal_raw", GCAM_version)
 
   co2_sequestration <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
@@ -2288,7 +2307,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
 
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
-  co2_sequestration_raw <- suppressWarnings(
+  co2_removal_raw <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
               dataset_name = "CO2 sequestration by tech") %>%
       # consider only carbon removal items
@@ -2321,7 +2340,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     )
 
 
-  co2_sequestration_raw <<- co2_sequestration_raw
+  co2_removal_raw <<- co2_removal_raw
   co2_sequestration_clean <<- co2_sequestration_clean
 }
 
