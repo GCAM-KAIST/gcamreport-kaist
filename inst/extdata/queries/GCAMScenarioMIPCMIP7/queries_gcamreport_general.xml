@@ -1078,7 +1078,7 @@ output-primary/physical-output/node()</xPath>
      $currEmissSectors := $currTree/*[@type='sector' and (@name='regional biomass' or @name='regional biomassOil' or @name='regional corn for ethanol' or @name='regional sugar for ethanol' or @name='regional sugarbeet for ethanol' or @name='regional woodpulp for energy')],
      $coefs := local:generate-sector-output-coefs(distinct-values($currEmissSectors/@name), $currTree, (), false()),
      $downstream_emiss := for $sectorName in distinct-values($currEmissSectors/@name)
-     return local:append-heirarchy($currTree, local:apply-coefs($sectorName, $currEmissSectors[@name=$sectorName]//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions, $coefs))//text() 
+     return local:append-heirarchy($currTree, local:apply-coefs($sectorName, $currEmissSectors[@name=$sectorName]//CO2[@name='CO2' or @name='CO2_FUG']/emissions, $coefs))//text() 
      return ($sector_emiss, $downstream_emiss )
      (:  } :)
      };
@@ -1111,7 +1111,7 @@ output-primary/physical-output/node()</xPath>
       <emissionsQueryBuilder title="CO2 emissions by sector (excluding resource production)">
          <axis1 name="GHG">GHG</axis1>
          <axis2 name="Year">emissions</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions/node()</xPath>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector']//CO2/emissions/node()</xPath>
          <comments />
       </emissionsQueryBuilder>
    </aQuery>
@@ -1129,7 +1129,7 @@ output-primary/physical-output/node()</xPath>
       <emissionsQueryBuilder title="CO2 emissions by tech (excluding resource production)">
          <axis1 name="technology">technology</axis1>
          <axis2 name="Year">emissions</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//*[@type = 'GHG' and (@name = "CO2" or @name = "CO2_FUG")]/emissions/node()</xPath>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//CO2/emissions/node()</xPath>
          <comments />
       </emissionsQueryBuilder>
    </aQuery>
