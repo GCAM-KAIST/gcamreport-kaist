@@ -84,10 +84,22 @@ listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRU
       }
     })
   })
-  combine <- if (anyscen)
-    union
-  else intersect
-  Reduce(combine, Reduce(combine, sqlist))
+
+  combine <- if (anyscen) union else intersect
+
+  if (identical(combine, union)) {
+    # Union case: count appearances and keep values appearing >10 times
+    # (avoid problems with 2020 and 2021)
+    all_years <- unlist(sqlist)
+    all_years <- all_years[!is.na(all_years)]
+    year_counts <- table(all_years)
+    result <- sort(as.numeric(names(year_counts[year_counts > 10])))
+  } else {
+    # Intersect case: just intersect all elements
+    result <- Reduce(intersect, Reduce(intersect, sqlist))
+  }
+
+  return(result)
 }
 
 
@@ -4440,7 +4452,7 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
     interpolateGCAMdata(valuecol = 'cf', yearcol = 'vintage')
 
   tmp1 <- get(paste('cf_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::select(technology, cf = X2100) %>%
+    dplyr::select(technology, cf = `2100`) %>%
     dplyr::mutate(region = "USA", vintage = 2025) %>%
     tidyr::complete(tidyr::nesting(technology, cf),
                     vintage = seq(2025, 2100, by = 5),

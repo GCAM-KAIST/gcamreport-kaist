@@ -720,10 +720,11 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   }
   # make final_year as a global variable
   final_year.global <<- min(final_year, max(years_in_prj))
+  sprintf('INFO: The years %s are read from the GCAM database.',
+          paste(years_in_prj[years_in_prj <= final_year.global], collapse = ','))
 
   # base year
   base_year <<- dplyr::if_else(2021 %in% years_in_prj, 2021, 2015)
-  if (base_year == 2021) years_in_prj <- setdiff(years_in_prj, 2020)
   years_in_prj <- setdiff(years_in_prj, NA)
   # base year prima: year used for multiple computations
   base_year_p <<- dplyr::if_else(base_year == 2021, base_year, 2020)
