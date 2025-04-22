@@ -10,7 +10,6 @@ co2_concentration_clean;get_co2_concentration;;CO2 concentrations
 nonbio_share;get_nonbio_tmp;;CO2 emissions by sector (excluding resource production),CO2 emissions by sector (no bio) (excluding resource production)
 co2_tech_nobio;get_co2_tech_nobio_tmp;nonbio_share;CO2 emissions by tech (excluding resource production)
 co2_emiss;get_co2_emiss;;CO2 emissions by tech (excluding resource production),CO2 emissions by resource production,CO2 emissions by region
-gross_co2_emiss;get_gross_co2_emiss;co2_emissions_clean,co2_sequestration_raw;
 iron_steel_map;get_iron_steel_map;;industry final energy by tech and fue
 co2_tech_ironsteel;get_co2_iron_steel;co2_tech_nobio,iron_steel_map;
 LUC_emiss;get_lu_co2;;LUC emissions by region
@@ -20,7 +19,7 @@ f_gas_clean;get_fgas;;nonCO2 emissions by region
 ghg_all;get_ghg;LUC_emiss;nonCO2 emissions by region
 kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production,CO2 emissions by sector (no bio) (excluding resource production)
 co2_sequestration_clean;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
-co2_sequestration_raw;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
+co2_removal_raw;get_co2_sequestration;LUC_emiss;CO2 sequestration by tech
 ag_demand_clean;get_ag_demand;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
 ag_production_clean;get_ag_production;;ag production by crop type,meat and dairy production by type
 land_clean;get_land;;land allocation by crop and water source
@@ -89,7 +88,7 @@ forestry_production_clean;get_forestry;;inputs by tech
 labor_clean;get_labor;population_clean;National Account
 goods_trade_clean;get_goods_trade;;National Account
 value_added_clean;get_value_added;;National Account
-gross_co2_emiss_clean;get_gross_co2_emiss;co2_emissions_clean,co2_sequestration_raw;
+gross_co2_emiss_clean;get_gross_co2_emiss;co2_emissions_clean,co2_removal_raw;
 production_price_clean;get_production_price;;iron and steel prices,chemical prices,ammonia and N fertilizer prices,aluminum prices
 trn_stock_clean;get_transport_stock;;transport service output by tech and vintage
 trn_sales_clean;get_transport_sales;;transport service output by tech and vintage

@@ -84,10 +84,22 @@ listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRU
       }
     })
   })
-  combine <- if (anyscen)
-    union
-  else intersect
-  Reduce(combine, Reduce(combine, sqlist))
+
+  combine <- if (anyscen) union else intersect
+
+  if (identical(combine, union)) {
+    # Union case: count appearances and keep values appearing >10 times
+    # (avoid problems with 2020 and 2021)
+    all_years <- unlist(sqlist)
+    all_years <- all_years[!is.na(all_years)]
+    year_counts <- table(all_years)
+    result <- sort(as.numeric(names(year_counts[year_counts > 10])))
+  } else {
+    # Intersect case: just intersect all elements
+    result <- Reduce(intersect, Reduce(intersect, sqlist))
+  }
+
+  return(result)
 }
 
 
@@ -1794,7 +1806,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
                                "Emissions|CO2_ETS|Energy|Demand|Industry",
                                "Emissions|CO2_ETS|Energy|Demand|Transportation",
                                "Emissions|CO2_ETS|Energy|Demand|Residential and Commercial",
-                               "Emissions|CO2_ETS|Energy|Supply"
+                               "Emissions|CO2_ETS|Energy|Supply",
+                               available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))]
     )) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -1818,7 +1831,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
                                "Emissions|CO2_ETS|Energy|Demand|Industry",
                                "Emissions|CO2_ETS|Energy|Demand|Transportation",
                                "Emissions|CO2_ETS|Energy|Demand|Residential and Commercial",
-                               "Emissions|CO2_ETS|Energy|Supply"
+                               "Emissions|CO2_ETS|Energy|Supply",
+                               available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))]
     )) %>%
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -1880,7 +1894,8 @@ get_gross_co2_emiss <- function(GCAM_version = "v7.1") {
 
   gross_co2_emiss_clean <- rbind(
     co2_emissions_clean,
-    co2_sequestration_raw
+    co2_removal_raw %>%
+      dplyr::mutate(value = -value) # substract Removal items from the total CO2 emission
     ) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
@@ -1991,7 +2006,7 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
       value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']],
       var = "Emissions|CO2|AFOLU"
     ) %>%
-    filter_variables() %>%
+    filter_variables(extra = c('Emissions|CO2', available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))])) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   LUC_emiss <- rbind(
@@ -2001,7 +2016,7 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
     LUC_emiss %>%
       dplyr::mutate(var = 'Emissions|CO2|AFOLU [NGHGI]')
   ) %>%
-    filter_variables()
+    filter_variables(extra = available_variables(F, GCAM_version)[grepl("^Gross Emissions", available_variables(F, GCAM_version))])
 
   LUC_emiss <<- LUC_emiss
 }
@@ -2253,15 +2268,15 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @keywords internal co2
-#' @return `co2_sequestration_clean` and `co2_sequestration_raw` global variables.
+#' @return `co2_sequestration_clean` and `co2_removal_raw` global variables.
 #' @importFrom magrittr %>%
 #' @export
 get_co2_sequestration <- function(GCAM_version = "v7.1") {
   scenario <- region <- year <- var <- value <- unit_conv <-
-    co2_sequestration_raw <- co2_sequestration <- NULL
+    co2_removal_raw <- co2_sequestration <- NULL
 
   check_queries("co2_sequestration_clean", GCAM_version)
-  check_queries("co2_sequestration_raw", GCAM_version)
+  check_queries("co2_removal_raw", GCAM_version)
 
   co2_sequestration <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
@@ -2304,7 +2319,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
 
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
-  co2_sequestration_raw <- suppressWarnings(
+  co2_removal_raw <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
               dataset_name = "CO2 sequestration by tech") %>%
       # consider only carbon removal items
@@ -2337,7 +2352,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     )
 
 
-  co2_sequestration_raw <<- co2_sequestration_raw
+  co2_removal_raw <<- co2_removal_raw
   co2_sequestration_clean <<- co2_sequestration_clean
 }
 
@@ -4437,7 +4452,7 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
     interpolateGCAMdata(valuecol = 'cf', yearcol = 'vintage')
 
   tmp1 <- get(paste('cf_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::select(technology, cf = X2100) %>%
+    dplyr::select(technology, cf = `2100`) %>%
     dplyr::mutate(region = "USA", vintage = 2025) %>%
     tidyr::complete(tidyr::nesting(technology, cf),
                     vintage = seq(2025, 2100, by = 5),
