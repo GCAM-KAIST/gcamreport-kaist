@@ -1894,9 +1894,7 @@ get_gross_co2_emiss <- function(GCAM_version = "v7.1") {
 
   gross_co2_emiss_clean <- rbind(
     co2_emissions_clean,
-    co2_removal_raw %>%
-      dplyr::mutate(value = -value) # substract Removal items from the total CO2 emission
-    ) %>%
+    co2_removal_raw) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
@@ -2326,7 +2324,6 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      filter_variables() %>%
       dplyr::filter(grepl('Carbon Removal', var)) %>%
       dplyr::mutate(value = value * unit_conv) %>%
       dplyr::select(-var, -unit_conv) %>%
@@ -2349,7 +2346,11 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
       LUC_emiss %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
-    )
+    ) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup()
+
 
 
   co2_removal_raw <<- co2_removal_raw
