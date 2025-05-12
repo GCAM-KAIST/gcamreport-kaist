@@ -1493,11 +1493,11 @@ get_forestry <- function(GCAM_version = "v7.1") {
 #' @importFrom magrittr %>%
 #' @export
 get_ag_trade <- function(GCAM_version = "v7.1") {
-  value <- ag_trade <- NULL
+  value <- ag_trade <- ag_trade_exports <- ag_trade_imports <- NULL
 
   check_queries('ag_trade', GCAM_version)
 
-  ag_trade <-
+  ag_trade_exports <-
     check_inf(rgcam::getQuery(prj, "ag export to the world center (USA) (Intl. Armington competition)"),
               dataset_name = "ag export to the world center (USA) (Intl. Armington competition)") %>%
     dplyr::mutate(region = sub(" traded.*", "", subsector)) %>%
@@ -1514,14 +1514,54 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
-    # billion m3 to million m3 for Trade|Forestry
-    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
-                                         value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
-                                         value)) %>%
+    dplyr::filter(!grepl('Forestry',var)) %>%
+    # # billion m3 to million m3 for Trade|Forestry
+    # dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+    #                                      value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
+    #                                      value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  ag_trade <<- ag_trade
 
+  ag_trade_imports <-
+    check_inf(rgcam::getQuery(prj, "ag import vs. domestic supply (Regional Armington competition)"),
+              dataset_name = "ag import vs. domestic supply (Regional Armington competition)") %>%
+    dplyr::filter(grepl("imported",subsector)) %>%
+    dplyr::select(-sector) %>%
+    dplyr::rename(sector = input) %>%
+    left_join_strict(get(paste('trade_ag',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("sector"), mapping = paste('trade_ag',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    filter_variables() %>%
+    # add water content data
+    left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::mutate(regional_item = stringr::str_replace(regional_item, 'regional', 'traded')) %>%
+                       dplyr::rename(sector = regional_item),
+                     by = 'sector') %>%
+    left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::mutate(item = GCAM_commodity),
+                     by = 'item') %>%
+    # units to annual million t DM
+    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+  # TODO - Forestry import
+
+  ag_trade <- merge(ag_trade_exports %>%
+                      dplyr::rename(exp = value),
+                    ag_trade_imports %>%
+                      dplyr::rename(imp = value),
+                    by = c('scenario','region','year','var'),
+                    all = T) %>%
+    dplyr::filter(year > 1975) %>%
+    dplyr::mutate(exp = dplyr::if_else(is.na(exp), 0, exp),
+                  imp = dplyr::if_else(is.na(imp), 0, imp)) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::mutate(value = exp - imp) %>%
+    dplyr::ungroup()
+
+  ag_trade <<- ag_trade
 }
 
 #' get_fert_consumption
@@ -2731,10 +2771,22 @@ get_pe_trade_prod <- function(GCAM_version = 'v7.1') {
     check_inf(rgcam::getQuery(prj, "resource production"),
               dataset_name = "resource production") %>%
     dplyr::filter(Units == "EJ") %>%
-    dplyr::filter(resource %in% c("biomass", "coal", "natural gas", "crude oil", "unconventional oil")) %>%
+    dplyr::filter(resource %in% c("coal", "natural gas", "crude oil", "unconventional oil")) %>%
     dplyr::mutate(
       resource = sub("crude oil", "oil", resource),
       resource = sub("unconventional oil", "oil", resource)
+    ) %>%
+    # biomass pe production
+    rbind(
+      check_inf(rgcam::getQuery(prj, "purpose-grown biomass production"),
+                dataset_name = "purpose-grown biomass production") %>%
+        dplyr::rename(resource = sector),
+      check_inf(rgcam::getQuery(prj, "residue biomass production"),
+                dataset_name = "residue biomass production") %>%
+        dplyr::select(-sector) %>%
+        dplyr::rename(resource = output),
+      check_inf(rgcam::getQuery(prj, "MSW production"),
+                dataset_name = "MSW production")
     ) %>%
     dplyr::group_by(scenario, resource, region, year) %>%
     dplyr::summarise(production = sum(value)) %>%
@@ -2800,6 +2852,7 @@ get_pe_trade <- function(GCAM_version = 'v7.1') {
       var = paste0("Trade|Primary Energy|", resource, " [Volume]")
     ) %>%
     filter_variables() %>%
+    dplyr::filter(year > 1975) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   pe_trade <<- pe_trade
