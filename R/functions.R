@@ -93,7 +93,7 @@ listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRU
     all_years <- unlist(sqlist)
     all_years <- all_years[!is.na(all_years)]
     year_counts <- table(all_years)
-    result <- sort(as.numeric(names(year_counts[year_counts > 10])))
+    result <- sort(as.numeric(names(year_counts[year_counts > length(queries)/2])))
   } else {
     # Intersect case: just intersect all elements
     result <- Reduce(intersect, Reduce(intersect, sqlist))
@@ -1559,7 +1559,8 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
                   imp = dplyr::if_else(is.na(imp), 0, imp)) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::mutate(value = exp - imp) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   ag_trade <<- ag_trade
 }
