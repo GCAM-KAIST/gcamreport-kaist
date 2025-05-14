@@ -333,6 +333,18 @@
 #' }
 "land_use_map_vScenarioMIPCMIP7"
 
+#' yield_map_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with yield_map_vScenarioMIPCMIP7
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::yield_map_vScenarioMIPCMIP7
+#' }
+"yield_map_vScenarioMIPCMIP7"
+
 #' food_intake_map_vScenarioMIPCMIP7
 #'
 #' @source github

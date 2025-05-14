@@ -2476,6 +2476,73 @@ get_water_consumption <- function(GCAM_version = "v7.1") {
 
 # Agriculture and land use
 # ==============================================================================================
+
+#' get_yield
+#'
+#' Get agricultural demand.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal ag
+#' @return `yield_clean` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_yield <- function(GCAM_version = "v7.1") {
+  yield_regional <- yield_world <- yield_map <- yield_clean <- NULL
+
+  yield_map <- get(paste('yield_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+
+  yield_regional <- suppressMessages(land_clean %>%
+    dplyr::rename(land = value, land_var = var) %>%
+    dplyr::filter(land_var %in% yield_map$land_var) %>%
+    left_join_strict(yield_map, by = 'land_var') %>%
+    left_join_strict(ag_production_clean %>%
+                       dplyr::rename(prod = value, prod_var = var) %>%
+                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                       prod_var = unique(yield_map$prod_var),
+                                       prod = 0),
+                     by = c('prod_var','scenario','region','year')) %>%
+    dplyr::mutate(value = prod / land) %>%
+    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+    dplyr::rename(var = yield_var) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+
+  yield_world <- suppressMessages(land_clean %>%
+    dplyr::rename(land = value, land_var = var) %>%
+    dplyr::filter(land_var %in% yield_map$land_var) %>%
+    dplyr::group_by(scenario, land_var, year) %>%
+    dplyr::summarise(land = sum(land)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(region = 'World') %>%
+    left_join_strict(yield_map, by = 'land_var') %>%
+    left_join_strict(ag_production_clean %>%
+                       dplyr::rename(prod = value, prod_var = var) %>%
+                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                       dplyr::group_by(scenario, prod_var, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup() %>%
+                       dplyr::mutate(region = 'World') %>%
+                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                       prod_var = unique(yield_map$prod_var),
+                                       prod = 0) %>%
+                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup(),
+                     by = c('prod_var','scenario','region','year')) %>%
+    dplyr::mutate(value = prod / land) %>%
+    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+    dplyr::rename(var = yield_var) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+
+
+  yield_clean <- rbind(
+    yield_regional,
+    yield_world
+  )
+
+  yield_clean <<- yield_clean
+}
+
 #' get_ag_demand
 #'
 #' Get agricultural demand.
@@ -2650,14 +2717,13 @@ get_ag_production <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('ag_production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_production_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
     # add water content data
     left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
                        dplyr::mutate(sector = GCAM_commodity),
                      by = 'sector') %>%
     # units to annual million t DM
     dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
-    filter_variables() %>%
+    # filter_variables() %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -2687,7 +2753,7 @@ get_land <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    # filter_variables() %>%
     # thous km2 to million ha
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -5374,6 +5440,8 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Food Intake", var),
       # shares
       !grepl("\\[Share\\]", var),
+      # yield
+      !grepl("Yield", var),
     ) %>%
     filter_variables() %>%
     dplyr::group_by(scenario, year, var) %>%
