@@ -2325,7 +2325,6 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var))  %>%
-      filter_variables(extra = 'Gross Removals|CO2') %>%
       tidyr::complete(tidyr::nesting(scenario, region, year),
                       var = unique(var),
                       fill = list(value = 0)
@@ -2342,8 +2341,15 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       LUC_emiss %>%
         dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = 'Carbon Removal|Land Use') %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0)),
+      LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
+        dplyr::mutate(var = 'Carbon Removal') %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
-    )
+    ) %>%
+    dplyr::group_by(scenario, region, year, var) %>% #
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup()
 
   # add Gross Removals|CO2 = Carbon Removal
   # add Gross Removals|CO2|AFOLU = Carbon Removal|Land Use"
@@ -2355,8 +2361,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     co2_sequestration %>%
       dplyr::filter(var == 'Carbon Removal|Land Use') %>%
       dplyr::mutate(var = 'Gross Removals|CO2|AFOLU')
-  ) %>%
-    filter_variables()
+  )
 
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
@@ -2367,7 +2372,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      dplyr::filter(grepl('Carbon Removal', var)) %>%
+      dplyr::filter(var == 'Carbon Removal') %>%
       dplyr::mutate(value = value * unit_conv) %>%
       dplyr::select(-var, -unit_conv) %>%
       # desegregate further the items (DAC add only to Emissions|CO2)
