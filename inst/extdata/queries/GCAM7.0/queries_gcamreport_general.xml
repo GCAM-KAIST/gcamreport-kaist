@@ -637,6 +637,15 @@ local:generate-sector-input-coefs(remove($outputNameQueue, 1), $currTree, $coefs
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="ag import vs. domestic supply (Regional Armington competition)">
+            <axis1 name="input">input</axis1>
+            <axis2 name="Year">demand-physical[@vintage]</axis2>
+            <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' and contains(@name, 'total')]/*[@type='subsector']//*[@type='input']/demand-physical[@unit='Mt' or @unit='billion m3']/node()</xPath>
+            <comments/>
+      </supplyDemandQuery> 
+  </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="meat and dairy production by type">
          <axis1 name="sector">sector</axis1>
          <axis2 name="Year">physical-output[@vintage]</axis2>
@@ -700,6 +709,34 @@ local:generate-sector-input-coefs(remove($outputNameQueue, 1), $currTree, $coefs
     *[@type='input' and (@name='N fertilizer')]/demand-physical/node()</xPath>
          <comments />
       </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="purpose-grown biomass production">
+            <axis1 name="sector">sector[@name]</axis1>
+            <axis2 name="Year">physical-output[@vintage]</axis2>
+            <xPath buildList="false" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='biomass')]//*[@type='output' (:collapse:)]/
+      physical-output/node()</xPath>
+            <comments/>
+      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="residue biomass production">
+            <axis1 name="sector">sector[@name]</axis1>
+            <axis2 name="Year">physical-output[@vintage]</axis2>
+            <xPath buildList="false" dataName="output" group="false" sumAll="false">*[@type='sector' and not(@name='biomass')]//*[@type='output' and @name='biomass']/physical-output/node()</xPath>
+            <comments/>
+      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <resourceQuery title="MSW production">
+            <axis1 name="resource">resource</axis1>
+            <axis2 name="Year">output</axis2>
+            <xPath buildList="false" dataName="production" group="false" sumAll="false">*[@type='resource' and (@name='biomass')]//output/node()</xPath>
+            <comments/>
+      </resourceQuery>
    </aQuery>
    <aQuery>
       <all-regions />

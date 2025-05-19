@@ -244,9 +244,17 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
         bq$regions <- desired_regions
       }
 
-      table <- suppressMessages({
-        rgcam::runQuery(conn, bq$query, sc, bq$regions, warn.empty = FALSE)
-      })
+      # ensure that USA region is read in these queries, which are mapped only to USA
+      if (bq$title %in% c('primary energy consumption with CCS by region (direct equivalent)',
+                          'ag export to the world center (USA) (Intl. Armington competition)')) {
+        table <- suppressMessages({
+          rgcam::runQuery(conn, bq$query, sc, unique(c('USA',bq$regions)), warn.empty = FALSE)
+        })
+      } else {
+        table <- suppressMessages({
+          rgcam::runQuery(conn, bq$query, sc, bq$regions, warn.empty = FALSE)
+        })
+      }
       if (nrow(table) > 0) {
         prj_tmp <- rgcam::addQueryTable(
           project = prj_name, qdata = table,
