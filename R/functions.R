@@ -2500,7 +2500,10 @@ get_yield <- function(GCAM_version = "v7.1") {
                        dplyr::filter(prod_var %in% yield_map$prod_var) %>%
                        tidyr::complete(tidyr::nesting(scenario, region, year),
                                        prod_var = unique(yield_map$prod_var),
-                                       prod = 0),
+                                       prod = 0) %>%
+                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup(),
                      by = c('prod_var','scenario','region','year')) %>%
     dplyr::mutate(value = prod / land) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
