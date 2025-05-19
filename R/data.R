@@ -333,6 +333,18 @@
 #' }
 "land_use_map_vScenarioMIPCMIP7"
 
+#' yield_map_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with yield_map_vScenarioMIPCMIP7
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::yield_map_vScenarioMIPCMIP7
+#' }
+"yield_map_vScenarioMIPCMIP7"
+
 #' food_intake_map_vScenarioMIPCMIP7
 #'
 #' @source github
@@ -930,6 +942,18 @@
 #' }
 "land_use_map_v7.2"
 
+#' yield_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with yield_map_v7.2
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::yield_map_v7.2
+#' }
+"yield_map_v7.2"
+
 #' food_intake_map_v7.2
 #'
 #' @source github
@@ -1526,6 +1550,19 @@
 #' }
 "land_use_map_v7.1"
 
+
+#' yield_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with yield_map_v7.1
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::yield_map_v7.1
+#' }
+"yield_map_v7.1"
+
 #' food_intake_map_v7.1
 #'
 #' @source github
@@ -2120,6 +2157,19 @@
 #' gcamreport::land_use_map_v7.0
 #' }
 "land_use_map_v7.0"
+
+
+#' yield_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with yield_map_v7.0
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::yield_map_v7.0
+#' }
+"yield_map_v7.0"
 
 #' food_intake_map_v7.0
 #'

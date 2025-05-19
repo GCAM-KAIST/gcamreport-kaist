@@ -703,9 +703,9 @@ output-primary/physical-output/node()</xPath>
       <supplyDemandQuery title="ag import vs. domestic supply (Regional Armington competition)">
             <axis1 name="input">input</axis1>
             <axis2 name="Year">demand-physical[@vintage]</axis2>
-            <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' and contains(@name, 'total')]/*[@type='subsector']//*[@type='input']/demand-physical[@unit='Mt' or @unit='billion m3']/node()</xPath>
+            <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' and (contains(@name, 'total') or contains(@name, 'regional'))]/*[@type='subsector']//*[@type='input']/demand-physical[@unit='Mt' or @unit='billion m3']/node()</xPath>
             <comments/>
-      </supplyDemandQuery> 
+      </supplyDemandQuery>
   </aQuery>
    <aQuery>
       <all-regions />

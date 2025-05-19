@@ -90,3 +90,4 @@ production_price_clean;get_production_price;;iron and steel prices,chemical pric
 trn_stock_clean;get_transport_stock;;transport service output by tech and vintage
 trn_sales_clean;get_transport_sales;;transport service output by tech and vintage
 resource_extraction_clean;get_resource_extraction;;resource production
+yield_clean;get_yield;ag_production_clean,land_clean;

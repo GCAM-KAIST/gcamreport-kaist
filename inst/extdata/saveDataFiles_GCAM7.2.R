@@ -92,6 +92,11 @@ land_use_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mapp
 ) %>% gather_map()
 use_data(land_use_map_v7.2, overwrite = T)
 
+yield_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "yield_map.csv"),
+                                               comment = "#"
+)
+use_data(yield_map_v7.2, overwrite = T)
+
 food_intake_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "food_intake_map.csv"),
                               comment = "#"
 ) %>% gather_map()
