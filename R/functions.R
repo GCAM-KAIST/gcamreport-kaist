@@ -1514,11 +1514,10 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
-    dplyr::filter(!grepl('Forestry',var)) %>%
-    # # billion m3 to million m3 for Trade|Forestry
-    # dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
-    #                                      value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
-    #                                      value)) %>%
+    # billion m3 to million m3 for Trade|Forestry
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+                                         value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
+                                         value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
 
@@ -1545,8 +1544,11 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
+    # billion m3 to million m3 for Trade|Forestry
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+                                         value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
+                                         value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
-  # TODO - Forestry import
 
   ag_trade <- merge(ag_trade_exports %>%
                       dplyr::rename(exp = value),
@@ -1559,7 +1561,8 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
                   imp = dplyr::if_else(is.na(imp), 0, imp)) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::mutate(value = exp - imp) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   ag_trade <<- ag_trade
 }
@@ -2322,7 +2325,6 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var))  %>%
-      filter_variables(extra = 'Gross Removals|CO2') %>%
       tidyr::complete(tidyr::nesting(scenario, region, year),
                       var = unique(var),
                       fill = list(value = 0)
@@ -2339,8 +2341,15 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       LUC_emiss %>%
         dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = 'Carbon Removal|Land Use') %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0)),
+      LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
+        dplyr::mutate(var = 'Carbon Removal') %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
-    )
+    ) %>%
+    dplyr::group_by(scenario, region, year, var) %>% #
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup()
 
   # add Gross Removals|CO2 = Carbon Removal
   # add Gross Removals|CO2|AFOLU = Carbon Removal|Land Use"
@@ -2352,8 +2361,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     co2_sequestration %>%
       dplyr::filter(var == 'Carbon Removal|Land Use') %>%
       dplyr::mutate(var = 'Gross Removals|CO2|AFOLU')
-  ) %>%
-    filter_variables()
+  )
 
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
@@ -2364,7 +2372,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      dplyr::filter(grepl('Carbon Removal', var)) %>%
+      dplyr::filter(var == 'Carbon Removal') %>%
       dplyr::mutate(value = value * unit_conv) %>%
       dplyr::select(-var, -unit_conv) %>%
       # desegregate further the items (DAC add only to Emissions|CO2)
@@ -2468,6 +2476,76 @@ get_water_consumption <- function(GCAM_version = "v7.1") {
 
 # Agriculture and land use
 # ==============================================================================================
+
+#' get_yield
+#'
+#' Get agricultural demand.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal ag
+#' @return `yield_clean` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_yield <- function(GCAM_version = "v7.1") {
+  yield_regional <- yield_world <- yield_map <- yield_clean <- NULL
+
+  yield_map <- get(paste('yield_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+
+  yield_regional <- suppressMessages(land_clean %>%
+    dplyr::rename(land = value, land_var = var) %>%
+    dplyr::filter(land_var %in% yield_map$land_var) %>%
+    left_join_strict(yield_map, by = 'land_var') %>%
+    left_join_strict(ag_production_clean %>%
+                       dplyr::rename(prod = value, prod_var = var) %>%
+                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                       prod_var = unique(yield_map$prod_var),
+                                       prod = 0) %>%
+                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup(),
+                     by = c('prod_var','scenario','region','year')) %>%
+    dplyr::mutate(value = prod / land) %>%
+    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+    dplyr::rename(var = yield_var) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+
+  yield_world <- suppressMessages(land_clean %>%
+    dplyr::rename(land = value, land_var = var) %>%
+    dplyr::filter(land_var %in% yield_map$land_var) %>%
+    dplyr::group_by(scenario, land_var, year) %>%
+    dplyr::summarise(land = sum(land)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(region = 'World') %>%
+    left_join_strict(yield_map, by = 'land_var') %>%
+    left_join_strict(ag_production_clean %>%
+                       dplyr::rename(prod = value, prod_var = var) %>%
+                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                       dplyr::group_by(scenario, prod_var, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup() %>%
+                       dplyr::mutate(region = 'World') %>%
+                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                       prod_var = unique(yield_map$prod_var),
+                                       prod = 0) %>%
+                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup(),
+                     by = c('prod_var','scenario','region','year')) %>%
+    dplyr::mutate(value = prod / land) %>%
+    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+    dplyr::rename(var = yield_var) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+
+
+  yield_clean <- rbind(
+    yield_regional,
+    yield_world
+  )
+
+  yield_clean <<- yield_clean
+}
+
 #' get_ag_demand
 #'
 #' Get agricultural demand.
@@ -2642,14 +2720,13 @@ get_ag_production <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('ag_production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_production_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
     # add water content data
     left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
                        dplyr::mutate(sector = GCAM_commodity),
                      by = 'sector') %>%
     # units to annual million t DM
     dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
-    filter_variables() %>%
+    # filter_variables() %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -2679,7 +2756,7 @@ get_land <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    # filter_variables() %>%
     # thous km2 to million ha
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -5369,6 +5446,8 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Food Intake", var),
       # shares
       !grepl("\\[Share\\]", var),
+      # yield
+      !grepl("Yield", var),
     ) %>%
     filter_variables() %>%
     dplyr::group_by(scenario, year, var) %>%
