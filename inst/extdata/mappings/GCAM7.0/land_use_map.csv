@@ -45,6 +45,7 @@ ProtectedUnmanagedForest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 ProtectedUnmanagedHardwood_Forest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 ProtectedUnmanagedPasture,NA,Land Cover,Land Cover|Pasture,,,,,,,0.1
 ProtectedUnmanagedSoftwood_Forest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
+ProtectedUnmanagedForest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 Rice,IRR,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Irrigated,Land Cover|Cropland|Cereals,Land Cover|Cropland|Cereals|Irrigated,,,,0.1
 Rice,RFD,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Rainfed,Land Cover|Cropland|Cereals,Land Cover|Cropland|Cereals|Rainfed,,,,0.1
 RockIceDesert,NA,Land Cover,Land Cover|Other Natural,,,,,,,0.1
@@ -63,6 +64,7 @@ UnmanagedForest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 UnmanagedHardwood_Forest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 UnmanagedPasture,NA,Land Cover,Land Cover|Pasture,,,,,,,0.1
 UnmanagedSoftwood_Forest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
+UnmanagedForest,NA,Land Cover,Land Cover|Forest,,,,,,,0.1
 UrbanLand,NA,Land Cover,Land Cover|Built-Up Area,,,,,,,0.1
 Vegetables,IRR,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Irrigated,Land Cover|Cropland|Other Crops,Land Cover|Cropland|Other Crops|Irrigated,,,,0.1
 Vegetables,RFD,Land Cover,Land Cover|Cropland,Land Cover|Cropland|Rainfed,Land Cover|Cropland|Other Crops,Land Cover|Cropland|Other Crops|Rainfed,,,,0.1

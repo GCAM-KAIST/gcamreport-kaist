@@ -22,3 +22,4 @@ traded soybean,Trade|Agriculture,Trade|Agriculture|Crops,Trade|Agriculture|Crops
 traded sugarcrop,Trade|Agriculture,Trade|Agriculture|Crops,Trade|Agriculture|Crops|Sugar Crops,,,1
 traded vegetables,Trade|Agriculture,Trade|Agriculture|Crops,Trade|Agriculture|Crops|Other Crops,,,1
 traded wheat,Trade|Agriculture,Trade|Agriculture|Crops,Trade|Agriculture|Crops|Cereals,,,1
+traded forest,Trade|Forestry,,,,,1

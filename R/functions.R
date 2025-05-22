@@ -555,7 +555,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
 
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
-      "total climate forcing"
+      "total climate forcing", "primary energy consumption with CCS by region (direct equivalent)"
     )) & ('region' %in% colnames(data))) {
       # check the desired regions are available in the data
       avail_reg <- unique(data$region)
@@ -577,7 +577,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         dplyr::filter(region %in% desired_regions)
     } else if (!(variable %in% c(
         "CO2 concentrations", "global mean temperature",
-        "total climate forcing"
+        "total climate forcing", "primary energy consumption with CCS by region (direct equivalent)"
       )) & ('market' %in% colnames(data))) {
         # check the desired regions are available in the data
         avail_markets <- unique(data$market)
@@ -2495,6 +2495,7 @@ get_yield <- function(GCAM_version = "v7.1") {
     dplyr::rename(land = value, land_var = var) %>%
     dplyr::filter(land_var %in% yield_map$land_var) %>%
     left_join_strict(yield_map, by = 'land_var') %>%
+    dplyr::filter(year <= final_year.global) %>%
     left_join_strict(ag_production_clean %>%
                        dplyr::rename(prod = value, prod_var = var) %>%
                        dplyr::filter(prod_var %in% yield_map$prod_var) %>%
@@ -2503,7 +2504,8 @@ get_yield <- function(GCAM_version = "v7.1") {
                                        prod = 0) %>%
                        dplyr::group_by(scenario, prod_var, region, year) %>%
                        dplyr::summarise(prod = sum(prod)) %>%
-                       dplyr::ungroup(),
+                       dplyr::ungroup() %>%
+                       dplyr::filter(year <= final_year.global),
                      by = c('prod_var','scenario','region','year')) %>%
     dplyr::mutate(value = prod / land) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
@@ -2518,6 +2520,7 @@ get_yield <- function(GCAM_version = "v7.1") {
     dplyr::ungroup() %>%
     dplyr::mutate(region = 'World') %>%
     left_join_strict(yield_map, by = 'land_var') %>%
+    dplyr::filter(year <= final_year.global) %>%
     left_join_strict(ag_production_clean %>%
                        dplyr::rename(prod = value, prod_var = var) %>%
                        dplyr::filter(prod_var %in% yield_map$prod_var) %>%
@@ -2530,7 +2533,8 @@ get_yield <- function(GCAM_version = "v7.1") {
                                        prod = 0) %>%
                        dplyr::group_by(scenario, prod_var, region, year) %>%
                        dplyr::summarise(prod = sum(prod)) %>%
-                       dplyr::ungroup(),
+                       dplyr::ungroup() %>%
+                       dplyr::filter(year <= final_year.global),
                      by = c('prod_var','scenario','region','year')) %>%
     dplyr::mutate(value = prod / land) %>%
     dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
@@ -3776,15 +3780,18 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
     dplyr::filter(!grepl("LUC", market)) %>%
     dplyr::filter(!grepl("global|Global|world|World", market)) %>%
     dplyr::filter(Units == "1990$/tC") %>%
-    tibble::as_tibble()
+    tibble::as_tibble() %>%
+    dplyr::filter(!grepl(paste(ignore.global, collapse = "|"), market))
+
 
   if (nrow(co2_price_fragmented_pre) > 1) {
     CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
-      dplyr::filter(region != 'NoReported')
+      dplyr::filter(region != 'NoReported') %>%
+      dplyr::filter(!grepl(paste(ignore.global, collapse = "|"), market))
 
     co2_price_fragmented <-
       co2_price_fragmented_pre %>%
-      left_join_strict(CO2_market_filteredReg, by = c("market"), mapping = paste('co2_market',GCAM_version,sep='_'), multiple = "all") %>%
+      dplyr::left_join(CO2_market_filteredReg, by = c("market"), multiple = "all") %>%
       dplyr::filter(stats::complete.cases(.)) %>%
       dplyr::mutate(value = value /
                       get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']] *
@@ -5462,8 +5469,6 @@ do_bind_results <- function(GCAM_version = "v7.1") {
 
   # filter to final_year.global
   GCAM_DATA_wGLOBAL <- GCAM_DATA_wGLOBAL %>% dplyr::filter(year <= final_year.global)
-
-
   report_pre <-
     get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
     dplyr::inner_join(
