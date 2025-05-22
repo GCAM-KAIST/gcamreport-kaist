@@ -13,11 +13,7 @@ test_that("Test1_v7. download db, create project, and run", {
   testthat::expect_equal(1, 1)
 
   # create the prj
-<<<<<<< HEAD
-  db_name <- "database_basexdb_ref7"
-=======
   db_name <- "database_basexdb_ref"
->>>>>>> dev_commdef
   prj_name <- "gcamv7.0_test.dat"
   scenarios <- "Reference"
 
@@ -148,11 +144,7 @@ testthat::expect_equal(test_variables, testResult_variables)
 rm(list = ls())
 generate_report(
   db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-  db_name = "database_basexdb_ref7",
-=======
   db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
   prj_name = "gcamv7.1.2_test.dat",
   scenarios = "Reference",
   final_year = 2050,
@@ -174,11 +166,7 @@ testthat::expect_equal(unique(report$Region), c(
 rm(list = ls())
 generate_report(
   db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-  db_name = "database_basexdb_ref7",
-=======
   db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
   prj_name = "gcamv7.1.3_test.dat",
   scenarios = "Reference",
   final_year = 2050,
@@ -212,11 +200,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = "dummy variable",
@@ -228,11 +212,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = c("dummy1", "dummy2"),
@@ -245,11 +225,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = "Final|Energy*",
@@ -261,11 +237,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = c("Final|Energy*", "Emissions CH4*"),
@@ -278,11 +250,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_regions = "dummy region",
@@ -295,11 +263,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_regions = c("dummy1", "dummy2"),
@@ -312,11 +276,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_p1.dat",
       scenarios = "Reference",
       desired_continents = "dummy continent",
@@ -328,11 +288,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_p1.dat",
       scenarios = "Reference",
       desired_continents = c("dummy1", "dummy2"),
@@ -375,11 +331,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_p1.dat",
       scenarios = "Reference",
       desired_regions = "dummy region",
@@ -414,11 +366,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.9_noCreated.dat",
       desired_variables = 'GDP*',
       scenarios = "Reference",
@@ -432,11 +380,7 @@ test_that("Test8_v7.0 error messages", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.9_noCreated.dat",
       desired_variables = 'GDP*',
       scenarios = "Reference",
@@ -452,11 +396,7 @@ test_that("Test8_v7.0 error messages", {
 test_that("Test10v_7.0 vetting", {
   generate_report(
     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-    db_name = "database_basexdb_ref7",
-=======
     db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
     prj_name = "gcamv7.10.1_test.dat",
     scenarios = "Reference",
     final_year = 2050,
@@ -472,11 +412,7 @@ test_that("Test10v_7.0 vetting", {
     rm(list = ls())
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.10.2_test.dat",
       scenarios = "Reference",
       final_year = 2050,
@@ -492,11 +428,7 @@ test_that("Test10v_7.0 vetting", {
   rm(list = ls())
   generate_report(
     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-    db_name = "database_basexdb_ref7",
-=======
     db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
     prj_name = "gcamv7.10.3_test.dat",
     scenarios = "Reference",
     final_year = 2050,
@@ -514,11 +446,7 @@ test_that("Test11v_7.0 scenarios", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.11.1_p1.dat",
       scenarios = c("dummy", "Reference"),
       launch_ui = FALSE,
@@ -530,11 +458,7 @@ test_that("Test11v_7.0 scenarios", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.11.2_p1.dat",
       scenarios = c("dummy1", "dummy2", "Reference"),
       launch_ui = FALSE,
@@ -545,11 +469,7 @@ test_that("Test11v_7.0 scenarios", {
 
   generate_report(
     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-    db_name = "database_basexdb_ref7",
-=======
     db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
     prj_name = "gcamv7.11.3_test_scenarios.dat",
     final_year = 2050,
     desired_regions = "All",
@@ -564,11 +484,7 @@ test_that("Test11v_7.0 scenarios", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.11.4_test_scenarios.dat",
       scenarios = c("dummy", "Reference"),
       launch_ui = FALSE,
@@ -580,11 +496,7 @@ test_that("Test11v_7.0 scenarios", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.11.5_test_scenarios.dat",
       scenarios = c("dummy1", "dummy2", "Reference"),
       launch_ui = FALSE,
@@ -596,11 +508,7 @@ test_that("Test11v_7.0 scenarios", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.11.5_test.dat",
       scenarios = c("dummy1", "dummy2", "Reference"),
       launch_ui = FALSE,
@@ -611,11 +519,7 @@ test_that("Test11v_7.0 scenarios", {
 
   generate_report(
     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-<<<<<<< HEAD
-    db_name = "database_basexdb_ref7",
-=======
     db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
     prj_name = "gcamv7.11.6_test_scenarios.dat",
     final_year = 2050,
     desired_regions = "All",
@@ -688,11 +592,7 @@ test_that("Test13v_7.0 specify queries", {
 
   # generate standardize report specifying the query file
   db_path <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0")
-<<<<<<< HEAD
-  db_name <- "database_basexdb_ref7"
-=======
   db_name <- "database_basexdb_ref"
->>>>>>> dev_commdef
   prj_name <- "gcamv7.1_test_specify_queries.dat"
   scenarios <- "Reference"
   generate_report(db_path = db_path, db_name = db_name, prj_name = prj_name,
@@ -748,11 +648,7 @@ test_that("Test14v_7.0 ghg GWP", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = c("dummy1", "dummy2"),
@@ -766,11 +662,7 @@ test_that("Test14v_7.0 ghg GWP", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = c("dummy1", "dummy2"),
@@ -784,11 +676,7 @@ test_that("Test14v_7.0 ghg GWP", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = c("dummy1", "dummy2"),
@@ -801,11 +689,7 @@ test_that("Test14v_7.0 ghg GWP", {
   expect_error(
     generate_report(
       db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-<<<<<<< HEAD
-      db_name = "database_basexdb_ref7",
-=======
       db_name = "database_basexdb_ref",
->>>>>>> dev_commdef
       prj_name = "gcamv7.8_noCreated.dat",
       scenarios = "Reference",
       desired_variables = c("dummy1", "dummy2"),
