@@ -2389,13 +2389,18 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
   ) %>%
     dplyr::bind_rows(
       # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
+      # All Carbon Removal|Land Use emissions are considered as Re/Afforestation
+      LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
+        dplyr::mutate(var = 'Carbon Removal') %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0)),
       LUC_emiss %>%
         dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = 'Carbon Removal|Land Use') %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0)),
       LUC_emiss %>%
         dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
-        dplyr::mutate(var = 'Carbon Removal') %>%
+        dplyr::mutate(var = 'Carbon Removal|Land Use|Re/Afforestation') %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
     ) %>%
     dplyr::group_by(scenario, region, year, var) %>% #
