@@ -107,6 +107,14 @@ food_items_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/ma
 )
 use_data(food_items_map_v7.2, overwrite = T)
 
+# waste share (waste / supply), exogenously driven per SSP scenario.
+L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
+                                                                            comment = "#"
+) %>%
+  dplyr::rename(ssp = scenario) %>%
+  dplyr::select(-GCAM_region_ID)
+use_data(L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.2, overwrite = T)
+
 
 # primary, secondary, final energy maps
 primary_energy_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "primary_energy_map.csv"),

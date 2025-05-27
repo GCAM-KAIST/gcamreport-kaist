@@ -990,6 +990,18 @@
 #' }
 "food_items_map_v7.2"
 
+#' L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food waste share (waste/supppy) compatible with GCAM7.2
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.2
+#' }
+"L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.2"
+
 #' primary_energy_map_v7.2
 #'
 #' @source github
@@ -1599,6 +1611,18 @@
 #' }
 "food_items_map_v7.1"
 
+#' L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description food waste share (waste/supppy) compatible with GCAM7.1
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.1
+#' }
+"L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.1"
+
 #' primary_energy_map_v7.1
 #'
 #' @source github
@@ -2206,6 +2230,18 @@
 #' gcamreport::food_items_map_v7.0
 #' }
 "food_items_map_v7.0"
+
+#' L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description food waste share (waste/supppy) compatible with GCAM7.0
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.0
+#' }
+"L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.0"
 
 #' primary_energy_map_v7.0
 #'
