@@ -2354,6 +2354,53 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 }
 
 
+#' get_refliq_bioshare
+#'
+#' Get biomass share of feedstocks refined liquids production
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal co2
+#' @return `refliq_bioshare` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_refliq_bioshare <- function(GCAM_version = "v7.1") {
+  scenario <- region <- year <- var <- value <- unit_conv <-
+    refliq_bioshare <- refliq_bioshare_w <- NULL
+
+  check_queries("refliq_bioshare", GCAM_version)
+
+  refliq_bioshare <- check_inf(rgcam::getQuery(prj, "refined liquids production by tech"),
+                        dataset_name = "refined liquids production by tech") %>%
+    dplyr::group_by(scenario, region, subsector, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::mutate(total = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(share = value/total)
+
+
+  refliq_bioshare_w <- refliq_bioshare %>%
+    dplyr::group_by(scenario, subsector, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(scenario, year) %>%
+    dplyr::mutate(total = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(share = value/total,
+                  region = 'World')
+
+  refliq_bioshare <- rbind(
+    refliq_bioshare,
+    refliq_bioshare_w
+  ) %>%
+    dplyr::filter(subsector == 'biomass liquids') %>%
+    dplyr::select(scenario,region,year,share)
+
+  refliq_bioshare <<- refliq_bioshare
+}
+
+
 #' get_co2_sequestration
 #'
 #' Get carbon sequestration.
@@ -2375,14 +2422,24 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
               dataset_name = "CO2 sequestration by tech") %>%
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
-      dplyr::filter(var != 'NoReported', !is.na(var))  %>%
+      dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       tidyr::complete(tidyr::nesting(scenario, region, year),
                       var = unique(var),
                       fill = list(value = 0)
       ) %>%
-      dplyr::filter(!is.na(var)) %>%
-      dplyr::mutate(value = value * unit_conv) %>%
-      dplyr::group_by(scenario, region, year, var) %>% #
+      dplyr::filter(!is.na(var), year > 2005) %>%
+      # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
+      left_join_strict(refliq_bioshare %>%
+                         tidyr::complete(tidyr::nesting(scenario, year),
+                                         region = unique(na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])),
+                                         fill = list(share = 0)
+                         ),
+                       by = c('scenario','region','year')) %>%
+      dplyr::mutate(share = dplyr::if_else(grepl('refliq_bioshare',unit_conv), share, 1),
+                    unit_conv = stringr::str_remove(unit_conv, "Xrefliq_bioshare")) %>%
+      dplyr::mutate(value = value * as.numeric(unit_conv) * share) %>%
+      # aggregate by variable
+      dplyr::group_by(scenario, region, year, var) %>%
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
@@ -2428,9 +2485,18 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      dplyr::filter(var == 'Carbon Removal') %>%
-      dplyr::mutate(value = value * unit_conv) %>%
-      dplyr::select(-var, -unit_conv) %>%
+      dplyr::filter(var == 'Carbon Removal', year >= 2005) %>%
+      # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
+      left_join_strict(refliq_bioshare %>%
+                         tidyr::complete(tidyr::nesting(scenario, year),
+                                         region = unique(na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])),
+                                         fill = list(share = 0)
+                         ),
+                       by = c('scenario','region','year')) %>%
+      dplyr::mutate(share = dplyr::if_else(grepl('refliq_bioshare',unit_conv), share, 1),
+                    unit_conv = stringr::str_remove(unit_conv, "Xrefliq_bioshare")) %>%
+      dplyr::mutate(value = value * as.numeric(unit_conv) * share) %>%
+      dplyr::select(-var, -unit_conv, -share) %>%
       # desegregate further the items (DAC add only to Emissions|CO2)
       left_join_strict(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "subsector", "technology"), mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
@@ -2441,7 +2507,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
                       fill = list(value = 0)
       ) %>%
       dplyr::filter(!is.na(var)) %>%
-      dplyr::group_by(scenario, region, year, var) %>% #
+      dplyr::group_by(scenario, region, year, var) %>%
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
