@@ -1338,9 +1338,60 @@ get_food_availability <- function(GCAM_version = "v7.1") {
   check_queries('food_availability_clean', GCAM_version)
 
   # GCAM does not track consumer waste, so food availability and intake are the reported equally
-  food_availability_clean <- food_intake_clean %>%
-    dplyr::filter(region != 'World') %>% # World value will be the sum, not the weighted average
-    dplyr::mutate(var = gsub('Food Intake','Food Availability',var))
+  food_availability_pre <-  check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
+                                        dataset_name = "food consumption by type (specific)") %>%
+    dplyr::filter(year <= final_year.global, year >= 1990) %>%
+    dplyr::rename(subsector = `subsector...4`) %>%
+    left_join_strict(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    filter_variables() %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, var, GCAM_commodity = technology, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # from Pcal (region/yr) to kcal/cap/day (1Pcal = 1e12kcal)
+    left_join_strict(population_clean %>%
+                       dplyr::rename(pop = value) %>%
+                       dplyr::select(-var),
+                     by = c("scenario", "region", "year"),
+                     multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    filter_variables() %>%
+    dplyr::mutate(value = dplyr::if_else(!is.na(value), value * 1e6 / pop / 365.25, 0)) %>% # pop in million
+    dplyr::mutate(var = gsub('Food Intake','Food Availability',var)) %>%
+    # try to detect SSP scenarios in the scenarios' names. By default SSP2
+    dplyr::mutate(ssp = stringr::str_extract(scenario,'SSP1|SSP2|SSP3|SSP4|SSP5')) %>%
+    dplyr::mutate(ssp = dplyr::if_else(is.na(ssp), 'SSP2', ssp)) %>%
+    dplyr::filter(year > 2005) %>%
+    # merge with L100.AgMIP_FoodWaste_Share_Pathway_SSP
+    left_join_error_no_match(get(paste('L100.AgMIP_FoodWaste_Share_Pathway_SSP',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                             by = c('region','ssp','year','GCAM_commodity')) %>%
+    # calculate food availability
+    dplyr::mutate(value = value / (1-WasteShare))
+
+
+  food_availability_clean <- food_availability_pre %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  food_availability_clean_w <- food_availability_pre %>%
+    # add regional weights (World = 1)
+    left_join_strict(pop_weights, by = c('scenario','region','year')) %>%
+    # compute World weighted average
+    dplyr::mutate(value = value * share) %>%
+    dplyr::group_by(scenario, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::mutate(region = 'World') %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  food_availability_clean <- rbind(
+    food_availability_clean,
+    food_availability_clean_w
+  )
 
   food_availability_clean <<- food_availability_clean
 }
@@ -5446,8 +5497,9 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Forcing", var),
       !grepl("Temperature\\|Global Mean", var),
       !grepl("Concentration\\|CO2", var),
-      # food intake
+      # food intake & availability
       !grepl("Food Intake", var),
+      !grepl("Food Availability", var),
       # shares
       !grepl("\\[Share\\]", var),
       # yield
