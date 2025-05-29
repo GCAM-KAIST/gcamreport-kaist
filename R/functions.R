@@ -34,15 +34,17 @@ interpolateGCAMdata <- function (data, yearcol = 'year', valuecol = 'value',
                                  year_to_appear = base_year) {
 
   # interpolate GCAM data if needed to ensure yearly resolution presence
-  if (!year_to_appear %in% unique(data[[yearcol]])) {
-    years_to_interp <- sort(find_closest_values(unique(data[[yearcol]]), year_to_appear))
+  for (ya in year_to_appear) {
+    if (!ya %in% unique(data[[yearcol]])) {
+      years_to_interp <- sort(find_closest_values(unique(data[[yearcol]]), ya))
 
-    data <- data %>%
-      dplyr::group_by(across(setdiff(names(.), c(yearcol, valuecol)))) %>%
-      tidyr::complete(!!yearcol := sort(unique(c(.data[[yearcol]],tidyr::full_seq(years_to_interp[1]:years_to_interp[2], 1))))) %>%
-      dplyr::arrange(.data[[yearcol]]) %>%
-      dplyr::mutate(!!valuecol := approx(.data[[yearcol]], .data[[valuecol]], .data[[yearcol]], method = "linear", rule = 2)$y) %>%
-      dplyr::ungroup()
+      data <- data %>%
+        dplyr::group_by(across(setdiff(names(.), c(yearcol, valuecol)))) %>%
+        tidyr::complete(!!yearcol := sort(unique(c(.data[[yearcol]],tidyr::full_seq(years_to_interp[1]:years_to_interp[2], 1))))) %>%
+        dplyr::arrange(.data[[yearcol]]) %>%
+        dplyr::mutate(!!valuecol := approx(.data[[yearcol]], .data[[valuecol]], .data[[yearcol]], method = "linear", rule = 2)$y) %>%
+        dplyr::ungroup()
+    }
   }
 
   return(data)
@@ -4534,8 +4536,10 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
 
   cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
     interpolateGCAMdata(valuecol = 'capacity.factor')
+  ya = years_in_prj[years_in_prj%%5 != 0]
+  if (length(ya) == 0) ya = 2020
   iea_capacity <- get(paste('iea_capacity',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    interpolateGCAMdata(yearcol = 'period', year_to_appear = base_year_p)
+    interpolateGCAMdata(yearcol = 'period', year_to_appear = ya)
 
   # check if the mapping files have a mismatch
   tmp1 <- secondary_energy_clean %>%
@@ -4586,7 +4590,7 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
     dplyr::select(technology, cf) %>%
     dplyr::mutate(region = "USA", vintage = base_year_p) %>%
     tidyr::complete(tidyr::nesting(technology, cf),
-                    vintage = unique(c(1990, seq(2005, base_year_p, by = 5), base_year_p)),
+                    vintage = years_in_prj[years_in_prj >= 1990],
                     region = unique(cf_rgn_filteredReg$region)
     )
 
@@ -4638,7 +4642,7 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
     dplyr::mutate(cf = replace(cf, !is.na(cf.rgn), cf.rgn[!is.na(cf.rgn)])) %>%
     # second, use iea capacity consistent cf for existing vintage
     dplyr::bind_rows(cf_iea_filteredReg) %>%
-    tidyr::complete(tidyr::nesting(technology, region), vintage = sort(unique(c(1990, seq(2005, 2100, by = 5), base_year_p)))) %>%
+    tidyr::complete(tidyr::nesting(technology, region), vintage = sort(years_in_prj[years_in_prj >= 1990])) %>%
     dplyr::group_by(technology, region) %>%
     dplyr::mutate(cf = approx_fun(vintage, cf, rule = 2)) %>%
     dplyr::ungroup() %>%
@@ -4763,6 +4767,7 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
                          dplyr::select(-'cf.rgn') %>%
                          dplyr::rename(year = vintage),
                        by = c("region", "technology", "year")) %>%
+      dplyr::distinct() %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
       conv_EJ_GW() %>%
@@ -5011,8 +5016,10 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
   check_queries("elec_investment_clean", GCAM_version)
 
   secondary_energy_map <- get(paste('secondary_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>% dplyr::select(-output)
+  ya = years_in_prj[years_in_prj%%5 != 0]
+  if (length(ya) == 0) ya = 2020
   capital_gcam <- get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    interpolateGCAMdata(valuecol = 'capital.overnight')
+    interpolateGCAMdata(valuecol = 'capital.overnight', year_to_appear = ya)
 
   elec_investment_clean1 <-
     # Electricity investment = annual capacity additions * capital costs
