@@ -797,6 +797,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # for all desired variables, load the corresponding data
   loaded_internal_variables.global <<- c()
+  years_in_prj <<- years_in_prj
   desired_regions.global <<- desired_regions
   desired_variables.global <<- desired_variables
   for (i in 1:nrow(variables.global)) {
