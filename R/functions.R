@@ -406,7 +406,8 @@ left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapp
   if (nrow(unmatched) > 0) {
     left_join_strict_details <- unique(unmatched %>%
                                          dplyr::select(by_message))
-    stop(sprintf("Error: Some rows in the left dataset do not have matching keys in the right dataset. In particular, the mapping %s misses the following rows:\n%s",
+    left_join_strict_details <<- left_join_strict_details
+    stop(sprintf("Error: Some rows in the left dataset do not have matching keys in the right dataset. Type `left_join_strict_details` to see the full log. Some of the rows that the mapping %s miss are:\n%s",
                  mapping,
                  paste(capture.output(print(left_join_strict_details)), collapse = "\n")))
   }
@@ -5143,7 +5144,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
       dplyr::summarise(production = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       # expand the uranium regions, since only USA was present (it is a global market)
-      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = available_regions(print = F)[available_regions(print = F) != 'World'],
+      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'],
                       fill = list(production = 0))
   )
   # fix Uranium regions
@@ -5190,7 +5191,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 dplyr::select(-market) %>%
                 # from 1975$/kg to 1975$/EJ; 1EJ = 0.08314kg
                 dplyr::mutate(value = value / 0.08314) %>%
-                tidyr::expand_grid(region = available_regions(print = F)[available_regions(print = F) != 'World'])) %>%
+                tidyr::expand_grid(region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'])) %>%
         filter_data_regions(),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
@@ -5220,7 +5221,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 dplyr::select(-market) %>%
                 # from 1975$/kg to 1975$/GJ; 1GJ = 83.14kg
                 dplyr::mutate(value = value / 83.14) %>%
-                tidyr::expand_grid(region = available_regions(print = F)[available_regions(print = F) != 'World'])) %>%
+                tidyr::expand_grid(region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'])) %>%
         filter_data_regions(),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
