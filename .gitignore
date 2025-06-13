@@ -246,3 +246,8 @@ R/water_content_computation.R
 R/main_study8.R
 /tests/testthat/Rongqi_prj
 
+inst/extdata/template/GCAM7.2/ScenarioMIP_coreVariables_only-core_0-1-0a8.csv
+inst/extdata/template/GCAM7.2/README_0-1-0a8.md
+inst/extdata/template/GCAM7.2/14885105.zip
+inst/extdata/template/GCAM7.2/ScenarioMIP_coreVariables_full_0-1-0a8.xlsx
+inst/extdata/template/GCAMScenarioMIPCMIP7/updated.xlsx
