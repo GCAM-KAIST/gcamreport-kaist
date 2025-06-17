@@ -244,9 +244,16 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
         bq$regions <- desired_regions
       }
 
-      table <- suppressMessages({
-        rgcam::runQuery(conn, bq$query, sc, bq$regions, warn.empty = FALSE)
-      })
+      # ensure that USA region is read in these queries, which are mapped only to USA
+      if (bq$title %in% c('ag export to the world center (USA) (Intl. Armington competition)')) {
+        table <- suppressMessages({
+          rgcam::runQuery(conn, bq$query, sc, 'USA', warn.empty = FALSE)
+        })
+      } else {
+        table <- suppressMessages({
+          rgcam::runQuery(conn, bq$query, sc, bq$regions, warn.empty = FALSE)
+        })
+      }
       if (nrow(table) > 0) {
         prj_tmp <- rgcam::addQueryTable(
           project = prj_name, qdata = table,
@@ -373,7 +380,7 @@ load_variable <- function(var, GCAM_version = 'v7.1', GWP_version = 'AR5') {
   # if the variable has dependencies, load them
   if (!is.na(var$dependencies)) {
     for (d in var$dependencies[[1]]) {
-      load_variable(variables.global[which(variables.global$name == d), ], GCAM_version, GWP_version)
+      load_variable(.myGlobals$variables.global[which(.myGlobals$variables.global$name == d), ], GCAM_version, GWP_version)
     }
   }
 
@@ -573,6 +580,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
       class(GCAM_version)
     ))
   }
+  .myGlobals$GCAM_version <- GCAM_version
 
   # check that GWP_version is available
   if (is.character(GWP_version)) {
@@ -763,9 +771,9 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # consider only the desired variables
   if (length(desired_variables) == 1 && desired_variables == "All") {
-    variables.global <<- variables_base
+    variables.global <- variables_base
   } else {
-    variables.global <<- variables_base %>%
+    variables.global <- variables_base %>%
       dplyr::mutate(required = dplyr::if_else(
         !name %in% unique(get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
                             dplyr::filter(Variable %in% desired_variables) %>%
@@ -775,26 +783,28 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   }
 
   # make ignore a global variable
-  ignore.global <<- ignore
+  .myGlobals$ignore.global <- ignore
 
   # make interactive a global variable
-  interactive.global <<- interactive
+  .myGlobals$interactive.global <- interactive
 
   rlang::inform("Loading data, performing checks, and saving output...")
 
   # consider the dependencies and checking functions
-  variables.global <<- merge(variables.global,
+  variables.global <- merge(variables.global,
                              get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                              by = "name", all = TRUE) %>%
     tidyr::replace_na(list(required = FALSE))
+  .myGlobals$variables.global <- variables.global
 
   # for all desired variables, load the corresponding data
   loaded_internal_variables.global <<- c()
+  years_in_prj <<- years_in_prj
   desired_regions.global <<- desired_regions
   desired_variables.global <<- desired_variables
-  for (i in 1:nrow(variables.global)) {
-    if (variables.global$required[i]) {
-      load_variable(variables.global[i, ], GCAM_version, GWP_version)
+  for (i in 1:nrow(.myGlobals$variables.global)) {
+    if (.myGlobals$variables.global$required[i]) {
+      load_variable(.myGlobals$variables.global[i, ], GCAM_version, GWP_version)
     }
   }
 
@@ -865,15 +875,15 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # remove internal variables from the environment
   rm(list = loaded_internal_variables.global, envir = .GlobalEnv)
-  rm(list = c("loaded_internal_variables.global", "variables.global"), envir = .GlobalEnv)
+  rm(list = c("loaded_internal_variables.global"), envir = .GlobalEnv)
+  rm(list = c("ignore.global", "variables.global", "interactive.global", "GCAM_version"), envir = .myGlobals)
   gc()
 
   if (launch_ui) {
     rlang::inform("Launching UI...")
 
     # launch ui
-    GCAM_version <<- GCAM_version
-    launch_gcamreport_ui(data = report)
+    launch_gcamreport_ui(data = report, GCAM_version = GCAM_version)
   }
 }
 
@@ -903,9 +913,6 @@ launch_gcamreport_ui <- function(data_path = NULL, data = NULL, GCAM_version = '
   if (!is.null(data_path)) {
     data <- assign("data", get(load(data_path)))
   }
-
-  # make GCAM_version a global variable
-  GCAM_version <<- GCAM_version
 
   # define the dataset for launching the ui
   sdata <<- suppressWarnings(

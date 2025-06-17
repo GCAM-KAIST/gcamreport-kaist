@@ -34,15 +34,17 @@ interpolateGCAMdata <- function (data, yearcol = 'year', valuecol = 'value',
                                  year_to_appear = base_year) {
 
   # interpolate GCAM data if needed to ensure yearly resolution presence
-  if (!year_to_appear %in% unique(data[[yearcol]])) {
-    years_to_interp <- sort(find_closest_values(unique(data[[yearcol]]), year_to_appear))
+  for (ya in year_to_appear) {
+    if (!ya %in% unique(data[[yearcol]])) {
+      years_to_interp <- sort(find_closest_values(unique(data[[yearcol]]), ya))
 
-    data <- data %>%
-      dplyr::group_by(across(setdiff(names(.), c(yearcol, valuecol)))) %>%
-      tidyr::complete(!!yearcol := sort(unique(c(.data[[yearcol]],tidyr::full_seq(years_to_interp[1]:years_to_interp[2], 1))))) %>%
-      dplyr::arrange(.data[[yearcol]]) %>%
-      dplyr::mutate(!!valuecol := approx(.data[[yearcol]], .data[[valuecol]], .data[[yearcol]], method = "linear", rule = 2)$y) %>%
-      dplyr::ungroup()
+      data <- data %>%
+        dplyr::group_by(across(setdiff(names(.), c(yearcol, valuecol)))) %>%
+        tidyr::complete(!!yearcol := sort(unique(c(.data[[yearcol]],tidyr::full_seq(years_to_interp[1]:years_to_interp[2], 1))))) %>%
+        dplyr::arrange(.data[[yearcol]]) %>%
+        dplyr::mutate(!!valuecol := approx(.data[[yearcol]], .data[[valuecol]], .data[[yearcol]], method = "linear", rule = 2)$y) %>%
+        dplyr::ungroup()
+    }
   }
 
   return(data)
@@ -93,7 +95,7 @@ listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRU
     all_years <- unlist(sqlist)
     all_years <- all_years[!is.na(all_years)]
     year_counts <- table(all_years)
-    result <- sort(as.numeric(names(year_counts[year_counts > 10])))
+    result <- sort(as.numeric(names(year_counts[year_counts > length(queries)/2])))
   } else {
     # Intersect case: just intersect all elements
     result <- Reduce(intersect, Reduce(intersect, sqlist))
@@ -354,7 +356,7 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
     warning(sprintf('ATTENTION: The mapping files `%s` and `%s` have a mismatch with the query `%s`.', mapping_name1, mapping_name2, query_name))
   }
 
-  if (interactive.global & interactive()) {
+  if (.myGlobals$interactive.global & interactive()) {
     # prompt for user input
     user_input <- readline(prompt = "Do you want to manually check (M) or continue (C)? Press M or C: ")
 
@@ -383,7 +385,8 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
 #' @param ... Additional arguments passed to `dplyr::left_join()`.
 #' @return A data frame resulting from the left join. If any rows in `left_df` do not have matching keys in `right_df`, an error is thrown.
 #' @export
-left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapping = "", ignore = if (exists("ignore.global")) ignore.global else NULL, ...) {
+left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapping = "",
+                             ignore = if (exists("ignore.global", envir = .myGlobals)) .myGlobals$ignore.global else NULL, ...) {
   # Perform the left join
   result <- dplyr::left_join(left_df, right_df, by = by, ...)
 
@@ -404,7 +407,8 @@ left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapp
   if (nrow(unmatched) > 0) {
     left_join_strict_details <- unique(unmatched %>%
                                          dplyr::select(by_message))
-    stop(sprintf("Error: Some rows in the left dataset do not have matching keys in the right dataset. In particular, the mapping %s misses the following rows:\n%s",
+    left_join_strict_details <<- left_join_strict_details
+    stop(sprintf("Error: Some rows in the left dataset do not have matching keys in the right dataset. Type `left_join_strict_details` to see the full log. Some of the rows that the mapping %s miss are:\n%s",
                  mapping,
                  paste(capture.output(print(left_join_strict_details)), collapse = "\n")))
   }
@@ -555,7 +559,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
 
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
-      "total climate forcing"
+      "total climate forcing", "primary energy consumption with CCS by region (direct equivalent)"
     )) & ('region' %in% colnames(data))) {
       # check the desired regions are available in the data
       avail_reg <- unique(data$region)
@@ -577,7 +581,7 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         dplyr::filter(region %in% desired_regions)
     } else if (!(variable %in% c(
         "CO2 concentrations", "global mean temperature",
-        "total climate forcing"
+        "total climate forcing", "primary energy consumption with CCS by region (direct equivalent)"
       )) & ('market' %in% colnames(data))) {
         # check the desired regions are available in the data
         avail_markets <- unique(data$market)
@@ -1338,9 +1342,60 @@ get_food_availability <- function(GCAM_version = "v7.1") {
   check_queries('food_availability_clean', GCAM_version)
 
   # GCAM does not track consumer waste, so food availability and intake are the reported equally
-  food_availability_clean <- food_intake_clean %>%
-    dplyr::filter(region != 'World') %>% # World value will be the sum, not the weighted average
-    dplyr::mutate(var = gsub('Food Intake','Food Availability',var))
+  food_availability_pre <-  check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
+                                        dataset_name = "food consumption by type (specific)") %>%
+    dplyr::filter(year <= final_year.global, year >= 1990) %>%
+    dplyr::rename(subsector = `subsector...4`) %>%
+    left_join_strict(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    filter_variables() %>%
+    dplyr::mutate(value = value * unit_conv) %>%
+    dplyr::group_by(scenario, region, var, GCAM_commodity = technology, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # from Pcal (region/yr) to kcal/cap/day (1Pcal = 1e12kcal)
+    left_join_strict(population_clean %>%
+                       dplyr::rename(pop = value) %>%
+                       dplyr::select(-var),
+                     by = c("scenario", "region", "year"),
+                     multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    filter_variables() %>%
+    dplyr::mutate(value = dplyr::if_else(!is.na(value), value * 1e6 / pop / 365.25, 0)) %>% # pop in million
+    dplyr::mutate(var = gsub('Food Intake','Food Availability',var)) %>%
+    # try to detect SSP scenarios in the scenarios' names. By default SSP2
+    dplyr::mutate(ssp = stringr::str_extract(scenario,'SSP1|SSP2|SSP3|SSP4|SSP5')) %>%
+    dplyr::mutate(ssp = dplyr::if_else(is.na(ssp), 'SSP2', ssp)) %>%
+    dplyr::filter(year > 2005) %>%
+    # merge with L100.AgMIP_FoodWaste_Share_Pathway_SSP
+    left_join_error_no_match(get(paste('L100.AgMIP_FoodWaste_Share_Pathway_SSP',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                             by = c('region','ssp','year','GCAM_commodity')) %>%
+    # calculate food availability
+    dplyr::mutate(value = value / (1-WasteShare))
+
+
+  food_availability_clean <- food_availability_pre %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  food_availability_clean_w <- food_availability_pre %>%
+    # add regional weights (World = 1)
+    left_join_strict(pop_weights, by = c('scenario','region','year')) %>%
+    # compute World weighted average
+    dplyr::mutate(value = value * share) %>%
+    dplyr::group_by(scenario, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::mutate(region = 'World') %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  food_availability_clean <- rbind(
+    food_availability_clean,
+    food_availability_clean_w
+  )
 
   food_availability_clean <<- food_availability_clean
 }
@@ -1493,11 +1548,11 @@ get_forestry <- function(GCAM_version = "v7.1") {
 #' @importFrom magrittr %>%
 #' @export
 get_ag_trade <- function(GCAM_version = "v7.1") {
-  value <- ag_trade <- NULL
+  value <- ag_trade <- ag_trade_exports <- ag_trade_imports <- NULL
 
   check_queries('ag_trade', GCAM_version)
 
-  ag_trade <-
+  ag_trade_exports <-
     check_inf(rgcam::getQuery(prj, "ag export to the world center (USA) (Intl. Armington competition)"),
               dataset_name = "ag export to the world center (USA) (Intl. Armington competition)") %>%
     dplyr::mutate(region = sub(" traded.*", "", subsector)) %>%
@@ -1520,8 +1575,51 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
                                          value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  ag_trade <<- ag_trade
 
+  ag_trade_imports <-
+    check_inf(rgcam::getQuery(prj, "ag import vs. domestic supply (Regional Armington competition)"),
+              dataset_name = "ag import vs. domestic supply (Regional Armington competition)") %>%
+    dplyr::filter(grepl("imported",subsector)) %>%
+    dplyr::select(-sector) %>%
+    dplyr::rename(sector = input) %>%
+    left_join_strict(get(paste('trade_ag',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = c("sector"), mapping = paste('trade_ag',GCAM_version,sep='_'), multiple = "all") %>%
+    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
+    filter_variables() %>%
+    # add water content data
+    left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::mutate(regional_item = stringr::str_replace(regional_item, 'regional', 'traded')) %>%
+                       dplyr::rename(sector = regional_item),
+                     by = 'sector') %>%
+    left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
+                       dplyr::mutate(item = GCAM_commodity),
+                     by = 'item') %>%
+    # units to annual million t DM
+    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    # billion m3 to million m3 for Trade|Forestry
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+                                         value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
+                                         value)) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  ag_trade <- merge(ag_trade_exports %>%
+                      dplyr::rename(exp = value),
+                    ag_trade_imports %>%
+                      dplyr::rename(imp = value),
+                    by = c('scenario','region','year','var'),
+                    all = T) %>%
+    dplyr::filter(year > 1975) %>%
+    dplyr::mutate(exp = dplyr::if_else(is.na(exp), 0, exp),
+                  imp = dplyr::if_else(is.na(imp), 0, imp)) %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::mutate(value = exp - imp) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  ag_trade <<- ag_trade
 }
 
 #' get_fert_consumption
@@ -1894,9 +1992,7 @@ get_gross_co2_emiss <- function(GCAM_version = "v7.1") {
 
   gross_co2_emiss_clean <- rbind(
     co2_emissions_clean,
-    co2_removal_raw %>%
-      dplyr::mutate(value = -value) # substract Removal items from the total CO2 emission
-    ) %>%
+    co2_removal_raw) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
@@ -2262,6 +2358,53 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 }
 
 
+#' get_refliq_bioshare
+#'
+#' Get biomass share of feedstocks refined liquids production
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal co2
+#' @return `refliq_bioshare` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_refliq_bioshare <- function(GCAM_version = "v7.1") {
+  scenario <- region <- year <- var <- value <- unit_conv <-
+    refliq_bioshare <- refliq_bioshare_w <- NULL
+
+  check_queries("refliq_bioshare", GCAM_version)
+
+  refliq_bioshare <- check_inf(rgcam::getQuery(prj, "refined liquids production by tech"),
+                        dataset_name = "refined liquids production by tech") %>%
+    dplyr::group_by(scenario, region, subsector, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::mutate(total = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(share = value/total)
+
+
+  refliq_bioshare_w <- refliq_bioshare %>%
+    dplyr::group_by(scenario, subsector, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(scenario, year) %>%
+    dplyr::mutate(total = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(share = value/total,
+                  region = 'World')
+
+  refliq_bioshare <- rbind(
+    refliq_bioshare,
+    refliq_bioshare_w
+  ) %>%
+    dplyr::filter(subsector == 'biomass liquids') %>%
+    dplyr::select(scenario,region,year,share)
+
+  refliq_bioshare <<- refliq_bioshare
+}
+
+
 #' get_co2_sequestration
 #'
 #' Get carbon sequestration.
@@ -2283,26 +2426,47 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
               dataset_name = "CO2 sequestration by tech") %>%
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
-      dplyr::filter(var != 'NoReported', !is.na(var))  %>%
-      filter_variables(extra = 'Gross Removals|CO2') %>%
+      dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       tidyr::complete(tidyr::nesting(scenario, region, year),
                       var = unique(var),
                       fill = list(value = 0)
       ) %>%
-      dplyr::filter(!is.na(var)) %>%
-      dplyr::mutate(value = value * unit_conv) %>%
-      dplyr::group_by(scenario, region, year, var) %>% #
+      dplyr::filter(!is.na(var), year > 2005) %>%
+      # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
+      left_join_strict(refliq_bioshare %>%
+                         tidyr::complete(tidyr::nesting(scenario, year),
+                                         region = unique(na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])),
+                                         fill = list(share = 0)
+                         ),
+                       by = c('scenario','region','year')) %>%
+      dplyr::mutate(share = dplyr::if_else(grepl('refliq_bioshare',unit_conv), share, 1),
+                    unit_conv = stringr::str_remove(unit_conv, "Xrefliq_bioshare")) %>%
+      dplyr::mutate(value = value * as.numeric(unit_conv) * share) %>%
+      # aggregate by variable
+      dplyr::group_by(scenario, region, year, var) %>%
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
   ) %>%
     dplyr::bind_rows(
       # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
+      # All Carbon Removal|Land Use emissions are considered as Re/Afforestation
+      LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
+        dplyr::mutate(var = 'Carbon Removal') %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0)),
       LUC_emiss %>%
         dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
         dplyr::mutate(var = 'Carbon Removal|Land Use') %>%
+        dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0)),
+      LUC_emiss %>%
+        dplyr::filter(var == 'Emissions|CO2|AFOLU') %>%
+        dplyr::mutate(var = 'Carbon Removal|Land Use|Re/Afforestation') %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
-    )
+    ) %>%
+    dplyr::group_by(scenario, region, year, var) %>% #
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup()
 
   # add Gross Removals|CO2 = Carbon Removal
   # add Gross Removals|CO2|AFOLU = Carbon Removal|Land Use"
@@ -2314,8 +2478,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     co2_sequestration %>%
       dplyr::filter(var == 'Carbon Removal|Land Use') %>%
       dplyr::mutate(var = 'Gross Removals|CO2|AFOLU')
-  ) %>%
-    filter_variables()
+  )
 
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
@@ -2326,21 +2489,29 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      filter_variables() %>%
-      dplyr::filter(grepl('Carbon Removal', var)) %>%
-      dplyr::mutate(value = value * unit_conv) %>%
-      dplyr::select(-var, -unit_conv) %>%
+      dplyr::filter(var == 'Carbon Removal', year >= 2005) %>%
+      # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
+      left_join_strict(refliq_bioshare %>%
+                         tidyr::complete(tidyr::nesting(scenario, year),
+                                         region = unique(na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])),
+                                         fill = list(share = 0)
+                         ),
+                       by = c('scenario','region','year')) %>%
+      dplyr::mutate(share = dplyr::if_else(grepl('refliq_bioshare',unit_conv), share, 1),
+                    unit_conv = stringr::str_remove(unit_conv, "Xrefliq_bioshare")) %>%
+      dplyr::mutate(value = value * as.numeric(unit_conv) * share) %>%
+      dplyr::select(-var, -unit_conv, -share) %>%
       # desegregate further the items (DAC add only to Emissions|CO2)
       left_join_strict(get(paste('co2_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "subsector", "technology"), mapping = paste('co2_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      filter_variables() %>%
+      filter_variables(extra = 'Emissions|CO2|Other Capture and Removal') %>%
       tidyr::complete(tidyr::nesting(scenario, region, year),
                       var = unique(var),
                       fill = list(value = 0)
       ) %>%
       dplyr::filter(!is.na(var)) %>%
-      dplyr::group_by(scenario, region, year, var) %>% #
+      dplyr::group_by(scenario, region, year, var) %>%
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
@@ -2349,7 +2520,11 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
       # Inverse of CO2_LUC when negative, zero when CO2_LUC is positive
       LUC_emiss %>%
         dplyr::mutate(value = dplyr::if_else(value < 0, -value, 0))
-    )
+    ) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup()
+
 
 
   co2_removal_raw <<- co2_removal_raw
@@ -2427,6 +2602,80 @@ get_water_consumption <- function(GCAM_version = "v7.1") {
 
 # Agriculture and land use
 # ==============================================================================================
+
+#' get_yield
+#'
+#' Get agricultural demand.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal ag
+#' @return `yield_clean` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_yield <- function(GCAM_version = "v7.1") {
+  yield_regional <- yield_world <- yield_map <- yield_clean <- NULL
+
+  yield_map <- get(paste('yield_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+
+  yield_regional <- suppressMessages(land_clean %>%
+    dplyr::rename(land = value, land_var = var) %>%
+    dplyr::filter(land_var %in% yield_map$land_var) %>%
+    left_join_strict(yield_map, by = 'land_var') %>%
+    dplyr::filter(year <= final_year.global) %>%
+    left_join_strict(ag_production_clean %>%
+                       dplyr::rename(prod = value, prod_var = var) %>%
+                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                       prod_var = unique(yield_map$prod_var),
+                                       prod = 0) %>%
+                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup() %>%
+                       dplyr::filter(year <= final_year.global),
+                     by = c('prod_var','scenario','region','year')) %>%
+    dplyr::mutate(value = prod / land) %>%
+    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+    dplyr::rename(var = yield_var) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+
+  yield_world <- suppressMessages(land_clean %>%
+    dplyr::rename(land = value, land_var = var) %>%
+    dplyr::filter(land_var %in% yield_map$land_var) %>%
+    dplyr::group_by(scenario, land_var, year) %>%
+    dplyr::summarise(land = sum(land)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(region = 'World') %>%
+    left_join_strict(yield_map, by = 'land_var') %>%
+    dplyr::filter(year <= final_year.global) %>%
+    left_join_strict(ag_production_clean %>%
+                       dplyr::rename(prod = value, prod_var = var) %>%
+                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                       dplyr::group_by(scenario, prod_var, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup() %>%
+                       dplyr::mutate(region = 'World') %>%
+                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                       prod_var = unique(yield_map$prod_var),
+                                       prod = 0) %>%
+                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                       dplyr::summarise(prod = sum(prod)) %>%
+                       dplyr::ungroup() %>%
+                       dplyr::filter(year <= final_year.global),
+                     by = c('prod_var','scenario','region','year')) %>%
+    dplyr::mutate(value = prod / land) %>%
+    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+    dplyr::rename(var = yield_var) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+
+
+  yield_clean <- rbind(
+    yield_regional,
+    yield_world
+  )
+
+  yield_clean <<- yield_clean
+}
+
 #' get_ag_demand
 #'
 #' Get agricultural demand.
@@ -2601,14 +2850,13 @@ get_ag_production <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('ag_production_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('ag_production_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
     # add water content data
     left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
                        dplyr::mutate(sector = GCAM_commodity),
                      by = 'sector') %>%
     # units to annual million t DM
     dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
-    filter_variables() %>%
+    # filter_variables() %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -2638,7 +2886,7 @@ get_land <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('land_use_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("crop","water"), mapping = paste('land_use_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    # filter_variables() %>%
     # thous km2 to million ha
     dplyr::mutate(value = value * unit_conv) %>%
     dplyr::group_by(scenario, region, year, var) %>%
@@ -2730,10 +2978,22 @@ get_pe_trade_prod <- function(GCAM_version = 'v7.1') {
     check_inf(rgcam::getQuery(prj, "resource production"),
               dataset_name = "resource production") %>%
     dplyr::filter(Units == "EJ") %>%
-    dplyr::filter(resource %in% c("biomass", "coal", "natural gas", "crude oil", "unconventional oil")) %>%
+    dplyr::filter(resource %in% c("coal", "natural gas", "crude oil", "unconventional oil")) %>%
     dplyr::mutate(
       resource = sub("crude oil", "oil", resource),
       resource = sub("unconventional oil", "oil", resource)
+    ) %>%
+    # biomass pe production
+    rbind(
+      check_inf(rgcam::getQuery(prj, "purpose-grown biomass production"),
+                dataset_name = "purpose-grown biomass production") %>%
+        dplyr::rename(resource = sector),
+      check_inf(rgcam::getQuery(prj, "residue biomass production"),
+                dataset_name = "residue biomass production") %>%
+        dplyr::select(-sector) %>%
+        dplyr::rename(resource = output),
+      check_inf(rgcam::getQuery(prj, "MSW production"),
+                dataset_name = "MSW production")
     ) %>%
     dplyr::group_by(scenario, resource, region, year) %>%
     dplyr::summarise(production = sum(value)) %>%
@@ -2799,6 +3059,7 @@ get_pe_trade <- function(GCAM_version = 'v7.1') {
       var = paste0("Trade|Primary Energy|", resource, " [Volume]")
     ) %>%
     filter_variables() %>%
+    dplyr::filter(year > 1975) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   pe_trade <<- pe_trade
@@ -2821,7 +3082,7 @@ get_elec_gen_tech <- function(GCAM_version = "v7.1") {
   check_queries("secondary_energy_clean", GCAM_version)
   check_queries("secondary_energy_raw", GCAM_version)
 
-  secondary_energy_raw <- rbind(
+  secondary_energy_raw1 <- rbind(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech"),
               dataset_name = "elec gen by gen tech"),
     dplyr::bind_rows(
@@ -2842,9 +3103,14 @@ get_elec_gen_tech <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('secondary_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("output", "subsector", "technology"), mapping = paste('secondary_energy_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
     dplyr::mutate(value = value * unit_conv)
 
+  if (!any(grepl('Trade|Investment|Capacity|All',desired_variables.global))) {
+    secondary_energy_raw <- secondary_energy_raw1 %>%
+      filter_variables()
+  } else {
+    secondary_energy_raw <- secondary_energy_raw1
+  }
   secondary_energy_clean <- secondary_energy_raw %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -2896,116 +3162,6 @@ get_secondary_solids <- function(GCAM_version = 'v7.1') {
   secondary_solids <<- secondary_solids
 }
 
-#' get_se_trade_prod
-#'
-#' Retrieve secondary energy trade data.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @keywords internal energy
-#' @return `se_trade_prod` global variable.
-#' @importFrom magrittr %>%
-#' @export
-get_se_trade_prod <- function(GCAM_version = 'v7.1') {
-  Units <- resource <- scenario <- region <- year <- value <- NULL
-
-  check_queries("se_trade_prod", GCAM_version)
-
-  se_trade_prod <-
-    rbind(
-      check_inf(rgcam::getQuery(prj, "elec gen by subsector"),
-                dataset_name = "elec gen by subsector") %>%
-        dplyr::group_by(Units, scenario, region, output, year) %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::ungroup(),
-      check_inf(rgcam::getQuery(prj, "hydrogen production by tech"),
-                dataset_name = "hydrogen production by tech") %>%
-        dplyr::group_by(Units, scenario, region, output = sector, year) %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::ungroup(),
-      check_inf(rgcam::getQuery(prj, "refined liquids production by region"),
-                dataset_name = "refined liquids production by region")
-    ) %>%
-    dplyr::filter(Units == "EJ",
-                  output %in% c("electricity", "H2 central production", "H2 wholesale dispensing", "refining")) %>%
-    dplyr::mutate(
-      output = sub("H2 central production", "hydrogen", output),
-      output = sub("H2 wholesale dispensing", "hydrogen", output)
-    ) %>%
-    dplyr::group_by(scenario, resource = output, region, year) %>%
-    dplyr::summarise(production = sum(value)) %>%
-    dplyr::ungroup()
-
-  se_trade_prod <<- se_trade_prod
-}
-
-
-#' get_se_trade_supply
-#'
-#' Retrieve secondary energy trade supply data for calculating other variables.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @keywords internal energy tmp
-#' @return `se_trade_supply` global variable.
-#' @importFrom magrittr %>%
-#' @export
-get_se_trade_supply <- function(GCAM_version = 'v7.1') {
-  market <- resource <- scenario <- region <- year <- value <- NULL
-
-  check_queries("se_trade_supply", GCAM_version)
-
-  se_trade_supply <- suppressWarnings(
-    check_inf(rgcam::getQuery(prj, "supply of all markets"),
-              dataset_name = "supply of all markets") %>%
-      dplyr::filter(grepl("electricity$", market) | grepl("H2 central production", market) |
-                      grepl("refined liquids enduse", market) | grepl("H2 wholesale", market)) %>%
-      dplyr::mutate(
-        region = stringr::str_extract(market, paste(regions.global, collapse = "|")),
-        resource = stringr::str_remove(market, region)
-      ) %>%
-      dplyr::select(-market) %>%
-      dplyr::filter(resource != "backup_electricity") %>%
-      dplyr::mutate(
-        resource = dplyr::if_else(grepl("H2", resource), "hydrogen", resource),
-        resource = sub("refined liquids enduse", "refining", resource)
-      ) %>%
-      dplyr::group_by(scenario, resource, region, year) %>%
-      dplyr::summarise(demand = sum(value)) %>%
-      dplyr::ungroup()
-  )
-
-  se_trade_supply <<- se_trade_supply
-}
-
-
-#' get_se_trade
-#'
-#' Retrieve secondary energy trade.
-#'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @keywords internal energy tmp
-#' @return `se_trade` global variable
-#' @importFrom magrittr %>%
-#' @export
-get_se_trade <- function(GCAM_version = 'v7.1') {
-  production <- demand <- resource <- se_trade <- NULL
-
-  check_queries("se_trade", GCAM_version)
-
-  se_trade <-
-    se_trade_prod %>%
-    left_join_strict(se_trade_supply, by = c("scenario", "resource", "region", "year")) %>%
-    dplyr::mutate(
-      value = production - demand,
-      resource = sub("refining", "Liquids", resource),
-      resource = sub("electricity", "Electricity", resource),
-      resource = sub("hydrogen", "Hydrogen", resource),
-      var = paste0("Trade|Secondary Energy|", resource, " [Volume]")
-    ) %>%
-    # remove Electricity since it will always be 0
-    dplyr::filter(resource != 'Electricity') %>%
-    filter_variables() %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
-
-  se_trade <<- se_trade
-}
 
 # Final Energy
 # ==============================================================================================
@@ -3210,8 +3366,7 @@ get_total_trade <- function(GCAM_version = "v7.1") {
 
   trade_clean <- rbind(
     ag_trade,
-    pe_trade,
-    se_trade
+    pe_trade
   )
 
   trade_clean <<- trade_clean
@@ -3751,15 +3906,18 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
     dplyr::filter(!grepl("LUC", market)) %>%
     dplyr::filter(!grepl("global|Global|world|World", market)) %>%
     dplyr::filter(Units == "1990$/tC") %>%
-    tibble::as_tibble()
+    tibble::as_tibble() %>%
+    dplyr::filter(!grepl(paste(ignore.global, collapse = "|"), market))
+
 
   if (nrow(co2_price_fragmented_pre) > 1) {
     CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
-      dplyr::filter(region != 'NoReported')
+      dplyr::filter(region != 'NoReported') %>%
+      dplyr::filter(!grepl(paste(ignore.global, collapse = "|"), market))
 
     co2_price_fragmented <-
       co2_price_fragmented_pre %>%
-      left_join_strict(CO2_market_filteredReg, by = c("market"), mapping = paste('co2_market',GCAM_version,sep='_'), multiple = "all") %>%
+      dplyr::left_join(CO2_market_filteredReg, by = c("market"), multiple = "all") %>%
       dplyr::filter(stats::complete.cases(.)) %>%
       dplyr::mutate(value = value /
                       get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_C_CO2']] *
@@ -4051,10 +4209,10 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
     warning('ATTENTION: At least one scenario does not contain CO2 price')
   }
   missing_markets <- setdiff(unique(tmp1$market), c(unique(CO2_market_filteredReg$market),NA))
-  if (length(missing_markets) != 0 & !interactive.global) {
+  if (length(missing_markets) != 0 & !.myGlobals$interactive.global) {
     warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
-  } else if (length(missing_markets) != 0 & interactive.global & interactive()) {
+  } else if (length(missing_markets) != 0 & .myGlobals$interactive.global & interactive()) {
 
     warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
@@ -4380,8 +4538,10 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
 
   cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
     interpolateGCAMdata(valuecol = 'capacity.factor')
+  ya = years_in_prj[years_in_prj%%5 != 0]
+  if (length(ya) == 0) ya = 2020
   iea_capacity <- get(paste('iea_capacity',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    interpolateGCAMdata(yearcol = 'period', year_to_appear = base_year_p)
+    interpolateGCAMdata(yearcol = 'period', year_to_appear = ya)
 
   # check if the mapping files have a mismatch
   tmp1 <- secondary_energy_clean %>%
@@ -4405,7 +4565,7 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
     handle_warning(mapping_name1 = 'iea_capacity', query_name = 'elec gen by gen tech')
   }
 
-  cf_iea <-
+  cf_iea1 <-
     tmp1 %>%
     dplyr::left_join( # left_join already checked
       tmp2,
@@ -4420,12 +4580,19 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
     dplyr::filter(!is.na(cf), !var %in% c("Secondary Energy|Electricity", "Secondary Energy|Electricity|Non-Biomass Renewables")) %>%
     left_join_strict(get(paste('capacity_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = "var", mapping = paste('capacity_map',GCAM_version,sep='_'), multiple = "all") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    dplyr::filter(var != 'NoReported', !is.na(var))
+
+  if (!any(grepl('Trade|Investment|Capacity|All',desired_variables.global))) {
+    cf_iea2 <- cf_iea1 %>%
+      filter_variables()
+  } else {
+    cf_iea2 <- cf_iea1
+  }
+  cf_iea <- cf_iea2 %>%
     dplyr::select(technology, cf) %>%
     dplyr::mutate(region = "USA", vintage = base_year_p) %>%
     tidyr::complete(tidyr::nesting(technology, cf),
-                    vintage = unique(c(1990, seq(2005, base_year_p, by = 5), base_year_p)),
+                    vintage = years_in_prj[years_in_prj >= 1990],
                     region = unique(cf_rgn_filteredReg$region)
     )
 
@@ -4477,7 +4644,7 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
     dplyr::mutate(cf = replace(cf, !is.na(cf.rgn), cf.rgn[!is.na(cf.rgn)])) %>%
     # second, use iea capacity consistent cf for existing vintage
     dplyr::bind_rows(cf_iea_filteredReg) %>%
-    tidyr::complete(tidyr::nesting(technology, region), vintage = sort(unique(c(1990, seq(2005, 2100, by = 5), base_year_p)))) %>%
+    tidyr::complete(tidyr::nesting(technology, region), vintage = sort(years_in_prj[years_in_prj >= 1990])) %>%
     dplyr::group_by(technology, region) %>%
     dplyr::mutate(cf = approx_fun(vintage, cf, rule = 2)) %>%
     dplyr::ungroup() %>%
@@ -4502,7 +4669,7 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
 
   check_queries("elec_capacity_tot_clean", GCAM_version)
 
-  elec_capacity_tot_clean <- suppressWarnings(
+  elec_capacity_tot_clean1 <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech and cooling tech and vintage"),
               dataset_name = "elec gen by gen tech and cooling tech and vintage") %>%
       dplyr::filter(!output %in% c("electricity", "elect_td_bld")) %>%
@@ -4532,8 +4699,16 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('capacity_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
                          dplyr::select(-output),
                        by = c("technology"), mapping = paste('capacity_map',GCAM_version,sep='_'), multiple = "all") %>%
-      dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      filter_variables() %>%
+      dplyr::filter(var != 'NoReported', !is.na(var)))
+
+  if (!any(grepl('Trade|Investment|Capacity|All',desired_variables.global))) {
+    elec_capacity_tot_clean2 <- elec_capacity_tot_clean1 %>%
+      filter_variables()
+  } else {
+    elec_capacity_tot_clean2 <- elec_capacity_tot_clean1
+  }
+
+  elec_capacity_tot_clean <- elec_capacity_tot_clean2 %>%
       dplyr::mutate(
         value = value * unit_conv,
         var = sub("Secondary Energy", "Capacity", var)
@@ -4546,7 +4721,7 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
                       fill = list(value = 0)
       ) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
-  )
+
 
   elec_capacity_tot_clean <<- elec_capacity_tot_clean
 }
@@ -4594,6 +4769,7 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
                          dplyr::select(-'cf.rgn') %>%
                          dplyr::rename(year = vintage),
                        by = c("region", "technology", "year")) %>%
+      dplyr::distinct() %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
       conv_EJ_GW() %>%
@@ -4842,10 +5018,12 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
   check_queries("elec_investment_clean", GCAM_version)
 
   secondary_energy_map <- get(paste('secondary_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>% dplyr::select(-output)
+  ya = years_in_prj[years_in_prj%%5 != 0]
+  if (length(ya) == 0) ya = 2020
   capital_gcam <- get(paste('capital_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    interpolateGCAMdata(valuecol = 'capital.overnight')
+    interpolateGCAMdata(valuecol = 'capital.overnight', year_to_appear = ya)
 
-  elec_investment_clean <-
+  elec_investment_clean1 <-
     # Electricity investment = annual capacity additions * capital costs
     elec_capacity_add %>%
     dplyr::filter(technology != 'hydro') %>%
@@ -4863,8 +5041,16 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
     dplyr::mutate(value = GW * capital.overnight / 1000 *
                     get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']]) %>%
     left_join_strict(secondary_energy_map, by = c("technology", "subsector"), multiple = "all") %>%
-    dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
+    dplyr::filter(var != 'NoReported', !is.na(var))
+
+  if (!any(grepl('Trade|Investment|Capacity|All',desired_variables.global))) {
+    elec_investment_clean2 <- elec_investment_clean1 %>%
+      filter_variables()
+  } else {
+    elec_investment_clean2 <- elec_investment_clean1
+  }
+
+  elec_investment_clean <- elec_investment_clean2 %>%
     dplyr::mutate(
       value = value * unit_conv,
       var = sub("Secondary Energy", "Investment|Energy Supply", var)
@@ -4959,7 +5145,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
       dplyr::summarise(production = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
       # expand the uranium regions, since only USA was present (it is a global market)
-      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = available_regions(print = F)[available_regions(print = F) != 'World'],
+      tidyr::complete(tidyr::nesting(scenario, fuel, year), region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'],
                       fill = list(production = 0))
   )
   # fix Uranium regions
@@ -5006,7 +5192,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 dplyr::select(-market) %>%
                 # from 1975$/kg to 1975$/EJ; 1EJ = 0.08314kg
                 dplyr::mutate(value = value / 0.08314) %>%
-                tidyr::expand_grid(region = available_regions(print = F)[available_regions(print = F) != 'World'])) %>%
+                tidyr::expand_grid(region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'])) %>%
         filter_data_regions(),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
@@ -5036,7 +5222,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 dplyr::select(-market) %>%
                 # from 1975$/kg to 1975$/GJ; 1GJ = 83.14kg
                 dplyr::mutate(value = value / 83.14) %>%
-                tidyr::expand_grid(region = available_regions(print = F)[available_regions(print = F) != 'World'])) %>%
+                tidyr::expand_grid(region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'])) %>%
         filter_data_regions(),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
@@ -5366,7 +5552,7 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
 do_bind_results <- function(GCAM_version = "v7.1") {
   region <- var <- scenario <- year <- value <- . <- na.omit <- Region <- Variable <- NULL
 
-  vars <- variables.global[variables.global$required == TRUE, "name"]
+  vars <- .myGlobals$variables.global[.myGlobals$variables.global$required == TRUE, "name"]
   GCAM_DATA <-
     dplyr::bind_rows(lapply(vars, function(x) get(x))) %>%
     dplyr::mutate(
@@ -5391,10 +5577,13 @@ do_bind_results <- function(GCAM_version = "v7.1") {
       !grepl("Forcing", var),
       !grepl("Temperature\\|Global Mean", var),
       !grepl("Concentration\\|CO2", var),
-      # food intake
+      # food intake & availability
       !grepl("Food Intake", var),
+      !grepl("Food Availability", var),
       # shares
       !grepl("\\[Share\\]", var),
+      # yield
+      !grepl("Yield", var),
     ) %>%
     filter_variables() %>%
     dplyr::group_by(scenario, year, var) %>%
@@ -5412,8 +5601,6 @@ do_bind_results <- function(GCAM_version = "v7.1") {
 
   # filter to final_year.global
   GCAM_DATA_wGLOBAL <- GCAM_DATA_wGLOBAL %>% dplyr::filter(year <= final_year.global)
-
-
   report_pre <-
     get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
     dplyr::inner_join(

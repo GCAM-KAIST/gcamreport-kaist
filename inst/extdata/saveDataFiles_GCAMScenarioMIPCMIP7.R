@@ -92,6 +92,11 @@ land_use_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst
 ) %>% gather_map()
 use_data(land_use_map_vScenarioMIPCMIP7, overwrite = T)
 
+yield_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "yield_map.csv"),
+                              comment = "#"
+)
+use_data(yield_map_vScenarioMIPCMIP7, overwrite = T)
+
 food_intake_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "food_intake_map.csv"),
                                  comment = "#"
 ) %>% gather_map()
@@ -101,6 +106,14 @@ food_items_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "in
                                 comment = "#"
 )
 use_data(food_items_map_vScenarioMIPCMIP7, overwrite = T)
+
+# waste share (waste / supply), exogenously driven per SSP scenario.
+L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
+                                comment = "#"
+) %>%
+  dplyr::rename(ssp = scenario) %>%
+  dplyr::select(-GCAM_region_ID)
+use_data(L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7, overwrite = T)
 
 
 # primary, secondary, final energy maps

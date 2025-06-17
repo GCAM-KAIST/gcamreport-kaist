@@ -10,7 +10,8 @@ left_join_strict(
   by = NULL,
   by_message = by,
   mapping = "",
-  ignore = if (exists("ignore.global")) ignore.global else NULL,
+  ignore = if (exists("ignore.global", envir = .myGlobals)) .myGlobals$ignore.global else
+    NULL,
   ...
 )
 }
