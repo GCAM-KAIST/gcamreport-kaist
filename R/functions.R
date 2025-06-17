@@ -356,7 +356,7 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
     warning(sprintf('ATTENTION: The mapping files `%s` and `%s` have a mismatch with the query `%s`.', mapping_name1, mapping_name2, query_name))
   }
 
-  if (interactive.global & interactive()) {
+  if (.myGlobals$interactive.global & interactive()) {
     # prompt for user input
     user_input <- readline(prompt = "Do you want to manually check (M) or continue (C)? Press M or C: ")
 
@@ -385,7 +385,8 @@ handle_warning <- function(mapping_name1, mapping_name2 = NULL, query_name = NUL
 #' @param ... Additional arguments passed to `dplyr::left_join()`.
 #' @return A data frame resulting from the left join. If any rows in `left_df` do not have matching keys in `right_df`, an error is thrown.
 #' @export
-left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapping = "", ignore = if (exists("ignore.global")) ignore.global else NULL, ...) {
+left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapping = "",
+                             ignore = if (exists("ignore.global", envir = .myGlobals)) .myGlobals$ignore.global else NULL, ...) {
   # Perform the left join
   result <- dplyr::left_join(left_df, right_df, by = by, ...)
 
@@ -4208,10 +4209,10 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
     warning('ATTENTION: At least one scenario does not contain CO2 price')
   }
   missing_markets <- setdiff(unique(tmp1$market), c(unique(CO2_market_filteredReg$market),NA))
-  if (length(missing_markets) != 0 & !interactive.global) {
+  if (length(missing_markets) != 0 & !.myGlobals$interactive.global) {
     warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
-  } else if (length(missing_markets) != 0 & interactive.global & interactive()) {
+  } else if (length(missing_markets) != 0 & .myGlobals$interactive.global & interactive()) {
 
     warning(sprintf('ATTENTION: CO2 markets including:\n %.800s \nare not present in the `co2_market_new` mapping file.',
                     paste(missing_markets, collapse = ", ")))
@@ -5551,7 +5552,7 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
 do_bind_results <- function(GCAM_version = "v7.1") {
   region <- var <- scenario <- year <- value <- . <- na.omit <- Region <- Variable <- NULL
 
-  vars <- variables.global[variables.global$required == TRUE, "name"]
+  vars <- .myGlobals$variables.global[.myGlobals$variables.global$required == TRUE, "name"]
   GCAM_DATA <-
     dplyr::bind_rows(lapply(vars, function(x) get(x))) %>%
     dplyr::mutate(
