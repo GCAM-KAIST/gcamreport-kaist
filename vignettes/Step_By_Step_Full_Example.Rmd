@@ -28,7 +28,7 @@ In this tutorial, we will 1) generate a dataset from a provided GCAM database an
 3) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -96,7 +96,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 3) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -155,14 +155,14 @@ In case you experience some trouble, check this [troubleshooting section](https:
 3) Load the `gcamreport` library:
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 4) Launch the user interface for the standardized dataset:
 
 ``` r
 ## -- load gcamreport library.
-devtools::load_all() # if using Rstudio or Docker
+devtools::load_all(".", reset = TRUE) # if using Rstudio or Docker
 library(gcamreport) # if using R
 
 ## -- store the project path and name in a variable.
@@ -183,7 +183,7 @@ In case you experience some trouble, check this [troubleshooting section](https:
 
 ``` r
 ## -- load gcamreport library.
-devtools::load_all() # if using Rstudio or Docker
+devtools::load_all(".", reset = TRUE) # if using Rstudio or Docker
 library(gcamreport) # if using R
 
 ## -- store the database path, name, and scenarios in a variable.

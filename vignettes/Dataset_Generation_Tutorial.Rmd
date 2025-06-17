@@ -29,7 +29,7 @@ Suppose you have a database from GCAM version *v7.1* named `myDb` in a folder na
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -90,7 +90,7 @@ Suppose you have a project named `myProj.dat` obtained through GCAM 7.1 and you 
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -145,7 +145,7 @@ Suppose you are in the situation of one of the previous examples, but you want t
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -194,7 +194,7 @@ Suppose you are in one of the previous situations, but you want to consider a st
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -244,7 +244,7 @@ Suppose you are in the situation of one of the previous examples, but you want t
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -301,7 +301,7 @@ Suppose you are in the situation of one of the previous examples, but you want t
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
@@ -346,7 +346,7 @@ Let's start with the example: Suppose you have a database named `myDb` of GCAM 7
 2) Load the `gcamreport` library. If you are using Rstudio or Docker, run
 
 ``` r
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 and if you are using R, run
