@@ -275,6 +275,12 @@ do_data_sample <- function(sdata, sel_scen, sel_years, sel_cols, sel_vars, sel_r
 #' @return nested list
 #' @export
 do_mount_tree <- function(df, column_names, current_column = 1, selec = TRUE, iid = NULL) {
+
+  if (current_column > length(column_names)) {
+    # base case: if there are no more rows, return an empty list
+    return("")
+  }
+
   # filter the data frame to include only rows with the current level
   filtered_df <- df[!is.na(df[[column_names[current_column]]]), ]
 
