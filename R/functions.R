@@ -1486,14 +1486,10 @@ get_forestry <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value = sum(value) /
                        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']]) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(var = 'Forestry Demand|Roundwood') %>%
+    dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  forestry_demand_clean <- rbind(
-    forestry_demand,
-    forestry_demand %>%
-      dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood')
-  )
+  forestry_demand_clean <- forestry_demand
 
   # production = domestic + exports
   forestry_exports <-
@@ -1522,14 +1518,10 @@ get_forestry <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value = sum(value) /
                        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']]) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(var = 'Forestry Production|Roundwood') %>%
+    dplyr::mutate(var = 'Forestry Production|Roundwood|Industrial Roundwood') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  forestry_production_clean <- rbind(
-    forestry_production,
-    forestry_production %>%
-      dplyr::mutate(var = 'Forestry Production|Roundwood|Industrial Roundwood')
-  )
+  forestry_production_clean <- forestry_production
 
 
   forestry_demand_clean <<- forestry_demand_clean
