@@ -1476,6 +1476,7 @@ get_forestry <- function(GCAM_version = "v7.1") {
   check_queries('forestry_demand_clean', GCAM_version)
   check_queries('forestry_production_clean', GCAM_version)
 
+  ## INDUSTRIAL ROUNDWOOD
   # demand = domestic + imports
   forestry_demand <-
     check_inf(rgcam::getQuery(prj, "inputs by tech"),
@@ -1509,7 +1510,7 @@ get_forestry <- function(GCAM_version = "v7.1") {
     dplyr::select(-sector,-technology,-input)
 
 
-  forestry_production <- rbind(
+  forestry_production_indroundwood <- rbind(
     forestry_domestic,
     forestry_exports
   ) %>%
@@ -1521,7 +1522,51 @@ get_forestry <- function(GCAM_version = "v7.1") {
     dplyr::mutate(var = 'Forestry Production|Roundwood|Industrial Roundwood') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  forestry_production_clean <- forestry_production
+
+  ## WOOD FUEL
+  # Wood fuel is assumed to be forestry residues (in EJ)
+  check_inf(rgcam::getQuery(prj, "residue biomass production"),
+            dataset_name = "residue biomass production") %>%
+    dplyr::filter(sector == "Forest") %>%
+    dplyr::select(scenario, region, year, WoodFuel_EJ = value) ->
+    ResidueBio_R_Y
+
+  # the goal here is to get Wood fuel in M3 historical years
+  get(paste('WoodFuel_IndRoundwood_ratio',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(year %in% unique(ResidueBio_R_Y$year)) %>%
+    # we can calculate WoodFuel_M3 using Ratio_WoodFuel_IndRoundwood
+    # but need Industrial_Roundwood results in M3
+    dplyr::select(region, year, WoodFuel_m3 = `Wood fuel`) ->
+    WoodFuel_m3
+
+  # join M3 and EJ to compute ratio and apply to future periods
+  ResidueBio_R_Y %>%
+    dplyr::left_join(WoodFuel_m3) %>%
+    dplyr::mutate(WoodFuel_Mm3 = WoodFuel_m3 / 10^6) %>%
+    dplyr::mutate(Ratio_M3_EJ = WoodFuel_Mm3 / WoodFuel_EJ) %>%
+    dplyr::group_by(region) %>%
+    tidyr::fill(Ratio_M3_EJ, .direction = "down") %>%
+    dplyr::mutate(WoodFuel_Mm3 = WoodFuel_EJ * Ratio_M3_EJ) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(scenario, region, year, value = WoodFuel_Mm3) %>%
+    dplyr::mutate(var = 'Forestry Production|Roundwood|Wood Fuel')->
+    forestry_production_woodfuel
+
+
+  forestry_production <- rbind(
+    forestry_production_woodfuel,
+    forestry_production_indroundwood
+  )
+
+  forestry_production_clean <- rbind(
+    forestry_production,
+    forestry_production %>%
+      dplyr::mutate(var = 'Forestry Production|Roundwood')
+  ) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
 
   forestry_demand_clean <<- forestry_demand_clean

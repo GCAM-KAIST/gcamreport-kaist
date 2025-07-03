@@ -1000,6 +1000,18 @@
 #' }
 "L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7"
 
+#' WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description wood fuel - industrial roundwood ratio; compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7
+#' }
+"WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7"
+
 #' primary_energy_map_vScenarioMIPCMIP7
 #'
 #' @source github

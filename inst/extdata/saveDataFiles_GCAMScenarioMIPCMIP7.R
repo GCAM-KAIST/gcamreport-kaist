@@ -115,6 +115,13 @@ L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7 <- readr::read_csv(file
   dplyr::select(-GCAM_region_ID)
 use_data(L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7, overwrite = T)
 
+# wood fuel - industrial roundwood
+WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "FAO_GCAM_Ratio_WoodFuel_IndRoundwood_R_Yh.csv"),
+                                                    comment = "#"
+)
+use_data(WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7, overwrite = T)
+
+
 
 # primary, secondary, final energy maps
 primary_energy_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "primary_energy_map.csv"),
