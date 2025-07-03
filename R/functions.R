@@ -1342,7 +1342,7 @@ get_food_availability <- function(GCAM_version = "v7.1") {
   check_queries('food_availability_clean', GCAM_version)
 
   # GCAM does not track consumer waste, so food availability and intake are the reported equally
-  food_availability_pre <-  check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
+  food_availability_pre <- check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
                                         dataset_name = "food consumption by type (specific)") %>%
     dplyr::filter(year <= final_year.global, year >= 1990) %>%
     dplyr::rename(subsector = `subsector...4`) %>%
@@ -1374,13 +1374,26 @@ get_food_availability <- function(GCAM_version = "v7.1") {
     # calculate food availability
     dplyr::mutate(value = value / (1-WasteShare))
 
+  # remove "OtherMeat_Fish" from Livestock but including it in All
+  food_availability_all <- food_availability_pre %>%
+    dplyr::mutate(var = 'Food Availability [per capita]')
 
+  food_availability_filtered <- food_availability_pre %>%
+    dplyr::filter(GCAM_commodity != "OtherMeat_Fish")
+
+  food_availability_pre <- rbind(
+    food_availability_all,
+    food_availability_filtered
+  )
+
+  # Compute total by var
   food_availability_clean <- food_availability_pre %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  # World value: pop weighted average
   food_availability_clean_w <- food_availability_pre %>%
     # add regional weights (World = 1)
     left_join_strict(pop_weights, by = c('scenario','region','year')) %>%
@@ -1415,7 +1428,7 @@ get_food_intake <- function(GCAM_version = "v7.1") {
 
   check_queries('food_intake_clean', GCAM_version)
 
-  food_intake_clean <-
+  food_intake_pre <-
     check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
               dataset_name = "food consumption by type (specific)") %>%
     dplyr::filter(year <= final_year.global, year >= 1990) %>%
@@ -1425,7 +1438,7 @@ get_food_intake <- function(GCAM_version = "v7.1") {
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     filter_variables() %>%
     dplyr::mutate(value = value * unit_conv) %>%
-    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::group_by(scenario, region, var, GCAM_commodity = technology, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # from Pcal (region/yr) to kcal/cap/day (1Pcal = 1e12kcal)
@@ -1436,11 +1449,29 @@ get_food_intake <- function(GCAM_version = "v7.1") {
                      multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     filter_variables() %>%
-    dplyr::mutate(value = value * 1e6 / pop / 365.25) %>% # pop in million
+    dplyr::mutate(value = value * 1e6 / pop / 365.25) # pop in million
+
+  # remove "OtherMeat_Fish" from Livestock but including it in All
+  food_intake_all <- food_intake_pre %>%
+    dplyr::mutate(var = 'Food Intake [per capita]')
+
+  food_intake_filtered <- food_intake_pre %>%
+    dplyr::filter(GCAM_commodity != "OtherMeat_Fish")
+
+  food_intake_pre <- rbind(
+    food_intake_all,
+    food_intake_filtered
+  )
+
+  # Compute total by var
+  food_intake_clean <- food_intake_pre %>%
+    dplyr::group_by(scenario, region, var, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   # World value: pop weighted average
-  food_intake_clean_w <- food_intake_clean %>%
+  food_intake_clean_w <- food_intake_pre %>%
     # add regional weights (World = 1)
     left_join_strict(pop_weights, by = c('scenario','region','year')) %>%
     # compute World weighted average
