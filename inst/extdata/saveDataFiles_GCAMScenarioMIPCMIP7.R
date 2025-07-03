@@ -121,6 +121,12 @@ WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDa
 )
 use_data(WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7, overwrite = T)
 
+# cereal yield and land scalar
+cereal_scaler_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "GCAM_Yield_R_Cereals_Scaler_Y.csv"),
+                                                    comment = "#"
+)
+use_data(cereal_scaler_vScenarioMIPCMIP7, overwrite = T)
+
 
 
 # primary, secondary, final energy maps

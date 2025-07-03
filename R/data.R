@@ -1012,6 +1012,18 @@
 #' }
 "WoodFuel_IndRoundwood_ratio_vScenarioMIPCMIP7"
 
+#' cereal_scaler_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description cereal yield and physical land scaler; compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::cereal_scaler_vScenarioMIPCMIP7
+#' }
+"cereal_scaler_vScenarioMIPCMIP7"
+
 #' primary_energy_map_vScenarioMIPCMIP7
 #'
 #' @source github
