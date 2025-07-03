@@ -1509,7 +1509,7 @@ get_forestry <- function(GCAM_version = "v7.1") {
 
   ## INDUSTRIAL ROUNDWOOD
   # demand = domestic + imports
-  forestry_demand <-
+  forestry_demand_indroundwood <-
     check_inf(rgcam::getQuery(prj, "inputs by tech"),
               dataset_name = "inputs by tech") %>%
     dplyr::filter(grepl('regional industrial_roundwood', sector)) %>%
@@ -1520,8 +1520,6 @@ get_forestry <- function(GCAM_version = "v7.1") {
     dplyr::ungroup() %>%
     dplyr::mutate(var = 'Forestry Demand|Roundwood|Industrial Roundwood') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
-
-  forestry_demand_clean <- forestry_demand
 
   # production = domestic + exports
   forestry_exports <-
@@ -1584,6 +1582,7 @@ get_forestry <- function(GCAM_version = "v7.1") {
     forestry_production_woodfuel
 
 
+  # aggregate
   forestry_production <- rbind(
     forestry_production_woodfuel,
     forestry_production_indroundwood
@@ -1593,6 +1592,26 @@ get_forestry <- function(GCAM_version = "v7.1") {
     forestry_production,
     forestry_production %>%
       dplyr::mutate(var = 'Forestry Production|Roundwood')
+  ) %>%
+    dplyr::group_by(scenario, region, year, var) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+
+
+  forestry_demand_woodfuel <- forestry_production_woodfuel %>%
+    dplyr::mutate(var = 'Forestry Demand|Roundwood|Wood Fuel')
+
+  forestry_demand <- rbind(
+    forestry_demand_woodfuel,
+    forestry_demand_indroundwood
+  )
+
+  forestry_demand_clean <- rbind(
+    forestry_demand,
+    forestry_demand %>%
+      dplyr::mutate(var = 'Forestry Demand|Roundwood')
   ) %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value)) %>%

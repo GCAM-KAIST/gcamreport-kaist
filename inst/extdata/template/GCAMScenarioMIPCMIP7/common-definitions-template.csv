@@ -4879,7 +4879,7 @@ Forestry Demand|Roundwood,Total roundwood demand,million m3/yr,1,forestry_demand
 Forestry Demand|Roundwood|Industrial Roundwood,Demand for industrial roundwood,million m3/yr,2,forestry_demand_clean,done,,,,,,,,,,,,,,,
 Forestry Demand|Roundwood|Industrial Roundwood|Energy Use,Demand for industrial roundwood for energy use,million m3/yr,2,,,,,,,,,,,,,,,,,
 Forestry Demand|Roundwood|Industrial Roundwood|Material Use,Demand for industrial roundwood to be used as material for wood products,million m3/yr,2,,,,,,,,,,,,,,,,,
-Forestry Demand|Roundwood|Wood Fuel,Demand for wood fuel,million m3/yr,2,,,,,,,,,,,,,,,,,
+Forestry Demand|Roundwood|Wood Fuel,Demand for wood fuel,million m3/yr,2,forestry_demand_clean,,,,,,,,,,,,,,,,
 Forestry Demand|Semi-Finished|Chemical Pulp,Demand for chemical pulp,million t DM/yr,3,,,,,,,,,,,,,,,,,
 Forestry Demand|Semi-Finished|Fiberboard,Demand for fiberboard,million m3/yr,3,,,,,,,,,,,,,,,,,
 Forestry Demand|Semi-Finished|Mechanical Pulp,Demand for mechanical pulp,million t DM/yr,3,,,,,,,,,,,,,,,,,
