@@ -23,6 +23,7 @@ co2_removal_raw;get_co2_sequestration;LUC_emiss,refliq_bioshare;CO2 sequestratio
 ag_demand_clean;get_ag_demand;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
 ag_production_clean;get_ag_production;;ag production by crop type,meat and dairy production by type
 land_clean;get_land;;land allocation by crop and water source
+land_yield;get_land;;land allocation by crop and water source
 primary_energy_clean;get_primary_energy;;primary energy consumption with CCS by region (direct equivalent)
 pe_trade_prod;get_pe_trade_prod;;resource production,purpose-grown biomass production,residue biomass production,MSW production
 pe_trade_supply;get_pe_trade_supply;;supply of all markets
@@ -92,5 +93,5 @@ trn_sales_clean;get_transport_sales;;transport service output by tech and vintag
 resource_extraction_clean;get_resource_extraction;;resource production
 income_clean;get_income;;subregional income
 consumption_hh_clean;get_consumption_hh;;building total final energy by service
-yield_clean;get_yield;ag_production_clean,land_clean;
+yield_clean;get_yield;ag_production_clean,land_yield;
 refliq_bioshare;get_refliq_bioshare;;refined liquids production by tech
