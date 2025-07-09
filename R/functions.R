@@ -1575,10 +1575,12 @@ get_forestry <- function(GCAM_version = "v7.1") {
     dplyr::mutate(Ratio_M3_EJ = WoodFuel_Mm3 / WoodFuel_EJ) %>%
     dplyr::group_by(region) %>%
     tidyr::fill(Ratio_M3_EJ, .direction = "down") %>%
+    # tmp adjustment: adjust China for future time periods
+    dplyr::mutate(Ratio_M3_EJ = dplyr::if_else(region == "China" & year >= 2025, Ratio_M3_EJ /10, Ratio_M3_EJ)) %>%
     dplyr::mutate(WoodFuel_Mm3 = WoodFuel_EJ * Ratio_M3_EJ) %>%
     dplyr::ungroup() %>%
     dplyr::select(scenario, region, year, value = WoodFuel_Mm3) %>%
-    dplyr::mutate(var = 'Forestry Production|Roundwood|Wood Fuel')->
+    dplyr::mutate(var = 'Forestry Production|Roundwood|Wood Fuel') ->
     forestry_production_woodfuel
 
 
