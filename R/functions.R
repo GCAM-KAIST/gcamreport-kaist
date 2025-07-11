@@ -2968,6 +2968,7 @@ get_land <- function(GCAM_version = "v7.1") {
   value <- unit_conv <- scenario <- region <- year <- var <- land_clean <- land_yield <- landleaf <- NULL
 
   check_queries("land_clean", GCAM_version)
+  cereal_scalar <- get(paste('cereal_scaler',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
 
   land_tmp <-
     check_inf(rgcam::getQuery(prj, "land allocation by crop and water source"),
@@ -2979,20 +2980,47 @@ get_land <- function(GCAM_version = "v7.1") {
     # apply scaler to consider the harvest mistmatch
     dplyr::mutate(GCAM_commodity = crop) %>%
     dplyr::mutate(GCAM_commodity = dplyr::if_else(GCAM_commodity == 'CornC4', 'Corn', GCAM_commodity)) %>%
-    dplyr::left_join(get(paste('cereal_scaler',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+    dplyr::left_join(cereal_scalar,
                      by = c("region","GCAM_commodity","year")) %>%
-    dplyr::mutate(value = dplyr::if_else(!is.na(PhysicalLand_scaler), value * PhysicalLand_scaler, value)) %>%
-    # thous km2 to million ha
-    dplyr::mutate(value = value * unit_conv)
+    dplyr::distinct()
 
-  land_tmp2 <- land_tmp %>%
+  # adjustment - goal: keep the total physical land value adjusting the cereal crops (Corn, OtherGrain, Rice, Wheat)
+  # so, the physical land of non-cereal crops will be reduced by a ratio (all crops the same percentage)
+  land_adj <- land_tmp %>%
+    # distinguisth betweeen cereal and non-ceral crops
+    dplyr::mutate(cereal_crop = dplyr::if_else(GCAM_commodity %in% unique(cereal_scalar$GCAM_commodity), TRUE, FALSE)) %>%
+    # total regional physical land before the cereal adjustment
+    dplyr::group_by(Units, scenario, region, year) %>%
+    dplyr::mutate(total_annual_R_cereal = sum(value[cereal_crop]),
+                  total_annual_R_noncereal = sum(value[!cereal_crop])) %>%
+    dplyr::ungroup() %>%
+    # apply the cereal adjustment and compute the ratio to adjust the non-cereal physical lands
+    dplyr::mutate(value_adj = dplyr::if_else(!is.na(PhysicalLand_scaler), value * PhysicalLand_scaler, value)) %>%
+    dplyr::group_by(Units, scenario, region, year) %>%
+    # dplyr::mutate(total_annual_R_adj1 = sum(value_adj)) %>%
+    dplyr::mutate(total_annual_R_adj1_cereal = sum(value_adj[cereal_crop])) %>%
+    dplyr::mutate(ratio_adj1 = (total_annual_R_adj1_cereal - total_annual_R_cereal) / total_annual_R_noncereal) %>%
+    dplyr::ungroup() %>%
+    # apply the ratio to non-cereal physical lands
+    dplyr::mutate(value_adj = dplyr::if_else(!cereal_crop,
+                                             value_adj * (1 - ratio_adj1), value_adj)) %>%
+    # # checker
+    # dplyr::group_by(Units, scenario, region, year) %>%
+    # dplyr::mutate(checker = sum(value_adj)) %>%
+    # dplyr::ungroup() %>%
+    # dplyr::mutate(diff_checker = total_annual_R_cereal + total_annual_R_noncereal - checker)
+    # thous km2 to million ha
+    dplyr::mutate(value = value_adj * unit_conv) %>%
+    dplyr::select(-ratio_adj1, -total_annual_R_adj1_cereal, -total_annual_R_noncereal, -total_annual_R_cereal, -value_adj, -cereal_crop)
+
+  land_tmp2 <- land_adj %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   # forest area change (annual diff between reported years)
-  land_achange <- land_tmp %>%
+  land_achange <- land_adj %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -3019,7 +3047,7 @@ get_land <- function(GCAM_version = "v7.1") {
 
   # consider land cover to estimate yield (undo the PhysicalLand_scaler and divide
   # by Yield_scaler, so that the final Yield value will be multiplied by Yield_scaler)
-  land_yield <- land_tmp %>%
+  land_yield <- land_adj %>%
     dplyr::mutate(value = dplyr::if_else(!is.na(PhysicalLand_scaler), (value / PhysicalLand_scaler) / Yield_scaler, value))
 
   land_yield2 <- land_yield %>%
