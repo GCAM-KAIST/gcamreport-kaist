@@ -2249,16 +2249,17 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
   var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
   queryItem1 <- var_fun_map[var_fun_map$name == "nonco2_clean", "queries"][[1]][1]
   queryItem2 <- var_fun_map[var_fun_map$name == "nonco2_clean", "queries"][[1]][2]
+  nonco2_emis_sector_map <- get(paste('nonco2_emis_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
 
   nonco2_tmp <-
     check_inf(rgcam::getQuery(prj, queryItem1), dataset_name = queryItem1)
   nonco2_agg <- nonco2_tmp %>%
     dplyr::filter(!(grepl('UnmanagedLand', sector) & grepl('ForestFire|GrasslandFires', subsector))) %>%
     dplyr::filter(!(grepl('urban processes', sector) & grepl('landfills|wastewater|waste_incineration', subsector))) %>%
-    dplyr::group_by(Units, scenario, region, sector, ghg, year) %>%
+    dplyr::mutate(subsector = dplyr::if_else(subsector %in% unique(nonco2_emis_sector_map$subsector),subsector,NA)) %>%
+    dplyr::group_by(Units, scenario, region, sector, subsector, ghg, year) %>%
     dplyr::summarise(value = sum(value)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(subsector = NA)
+    dplyr::ungroup()
 
   if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
     nonco2_agg <- nonco2_agg %>%
@@ -2289,7 +2290,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
               dplyr::summarise(value = sum(value)) %>%
               dplyr::ungroup()) %>%
       dplyr::filter(!grepl('CO2',ghg)) %>%
-      left_join_strict(get(paste('nonco2_emis_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+      left_join_strict(nonco2_emis_sector_map,
                        by = c("ghg", "sector", "subsector"), mapping = paste('nonco2_emis_sector_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many"),
     check_inf(rgcam::getQuery(prj, queryItem2),
               dataset_name = queryItem2) %>%
@@ -2329,7 +2330,7 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     check_inf(rgcam::getQuery(prj, "nonCO2 emissions by region"),
               dataset_name = "nonCO2 emissions by region") %>%
     dplyr::filter(!grepl("CO2_ETS", ghg)) %>%
-    conv_ghg_co2e(GWP_version = GWP_version) %>%
+    conv_ghg_co2e(GWP_version = GWP_version, GCAM_version = GCAM_version) %>%
     dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -2363,6 +2364,8 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
   queryItem2 <- var_fun_map[var_fun_map$name == "kyoto_gases_clean", "queries"][[1]][2]
   queryItem3 <- var_fun_map[var_fun_map$name == "kyoto_gases_clean", "queries"][[1]][3]
 
+  kyoto_sector_map <- get(paste('kyoto_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+
   kyoto_gases_1 <- check_inf(rgcam::getQuery(prj, queryItem1), dataset_name = queryItem1)
 
   kyoto_gases_fires <- kyoto_gases_1 %>% # Land|Fires|Forest Burning
@@ -2385,10 +2388,10 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
   kyoto_gases_agg <- kyoto_gases_1 %>%
     dplyr::filter(!(grepl('UnmanagedLand', sector) & grepl('ForestFire|GrasslandFires', subsector))) %>%
     dplyr::filter(!(grepl('urban processes', sector) & grepl('landfills|wastewater|waste_incineration', subsector))) %>%
-    dplyr::group_by(Units, scenario, region, sector, ghg, year) %>%
+    dplyr::mutate(sec_subsector  = dplyr::if_else(subsector %in% unique(kyoto_sector_map$subsector),subsector,NA)) %>%
+    dplyr::group_by(Units, scenario, region, sector, sec_subsector , ghg, year) %>%
     dplyr::summarise(value = sum(value)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(sec_subsector = NA)
+    dplyr::ungroup()
 
   kyoto_gases_2 <- dplyr::bind_rows(kyoto_gases_fires,
                                     kyoto_gases_waste,
@@ -2402,9 +2405,12 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::bind_rows(check_inf(rgcam::getQuery(prj, queryItem3),
                                dataset_name = queryItem3) %>%
                        dplyr::mutate(ghg = "CO2") %>%
-                       dplyr::mutate(sec_subsector = NA)) %>%
+                       dplyr::mutate(sec_subsector  = dplyr::if_else(subsector %in% unique(kyoto_sector_map$subsector),subsector,NA)) %>%
+                       dplyr::group_by(Units, scenario, region, sector, sec_subsector , ghg, year) %>%
+                       dplyr::summarise(value = sum(value)) %>%
+                       dplyr::ungroup()) %>%
     dplyr::mutate(subsector = sector) %>%
-    conv_ghg_co2e(GWP_version = GWP_version) %>%
+    conv_ghg_co2e(GWP_version = GWP_version, GCAM_version = GCAM_version) %>%
     dplyr::filter(variable %in% get(paste('GHG_gases',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
     dplyr::rename(ghg = variable,
                   ghg_sector = sector,
@@ -2422,10 +2428,11 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
   }
 
   kyoto_gases_clean <- kyoto_gases_2 %>%
-    left_join_strict(get(paste('kyoto_sector_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    left_join_strict(kyoto_sector_map %>%
                        dplyr::select(-unit_conv) %>%
                        dplyr::mutate(ghg_sector = dplyr::if_else(is.na(ghg_sector), 'none', ghg_sector)),
-                     by = c("ghg", "ghg_sector", "sector", "subsector"), mapping = paste('kyoto_sector_map',GCAM_version,sep='_'), multiple = "all") %>%
+                     by = c("ghg", "ghg_sector", "sector", "subsector"),
+                     mapping = paste('kyoto_sector_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     filter_variables() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
