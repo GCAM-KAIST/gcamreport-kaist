@@ -2622,6 +2622,15 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
     dplyr::ungroup()
 
 
+  # add 0 to Carbon Removal|Ocean since GCAM does not report it
+  co2_sequestration_clean <- rbind(
+    co2_sequestration_clean,
+    co2_sequestration_clean %>%
+      dplyr::mutate(var = 'Carbon Removal|Ocean',
+                    value = 0
+      ) %>%
+      dplyr::distinct()
+  )
 
   co2_removal_raw <<- co2_removal_raw
   co2_sequestration_clean <<- co2_sequestration_clean
