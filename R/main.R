@@ -553,6 +553,7 @@ available_variables <- function(print = TRUE, GCAM_version = 'v7.1') {
 #' @param queries_general_file Optional. Full path to a general XML query file (including file name and extension). Defaults to a general query file compatible with the specified `GCAM_version` that reports all standardized variables.
 #' @param queries_nonCO2_file Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by subsector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.
 #' @param interactive If `TRUE` (not default), asks the user what to do when Warnings appear. Otherwise, the Warnings are displayed at the end of the script.
+#' @param all_tier1 If `TRUE` (not default), introduce all Tier 1 Variables (as 0) in the standardized report.
 #'
 #' @return Saves RData, CSV, and XLSX files with standardized variables, launches the user interface, and saves the GCAM project file if created.
 #' @export
@@ -560,7 +561,8 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
                             desired_variables = "All", ignore = NULL, desired_regions = "All", desired_continents = "All",
                             save_output = TRUE, output_file = NULL, launch_ui = TRUE, interactive = F,
                             GCAM_version = 'v7.1', GWP_version = 'AR5',
-                            queries_general_file = NULL, queries_nonCO2_file = NULL) {
+                            queries_general_file = NULL, queries_nonCO2_file = NULL,
+                            all_tier1 = F) {
   continent <- region <- name <- Variable <- Internal_variable <- required <- prj_loaded <- NULL
 
   # boolean variable
@@ -819,7 +821,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   }
 
   # bind and save results
-  do_bind_results(GCAM_version)
+  do_bind_results(GCAM_version, all_tier1)
   save(report, file = paste0(output_file, ".RData"))
 
   if (save_output == TRUE || save_output %in% c("CSV", "XLSX")) {

@@ -5708,11 +5708,12 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
 #'
 #' Binds results and saves them to an output file.#'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param all_tier1 If `TRUE` (not default), introduce all Tier 1 Variables (as 0) in the standardized report.
 #' @keywords internal process
 #' @return Saved results in an output file.
 #' @importFrom magrittr %>%
 #' @export
-do_bind_results <- function(GCAM_version = "v7.1") {
+do_bind_results <- function(GCAM_version = "v7.1", all_tier1 = F) {
   region <- var <- scenario <- year <- value <- . <- na.omit <- Region <- Variable <- NULL
 
   vars <- .myGlobals$variables.global[.myGlobals$variables.global$required == TRUE, "name"]
@@ -5814,6 +5815,55 @@ do_bind_results <- function(GCAM_version = "v7.1") {
     report <- report %>%
       dplyr::filter(Variable %in% desired_variables.global)
   }
+
+  # Add all Tier 1 variables; if not present, set them as 0. Set also to 0 the
+  # missing region-variable combinations
+  if (all_tier1) {
+    tier1_variables <- get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+      # only Tier 1 variables
+      dplyr::filter(Tier == 1)
+
+    missing_tier1_variables <- tier1_variables %>%
+      # only variables not already present in the standardized report
+      dplyr::anti_join(report, by = c("Variable")) %>%
+      # select only some variables (the required ones)
+      dplyr::filter(grepl('Carbon Capture|Carbon Removal|Emissions',Variable))
+
+    if (nrow(missing_tier1_variables) > 0) {
+      # add missing variables
+      report_extended <- tidyr::crossing(
+        Model = unique(report$Model),
+        Scenario = unique(report$Scenario),
+        Region = unique(report$Region),
+        missing_tier1_variables %>%
+          dplyr::select(Variable, Unit) %>%
+          dplyr::distinct()
+      )
+      year_cols <- setdiff(names(report), c("Model", "Scenario", "Region", "Variable", "Unit"))
+      missing_tier1_data <- tibble::as_tibble(matrix(0, nrow = nrow(report_extended), ncol = length(year_cols)))
+      names(missing_tier1_data) <- year_cols
+
+      report_extended2 <- dplyr::bind_rows(
+        report,
+        dplyr::bind_cols(report_extended, missing_tier1_data)
+      )
+
+      # complete Region-Variable missing pairs (with 0s)
+      report_complete <- report_extended2 %>%
+        tidyr::complete(tidyr::nesting(Model, Scenario, Region),
+                        Variable = unique(report_extended2$Variable),
+                        fill = list(year_cols = 0)) %>%
+        dplyr::group_by(Variable) %>%
+        dplyr::mutate(Unit = dplyr::if_else(is.na(Unit), dplyr::first(na.omit(Unit)), Unit)) %>%
+        dplyr::ungroup() %>%
+        dplyr::mutate(across(where(is.numeric), ~tidyr::replace_na(., 0))) %>%
+        dplyr::arrange(Model, Scenario, Variable, Region)
+
+      report <- report_complete
+
+    }
+  }
+
 
   report <<- report
 }
