@@ -22,7 +22,7 @@ generate_report(
   GWP_version = "AR5",
   queries_general_file = NULL,
   queries_nonCO2_file = NULL,
-  all_tier1 = T
+  all_tier1 = F
 )
 }
 \arguments{
@@ -60,7 +60,7 @@ generate_report(
 
 \item{queries_nonCO2_file}{Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by subsector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.}
 
-\item{all_tier1}{If `TRUE` (default), introduce all Tier 1 Variables (as 0) in the standardized report.}
+\item{all_tier1}{If `TRUE` (not default), introduce all Tier 1 Variables (as 0) in the standardized report.}
 }
 \value{
 Saves RData, CSV, and XLSX files with standardized variables, launches the user interface, and saves the GCAM project file if created.
