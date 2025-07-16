@@ -1374,18 +1374,6 @@ get_food_availability <- function(GCAM_version = "v7.1") {
     # calculate food availability
     dplyr::mutate(value = value / (1-WasteShare))
 
-  # remove "OtherMeat_Fish" from Livestock but including it in All
-  food_availability_all <- food_availability_pre %>%
-    dplyr::mutate(var = 'Food Availability [per capita]')
-
-  food_availability_filtered <- food_availability_pre %>%
-    dplyr::filter(GCAM_commodity != "OtherMeat_Fish")
-
-  food_availability_pre <- rbind(
-    food_availability_all,
-    food_availability_filtered
-  )
-
   # Compute total by var
   food_availability_clean <- food_availability_pre %>%
     dplyr::group_by(scenario, region, var, year) %>%
@@ -1451,19 +1439,7 @@ get_food_intake <- function(GCAM_version = "v7.1") {
     filter_variables() %>%
     dplyr::mutate(value = value * 1e6 / pop / 365.25) # pop in million
 
-  # remove "OtherMeat_Fish" from Livestock but including it in All
-  food_intake_all <- food_intake_pre %>%
-    dplyr::mutate(var = 'Food Intake [per capita]')
-
-  food_intake_filtered <- food_intake_pre %>%
-    dplyr::filter(GCAM_commodity != "OtherMeat_Fish")
-
-  food_intake_pre <- rbind(
-    food_intake_all,
-    food_intake_filtered
-  )
-
-  # Compute total by var
+    # Compute total by var
   food_intake_clean <- food_intake_pre %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
