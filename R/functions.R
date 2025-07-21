@@ -2779,7 +2779,10 @@ get_ag_demand <- function(GCAM_version = "v7.1") {
       check_inf(rgcam::getQuery(prj, "demand balances by meat and dairy commodity"),
                 dataset_name = "demand balances by meat and dairy commodity"),
       check_inf(rgcam::getQuery(prj, "regional biomass consumption"),
-                dataset_name = "regional biomass consumption")
+                dataset_name = "regional biomass consumption") %>%
+        # Units: from EJ to Mt (biomass)
+        # 1 EJ = 1e9 GJ; 1 Mt = 1e6 T; 1 Mt = EJ * 1e9 / (aglu.BIO_ENERGY_CONTENT_GJT * 1e6)
+        dplyr::mutate(value = value * 1e3 / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['aglu.BIO_ENERGY_CONTENT_GJT']])
     ) %>%
     left_join_strict(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
@@ -2827,7 +2830,10 @@ get_ag_weights <- function(GCAM_version = "v7.1") {
       check_inf(rgcam::getQuery(prj, "demand balances by meat and dairy commodity"),
                 dataset_name = "demand balances by meat and dairy commodity"),
       check_inf(rgcam::getQuery(prj, "regional biomass consumption"),
-                dataset_name = "regional biomass consumption")
+                dataset_name = "regional biomass consumption") %>%
+        # Units: from EJ to Mt (biomass)
+        # 1 EJ = 1e9 GJ; 1 Mt = 1e6 T; 1 Mt = EJ * 1e9 / (aglu.BIO_ENERGY_CONTENT_GJT * 1e6)
+        dplyr::mutate(value = value * 1e3 / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['aglu.BIO_ENERGY_CONTENT_GJT']])
     ) %>%
     left_join_strict(get(paste('ag_demand_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("input","sector"), mapping = paste('ag_demand_map',GCAM_version,sep='_'), multiple = "all", relationship = "many-to-many") %>%
