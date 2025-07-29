@@ -3534,10 +3534,14 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
   check_queries("energy_service_transportation_clean", GCAM_version)
 
   energy_service_transportation <-
-    check_inf(rgcam::getQuery(prj, "transport service output by mode"),
-              dataset_name = "transport service output by mode") %>%
+    check_inf(rgcam::getQuery(prj, "transport service output by tech and vintage"),
+              dataset_name = "transport service output by tech and vintage") %>%
+    tidyr::separate(technology, into = c("technology", NA), sep = ",year") %>%
+    dplyr::group_by(dplyr::across(-value)) %>%
+    dplyr::summarise(value = sum(value), .groups = 'drop') %>%
     left_join_strict(get(paste('transport_en_service',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
-                     by = c("sector", "mode"), mapping = paste('transport_en_service',GCAM_version,sep='_'), multiple = "all") %>%
+                     by = c("sector", "subsector", "technology"),
+                     mapping = paste('transport_en_service',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     filter_variables() %>%
     # from million km/yr to billion km/yr
