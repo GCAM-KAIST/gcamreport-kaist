@@ -1635,7 +1635,7 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # billion m3 to million m3 for Trade|Forestry
-    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade\\|Forestry", var),
                                          value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
                                          value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
@@ -1665,7 +1665,7 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
     # billion m3 to million m3 for Trade|Forestry
-    dplyr::mutate(value = dplyr::if_else(grepl("Trade|Forestry", var),
+    dplyr::mutate(value = dplyr::if_else(grepl("Trade\\|Forestry", var),
                                          value / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_million_billion']],
                                          value)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
