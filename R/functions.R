@@ -2640,6 +2640,10 @@ get_water_withdrawals <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
+    # conveyance loss factor for IRRIGATION water
+    left_join_error_no_match(get(paste('conveyance.eff',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                             by = 'region') %>%
+    dplyr::mutate(value = dplyr::if_else(grepl('Irrigation',var), value / conveyance.eff, value)) %>%
     # set var to consumption
     dplyr::mutate(var = gsub("XX", "Withdrawal", var)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
@@ -2672,6 +2676,10 @@ get_water_consumption <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
+    # conveyance loss factor for IRRIGATION water
+    left_join_error_no_match(get(paste('conveyance.eff',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                             by = 'region') %>%
+    dplyr::mutate(value = dplyr::if_else(grepl('Irrigation',var), value / conveyance.eff, value)) %>%
     # set var to consumption
     dplyr::mutate(var = gsub("XX", "Consumption", var)) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))

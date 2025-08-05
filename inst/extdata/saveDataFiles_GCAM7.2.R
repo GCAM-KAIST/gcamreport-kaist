@@ -257,6 +257,9 @@ use_data(iron_steel_trade_map_v7.2, overwrite = T)
 water_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "water.csv"), comment = "#") %>% gather_map()
 use_data(water_map_v7.2, overwrite = T)
 
+conveyance.eff_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "conveyance.eff.csv"), comment = "#")
+use_data(conveyance.eff_v7.2, overwrite = T)
+
 # transport sales & stock
 ucd_size_class_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2",
                                           "UCD_size_class_revisions.csv"), comment = "#")

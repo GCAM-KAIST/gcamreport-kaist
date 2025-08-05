@@ -257,6 +257,9 @@ use_data(iron_steel_trade_map_vScenarioMIPCMIP7, overwrite = T)
 water_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "water.csv"), comment = "#") %>% gather_map()
 use_data(water_map_vScenarioMIPCMIP7, overwrite = T)
 
+conveyance.eff_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "conveyance.eff.csv"), comment = "#")
+use_data(conveyance.eff_vScenarioMIPCMIP7, overwrite = T)
+
 # transport sales & stock
 ucd_size_class_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7",
                                           "UCD_size_class_revisions.csv"), comment = "#")
