@@ -2983,24 +2983,32 @@ get_land <- function(GCAM_version = "v7.1") {
     dplyr::distinct()
 
   # adjustment - goal: keep the total physical land value adjusting the cereal crops (Corn, OtherGrain, Rice, Wheat)
-  # so, the physical land of non-cereal crops will be reduced by a ratio (all crops the same percentage)
+  # so, the physical land of non-cereal (but cropland) crops will be reduced by a ratio (all crops the same percentage)
   land_adj <- land_tmp %>%
-    # distinguisth betweeen cereal and non-ceral crops
-    dplyr::mutate(cereal_crop = dplyr::if_else(GCAM_commodity %in% unique(cereal_scalar$GCAM_commodity), TRUE, FALSE)) %>%
+    # distinguish between cereal and non-cereal (but cropland) crops; OtherArable is kept constant
+    dplyr::mutate(crop_type = dplyr::if_else(GCAM_commodity %in% unique(cereal_scalar$GCAM_commodity),
+                                             'cereal',
+                                             dplyr::if_else(!GCAM_commodity %in% unique(cereal_scalar$GCAM_commodity) &
+                                                              grepl('Land Cover\\|Cropland', var) &
+                                                              GCAM_commodity != 'OtherArableLand',
+                                                            'cropland', 'other'))) %>%
+    dplyr::group_by(dplyr::across(-c('crop_type','var'))) %>%
+    dplyr::mutate(crop_type = if ("cropland" %in% crop_type) "cropland" else crop_type) %>%
+    dplyr::ungroup() %>%
     # total regional physical land before the cereal adjustment
     dplyr::group_by(Units, scenario, region, year) %>%
-    dplyr::mutate(total_annual_R_cereal = sum(value[cereal_crop]),
-                  total_annual_R_noncereal = sum(value[!cereal_crop])) %>%
+    dplyr::mutate(total_annual_R_cereal = sum(value[crop_type == 'cereal']),
+                  total_annual_R_cropland = sum(value[crop_type == 'cropland'])) %>%
     dplyr::ungroup() %>%
     # apply the cereal adjustment and compute the ratio to adjust the non-cereal physical lands
     dplyr::mutate(value_adj = dplyr::if_else(!is.na(PhysicalLand_scaler), value * PhysicalLand_scaler, value)) %>%
     dplyr::group_by(Units, scenario, region, year) %>%
     # dplyr::mutate(total_annual_R_adj1 = sum(value_adj)) %>%
-    dplyr::mutate(total_annual_R_adj1_cereal = sum(value_adj[cereal_crop])) %>%
-    dplyr::mutate(ratio_adj1 = (total_annual_R_adj1_cereal - total_annual_R_cereal) / total_annual_R_noncereal) %>%
+    dplyr::mutate(total_annual_R_adj1_cereal = sum(value_adj[crop_type == 'cereal'])) %>%
+    dplyr::mutate(ratio_adj1 = (total_annual_R_adj1_cereal - total_annual_R_cereal) / total_annual_R_cropland) %>%
     dplyr::ungroup() %>%
-    # apply the ratio to non-cereal physical lands
-    dplyr::mutate(value_adj = dplyr::if_else(!cereal_crop,
+    # apply the ratio to non-cereal (but cropland) physical lands
+    dplyr::mutate(value_adj = dplyr::if_else(crop_type == 'cropland',
                                              value_adj * (1 - ratio_adj1), value_adj)) %>%
     # # checker
     # dplyr::group_by(Units, scenario, region, year) %>%
@@ -3009,7 +3017,7 @@ get_land <- function(GCAM_version = "v7.1") {
     # dplyr::mutate(diff_checker = total_annual_R_cereal + total_annual_R_noncereal - checker)
     # thous km2 to million ha
     dplyr::mutate(value = value_adj * unit_conv) %>%
-    dplyr::select(-ratio_adj1, -total_annual_R_adj1_cereal, -total_annual_R_noncereal, -total_annual_R_cereal, -value_adj, -cereal_crop)
+    dplyr::select(-ratio_adj1, -total_annual_R_adj1_cereal, -total_annual_R_cropland, -total_annual_R_cereal, -value_adj, -crop_type)
 
   land_tmp2 <- land_adj %>%
     dplyr::group_by(scenario, region, year, var) %>%
