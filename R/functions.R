@@ -2757,6 +2757,49 @@ get_yield <- function(GCAM_version = "v7.1") {
   yield_clean <<- yield_clean
 }
 
+#' get_biomass_shares
+#'
+#' Get biomass production shares: total = residue + msw + purpose_grown;
+#' The share of msw + residue over the total will be substracted from the biomass ag demand
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal ag
+#' @return `biomass_shares` global variable.
+#' @importFrom magrittr %>%
+#' @export
+get_biomass_shares <- function(GCAM_version = "v7.1") {
+
+  check_queries("biomass_shares", GCAM_version)
+
+  biomass_shares <- dplyr::full_join(
+    check_inf(rgcam::getQuery(prj, "purpose-grown biomass production"),
+              dataset_name = "purpose-grown biomass production") %>%
+      dplyr::rename(purpose_grown = value),
+    check_inf(rgcam::getQuery(prj, "MSW production"),
+              dataset_name = "MSW production") %>%
+      dplyr::rename(msw = value,
+                    sector = resource),
+    by = c('Units','scenario','region','sector','year'), kee) %>%
+    dplyr::full_join(
+      check_inf(rgcam::getQuery(prj, "residue biomass production"),
+                dataset_name = "residue biomass production") %>%
+        dplyr::group_by(dplyr::across(-c(sector, value))) %>%
+        dplyr::summarise(value = sum(value), .groups = 'drop') %>%
+        dplyr::rename(residue = value,
+                      sector = output),
+      by = c('Units','scenario','region','sector','year')) %>%
+    # add 0 when no-reported values (purpose_grown biomass might be 0 for some years-regions)
+    dplyr::mutate(dplyr::across(where(is.numeric), ~ dplyr::if_else(is.na(.), 0, .))) %>%
+    # compute residue + msw share (over total)
+    dplyr::mutate(share = (residue + msw) / (purpose_grown  + residue + msw)) %>%
+    dplyr::mutate(share = dplyr::if_else(is.na(share), 0, share)) %>%
+    # clean dataset
+    dplyr::select(scenario, region, sector, year, share)
+
+  biomass_shares <<- biomass_shares
+
+}
+
 #' get_ag_demand
 #'
 #' Get agricultural demand.
@@ -2780,6 +2823,13 @@ get_ag_demand <- function(GCAM_version = "v7.1") {
                 dataset_name = "demand balances by meat and dairy commodity"),
       check_inf(rgcam::getQuery(prj, "regional biomass consumption"),
                 dataset_name = "regional biomass consumption") %>%
+        # share of non-residue and non-msw biomass
+        left_join_error_no_match(biomass_shares %>%
+                                   dplyr::select(-sector) %>%
+                                   # share of non-residue and non-msw biomass (inverse of the current share)
+                                   dplyr::mutate(share = 1 - share),
+                                 by = c('scenario','region','year')) %>%
+        dplyr::mutate(value = value * share) %>%
         # Units: from EJ to Mt (biomass)
         # 1 EJ = 1e9 GJ; 1 Mt = 1e6 T; 1 Mt = EJ * 1e9 / (aglu.BIO_ENERGY_CONTENT_GJT * 1e6)
         dplyr::mutate(value = value * 1e3 / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['aglu.BIO_ENERGY_CONTENT_GJT']])
