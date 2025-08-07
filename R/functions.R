@@ -1163,7 +1163,7 @@ get_expenditure <- function(GCAM_version = "v7.1") {
     dplyr::mutate(var = "Expenditure|Households|Food|Agriculture [Share]") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns), food) %>%
     # Units: share (of the GDP)
-    left_join_strict(GDP_PPP_clean %>%
+    left_join_strict(GDP_MER_clean %>%
                        dplyr::rename(gdp = value) %>%
                        dplyr::select(-var),
                      by = c('scenario','region','year')) %>%
