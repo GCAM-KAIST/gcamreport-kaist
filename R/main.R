@@ -731,7 +731,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   # make final_year as a global variable
   final_year.global <<- min(final_year, max(years_in_prj))
   sprintf('INFO: The years %s are read from the GCAM database.',
-          paste(years_in_prj[years_in_prj <= final_year.global], collapse = ','))
+          paste(years_in_prj[years_in_prj <= final_year.global], collapse = ', '))
 
   # base year
   base_year <<- dplyr::if_else(2021 %in% years_in_prj, 2021, 2015)
