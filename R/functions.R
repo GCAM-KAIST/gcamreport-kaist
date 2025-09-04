@@ -191,6 +191,8 @@ filter_data_regions <- function(data) {
 #' @export
 compute_reg_sec_weight <- function(dt) {
 
+  if (nrow(dt) == 0) return(dt)
+
   # function to create cumulative segments
   get_segments <- function(x) {
     parts <- unlist(strsplit(x, "\\|"))
@@ -3260,7 +3262,8 @@ get_elec_gen_tech <- function(GCAM_version = "v7.1") {
                     fill = list(value = 0)
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
-    dplyr::bind_rows(secondary_solids)
+    dplyr::bind_rows(secondary_solids) %>%
+    filter_variables()
 
   secondary_energy_raw <<- secondary_energy_raw
   secondary_energy_clean <<- secondary_energy_clean
