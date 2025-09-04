@@ -3600,14 +3600,14 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
 #' Get ES buildings.
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @keywords internal energy
-#' @return `energy_service_buildings_clean` global variable
+#' @return `floor_space_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_energy_service_buildings <- function(GCAM_version = "v7.1") {
+get_floor_space <- function(GCAM_version = "v7.1") {
   var <- value <- unit_conv <- scenario <- region <- year <- building <-
-    nodeinput <- Units <- energy_service_buildings_clean <- NULL
+    nodeinput <- Units <- floor_space_clean <- NULL
 
-  check_queries("energy_service_buildings_clean", GCAM_version)
+  check_queries("floor_space_clean", GCAM_version)
 
   # gather deciles if necessary
   tmp <- check_inf(rgcam::getQuery(prj, "building floorspace"),
@@ -3620,7 +3620,7 @@ get_energy_service_buildings <- function(GCAM_version = "v7.1") {
       dplyr::ungroup()
   }
 
-  energy_service_buildings_clean <-
+  floor_space_clean <-
     tmp %>%
     left_join_strict(get(paste('buildings_en_service',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("building"), mapping = paste('buildings_en_service',GCAM_version,sep='_'), multiple = "all") %>%
@@ -3632,7 +3632,7 @@ get_energy_service_buildings <- function(GCAM_version = "v7.1") {
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  energy_service_buildings_clean <<- energy_service_buildings_clean
+  floor_space_clean <<- floor_space_clean
 }
 
 
