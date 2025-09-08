@@ -65,8 +65,8 @@ delivered biomass,,,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,
 delivered gas,,,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Supply,Emissions|CO2|Energy|Supply|Gases,,,,,3.666667
 delivered gas h2,delivered gas h2,delivered gas h2,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Supply,Emissions|CO2|Energy|Supply|Gases,,,,,3.666667
 desalinated water,gas,distillation,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Demand,Emissions|CO2|Energy|Demand|Other Sector,,,,,3.666667
-desalinated water,refined liquids,distillation,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Demand,,,,,,3.666667
-desalinated water,,,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Demand,,,,,,3.666667
+desalinated water,refined liquids,distillation,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Demand,Emissions|CO2|Energy|Demand|Other Sector,,,,,3.666667
+desalinated water,,,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Demand,Emissions|CO2|Energy|Demand|Other Sector,,,,,3.666667
 district heat,biomass,biomass,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Supply,Emissions|CO2|Energy|Supply|Heat,,,,,3.666667
 district heat,coal,coal,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Supply,Emissions|CO2|Energy|Supply|Heat,,,,,3.666667
 district heat,gas,gas,Emissions|CO2,Emissions|CO2|Energy and Industrial Processes,Emissions|CO2|Energy,Emissions|CO2|Energy|Supply,Emissions|CO2|Energy|Supply|Heat,,,,,3.666667
