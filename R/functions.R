@@ -4382,8 +4382,8 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
   prices_subsector_pre1 <-
     check_inf(rgcam::getQuery(prj, "prices of all markets"),
               dataset_name = "prices of all markets") %>%
-    dplyr::mutate(region = stringr::str_extract(market, paste(as.character(gcamreport::reg_cont_v7.1$region), collapse = '|')),
-                  market = stringr::str_replace(market, paste(as.character(gcamreport::reg_cont_v7.1$region), collapse = '|'), "")) %>%
+    dplyr::mutate(region = stringr::str_extract(market, paste(as.character(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']]), collapse = '|')),
+                  market = stringr::str_replace(market, paste(as.character(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']]), collapse = '|'), "")) %>%
     dplyr::select(-Units) %>%
     dplyr::mutate(region = dplyr::if_else(region == 'NA', NA, region))
 
