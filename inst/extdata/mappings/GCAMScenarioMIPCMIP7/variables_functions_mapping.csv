@@ -17,10 +17,11 @@ co2_emissions_clean;get_co2_emissions;co2_emiss,LUC_emiss;
 nonco2_clean;get_nonco2_emissions;;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production
 f_gas_clean;get_fgas;;nonCO2 emissions by region
 ghg_all;get_ghg;LUC_emiss;nonCO2 emissions by region
-kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production,CO2 emissions by sector (no bio) (excluding resource production)
+kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production,CO2 emissions by tech (excluding resource production)
 co2_sequestration_clean;get_co2_sequestration;LUC_emiss,refliq_bioshare;CO2 sequestration by tech
 co2_removal_raw;get_co2_sequestration;LUC_emiss,refliq_bioshare;CO2 sequestration by tech
-ag_demand_clean;get_ag_demand;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
+biomass_shares;get_biomass_shares;;purpose-grown biomass production,residue biomass production,MSW production
+ag_demand_clean;get_ag_demand;biomass_shares;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
 ag_production_clean;get_ag_production;;ag production by crop type,meat and dairy production by type
 land_clean;get_land;;land allocation by crop and water source
 land_yield;get_land;;land allocation by crop and water source
@@ -36,8 +37,8 @@ fe_sector_raw;get_fe_sector_tmp;;final energy consumption by sector and fuel
 fe_transportation;get_fe_transportation_tmp;;transport final energy by mode and fuel
 fe_transportation_raw;get_fe_transportation_tmp;;transport final energy by mode and fuel
 fe_sector_clean;get_fe_sector;fe_sector,fe_transportation;
-energy_service_transportation_clean;get_energy_service_transportation;;transport service output by mode
-energy_service_buildings_clean;get_energy_service_buildings;;building floorspace
+energy_service_transportation_clean;get_energy_service_transportation;;transport service output by tech and vintage
+floor_space_clean;get_floor_space;;building floorspace
 industry_production_clean;get_industry_production;;industry primary output by sector
 ag_weights;get_ag_weights;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
 ag_wld_weights;get_ag_weights;;demand balances by crop commodity,demand balances by meat and dairy commodity,regional biomass consumption
@@ -69,7 +70,7 @@ iron_steel_exports;get_iron_steel_exports;;traded iron and steel
 iron_steel_clean;get_iron_steel_clean;iron_steel_imports,iron_steel_exports;
 capital_stock_clean;get_capital_stock;;National Account
 capital_formation_clean;get_capital_formation;capital_stock_clean;
-expenditure_clean;get_expenditure;;food demand prices,food consumption by type (general),costs of transport modes,transport service output by mode,building total final energy by service,building service costs
+expenditure_clean;get_expenditure;GDP_MER_clean,population_clean;ag regional prices (current consumer prices),demand balances by crop commodity
 water_withdrawals_clean;get_water_withdrawals;;water withdrawals by subsector
 water_consumption_clean;get_water_consumption;;water consumption by subsector
 ag_trade;get_ag_trade;;ag export to the world center (USA) (Intl. Armington competition),ag import vs. domestic supply (Regional Armington competition)

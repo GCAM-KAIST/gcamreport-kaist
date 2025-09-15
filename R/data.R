@@ -634,6 +634,18 @@
 #' }
 "water_map_v8.2"
 
+#' conveyance.eff_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description irrigation water conveyance loss factor
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::conveyance.eff_v8.2
+#' }
+"conveyance.eff_v8.2"
+
 #' ucd_size_class_v8.2
 #'
 #' @source github
@@ -1277,6 +1289,18 @@
 #' }
 "water_map_vScenarioMIPCMIP7"
 
+#' conveyance.eff_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description irrigation water conveyance loss factor
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::conveyance.eff_vScenarioMIPCMIP7
+#' }
+"conveyance.eff_vScenarioMIPCMIP7"
+
 #' ucd_size_class_vScenarioMIPCMIP7
 #'
 #' @source github
@@ -1898,6 +1922,18 @@
 #' }
 "water_map_v7.2"
 
+#' conveyance.eff_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description irrigation water conveyance loss factor
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::conveyance.eff_v7.2
+#' }
+"conveyance.eff_v7.2"
+
 #' ucd_size_class_v7.2
 #'
 #' @source github
@@ -2517,6 +2553,18 @@
 #' gcamreport::water_map_v7.1
 #' }
 "water_map_v7.1"
+
+#' conveyance.eff_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description irrigation water conveyance loss factor
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::conveyance.eff_v7.1
+#' }
+"conveyance.eff_v7.1"
 
 #' ucd_size_class_v7.1
 #'
@@ -3138,6 +3186,18 @@
 #' gcamreport::water_map_v7.0
 #' }
 "water_map_v7.0"
+
+#' conveyance.eff_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description irrigation water conveyance loss factor
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::conveyance.eff_v7.0
+#' }
+"conveyance.eff_v7.0"
 
 #' ucd_size_class_v7.0
 #'
