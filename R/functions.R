@@ -1781,12 +1781,13 @@ get_co2_ets <- function(GCAM_version = 'v7.1') {
 #' Retrieves the non-bio CO2 emissions query by sector.
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `nonbio_share` global variable.
+#' @return `nonbio_share` and `no_bio_new_sectors` global variables.
 #' @keywords internal co2
 #' @importFrom magrittr %>%
 #' @export
 get_nonbio_tmp <- function(GCAM_version = "v7.1") {
-  value.y <- value.x <- queryItem1 <- queryItem2 <- nonbio_share <-NULL
+  value.y <- value.x <- queryItem1 <- queryItem2 <- nonbio_share <-
+    by_sector_no_bio <- no_bio_new_sectors <- NULL
 
   check_queries("nonbio_share", GCAM_version)
 
@@ -1824,7 +1825,6 @@ get_nonbio_tmp <- function(GCAM_version = "v7.1") {
                      by = c("region", "scenario", "year", "sector", "Units"))
 
   nonbio_share <<- nonbio_share
-
   no_bio_new_sectors <<- no_bio_new_sectors
 }
 
