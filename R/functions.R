@@ -1853,7 +1853,7 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     dplyr::mutate(sector_orig = sector) %>%
     dplyr::mutate(sector = dplyr::case_when(grepl("elec_", sector) & !grepl("CCS", sector) ~ "electricity",
                                          .default = sector)) %>%
-    full_join(nonbio_diff %>%
+    dplyr::full_join(nonbio_diff %>%
                        dplyr::select(-ghg),
                      by = c("region", "scenario", "year", "sector", "Units")) %>%
     tidyr::replace_na(list(value = 0, diff = 0)) %>%
