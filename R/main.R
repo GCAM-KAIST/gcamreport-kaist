@@ -878,7 +878,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   # remove internal variables from the environment
   rm(list = loaded_internal_variables.global, envir = .GlobalEnv)
   rm(list = c("loaded_internal_variables.global"), envir = .GlobalEnv)
-  rm(list = c("ignore.global", "variables.global", "interactive.global", "GCAM_version"), envir = .myGlobals)
+  rm(list = c("ignore.global", "variables.global", "interactive.global"), envir = .myGlobals)
   gc()
 
   if (launch_ui) {
