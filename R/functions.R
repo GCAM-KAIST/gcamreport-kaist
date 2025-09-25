@@ -1169,7 +1169,7 @@ get_expenditure <- function(GCAM_version = "v7.1") {
                        dplyr::rename(gdp = value) %>%
                        dplyr::select(-var),
                      by = c('scenario','region','year')) %>%
-    dplyr::mutate(value = 1e4 * food / gdp) %>%
+    dplyr::mutate(value = 1e3 * food / gdp) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   expenditure_food_w <- expenditure_food %>%
