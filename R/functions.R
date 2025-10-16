@@ -398,7 +398,7 @@ left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapp
 
   # Ignore any unmatched rows which have names (in any column) specified as fine to be
   # ignored and remove them from the `result` dataset, which will be returned to the user
-  if (!is.null(ignore)) {
+  if (!is.null(ignore) & nrow(unmatched) > 0) {
     unmatched <- unmatched %>%
       dplyr::filter(!(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignore, collapse = "|"), .))))
     result <- result %>%
