@@ -399,10 +399,12 @@ left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapp
   # Ignore any unmatched rows which have names (in any column) specified as fine to be
   # ignored and remove them from the `result` dataset, which will be returned to the user
   if (!is.null(ignore) & nrow(unmatched) > 0) {
+    unmatched_ignore <- unmatched %>%
+      dplyr::filter(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignore, collapse = "|"), .)))
     unmatched <- unmatched %>%
-      dplyr::filter(!(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignore, collapse = "|"), .))))
+      dplyr::anti_join(unmatched_ignore)
     result <- result %>%
-      dplyr::filter(!(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignore, collapse = "|"), .))))
+      dplyr::anti_join(unmatched_ignore)
   }
 
   # Check if there are any unmatched rows
@@ -1275,7 +1277,14 @@ get_food_availability <- function(GCAM_version = "v7.1") {
   food_availability_pre <- check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
                                         dataset_name = "food consumption by type (specific)") %>%
     dplyr::filter(year <= final_year.global, year >= 1990) %>%
-    dplyr::rename(subsector = `subsector...4`) %>%
+    # if "subsector...4" is a colnum name, change it to "subsector". Otherwise, keep going
+    {
+      if ("subsector...4" %in% names(.)) {
+        dplyr::rename(., subsector = `subsector...4`)
+      } else {
+        .
+      }
+    } %>%
     left_join_strict(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -1351,7 +1360,14 @@ get_food_intake <- function(GCAM_version = "v7.1") {
     check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
               dataset_name = "food consumption by type (specific)") %>%
     dplyr::filter(year <= final_year.global, year >= 1990) %>%
-    dplyr::rename(subsector = `subsector...4`) %>%
+    # if "subsector...4" is a colnum name, change it to "subsector". Otherwise, keep going
+    {
+      if ("subsector...4" %in% names(.)) {
+        dplyr::rename(., subsector = `subsector...4`)
+      } else {
+        .
+      }
+    } %>%
     left_join_strict(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                    by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
