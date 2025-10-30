@@ -1,4 +1,4 @@
-# CO2 Sequestration,,,,,,,,,,,,,,,,
+# CO2 Sequestration
 sector,technology,var1,var2,var3,var4,var5,var6,var7,var8,var9,var10,var11,var12,var13,var14,unit_conv
 alumina,biomass CCS,Carbon Capture,Carbon Capture|Geological Storage,Carbon Capture|Geological Storage|Biomass,Carbon Capture|Energy,Carbon Capture|Energy|Biomass,Carbon Capture|Energy|Demand,Carbon Capture|Energy|Demand|Biomass,Carbon Capture|Energy|Demand|Industry,Carbon Capture|Energy|Demand|Industry|Biomass,Carbon Capture|Energy|Demand|Industry|Non-Ferrous Metals,Carbon Capture|Energy|Demand|Industry|Non-Ferrous Metals|Biomass,Carbon Removal,Carbon Removal|Geological Storage,Carbon Removal|Geological Storage|Biomass,3.666667
 alumina,coal CCS,Carbon Capture,Carbon Capture|Geological Storage,Carbon Capture|Geological Storage|Fossil,Carbon Capture|Energy,Carbon Capture|Energy|Fossil,Carbon Capture|Energy|Demand,Carbon Capture|Energy|Demand|Fossil,Carbon Capture|Energy|Demand|Industry,Carbon Capture|Energy|Demand|Industry|Fossil,Carbon Capture|Energy|Demand|Industry|Non-Ferrous Metals,Carbon Capture|Energy|Demand|Industry|Non-Ferrous Metals|Fossil,,,,3.666667
