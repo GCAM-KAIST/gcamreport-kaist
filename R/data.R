@@ -725,6 +725,16 @@
 #' }
 "GHG_gases_vEurope7.2"
 
+#' gcameurope.EUROSTAT_COUNTRIES_vEurope7.2
+#'
+#' @description list of GCAM Europe 7.2 countries with Eurostat data available
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::gcameurope.EUROSTAT_COUNTRIES_vEurope7.2
+#' }
+"gcameurope.EUROSTAT_COUNTRIES_vEurope7.2"
+
 #' last_historical_year_vEurope7.2
 #'
 #' @description last historical year compatible with GCAM Europe 7.2 version.

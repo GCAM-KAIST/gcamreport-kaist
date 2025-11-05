@@ -332,6 +332,17 @@ use_data(F_GASES_vEurope7.2, overwrite = T)
 GHG_gases_vEurope7.2 <- c("CH4", "N2O", F_GASES_vEurope7.2, "CO2", "CO2LUC")
 use_data(GHG_gases_vEurope7.2, overwrite = T)
 
+# EUROSTAT countries
+gcameurope.EUROSTAT_COUNTRIES_vEurope7.2 <- c("Albania", "Austria", "Belgium", "Bosnia and Herzegovina",
+                                              "Bulgaria", "Croatia", "Cyprus", "Czech Republic",
+                                              "Denmark", "Estonia", "Finland", "France", "Germany",
+                                              "Greece", "Hungary", "Iceland", "Ireland", "Italy",
+                                              "Latvia", "Lithuania", "Luxembourg", "Macedonia",
+                                              "Malta", "Moldova", "Netherlands", "Norway",
+                                              "Poland", "Portugal", "Romania", "Serbia and Montenegro",
+                                              "Slovakia", "Slovenia", "Spain", "Sweden",
+                                              "Turkey", "UK", "Ukraine")
+use_data(gcameurope.EUROSTAT_COUNTRIES_vEurope7.2, overwrite = T)
 
 
 # QUERY files
