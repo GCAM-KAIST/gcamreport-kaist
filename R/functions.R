@@ -401,10 +401,14 @@ left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapp
   if (!is.null(ignore) & nrow(unmatched) > 0) {
     unmatched_ignore <- unmatched %>%
       dplyr::filter(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignore, collapse = "|"), .)))
-    unmatched <- unmatched %>%
-      dplyr::anti_join(unmatched_ignore)
-    result <- result %>%
-      dplyr::anti_join(unmatched_ignore)
+    unmatched <- suppressMessages(
+      unmatched %>%
+        dplyr::anti_join(unmatched_ignore)
+    )
+    result <-suppressMessages(
+      result %>%
+        dplyr::anti_join(unmatched_ignore)
+    )
   }
 
   # Check if there are any unmatched rows
