@@ -1819,7 +1819,8 @@ get_nonbio_tmp <- function(GCAM_version = "v7.1") {
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup()
 
-  by_sector_no_bio <- check_inf(rgcam::getQuery(prj, queryItem2), dataset_name = queryItem2)
+  by_sector_no_bio <- check_inf(rgcam::getQuery(prj, queryItem2), dataset_name = queryItem2) %>%
+    dplyr::mutate(ghg = 'CO2')
 
   # NOTE: verify that the sectors which don't appear in the (no bio) query are expected to be missing,
   # i.e. negative biomass emissions sectors which are yet to be distributed by sector
@@ -1827,7 +1828,7 @@ get_nonbio_tmp <- function(GCAM_version = "v7.1") {
     by_sector %>%
     # dplyr::left_join because we can not control queries matching
     dplyr::full_join(by_sector_no_bio,
-                     by = c("region", "scenario", "year", "sector", "Units")) %>%
+                     by = c("region", "scenario", "year", "sector", "Units", "ghg")) %>%
     tidyr::replace_na(list(value.x = 0, value.y = 0)) %>%
     # Convert to (no bio) by calculating the difference by sector
     dplyr::mutate(
@@ -1869,9 +1870,8 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     dplyr::mutate(sector_orig = sector) %>%
     dplyr::mutate(sector = dplyr::case_when(grepl("elec_", sector) & !grepl("CCS", sector) ~ "electricity",
                                          .default = sector)) %>%
-    dplyr::full_join(nonbio_diff %>%
-                       dplyr::select(-ghg),
-                     by = c("region", "scenario", "year", "sector", "Units")) %>%
+    dplyr::full_join(nonbio_diff,
+                     by = c("region", "scenario", "year", "sector", "Units", "ghg")) %>%
     tidyr::replace_na(list(value = 0, diff = 0)) %>%
     dplyr::group_by(scenario, sector) %>%
     # For sectors where the no bio query returns a small value, whereas the normal query has no value,
@@ -1979,6 +1979,14 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
         dplyr::rename(value.var = value.x,
                       value.query = value.y)
       warning("The annual Emissions|CO2 sum by region does not match the output of the `CO2 emissions by region` query.\nType `check` to see the details.")
+      co2_emiss <- check_inf(rgcam::getQuery(prj, queryItem3), dataset_name = queryItem3) %>%
+        dplyr::mutate(value = value *
+                        get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['CO2_equivalent']]) %>%
+        dplyr::group_by(dplyr::across(-c(Units, value))) %>%
+        dplyr::summarise(value = sum(value, na.rm = T)) %>%
+        dplyr::ungroup() %>%
+        dplyr::filter(year %in% available_reporting_years) %>%
+        dplyr::mutate(var = 'Emissions|CO2')
     }
   }
 

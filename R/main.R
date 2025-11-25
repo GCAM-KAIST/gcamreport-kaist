@@ -243,14 +243,6 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
       if (!(identical(desired_regions, "All"))) {
         bq$regions <- desired_regions
       }
-      if (grepl('GCAMEUROPE', bq$title)) {
-        gcameurope.EUROSTAT_COUNTRIES <- get(paste('gcameurope.EUROSTAT_COUNTRIES',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
-        if (!(identical(desired_regions, "All"))) {
-          bq$regions <- gcameurope.EUROSTAT_COUNTRIES[gcameurope.EUROSTAT_COUNTRIES %in% desired_regions]
-        } else {
-          bq$regions <- gcameurope.EUROSTAT_COUNTRIES
-        }
-      }
 
       # ensure that USA region is read in these queries, which are mapped only to USA
       if (bq$title %in% c('ag export to the world center (USA) (Intl. Armington competition)')) {
