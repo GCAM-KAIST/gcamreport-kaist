@@ -2168,7 +2168,8 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
 
   nonco2_clean <- rbind(
     nonco2_tmp2,
-    rbind(f_gases_hfc,
+    rbind(f_gas_clean,
+          f_gases_hfc,
           f_gases_pfc)
   )
 
@@ -2229,7 +2230,7 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   f_gases_pfc <- f_gas_subtotal %>%
-    dplyr::filter(grepl('CF4', variable)) %>%
+    dplyr::filter(grepl('CF4', variable) | grepl('C2F6', variable)) %>%
     dplyr::mutate(value = value / gwp_pfc) %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
