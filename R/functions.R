@@ -2125,7 +2125,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
   }
 
 
-  nonco2_clean <- dplyr::bind_rows(
+  nonco2_tmp2 <- dplyr::bind_rows(
     nonco2_agg %>%
       rbind(nonco2_tmp %>% # Land|Fires|Forest Burning
               dplyr::filter(grepl('UnmanagedLand', sector) &
@@ -2160,8 +2160,17 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
+    # remove HFCs & PFCs totals, since are wrongly aggregated
+    dplyr::filter(!var %in% c('Emissions|PFC',
+                              'Emissions|HFC'))
 
+
+  nonco2_clean <- rbind(
+    nonco2_tmp2,
+    rbind(f_gases_hfc,
+          f_gases_pfc)
+  )
 
   nonco2_clean <<- nonco2_clean
 }
@@ -2172,7 +2181,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
-#' @return `f_gas_clean` global variable.
+#' @return `f_gas_clean`, `f_gases_hfc`, `f_gases_pfc` global variables.
 #' @keywords internal f-gases process
 #' @importFrom magrittr %>%
 #' @export
@@ -2181,6 +2190,7 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 
   check_queries("f_gas_clean", GCAM_version)
 
+  # F-Gases
   f_gas_clean <-
     check_inf(rgcam::getQuery(prj, "nonCO2 emissions by region"),
               dataset_name = "nonCO2 emissions by region") %>%
@@ -2193,7 +2203,44 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::mutate(var = "Emissions|F-Gases") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  # HFCs & PFCs (aggregates of several gases homogenizing the units)
+  gwp_hfc <- get(paste('ghg_GWP',GWP_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(GHG_gases == 'HFC134a') %>%
+    dplyr::pull(GWP)
+
+  gwp_pfc <- get(paste('ghg_GWP',GWP_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(GHG_gases == 'CF4') %>%
+    dplyr::pull(GWP)
+
+  f_gas_subtotal <-
+    check_inf(rgcam::getQuery(prj, "nonCO2 emissions by region"),
+              dataset_name = "nonCO2 emissions by region") %>%
+    dplyr::filter(!grepl("CO2_ETS", ghg)) %>%
+    conv_ghg_co2e(GWP_version = GWP_version, GCAM_version = GCAM_version) %>%
+    dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+
+  f_gases_hfc <- f_gas_subtotal %>%
+    dplyr::filter(grepl('HFC', variable)) %>%
+    dplyr::mutate(value = value / gwp_hfc) %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = "Emissions|HFC") %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+  f_gases_pfc <- f_gas_subtotal %>%
+    dplyr::filter(grepl('CF4', variable)) %>%
+    dplyr::mutate(value = value / gwp_pfc) %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = "Emissions|PFC") %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+
   f_gas_clean <<- f_gas_clean
+  f_gases_hfc <<- f_gases_hfc
+  f_gases_pfc <<- f_gases_pfc
 }
 
 
