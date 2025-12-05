@@ -2160,17 +2160,15 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
-    # remove HFCs & PFCs totals, since are wrongly aggregated
-    dplyr::filter(!var %in% c('Emissions|PFC',
-                              'Emissions|HFC'))
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
 
-  nonco2_clean <- rbind(
-    nonco2_tmp2,
+  nonco2_clean <-
+    nonco2_tmp2 %>%
     rbind(f_gases_hfc,
-          f_gases_pfc)
-  )
+          f_gases_pfc) %>%
+    rbind(f_gases_total)
+
 
   nonco2_clean <<- nonco2_clean
 }
@@ -2181,22 +2179,26 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
-#' @return `f_gas_clean`, `f_gases_hfc`, `f_gases_pfc` global variables.
+#' @return `f_gases_total`, `f_gases_hfc`, `f_gases_pfc` global variables.
 #' @keywords internal f-gases process
 #' @importFrom magrittr %>%
 #' @export
 get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
-  ghg <- variable <- scenario <- region <- year <- value <- f_gas_clean <- NULL
+  ghg <- variable <- scenario <- region <- year <- value <-
+    f_gases_total <- f_gases_hfc <- f_gases_pfc <- NULL
 
-  check_queries("f_gas_clean", GCAM_version)
+  check_queries("f_gases_total", GCAM_version)
 
-  # F-Gases
-  f_gas_clean <-
+  f_gas_subtotal <-
     check_inf(rgcam::getQuery(prj, "nonCO2 emissions by region"),
               dataset_name = "nonCO2 emissions by region") %>%
     dplyr::filter(!grepl("CO2_ETS", ghg)) %>%
     conv_ghg_co2e(GWP_version = GWP_version, GCAM_version = GCAM_version) %>%
-    dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+    dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+
+  # F-Gases total
+  f_gases_total <-
+    f_gas_subtotal %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
@@ -2208,17 +2210,6 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::filter(GHG_gases == 'HFC134a') %>%
     dplyr::pull(GWP)
 
-  gwp_pfc <- get(paste('ghg_GWP',GWP_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::filter(GHG_gases == 'CF4') %>%
-    dplyr::pull(GWP)
-
-  f_gas_subtotal <-
-    check_inf(rgcam::getQuery(prj, "nonCO2 emissions by region"),
-              dataset_name = "nonCO2 emissions by region") %>%
-    dplyr::filter(!grepl("CO2_ETS", ghg)) %>%
-    conv_ghg_co2e(GWP_version = GWP_version, GCAM_version = GCAM_version) %>%
-    dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
-
   f_gases_hfc <- f_gas_subtotal %>%
     dplyr::filter(grepl('HFC', variable)) %>%
     dplyr::mutate(value = value / gwp_hfc) %>%
@@ -2228,8 +2219,13 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::mutate(var = "Emissions|HFC") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+
+  gwp_pfc <- get(paste('ghg_GWP',GWP_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(GHG_gases == 'CF4') %>%
+    dplyr::pull(GWP)
+
   f_gases_pfc <- f_gas_subtotal %>%
-    dplyr::filter(grepl('CF4', variable)) %>%
+    dplyr::filter(grepl('CF4', variable) | grepl('C2F6', variable)) %>%
     dplyr::mutate(value = value / gwp_pfc) %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
@@ -2238,7 +2234,7 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
 
-  f_gas_clean <<- f_gas_clean
+  f_gases_total <<- f_gases_total
   f_gases_hfc <<- f_gases_hfc
   f_gases_pfc <<- f_gases_pfc
 }
