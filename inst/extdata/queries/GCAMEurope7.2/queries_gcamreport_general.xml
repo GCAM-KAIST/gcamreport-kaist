@@ -1161,20 +1161,40 @@ output-primary/physical-output/node()</xPath>
    </aQuery>
    <aQuery>
       <all-regions />
-      <emissionsQueryBuilder title="CO2 emissions by tech (excluding resource production)">
+      <emissionsQueryBuilder title="CO2 emissions by tech (nested subsector) (excluding resource production2)">
+         <axis1 name="subsector" optional="true">subsector</axis1>
+         <axis2 name="Year" optional="true">emissions</axis2>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false" optional="true">
+            *[@type = 'sector' ]/*[@type='subsector']/CO2[emissions]/emissions/node()
+         </xPath>
+         <comments/>
+       </emissionsQueryBuilder>"
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <emissionsQueryBuilder title="CO2 emissions by tech (nested subsector) (excluding resource production)">
          <axis1 name="technology">technology</axis1>
          <axis2 name="Year">emissions</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']//*[@type='technology']//*[@type = 'GHG' and (@name = 'CO2' or @name = 'CO2_FUG')]/emissions/node()</xPath>
-         <comments />
-      </emissionsQueryBuilder>
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//
+     CO2/emissions/node()</xPath>
+</emissionsQueryBuilder>"
+   </aQuery>
+   <aQuery>
+      <emissionsQueryBuilder title="List sector names">
+         <axis1 name="sector">sector</axis1>
+         <xPath buildList="true" dataName="sectorNames" group="false" sumAll="false" optional="true">
+           *[@type='sector']/@name
+         </xPath>
+       </emissionsQueryBuilder>
    </aQuery>
    <aQuery>
       <all-regions />
       <emissionsQueryBuilder title="CO2 sequestration by tech">
          <axis1 name="subsector">subsector</axis1>
          <axis2 name="Year">emissions-sequestered</axis2>
-         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']//*[@type='technology']//*[@type = 'GHG' and (@name = 'CO2' or @name = 'CO2_FUG')]/emissions-sequestered/node()</xPath>
-         <comments />
+         <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']//*[@type='technology']//
+     CO2/emissions-sequestered/node()</xPath>
+         <comments/>
       </emissionsQueryBuilder>
    </aQuery>
    <aQuery>
