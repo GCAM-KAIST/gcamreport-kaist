@@ -49,6 +49,7 @@ H2 wholesale dispensing,forecourt production,electrolysis,Secondary Energy|Hydro
 H2 wholesale dispensing,forecourt production,natural gas steam reforming,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Fossil,,,,,1
 district heat,biomass,biomass,Secondary Energy|Heat,Secondary Energy|Heat|Biomass,,,,,,1
 district heat,coal,coal,Secondary Energy|Heat,Secondary Energy|Heat|Coal,Secondary Energy|Heat|Fossil,,,,,1
+district heat,electricity,electricity,Secondary Energy|Heat,Secondary Energy|Heat|Electricity,,,,,,1
 district heat,gas,gas,Secondary Energy|Heat,Secondary Energy|Heat|Gas,Secondary Energy|Heat|Fossil,,,,,1
 district heat,refined liquids,refined liquids,Secondary Energy|Heat,Secondary Energy|Heat|Oil,,,,,,1
 refining,biomass liquids,BTL with hydrogen,Secondary Energy|Liquids,Secondary Energy|Liquids|Hydrogen,Secondary Energy|Liquids|Biomass,,,,,1

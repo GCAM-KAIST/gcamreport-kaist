@@ -1157,7 +1157,35 @@ get_expenditure <- function(GCAM_version = "v7.1") {
                       dataset_name = "ag regional prices (current consumer prices)") %>%
     dplyr::rename(price = value) %>%
     # Units: 1975$/kg to billion 2010$/kg (units of the GDP)
-    dplyr::mutate(price = 1e-9 * price / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']])
+    dplyr::mutate(price = 1e-9 * price / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']]) %>%
+    dplyr::select(-Units)
+
+  # Adjust GCAM-Europe prices (Austria has the price of all double-Armington trade)
+  if (grep('Europe', GCAM_version)) {
+    reg_price_Austria <- c('Ukraine',get('gcam32_to_eu', envir = asNamespace("gcamreport")) %>%
+      dplyr::filter(GCAMEU_region != GCAM32_region) %>%
+      dplyr::pull(GCAMEU_region)) %>%
+      sort()
+    prices_AT <- prices %>%
+      dplyr::filter(region == "Austria") %>%
+      dplyr::select(scenario, sector, year, price_AT = price)
+
+    prices_completed <- prices %>%
+      tidyr::complete(
+        scenario, sector, year,
+        region = reg_price_Austria
+      )
+
+    prices <- prices_completed %>%
+      dplyr::left_join(
+        prices_AT,
+        by = c("scenario", "sector", "year")
+      ) %>%
+      dplyr::mutate(
+        price = dplyr::if_else(is.na(price), price_AT, price)
+      ) %>%
+      dplyr::select(-price_AT)
+  }
 
   expenditure_food <- left_join_strict(
     consumption,
@@ -4807,6 +4835,7 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
     scenario <- region <- year <- value <- gw <- elec_capacity_tot_clean <- NULL
 
   check_queries("elec_capacity_tot_clean", GCAM_version)
+  grid_regions <- get('grid_regions', envir = asNamespace("gcamreport"))
 
   elec_capacity_tot_clean1 <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech and cooling tech and vintage"),
@@ -4828,6 +4857,8 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
                          dplyr::group_by(scenario, region, technology, vintage, year) %>%
                          dplyr::summarise(value = sum(value, na.rm = T)) %>%
                          dplyr::ungroup()) %>%
+      # remove grid regions (GCAM-Europe issue)
+      dplyr::filter(!region %in% grid_regions) %>%
       left_join_strict(elec_cf %>%
                          dplyr::select(-cf.rgn), by = c("region", "technology", "vintage")) %>%
       dplyr::mutate(EJ = value) %>%
@@ -4878,6 +4909,7 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
     region <- year <- value <- gw <- EJ <- NULL
 
   check_queries("elec_capacity_add", GCAM_version)
+  grid_regions <- get('grid_regions', envir = asNamespace("gcamreport"))
 
   elec_capacity_add <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech and cooling tech and vintage"),
@@ -4903,6 +4935,8 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
       dplyr::group_by(scenario, region, technology, year) %>%
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
+      # remove grid regions (GCAM-Europe issue)
+      dplyr::filter(!region %in% grid_regions) %>%
       # use GCAM cf for capacity additions
       left_join_strict(elec_cf %>%
                          dplyr::select(-'cf.rgn') %>%

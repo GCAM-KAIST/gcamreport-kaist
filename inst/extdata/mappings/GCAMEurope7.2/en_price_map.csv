@@ -813,6 +813,9 @@ coal,Price|Secondary Energy|Solids,,,,,,,,,,,,,,,,,,1
 comm cooling,NoReported,,,,,,,,,,,,,,,,,,1
 comm heating,NoReported,,,,,,,,,,,,,,,,,,1
 comm others,NoReported,,,,,,,,,,,,,,,,,,1
+comm cooling EUR,NoReported,,,,,,,,,,,,,,,,,,1
+comm heating EUR,NoReported,,,,,,,,,,,,,,,,,,1
+comm others EUR,NoReported,,,,,,,,,,,,,,,,,,1
 comm-internal-gains-trial-market-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 construction,NoReported,,,,,,,,,,,,,,,,,,1
 construction energy use,NoReported,,,,,,,,,,,,,,,,,,1
@@ -821,9 +824,14 @@ construction-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 consumer durable,NoReported,,,,,,,,,,,,,,,,,,1
 crude oil,NoReported,,,,,,,,,,,,,,,,,,1
 csp_backup,NoReported,,,,,,,,,,,,,,,,,,1
-delivered biomass,Price|Final Energy|Agriculture|Solids,Price|Final Energy|Agriculture|Solids|Biomass,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Biomass,Price|Final Energy|Residential|Solids,Price|Final Energy|Residential|Solids|Biomass,Price|Final Energy|Commercial|Solids,Price|Final Energy|Commercial|Solids|Biomass,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Biomass,Price|Final Energy|Solids,Price|Final Energy|Solids|Biomass,Price|Final Energy|Industry|Chemicals|Solids,Price|Final Energy|Industry|Chemicals|Solids|Biomass,Price|Final Energy|Industry|Iron and Steel|Solids,Price|Final Energy|Industry|Iron and Steel|Solids|Biomass,Price|Final Energy|Industry|Other Sector|Solids,Price|Final Energy|Industry|Other Sector|Solids|Biomass,1
-delivered coal,Price|Final Energy|Agriculture|Solids,Price|Final Energy|Agriculture|Solids|Coal,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Coal,Price|Final Energy|Residential|Solids,Price|Final Energy|Residential|Solids|Coal,Price|Final Energy|Commercial|Solids,Price|Final Energy|Commercial|Solids|Coal,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Coal,Price|Final Energy|Solids,Price|Final Energy|Solids|Coal,Price|Final Energy|Industry|Chemicals|Solids,Price|Final Energy|Industry|Chemicals|Solids|Coal,Price|Final Energy|Industry|Iron and Steel|Solids,Price|Final Energy|Industry|Iron and Steel|Solids|Coal,Price|Final Energy|Industry|Other Sector|Solids,Price|Final Energy|Industry|Other Sector|Solids|Coal,1
-delivered gas,Price|Final Energy|Residential and Commercial|Gases,Price|Final Energy|Residential|Gases,Price|Final Energy|Commercial|Gases,Price|Final Energy|Transportation|Gases,Price|Final Energy|Transportation|Bus|Gases,Price|Final Energy|Transportation|Light-Duty Vehicle|Gases,,,,,,,,,,,,,1
+delivered biomass,Price|Final Energy|Agriculture|Solids,Price|Final Energy|Agriculture|Solids|Biomass,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Biomass,Price|Final Energy|Residential|Solids,Price|Final Energy|Residential|Solids|Biomass,Price|Final Energy|Commercial|Solids,Price|Final Energy|Commercial|Solids|Biomass,,,Price|Final Energy|Solids,Price|Final Energy|Solids|Biomass,,,,,,,1
+delivered biomass industry,,,,,,,,,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Biomass,,,Price|Final Energy|Industry|Chemicals|Solids,Price|Final Energy|Industry|Chemicals|Solids|Biomass,Price|Final Energy|Industry|Iron and Steel|Solids,Price|Final Energy|Industry|Iron and Steel|Solids|Biomass,Price|Final Energy|Industry|Other Sector|Solids,Price|Final Energy|Industry|Other Sector|Solids|Biomass,1
+delivered coal,Price|Final Energy|Agriculture|Solids,Price|Final Energy|Agriculture|Solids|Coal,Price|Final Energy|Residential and Commercial|Solids,Price|Final Energy|Residential and Commercial|Solids|Coal,Price|Final Energy|Residential|Solids,Price|Final Energy|Residential|Solids|Coal,Price|Final Energy|Commercial|Solids,Price|Final Energy|Commercial|Solids|Coal,,,Price|Final Energy|Solids,Price|Final Energy|Solids|Coal,,,,,,,1
+delivered coal feedstocks,NoReported,,,,,,,,,,,,,,,,,,1
+delivered coal industry,,,,,,,,,Price|Final Energy|Industry|Solids,Price|Final Energy|Industry|Solids|Coal,,,Price|Final Energy|Industry|Chemicals|Solids,Price|Final Energy|Industry|Chemicals|Solids|Coal,Price|Final Energy|Industry|Iron and Steel|Solids,Price|Final Energy|Industry|Iron and Steel|Solids|Coal,Price|Final Energy|Industry|Other Sector|Solids,Price|Final Energy|Industry|Other Sector|Solids|Coal,1
+delivered gas,Price|Final Energy|Residential and Commercial|Gases,Price|Final Energy|Residential|Gases,Price|Final Energy|Commercial|Gases,,,,,,,,,,,,,,,,1
+delivered gas h2,NoReported,,,,,,,,,,,,,,,,,,1
+delivered gas transport,,,,Price|Final Energy|Transportation|Gases,Price|Final Energy|Transportation|Bus|Gases,Price|Final Energy|Transportation|Light-Duty Vehicle|Gases,,,,,,,,,,,,,1
 desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
 distributed_solar,NoReported,,,,,,,,,,,,,,,,,,1
 district heat,Price|Final Energy|Agriculture|Heat,,Price|Final Energy|Residential and Commercial|Heat,Price|Final Energy|Residential|Heat,Price|Final Energy|Commercial|Heat,Price|Final Energy|Heat,Price|Final Energy|Industry|Heat,Price|Secondary Energy|Heat,Price|Final Energy|Industry|Chemicals|Heat,,,,,,,,,,1
@@ -868,6 +876,8 @@ elec_refined liquids (steam/CT)-fixed-output,NoReported,,,,,,,,,,,,,,,,,,1
 elect_td_bld,Price|Final Energy|Residential and Commercial|Electricity,,Price|Final Energy|Residential|Electricity,Price|Final Energy|Commercial|Electricity,,,,,,,,,,,,,,,1
 elect_td_ind,Price|Final Energy|Agriculture|Electricity,,Price|Final Energy|Electricity,Price|Final Energy|Industry|Electricity,Price|Final Energy|Industry|Chemicals|Electricity,Price|Final Energy|Industry|Iron and Steel|Electricity,Price|Final Energy|Industry|Non-Metallic Minerals|Cement|Electricity,Price|Final Energy|Industry|Other Sector|Electricity,Price|Final Energy|Industry|Pulp and Paper|Electricity,,,,,,,,,,1
 elect_td_trn,Price|Final Energy|Bunkers|Electricity,,Price|Final Energy|Transportation (w/ bunkers)|Electricity,Price|Final Energy|Transportation|Electricity,Price|Final Energy|Transportation|Truck|Electricity,Price|Final Energy|Transportation|Rail|Electricity,Price|Final Energy|Transportation|Passenger|Electricity,Price|Final Energy|Transportation|Light-Duty Vehicle|Electricity,Price|Final Energy|Transportation|Freight|Electricity,Price|Final Energy|Transportation|Domestic Shipping|Electricity,Price|Final Energy|Transportation|Domestic Aviation|Electricity,Price|Final Energy|Transportation|Bus|Electricity,,,,,,,1
+elect_td_en,NoReported,,,,,,,,,,,,,,,,,,1
+elect_td_h2,NoReported,,,,,,,,,,,,,,,,,,1
 electricity,Price|Secondary Energy|Electricity,,,,,,,,,,,,,,,,,,1
 electricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 electricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
@@ -925,8 +935,14 @@ process heat cement,NoReported,,,,,,,,,,,,,,,,,,1
 process heat dac,NoReported,,,,,,,,,,,,,,,,,,1
 process heat food processing,NoReported,,,,,,,,,,,,,,,,,,1
 process heat paper,NoReported,,,,,,,,,,,,,,,,,,1
-refined liquids enduse,Price|Final Energy|Bunkers|Liquids,,Price|Final Energy|Transportation (w/ bunkers)|Liquids,Price|Final Energy|Residential and Commercial|Liquids,Price|Final Energy|Residential|Liquids,Price|Final Energy|Commercial|Liquids,Price|Final Energy|Liquids,Price|Final Energy|Transportation|Liquids,Price|Final Energy|Transportation|Truck|Liquids,Price|Final Energy|Transportation|Rail|Liquids,Price|Final Energy|Transportation|Passenger|Liquids,Price|Final Energy|Transportation|Light-Duty Vehicle|Liquids,Price|Final Energy|Transportation|Freight|Liquids,Price|Final Energy|Transportation|Domestic Shipping|Liquids,Price|Final Energy|Transportation|Domestic Aviation|Liquids,Price|Final Energy|Transportation|Bus|Liquids,,,1
+refined liquids enduse,Price|Final Energy|Bunkers|Liquids,,,Price|Final Energy|Residential and Commercial|Liquids,Price|Final Energy|Residential|Liquids,Price|Final Energy|Commercial|Liquids,Price|Final Energy|Liquids,,,,,,,,,,,,1
 refined liquids industrial,Price|Final Energy|Agriculture|Liquids,,Price|Final Energy|Industry|Liquids,Price|Final Energy|Industry|Chemicals|Liquids,Price|Final Energy|Industry|Iron and Steel|Liquids,Price|Final Energy|Industry|Other Sector|Liquids,,,,,,,,,,,,,1
+refined liquids feedstocks,NoReported,,,,,,,,,,,,,,,,,,1
+refined liquids transport,Price|Final Energy|Transportation (w/ bunkers)|Liquids,,,,,,,,,,,,,,,,,,1
+refined liquids bunkers,NoReported,,,,,,,,,,,,,,,,,,1
+refined liquids bunkers av,NoReported,,,,,,,,,,,,,,,,,,1
+refined liquids bunkers feedstocks,NoReported,,,,,,,,,,,,,,,,,,1
+refined liquids bunkers transport,Price|Final Energy|Transportation|Liquids,Price|Final Energy|Transportation|Truck|Liquids,Price|Final Energy|Transportation|Rail|Liquids,Price|Final Energy|Transportation|Passenger|Liquids,Price|Final Energy|Transportation|Light-Duty Vehicle|Liquids,Price|Final Energy|Transportation|Freight|Liquids,Price|Final Energy|Transportation|Domestic Shipping|Liquids,Price|Final Energy|Transportation|Domestic Aviation|Liquids,Price|Final Energy|Transportation|Bus|Liquids,,,,,,,,,,1
 refining,Price|Secondary Energy|Liquids,,,,,,,,,,,,,,,,,,1
 refiningDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 regional ammonia,NoReported,,,,,,,,,,,,,,,,,,1
@@ -964,6 +980,106 @@ regional vegetables,NoReported,,,,,,,,,,,,,,,,,,1
 regional wheat,NoReported,,,,,,,,,,,,,,,,,,1
 regional woodpulp,NoReported,,,,,,,,,,,,,,,,,,1
 regional woodpulp for energy,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking coal EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooking modern EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid cooling modern EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating modern EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid heating coal EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water coal EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid hot water modern EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid other appliance modern EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid others modern EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d1,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d10,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d2,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d3,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d4,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d5,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d6,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d7,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d8,NoReported,,,,,,,,,,,,,,,,,,1
+resid others coal EUR_d9,NoReported,,,,,,,,,,,,,,,,,,1
 resid cooling modern_d1,NoReported,,,,,,,,,,,,,,,,,,1
 resid cooling modern_d10,NoReported,,,,,,,,,,,,,,,,,,1
 resid cooling modern_d2,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1086,6 +1202,8 @@ traded corn,NoReported,,,,,,,,,,,,,,,,,,1
 traded cornDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 traded dairy,NoReported,,,,,,,,,,,,,,,,,,1
 traded dairyDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+traded electricity,NoReported,,,,,,,,,,,,,,,,,,1
+traded electricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 traded fibercrop,NoReported,,,,,,,,,,,,,,,,,,1
 traded fibercropDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 traded forest,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1624,6 +1742,195 @@ water_td_muni_W,NoReported,,,,,,,,,,,,,,,,,,1
 water_td_pri_C,NoReported,,,,,,,,,,,,,,,,,,1
 water_td_pri_W,NoReported,,,,,,,,,,,,,,,,,,1
 wholesale gas,Price|Final Energy|Agriculture|Gases,,Price|Final Energy|Gases,Price|Final Energy|Industry|Gases,Price|Final Energy|Industry|Chemicals|Ammonia|Gases,Price|Final Energy|Industry|Chemicals|Gases,Price|Final Energy|Industry|Iron and Steel|Gases,Price|Final Energy|Industry|Other Sector|Gases,,,,,,,,,,,1
+wholesale gas feedstocks,NoReported,,,,,,,,,,,,,,,,,,1
 wind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 woodpulp_energy,NoReported,,,,,,,,,,,,,,,,,,1
 woodpulp_processing,NoReported,,,,,,,,,,,,,,,,,,1
+base load generation,NoReported,,,,,,,,,,,,,,,,,,1
+intermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+peak generation,NoReported,,,,,,,,,,,,,,,,,,1
+subpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovabase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+_MoldovaelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovapeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovapeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovaregional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovasubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovasubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Finland_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+Finland_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+CstSFranceCstS_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+CstSFranceCstS_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+CstWFranceCstW_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+CstWFranceCstW_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+Iceland_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+Iceland_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+Ireland_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+Ireland_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+CstEItalyCstE_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+CstEItalyCstE_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+CstWItalyCstW_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+CstWItalyCstW_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+CstPolandCst_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+CstPolandCst_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+CstSESpainCstSE_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+CstSESpainCstSE_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+Sweden_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
+Sweden_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
+base load generation-fixed-output,NoReported,,,,,,,,,,,,,,,,,,1
+elect_td_bld-fixed-output,NoReported,,,,,,,,,,,,,,,,,,1
+intermediate generation-fixed-output,NoReported,,,,,,,,,,,,,,,,,,1
+peak generation-fixed-output,NoReported,,,,,,,,,,,,,,,,,,1
+subpeak generation-fixed-output,NoReported,,,,,,,,,,,,,,,,,,1
+_MoldovaGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovasolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+_Moldovawind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaplesFoodDemand-budget-fraction-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_StaplesFoodDemand-budget-fraction-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulabase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulaelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulaelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulaelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_PeninsulaelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_PeninsulaGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulaintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulaintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulaoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulapeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulapeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsularegional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulasolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulasubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulasubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Appenine_Peninsulawind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islesbase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+British_Isleselect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+British_Isleselectricity,NoReported,,,,,,,,,,,,,,,,,,1
+British_Isleselectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+British_IsleselectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+British_IslesGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islesintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islesintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islesoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islespeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islespeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islesregional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islessolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islessubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+British_Islessubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+British_Isleswind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europebase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_EuropeelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_EuropeGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europepeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europepeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europeregional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europesolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europesubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europesubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Eastern_Europewind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europebase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_EuropeelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_EuropeGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europepeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europepeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europeregional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europesolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europesubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europesubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Central_Western_Europewind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_MarketGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded ammonia,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded ammoniaDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded beef,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded beefDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded biomass,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded biomassDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded coal,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded coalDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded dairy,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded dairyDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded industrial_roundwood,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded industrial_roundwoodDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded iron and steel,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded iron and steelDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded LNG,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded LNGDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded oil,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded oilDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded pork,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded porkDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded poultry,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded poultryDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded sawnwood,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded sawnwoodDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded sheepgoat,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded sheepgoatDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded woodpulp,NoReported,,,,,,,,,,,,,,,,,,1
+European_Single_Markettraded woodpulpDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulabase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulaelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulaelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulaelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_PeninsulaelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_PeninsulaGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulaintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulaintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulaoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulapeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulapeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsularegional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulasolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulasubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulasubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Iberian_Peninsulawind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europebase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_EuropeelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_EuropeGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europepeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europepeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europeregional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europesolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europesubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europesubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+Northern_Europewind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europebase load generation,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeelect_td_bld,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeelectricity,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeelectricity_net_ownuse,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_EuropeelectricityDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_EuropeGDP_Trial,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeintermediate electricity,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeintermediate generation,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeoff peak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europepeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europepeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europeregional electricity,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europesolar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europesubpeak electricity,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europesubpeak generation,NoReported,,,,,,,,,,,,,,,,,,1
+South_Eastern_Europewind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1

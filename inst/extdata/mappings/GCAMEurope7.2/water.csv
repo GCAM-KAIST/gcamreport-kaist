@@ -3782,3 +3782,77 @@ Wheat,Wheat_TexasCst,Water XX,Water XX|Irrigation,,,1
 Wheat,Wheat_UsaColoRN,Water XX,Water XX|Irrigation,,,1
 Wheat,Wheat_UsaCstE,Water XX,Water XX|Irrigation,,,1
 Wheat,Wheat_UsaCstSE,Water XX,Water XX|Irrigation,,,1
+base load generation,hydro_base,Water XX,Water XX|Electricity,Water XX|Electricity|Hydro,,1
+base load generation,refined liquids (steam/CT)_base,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+base load generation,CSP_storage_base,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+base load generation,PV_base,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+base load generation,PV_storage_base,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+base load generation,biomass (IGCC)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+base load generation,biomass (conv)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+base load generation,coal (IGCC)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+base load generation,coal (conv pul)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+base load generation,gas (CC)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,gas (steam/CT)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,geothermal_base,Water XX,Water XX|Electricity,Water XX |Electricity|Geothermal,,1
+base load generation,refined liquids (CC)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX|Electricity|Oil,1
+base load generation,Gen_III_base,Water XX,Water XX|Electricity,,,1
+base load generation,Gen_II_LWR_base,Water XX,Water XX|Electricity,,,1
+base load generation,CSP_base,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+FiberCrop,FiberCrop_BorneoCstN,Water XX,Water XX|Irrigation,,,1
+intermediate generation,hydro_int,Water XX,Water XX|Electricity,Water XX|Electricity|Hydro,,1
+intermediate generation,refined liquids (steam/CT)_int,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+intermediate generation,CSP_storage_int,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+intermediate generation,PV_int,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+intermediate generation,PV_storage_int,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+intermediate generation,biomass (IGCC)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+intermediate generation,biomass (conv)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+intermediate generation,coal (IGCC)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+intermediate generation,coal (conv pul)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+intermediate generation,gas (CC)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,gas (steam/CT)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,geothermal_int,Water XX,Water XX|Electricity,Water XX |Electricity|Geothermal,,1
+intermediate generation,refined liquids (CC)_int,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+intermediate generation,Gen_III_int,Water XX,Water XX|Electricity,,,1
+intermediate generation,Gen_II_LWR_int,Water XX,Water XX|Electricity,,,1
+intermediate generation,CSP_int,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+MiscCrop,MiscCrop_NemanR,Water XX,Water XX|Irrigation,,,1
+peak generation,hydro_peak,Water XX,Water XX|Electricity,Water XX|Electricity|Hydro,,1
+peak generation,refined liquids (steam/CT)_peak,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+peak generation,CSP_storage_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+peak generation,PV_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+peak generation,PV_storage_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+peak generation,biomass (IGCC)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+peak generation,biomass (IGCC CCS)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+peak generation,biomass (conv)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+peak generation,biomass (conv CCS)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+peak generation,coal (IGCC)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+peak generation,coal (IGCC CCS)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+peak generation,coal (conv pul)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+peak generation,coal (conv pul CCS)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+peak generation,gas (CC)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,gas (CC CCS)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,gas (steam/CT)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,gas (steam/CT CCS)_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,geothermal_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Geothermal,,1
+peak generation,refined liquids (CC)_peak,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+peak generation,refined liquids (CC CCS)_peak,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+peak generation,Gen_III_peak,Water XX,Water XX|Electricity,,,1
+peak generation,Gen_II_LWR_peak,Water XX,Water XX|Electricity,,,1
+peak generation,CSP_peak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+subpeak generation,hydro_subpeak,Water XX,Water XX|Electricity,Water XX|Electricity|Hydro,,1
+subpeak generation,refined liquids (steam/CT)_subpeak,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+subpeak generation,CSP_storage_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+subpeak generation,PV_storage_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+subpeak generation,PV_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|PV,1
+subpeak generation,biomass (IGCC)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+subpeak generation,biomass (conv)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+subpeak generation,coal (IGCC)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+subpeak generation,coal (conv pul)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+subpeak generation,gas (CC)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,gas (steam/CT)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,geothermal_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Geothermal,,1
+subpeak generation,refined liquids (CC)_subpeak,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+subpeak generation,refined liquids (CC CCS)_subpeak,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+subpeak generation,Gen_III_subpeak,Water XX,Water XX|Electricity,,,1
+subpeak generation,Gen_II_LWR_subpeak,Water XX,Water XX|Electricity,,,1
+subpeak generation,CSP_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1

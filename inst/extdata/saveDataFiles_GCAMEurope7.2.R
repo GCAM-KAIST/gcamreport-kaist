@@ -6,6 +6,20 @@ library(magrittr)
 rawDataFolder <- here::here()
 
 
+# GCAM-Europe grid regions
+grid_regions <- c("Appenine_Peninsula","British_Isles","Central_Eastern_Europe","Central_Western_Europe",
+                  "Iberian_Peninsula","Northern_Europe","South_Eastern_Europe","Ukraine_Moldova")
+use_data(grid_regions, overwrite = T)
+
+# GCAM-Europe vs GCAM-Core regions
+gcam32_to_eu <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "GCAM32_to_EU.csv"),
+                                       comment = "#"
+) %>%
+  dplyr::select(GCAM_region_ID, GCAMEU_region, GCAM32_region_ID, GCAM32_region) %>%
+  dplyr::distinct()
+use_data(gcam32_to_eu, overwrite = T)
+
+
 # nonCO2 emissions considered
 nonco2_emissions_list_vEurope7.2 <- c(
   "BC", "BC_AWB", "C2F6", "CF4", "CH4", "CH4_AGR", "CH4_AWB", "CO", "CO_AWB",
@@ -110,9 +124,7 @@ use_data(food_items_map_vEurope7.2, overwrite = T)
 # waste share (waste / supply), exogenously driven per SSP scenario.
 L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
                                 comment = "#"
-) %>%
-  dplyr::rename(ssp = scenario) %>%
-  dplyr::select(-GCAM_region_ID)
+)
 use_data(L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2, overwrite = T)
 
 # wood fuel - industrial roundwood
