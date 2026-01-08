@@ -1,0 +1,1366 @@
+# Interpolated orginal data into all model years
+sector.name,subsector.name,technology,minicam.energy.input,units,year,coefficient
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,1975,0.0293653
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,1990,0.0293653
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2005,0.0293653
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2010,0.0293653
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2015,0.0293653
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2020,0.0291457
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2025,0.0289278
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2030,0.0287115
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2035,0.0284969
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2040,0.0282838
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2045,0.0280724
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2050,0.0278625
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2055,0.0276542
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2060,0.0274474
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2065,0.0272422
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2070,0.0270385
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2075,0.0268364
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2080,0.0266358
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2085,0.0264366
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2090,0.026239
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2095,0.0260428
+H2 central production,biomass,biomass to H2,elect_td_ind,GJ input / GJ H2,2100,0.0258481
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,1975,2.1939938
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,1990,2.1939938
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2005,2.1939938
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2010,2.1939938
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2015,2.1939938
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2020,2.1787772
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2025,2.163666
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2030,2.1486597
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2035,2.1337574
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2040,2.1189585
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2045,2.1042622
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2050,2.0896679
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2055,2.0751748
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2060,2.0607822
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2065,2.0464894
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2070,2.0322957
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2075,2.0182005
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2080,2.0042031
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2085,1.9903027
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2090,1.9764987
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2095,1.9627905
+H2 central production,biomass,biomass to H2,regional biomass,GJ input / GJ H2,2100,1.9491773
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,1975,0.0517428
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,1990,0.0517428
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2005,0.0517428
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2010,0.0517428
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2015,0.0517428
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2020,0.0450447
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2025,0.0392137
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2030,0.0341375
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2035,0.0297184
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2040,0.0258714
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2045,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2050,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2055,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2060,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2065,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2070,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2075,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2080,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2085,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2090,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2095,0.0246394
+H2 central production,biomass,biomass to H2,regional natural gas,GJ input / GJ H2,2100,0.0246394
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,1975,0.1030951
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,1990,0.1030951
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2005,0.1030951
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2010,0.1030951
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2015,0.1030951
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2020,0.1025471
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2025,0.1020019
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2030,0.1014597
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2035,0.1009204
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2040,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2045,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2050,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2055,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2060,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2065,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2070,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2075,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2080,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2085,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2090,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2095,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_C,M3 water / GJ H2,2100,0.1003839
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,1975,0.1061212
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,1990,0.1061212
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2005,0.1061212
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2010,0.1061212
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2015,0.1061212
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2020,0.1055482
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2025,0.1049784
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2030,0.1044116
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2035,0.1038478
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2040,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2045,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2050,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2055,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2060,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2065,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2070,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2075,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2080,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2085,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2090,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2095,0.1032871
+H2 central production,biomass,biomass to H2,water_td_ind_W,M3 water / GJ H2,2100,0.1032871
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,1975,0.035866
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,1990,0.035866
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2005,0.035866
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2010,0.035866
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2015,0.035866
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2020,0.0348621
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2025,0.0339664
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2030,0.0331619
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2035,0.0324347
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2040,0.0317736
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2045,0.0311695
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2050,0.0306145
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2055,0.0301021
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2060,0.0296271
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2065,0.0291846
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2070,0.0287709
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2075,0.0283824
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2080,0.0280164
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2085,0.0276702
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2090,0.0273417
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2095,0.027029
+H2 central production,biomass,biomass to H2 CCS,elect_td_ind,GJ input / GJ H2,2100,0.0267304
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,1975,2.6796871
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,1990,2.6796871
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2005,2.6796871
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2010,2.6796871
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2015,2.6796871
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2020,2.6063833
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2025,2.5410122
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2030,2.4823324
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2035,2.4293383
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2040,2.3812071
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2045,2.3372593
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2050,2.2969295
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2055,2.2597434
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2060,2.2253008
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2065,2.1932618
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2070,2.1633362
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2075,2.1352752
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2080,2.1088642
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2085,2.0839176
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2090,2.0602742
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2095,2.0377937
+H2 central production,biomass,biomass to H2 CCS,regional biomass,GJ input / GJ H2,2100,2.0163533
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,1975,0.0631973
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,1990,0.0631973
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2005,0.0631973
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2010,0.0631973
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2015,0.0631973
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2020,0.0526113
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2025,0.0442653
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2030,0.0375366
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2035,0.0320191
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2040,0.0274357
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2045,0.0259224
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2050,0.0258035
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2055,0.0256961
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2060,0.0255989
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2065,0.025511
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2070,0.0254313
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2075,0.0253592
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2080,0.0252938
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2085,0.0252345
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2090,0.0251806
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2095,0.0251318
+H2 central production,biomass,biomass to H2 CCS,regional natural gas,GJ input / GJ H2,2100,0.0250874
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,1975,0.1030951
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,1990,0.1030951
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2005,0.1030951
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2010,0.1030951
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2015,0.1030951
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2020,0.1025471
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2025,0.1020019
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2030,0.1014597
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2035,0.1009204
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2040,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2045,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2050,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2055,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2060,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2065,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2070,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2075,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2080,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2085,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2090,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2095,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_C,M3 water / GJ H2,2100,0.1003839
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,1975,0.1061212
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,1990,0.1061212
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2005,0.1061212
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2010,0.1061212
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2015,0.1061212
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2020,0.1055482
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2025,0.1049784
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2030,0.1044116
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2035,0.1038478
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2040,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2045,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2050,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2055,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2060,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2065,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2070,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2075,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2080,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2085,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2090,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2095,0.1032871
+H2 central production,biomass,biomass to H2 CCS,water_td_ind_W,M3 water / GJ H2,2100,0.1032871
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,1975,0.0363864
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,1990,0.0363864
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2005,0.0363864
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2010,0.0363864
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2015,0.0363864
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2020,0.0361143
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2025,0.0358443
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2030,0.0355763
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2035,0.0353104
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2040,0.0350464
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2045,0.0347843
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2050,0.0345243
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2055,0.0342662
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2060,0.03401
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2065,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2070,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2075,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2080,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2085,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2090,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2095,0.0338478
+H2 central production,coal,coal chemical,elect_td_ind,GJ input / GJ H2,2100,0.0338478
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,1975,1.5050165
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,1990,1.5050165
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2005,1.5050165
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2010,1.5050165
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2015,1.5050165
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2020,1.4945783
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2025,1.4842125
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2030,1.4739186
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2035,1.463696
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2040,1.4535444
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2045,1.4434632
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2050,1.4334519
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2055,1.42351
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2060,1.4136371
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2065,1.4038327
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2070,1.4000154
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2075,1.4000154
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2080,1.4000154
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2085,1.4000154
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2090,1.4000154
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2095,1.4000154
+H2 central production,coal,coal chemical,regional coal,GJ input / GJ H2,2100,1.4000154
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,1975,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,1990,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2005,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2010,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2015,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2020,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2025,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2030,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2035,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2040,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2045,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2050,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2055,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2060,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2065,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2070,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2075,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2080,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2085,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2090,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2095,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_C,M3 water / GJ H2,2100,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,1975,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,1990,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2005,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2010,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2015,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2020,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2025,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2030,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2035,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2040,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2045,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2050,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2055,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2060,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2065,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2070,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2075,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2080,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2085,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2090,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2095,0.3167924
+H2 central production,coal,coal chemical,water_td_ind_W,M3 water / GJ H2,2100,0.3167924
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,1975,0.0443391
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,1990,0.0443391
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2005,0.0443391
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2010,0.0443391
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2015,0.0443391
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2020,0.0429975
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2025,0.0418193
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2030,0.040776
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2035,0.0398452
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2040,0.0390088
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2045,0.0382523
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2050,0.0375638
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2055,0.0369334
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2060,0.0363531
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2065,0.0359198
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2070,0.0356996
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2075,0.0355039
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2080,0.0353297
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2085,0.0351745
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2090,0.0350361
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2095,0.0349126
+H2 central production,coal,coal chemical CCS,elect_td_ind,GJ input / GJ H2,2100,0.0348023
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,1975,1.8339572
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,1990,1.8339572
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2005,1.8339572
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2010,1.8339572
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2015,1.8339572
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2020,1.779619
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2025,1.7319333
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2030,1.6897446
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2035,1.6521394
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2040,1.6183864
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2045,1.5878935
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2050,1.5601769
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2055,1.5348375
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2060,1.5115437
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2065,1.4900182
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2070,1.4766103
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2075,1.4685147
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2080,1.4613103
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2085,1.4548919
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2090,1.4491683
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2095,1.4440596
+H2 central production,coal,coal chemical CCS,regional coal,GJ input / GJ H2,2100,1.4394964
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,1975,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,1990,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2005,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2010,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2015,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2020,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2025,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2030,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2035,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2040,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2045,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2050,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2055,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2060,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2065,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2070,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2075,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2080,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2085,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2090,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2095,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_C,M3 water / GJ H2,2100,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,1975,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,1990,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2005,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2010,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2015,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2020,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2025,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2030,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2035,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2040,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2045,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2050,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2055,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2060,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2065,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2070,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2075,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2080,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2085,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2090,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2095,0.3167924
+H2 central production,coal,coal chemical CCS,water_td_ind_W,M3 water / GJ H2,2100,0.3167924
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,1975,1.626122
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,1990,1.626122
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2005,1.626122
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2010,1.626122
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2015,1.626122
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2020,1.6007911
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2025,1.5758547999999999
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2030,1.551307
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2035,1.5271415
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2040,1.5033525
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2045,1.479934
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2050,1.4568804
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2055,1.4341858
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2060,1.4118448
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2065,1.3898518
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2070,1.3780695
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2075,1.3780695
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2080,1.3780695
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2085,1.3780695
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2090,1.3780695
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2095,1.3780695
+H2 central production,electricity,electrolysis,elect_td_ind,GJ input / GJ H2,2100,1.3780695
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,1975,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,1990,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2005,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2010,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2015,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2020,0.144622
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2025,0.1395371
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2030,0.134631
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2035,0.1298973
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2040,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2045,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2050,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2055,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2060,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2065,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2070,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2075,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2080,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2085,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2090,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2095,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_C,M3 water / GJ H2,2100,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,1975,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,1990,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2005,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2010,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2015,0.1498923
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2020,0.144622
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2025,0.1395371
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2030,0.134631
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2035,0.1298973
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2040,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2045,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2050,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2055,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2060,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2065,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2070,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2075,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2080,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2085,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2090,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2095,0.1253301
+H2 central production,electricity,electrolysis,water_td_ind_W,M3 water / GJ H2,2100,0.1253301
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,1975,0.0170535
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,1990,0.0170535
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2005,0.0170535
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2010,0.0170535
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2015,0.0170535
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2020,0.0172327
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2025,0.0174138
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2030,0.0175968
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2035,0.0177817
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2040,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2045,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2050,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2055,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2060,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2065,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2070,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2075,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2080,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2085,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2090,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2095,0.0179686
+H2 central production,gas,natural gas steam reforming,elect_td_ind,GJ input / GJ H2,2100,0.0179686
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,1975,1.3712669
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,1990,1.3712669
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2005,1.3712669
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2010,1.3712669
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2015,1.3712669
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2020,1.3708341
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2025,1.3704014
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2030,1.3699688
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2035,1.3695364
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2040,1.3691041
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2045,1.3686719
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2050,1.3682399
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2055,1.367808
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2060,1.3673762
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2065,1.3669446
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2070,1.3665131
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2075,1.3660818
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2080,1.3656506
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2085,1.3652195
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2090,1.3647885
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2095,1.3643577
+H2 central production,gas,natural gas steam reforming,regional natural gas,GJ input / GJ H2,2100,1.3639271
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,1975,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,1990,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2005,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2010,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2015,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2020,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2025,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2030,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2035,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2040,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2045,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2050,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2055,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2060,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2065,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2070,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2075,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2080,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2085,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2090,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2095,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2100,0.135285
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,1975,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,1990,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2005,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2010,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2015,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2020,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2025,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2030,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2035,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2040,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2045,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2050,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2055,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2060,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2065,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2070,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2075,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2080,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2085,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2090,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2095,0.1527264
+H2 central production,gas,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2100,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,1975,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,1990,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2005,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2010,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2015,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2020,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2025,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2030,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2035,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2040,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2045,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2050,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2055,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2060,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2065,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2070,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2075,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2080,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2085,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2090,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2095,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,elect_td_ind,GJ input / GJ H2,2100,0.0195491
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,1975,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,1990,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2005,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2010,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2015,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2020,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2025,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2030,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2035,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2040,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2045,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2050,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2055,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2060,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2065,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2070,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2075,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2080,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2085,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2090,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2095,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,regional natural gas,GJ input / GJ H2,2100,1.3673571
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,1975,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,1990,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2005,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2010,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2015,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2020,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2025,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2030,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2035,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2040,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2045,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2050,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2055,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2060,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2065,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2070,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2075,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2080,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2085,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2090,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2095,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_C,M3 water / GJ H2,2100,0.1414981
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,1975,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,1990,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2005,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2010,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2015,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2020,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2025,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2030,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2035,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2040,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2045,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2050,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2055,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2060,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2065,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2070,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2075,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2080,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2085,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2090,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2095,0.1527264
+H2 central production,gas,natural gas steam reforming CCS,water_td_ind_W,M3 water / GJ H2,2100,0.1527264
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,1975,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,1990,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2005,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2010,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2015,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2020,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2025,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2030,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2035,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2040,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2045,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2050,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2055,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2060,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2065,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2070,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2075,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2080,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2085,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2090,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2095,1.1984028
+H2 central production,nuclear,thermal splitting,nuclearFuelGenIII,GJ input / GJ H2,2100,1.1984028
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,1975,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,1990,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2005,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2010,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2015,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2020,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2025,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2030,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2035,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2040,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2045,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2050,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2055,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2060,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2065,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2070,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2075,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2080,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2085,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2090,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2095,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_C,M3 water / GJ H2,2100,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,1975,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,1990,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2005,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2010,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2015,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2020,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2025,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2030,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2035,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2040,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2045,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2050,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2055,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2060,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2065,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2070,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2075,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2080,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2085,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2090,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2095,0.0743447
+H2 central production,nuclear,thermal splitting,water_td_ind_W,M3 water / GJ H2,2100,0.0743447
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,1975,1.626122
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,1990,1.626122
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2005,1.626122
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2010,1.626122
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2015,1.626122
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2020,1.6007911
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2025,1.5758547999999999
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2030,1.551307
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2035,1.5271415
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2040,1.5033525
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2045,1.479934
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2050,1.4568804
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2055,1.4341858
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2060,1.4118448
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2065,1.3898518
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2070,1.3780695
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2075,1.3780695
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2080,1.3780695
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2085,1.3780695
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2090,1.3780695
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2095,1.3780695
+H2 central production,solar,electrolysis,global solar resource,GJ input / GJ H2,2100,1.3780695
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,1975,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,1990,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2005,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2010,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2015,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2020,0.144622
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2025,0.1395371
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2030,0.134631
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2035,0.1298973
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2040,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2045,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2050,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2055,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2060,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2065,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2070,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2075,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2080,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2085,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2090,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2095,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_C,M3 water / GJ H2,2100,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,1975,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,1990,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2005,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2010,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2015,0.1498923
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2020,0.144622
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2025,0.1395371
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2030,0.134631
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2035,0.1298973
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2040,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2045,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2050,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2055,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2060,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2065,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2070,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2075,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2080,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2085,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2090,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2095,0.1253301
+H2 central production,solar,electrolysis,water_td_ind_W,M3 water / GJ H2,2100,0.1253301
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,1975,1.626122
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,1990,1.626122
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2005,1.626122
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2010,1.626122
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2015,1.626122
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2020,1.6007911
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2025,1.5758547999999999
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2030,1.551307
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2035,1.5271415
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2040,1.5033525
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2045,1.479934
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2050,1.4568804
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2055,1.4341858
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2060,1.4118448
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2065,1.3898518
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2070,1.3780695
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2075,1.3780695
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2080,1.3780695
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2085,1.3780695
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2090,1.3780695
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2095,1.3780695
+H2 central production,wind,electrolysis,onshore wind resource,GJ input / GJ H2,2100,1.3780695
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,1975,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,1990,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2005,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2010,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2015,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2020,0.144622
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2025,0.1395371
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2030,0.134631
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2035,0.1298973
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2040,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2045,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2050,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2055,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2060,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2065,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2070,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2075,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2080,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2085,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2090,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2095,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_C,M3 water / GJ H2,2100,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,1975,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,1990,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2005,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2010,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2015,0.1498923
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2020,0.144622
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2025,0.1395371
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2030,0.134631
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2035,0.1298973
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2040,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2045,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2050,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2055,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2060,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2065,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2070,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2075,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2080,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2085,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2090,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2095,0.1253301
+H2 central production,wind,electrolysis,water_td_ind_W,M3 water / GJ H2,2100,0.1253301
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,1975,1.6351162240000001
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,1990,1.6351162240000001
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2005,1.6351162240000001
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2010,1.6351162240000001
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2015,1.6351162240000001
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2020,1.610951945
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2025,1.5871447719999998
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2030,1.56368943
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2035,1.5405807210000002
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2040,1.517813519
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2045,1.4953827769999999
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2050,1.473283523
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2055,1.4515108589999999
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2060,1.430059962
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2065,1.4089260699999997
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2070,1.397535234
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2075,1.397535234
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2080,1.397535234
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2085,1.397535234
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2090,1.397535234
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2095,1.397535234
+H2 industrial,forecourt production,electrolysis,elect_td_ind,GJ input / GJ H2,2100,1.397535234
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,1975,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,1990,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2005,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2010,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2015,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2020,0.144622
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2025,0.1395371
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2030,0.134631
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2035,0.1298973
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2040,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2045,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2050,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2055,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2060,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2065,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2070,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2075,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2080,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2085,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2090,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2095,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2100,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,1975,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,1990,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2005,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2010,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2015,0.1498923
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2020,0.144622
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2025,0.1395371
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2030,0.134631
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2035,0.1298973
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2040,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2045,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2050,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2055,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2060,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2065,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2070,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2075,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2080,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2085,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2090,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2095,0.1253301
+H2 industrial,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2100,0.1253301
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,1975,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,1990,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2005,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2010,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2015,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2020,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2025,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2030,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2035,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2040,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2045,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2050,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2055,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2060,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2065,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2070,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2075,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2080,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2085,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2090,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2095,1
+H2 industrial,H2 delivery,H2 delivery,H2 wholesale delivery,GJ input / GJ H2,2100,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,1975,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,1990,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2005,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2010,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2015,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2020,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2025,0.2766
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2030,0.264
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2035,0.252
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2040,0.24050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2045,0.2326
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2050,0.225
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2055,0.21760000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2060,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2065,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2070,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2075,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2080,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2085,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2090,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2095,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,elect_td_ind,GJ input / GJ H2,2100,0.21050000000000002
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,1975,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,1990,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2005,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2010,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2015,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2020,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2025,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2030,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2035,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2040,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2045,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2050,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2055,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2060,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2065,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2070,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2075,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2080,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2085,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2090,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2095,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,H2 central production,GJ input / GJ H2,2100,1
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,1975,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,1990,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2005,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2010,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2015,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2020,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2025,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2030,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2035,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2040,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2045,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2050,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2055,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2060,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2065,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2070,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2075,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2080,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2085,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2090,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2095,1327
+H2 liquid truck,H2 liquid truck,H2 liquid truck,trn_freight_road,GJ input / GJ H2,2100,1327
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,1975,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,1990,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2005,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2010,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2015,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2020,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2025,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2030,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2035,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2040,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2045,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2050,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2055,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2060,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2065,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2070,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2075,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2080,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2085,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2090,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2095,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,elect_td_ind,GJ input / GJ H2,2100,0.01729
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,1975,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,1990,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2005,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2010,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2015,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2020,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2025,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2030,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2035,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2040,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2045,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2050,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2055,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2060,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2065,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2070,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2075,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2080,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2085,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2090,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2095,1
+H2 pipeline,H2 pipeline,H2 pipeline,H2 central production,GJ input / GJ H2,2100,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,1975,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,1990,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2005,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2010,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2015,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2020,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2025,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2030,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2035,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2040,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2045,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2050,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2055,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2060,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2065,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2070,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2075,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2080,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2085,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2090,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2095,1
+H2 retail delivery,H2 retail delivery,H2 retail delivery,H2 wholesale delivery,GJ input / GJ H2,2100,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,1975,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,1990,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2005,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2010,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2015,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2020,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2025,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2030,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2035,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2040,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2045,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2050,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2055,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2060,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2065,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2070,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2075,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2080,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2085,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2090,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2095,1
+H2 retail dispensing,H2 retail dispensing,H2 retail dispensing,H2 wholesale dispensing,GJ input / GJ H2,2100,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,1975,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,1990,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2005,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2010,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2015,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2020,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2025,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2030,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2035,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2040,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2045,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2050,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2055,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2060,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2065,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2070,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2075,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2080,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2085,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2090,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2095,1
+H2 wholesale delivery,H2 liquid truck,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2100,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,1975,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,1990,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2005,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2010,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2015,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2020,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2025,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2030,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2035,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2040,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2045,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2050,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2055,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2060,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2065,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2070,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2075,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2080,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2085,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2090,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2095,1
+H2 wholesale delivery,H2 pipeline,H2 pipeline,H2 pipeline,GJ input / GJ H2,2100,1
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,1975,1.7841091
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,1990,1.7841091
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2005,1.7841091
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2010,1.7841091
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2015,1.7841091
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2020,1.7575038
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2025,1.7313314
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2030,1.7055848
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2035,1.6802572
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2040,1.6553417
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2045,1.6308316
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2050,1.6067203
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2055,1.5830014000000001
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2060,1.5596683
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2065,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2070,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2075,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2080,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2085,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2090,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2095,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,elect_td_trn,GJ input / GJ H2,2100,1.5465291
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,1975,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,1990,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2005,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2010,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2015,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2020,0.144622
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2025,0.1395371
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2030,0.134631
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2035,0.1298973
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2040,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2045,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2050,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2055,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2060,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2065,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2070,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2075,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2080,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2085,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2090,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2095,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_C,M3 water / GJ H2,2100,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,1975,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,1990,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2005,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2010,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2015,0.1498923
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2020,0.144622
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2025,0.1395371
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2030,0.134631
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2035,0.1298973
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2040,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2045,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2050,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2055,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2060,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2065,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2070,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2075,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2080,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2085,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2090,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2095,0.1253301
+H2 wholesale dispensing,forecourt production,electrolysis,water_td_ind_W,M3 water / GJ H2,2100,0.1253301
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,1975,1.3673571
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,1990,1.3673571
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2005,1.3673571
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2010,1.3673571
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2015,1.3673571
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2020,1.3493357
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2025,1.3315518
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2030,1.3140023
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2035,1.296684
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2040,1.279594
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2045,1.2627293
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2050,1.2460868
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2055,1.2296637
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2060,1.2134571
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2065,1.197464
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2070,1.1816817
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2075,1.1686813
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2080,1.1686813
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2085,1.1686813
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2090,1.1686813
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2095,1.1686813
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,delivered gas,GJ input / GJ H2,2100,1.1686813
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,1975,0.18227510000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,1990,0.18227510000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2005,0.18227510000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2010,0.18227510000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2015,0.18227510000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2020,0.1873747
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2025,0.19325590000000004
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2030,0.2000385
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2035,0.20786040000000003
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2040,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2045,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2050,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2055,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2060,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2065,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2070,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2075,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2080,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2085,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2090,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2095,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,elect_td_trn,GJ input / GJ H2,2100,0.21688120000000002
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,1975,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,1990,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2005,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2010,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2015,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2020,0.1719522
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2025,0.1627299
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2030,0.1540023
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2035,0.1457427
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2040,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2045,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2050,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2055,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2060,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2065,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2070,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2075,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2080,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2085,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2090,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2095,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_C,M3 water / GJ H2,2100,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,1975,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,1990,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2005,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2010,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2015,0.1816972
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2020,0.1719522
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2025,0.1627299
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2030,0.1540023
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2035,0.1457427
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2040,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2045,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2050,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2055,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2060,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2065,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2070,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2075,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2080,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2085,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2090,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2095,0.1379261
+H2 wholesale dispensing,forecourt production,natural gas steam reforming,water_td_ind_W,M3 water / GJ H2,2100,0.1379261
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,1975,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,1990,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2005,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2010,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2015,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2020,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2025,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2030,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2035,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2040,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2045,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2050,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2055,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2060,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2065,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2070,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2075,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2080,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2085,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2090,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2095,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,elect_td_trn,GJ input / GJ H2,2100,0.0161
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,1975,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,1990,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2005,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2010,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2015,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2020,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2025,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2030,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2035,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2040,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2045,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2050,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2055,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2060,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2065,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2070,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2075,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2080,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2085,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2090,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2095,1
+H2 wholesale dispensing,H2 delivery,H2 liquid truck,H2 liquid truck,GJ input / GJ H2,2100,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,1975,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,1990,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2005,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2010,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2015,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2020,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2025,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2030,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2035,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2040,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2045,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2050,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2055,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2060,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2065,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2070,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2075,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2080,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2085,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2090,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2095,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,elect_td_trn,GJ input / GJ H2,2100,0.14900000000000002
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,1975,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,1990,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2005,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2010,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2015,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2020,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2025,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2030,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2035,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2040,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2045,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2050,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2055,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2060,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2065,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2070,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2075,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2080,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2085,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2090,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2095,1
+H2 wholesale dispensing,H2 delivery,H2 pipeline,H2 pipeline,GJ input / GJ H2,2100,1

@@ -1,0 +1,348 @@
+################################################################################
+# Step 4: Fill Template (Final Step)
+#
+# PURPOSE:
+#   Apply variable mappings to fill template with GCAM data.
+#   This step uses the mapping created in Step 3 to perform simple arithmetic
+#   operations and convert units to template requirements.
+#
+# WHAT THIS SCRIPT DOES:
+#   1. Load Korea GCAM data and variable mapping
+#   2. Process mapped variables (apply addition/subtraction operations)
+#   3. Convert units to match template requirements
+#   4. Fill complete template with all scenarios
+#   5. Generate missing data report
+#
+# PREREQUISITES:
+#   1. Run step2_process_data.R (creates Korea-specific data)
+#   2. Complete manual review of mapping_template.xlsx from Step 3
+#   3. Have template file in output directory
+#
+# OUTPUT FILES:
+#   - variables_before_unit_conversion.csv: Data before unit conversion
+#   - variables_after_unit_conversion.csv: Final data (COMPLETE!)
+#
+################################################################################
+
+########## Load Configuration ##########
+source(file.path(getwd(), "kaist/config.R"))
+########################################
+
+########## Libraries ##########
+library(readr)
+library(dplyr)
+library(tibble)
+library(readxl)
+library(writexl)
+library(tidyverse)
+################################
+
+########## Input Files ##########
+# GCAM data from step2 (in output/)
+gcam_data_path <- file.path(output_dir, paste0(output_prefix, "_korea.csv"))
+
+# Template and mapping files (at project root, not in output/)
+mapping_path <- file.path(project_dir, "mapping_template.xlsx")
+template_path <- file.path(project_dir, "template.xlsx")
+
+# Year columns for processing (derived from config)
+year_cols <- as.character(seq(start_year, final_year, by = 5))
+year_cols <- year_cols[as.numeric(year_cols) >= 2020]  # Usually start from 2020
+#################################
+
+########## Unit Conversion Table ##########
+# Define unit conversion factors for target data
+unit_table <- tribble(
+  ~from,                 ~to,                    ~factor,
+  "EJ",                  "ktoe",                 23884.589,
+  "EJ/yr",               "ktoe/yr",              23884.589,
+  "EJ/yr",               "GWh/yr",               277777.7777778,
+  "TWh/yr",              "GWh/yr",               1000,
+  "USD_2010/kW",         "thousandKRW/kW",       1.283669,
+  "billion USD_2010/yr", "billionKRW/yr",        1283.669079,
+  "billion 1975 USD/yr", "billionKRW/yr",        4138.360201,
+  "billion USD_2010/yr", "trillionKRW/yr",       1.283669,
+  "USD_2010/t CO2",      "KRW/tCO2",             1283.669079,
+  "kt N2O/yr",           "Mt CO2eq/yr",          0.273,
+  "Mt CH4/yr",           "Mt CO2eq/yr",          27.2,
+  "GW/yr",               "GW",                   1,
+  "Mt CO2/yr",           "Mt CO2/yr",            1,
+  "1990$/tC",            "KRW/tCO2",             530.702,
+  "Mt CO2/yr",           "Mt CO2eq/yr",          1,
+  # 2015 KRW base conversions
+  # 2015 exchange rate: 1 USD = 1,131 KRW
+  # US GDP Deflator: 1990=63.6, 2010=91.0, 2015=100
+  "1990$/tC",            "2015 KRW/tCO2",        484.85,    # (12/44) * (100/63.6) * 1131
+  "billion USD_2010/yr", "2015 billionKRW/yr",   1242.97,   # (100/91.0) * 1131
+)
+###########################################
+
+########## Load Data ##########
+# Load GCAM report results
+gcam_data <- read_csv(gcam_data_path, show_col_types = FALSE)
+
+# Remove 'X' prefix from year columns if present (X2020 -> 2020)
+names(gcam_data) <- gsub("^X(\\d{4})$", "\\1", names(gcam_data))
+
+# Load mapping and template
+mapping <- read_excel(mapping_path)
+template <- read_excel(template_path)
+###############################
+
+########## Process Variable Operations ##########
+# Apply variable operations (addition/subtraction) according to mapping
+mapping_valid <- mapping %>% filter(!is.na(gcam_variable) & gcam_variable != "")
+new_rows_list <- list()
+
+for (i in seq_len(nrow(mapping_valid))) {
+  template_var <- mapping_valid$template_variable[i]
+  gcam_var <- mapping_valid$gcam_variable[i]
+  gcam_var_add <- mapping_valid$gcam_variable_add[i]
+  gcam_var_subtract <- mapping_valid$gcam_variable_subtract[i]
+
+  all_scenarios <- unique(gcam_data$Scenario)
+
+  # Process each scenario
+  for (scenario in all_scenarios) {
+
+    # Get base variable data
+    base_data <- gcam_data %>%
+      filter(Variable == gcam_var, Scenario == scenario)
+
+    if (nrow(base_data) == 0) next
+    if (nrow(base_data) > 1) next  # Skip if multiple rows
+
+    base_unit <- base_data$Unit[1]
+
+    # Start with base data - convert to regular data frame for easier manipulation
+    new_row <- as.data.frame(base_data)
+    new_row$Variable <- template_var
+
+    # Addition: Add multiple variables if specified
+    if (!is.na(gcam_var_add) && gcam_var_add != "") {
+      add_vars <- strsplit(gcam_var_add, ";")[[1]]
+      add_vars <- trimws(add_vars)
+
+      for (add_var in add_vars) {
+        add_data <- gcam_data %>%
+          filter(Variable == add_var, Scenario == scenario)
+
+        # Treat missing data as 0 (skip silently)
+        if (nrow(add_data) == 0) {
+          cat(sprintf("Warning: Variable '%s' not found for scenario '%s' (treating as 0)\n",
+                     add_var, scenario))
+          next
+        }
+
+        # Skip if multiple rows found
+        if (nrow(add_data) > 1) {
+          warning(sprintf("Multiple rows for %s in scenario %s", add_var, scenario))
+          next
+        }
+
+        add_unit <- add_data$Unit[1]
+
+        # Check unit consistency
+        if (add_unit != base_unit) {
+          warning(sprintf("Unit mismatch in addition: %s (%s) + %s (%s)",
+                         gcam_var, base_unit, add_var, add_unit))
+          next
+        }
+
+        # Add values for all year columns
+        for (year_col in year_cols) {
+          if (year_col %in% names(new_row) && year_col %in% names(add_data)) {
+            new_row[[year_col]] <- new_row[[year_col]] + add_data[[year_col]][1]
+          }
+        }
+      }
+    }
+
+    # Subtraction: Subtract multiple variables if specified
+    if (!is.na(gcam_var_subtract) && gcam_var_subtract != "") {
+      subtract_vars <- strsplit(gcam_var_subtract, ";")[[1]]
+      subtract_vars <- trimws(subtract_vars)
+
+      for (subtract_var in subtract_vars) {
+        subtract_data <- gcam_data %>%
+          filter(Variable == subtract_var, Scenario == scenario)
+
+        # Treat missing data as 0 (skip silently)
+        if (nrow(subtract_data) == 0) {
+          cat(sprintf("Variable '%s' not found for scenario '%s' (treating as 0)\n",
+                     subtract_var, scenario))
+          next
+        }
+
+        # Skip if multiple rows found
+        if (nrow(subtract_data) > 1) {
+          warning(sprintf("Multiple rows for %s in scenario %s", subtract_var, scenario))
+          next
+        }
+
+        subtract_unit <- subtract_data$Unit[1]
+
+        # Check unit consistency
+        if (subtract_unit != base_unit) {
+          warning(sprintf("Unit mismatch in subtraction: %s (%s) - %s (%s)",
+                         gcam_var, base_unit, subtract_var, subtract_unit))
+          next
+        }
+
+        # Subtract values for all year columns
+        for (year_col in year_cols) {
+          if (year_col %in% names(new_row) && year_col %in% names(subtract_data)) {
+            new_row[[year_col]] <- new_row[[year_col]] - subtract_data[[year_col]][1]
+          }
+        }
+      }
+    }
+
+    new_rows_list[[length(new_rows_list) + 1]] <- new_row
+  }
+}
+
+# Combine all processed variables
+new_rows_df <- bind_rows(new_rows_list)
+
+# Get list of template variables from mapping
+template_variables <- unique(mapping_valid$template_variable)
+newly_generated_vars <- unique(new_rows_df$Variable)
+
+# Filter original template variables (exclude newly generated ones to avoid duplicates)
+original_template_vars <- gcam_data %>%
+  filter(Variable %in% template_variables,
+          !(Variable %in% newly_generated_vars))
+
+# Combine original + new variables
+all_variables_original <- bind_rows(original_template_vars, new_rows_df)
+
+# Save before unit conversion
+write_csv(all_variables_original,
+          file.path(output_dir, "variables_before_unit_conversion.csv"),
+          na = "")
+##################################################
+
+########## Unit Conversion ##########
+# Create unit mapping from template
+template_units <- template %>%
+  select(Variable, target_unit = Unit) %>%
+  distinct()
+
+# Convert to long format
+df_long <- all_variables_original %>%
+  pivot_longer(
+    cols = all_of(year_cols),
+    names_to = "Year",
+    values_to = "Value"
+  )
+
+# Join with template to get target units
+df_with_target <- df_long %>%
+  left_join(template_units, by = "Variable")
+
+# Apply unit conversion
+df_converted_long <- df_with_target %>%
+  rowwise() %>%
+  mutate(
+    # Find conversion factor
+    conversion_factor = {
+      if (is.na(target_unit) || is.na(Unit) || Unit == target_unit) {
+        1.0
+      } else {
+        conv_row <- unit_table %>% filter(from == Unit, to == target_unit)
+        if (nrow(conv_row) > 0) {
+          conv_row$factor[1]
+        } else {
+          cat(sprintf("Missing conversion: %s (%s -> %s)\n", Variable, Unit, target_unit))
+          1.0
+        }
+      }
+    },
+
+    # Apply conversion
+    Value_new = Value * conversion_factor,
+
+    # Update unit if conversion applied
+    Unit_new = if_else(!is.na(target_unit) && conversion_factor != 1.0, target_unit, Unit)
+  ) %>%
+  ungroup() %>%
+  select(-conversion_factor, -target_unit, -Unit, -Value) %>%
+  rename(Unit = Unit_new, Value = Value_new)
+
+# Convert back to wide format
+df_after <- df_converted_long %>%
+  pivot_wider(
+    names_from = Year,
+    values_from = Value
+  )
+######################################
+
+########## Fill Complete Template ##########
+# Get the variable order from template (preserve original order)
+template_var_order <- unique(template$Variable)
+all_scenarios <- unique(gcam_data$Scenario)
+
+# Create complete skeleton: all template variables x all scenarios
+complete_skeleton <- expand.grid(
+  Variable = template_var_order,
+  Scenario = all_scenarios,
+  stringsAsFactors = FALSE
+)
+
+# Join with converted data
+df_complete <- complete_skeleton %>%
+  left_join(df_after, by = c("Variable", "Scenario"))
+
+# Fill in missing columns with appropriate defaults
+df_final <- df_complete %>%
+  mutate(
+    Model = coalesce(Model, first(na.omit(df_after$Model))),
+    Region = coalesce(Region, first(na.omit(df_after$Region)))
+  )
+
+# Reorder columns to match expected format
+col_order <- c("Model", "Scenario", "Region", "Variable", "Unit", year_cols)
+df_final <- df_final %>% select(any_of(col_order))
+
+# Sort by template variable order
+df_final <- df_final %>%
+  mutate(Variable = factor(Variable, levels = template_var_order)) %>%
+  arrange(Variable, Scenario) %>%
+  mutate(Variable = as.character(Variable))
+############################################
+
+########## Generate Reports ##########
+# Check how many variables have no data per scenario
+missing_report <- df_final %>%
+  rowwise() %>%
+  mutate(
+    all_years_missing = all(is.na(c_across(all_of(year_cols))))
+  ) %>%
+  ungroup() %>%
+  filter(all_years_missing) %>%
+  group_by(Scenario) %>%
+  summarise(
+    missing_count = n(),
+    .groups = "drop"
+  )
+
+# Save after conversion with complete variable list
+write_csv(df_final,
+          file.path(output_dir, "variables_after_unit_conversion.csv"),
+          na = "")
+
+cat("\n=== Step 4 Complete ===\n")
+cat("Output:", file.path(output_dir, "variables_after_unit_conversion.csv"), "\n")
+cat("\n=== Missing data report by scenario ===\n")
+for (i in seq_len(nrow(missing_report))) {
+  scenario_name <- missing_report$Scenario[i]
+  missing_count <- missing_report$missing_count[i]
+  total_vars <- length(template_var_order)
+  pct <- round(missing_count / total_vars * 100, 1)
+  cat(sprintf("  %s: %d / %d variables missing (%.1f%%)\n",
+              scenario_name, missing_count, total_vars, pct))
+}
+cat("\nNext: Run kaist/step5_verification.qmd to verify results\n")
+######################################
+
