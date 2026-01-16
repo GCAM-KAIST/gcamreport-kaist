@@ -1,6 +1,7 @@
 name;fun;dependencies;queries
 population_clean;get_population;;population by region
 pop_weights;get_population_weights;population_clean;
+energy_expenditure_per_clean;get_en_expenditure;pop_weights,income_raw;building service costs,building service output by service,population by region
 GDP_PPP_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_PPP_pc_growth_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_PPP_pc_oecd_share_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
@@ -95,6 +96,7 @@ trn_stock_clean;get_transport_stock;;transport service output by tech and vintag
 trn_sales_clean;get_transport_sales;;transport service output by tech and vintage
 resource_extraction_clean;get_resource_extraction;;resource production
 income_clean;get_income;;subregional income
+income_raw;get_income;;subregional income
 consumption_hh_clean;get_consumption_hh;;building total final energy by service
 yield_clean;get_yield;ag_production_clean,land_yield;
 refliq_bioshare;get_refliq_bioshare;;refined liquids production by tech

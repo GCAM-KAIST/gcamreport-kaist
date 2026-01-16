@@ -550,6 +550,7 @@ available_variables <- function(print = TRUE, GCAM_version = 'v7.1') {
 #' @param launch_ui If `TRUE` (default), launches the User Interface. If `FALSE`, does not launch the UI.
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
+#' @param ref_scen_name Name of the Reference scenario. Necessary to compute Expenditure variables. If left empty, `Reference` and `Baseline` tags will be looked for. If not encountered, the first scenario of your project will be considered as the Reference.
 #' @param queries_general_file Optional. Full path to a general XML query file (including file name and extension). Defaults to a general query file compatible with the specified `GCAM_version` that reports all standardized variables.
 #' @param queries_nonCO2_file Optional. Full path to an XML query file (including file name and extension) for non-CO2 queries, such as "nonCO2 emissions by subsector (excluding resource production)" and "nonCO2 emissions by region". Defaults to a non-CO2 query file compatible with the specified `GCAM_version`.
 #' @param interactive If `TRUE` (not default), asks the user what to do when Warnings appear. Otherwise, the Warnings are displayed at the end of the script.
@@ -560,7 +561,7 @@ available_variables <- function(print = TRUE, GCAM_version = 'v7.1') {
 generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios = NULL, final_year = 2100,
                             desired_variables = "All", ignore = NULL, desired_regions = "All", desired_continents = "All",
                             save_output = TRUE, output_file = NULL, launch_ui = TRUE, interactive = F,
-                            GCAM_version = 'v7.1', GWP_version = 'AR5',
+                            GCAM_version = 'v7.1', GWP_version = 'AR5', ref_scen_name = NULL,
                             queries_general_file = NULL, queries_nonCO2_file = NULL,
                             all_tier1 = F) {
   continent <- region <- name <- Variable <- Internal_variable <- required <- prj_loaded <- NULL
@@ -804,6 +805,14 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   years_in_prj <<- years_in_prj
   desired_regions.global <<- desired_regions
   desired_variables.global <<- desired_variables
+  if (is.null(ref_scen_name)) {
+    hits <- sapply(get('scen_ref_patterns', envir = asNamespace("gcamreport")),
+                   function(p) grep(p, scenarios.global, ignore.case = TRUE)[1])
+    first_hit <- na.omit(hits)[1]
+    .myGlobals$ref_scen_name <- if (length(first_hit) > 0) scenarios.global[first_hit] else scenarios.global[1]
+  } else {
+    .myGlobals$ref_scen_name <- ref_scen_name
+  }
   for (i in 1:nrow(.myGlobals$variables.global)) {
     if (.myGlobals$variables.global$required[i]) {
       load_variable(.myGlobals$variables.global[i, ], GCAM_version, GWP_version)

@@ -10,6 +10,11 @@ rawDataFolder <- here::here()
 GDP_PPP_OECD_pc_av <- 55.142 # US dollar 2024
 use_data(GDP_PPP_OECD_pc_av, overwrite = T)
 
+# Reference scenario names
+# List all possible default names for the Reference scenario
+scen_ref_patterns <- c('Reference','Baseline','Ref','Base')
+use_data(scen_ref_patterns, overwrite = T)
+
 # ghg adjusters
 ghg_GWP_AR4 <- read.csv(file.path(rawDataFolder, "inst/extdata/mappings", "ghg_GWP_AR4.csv"),
                         skip = 1, na = "",

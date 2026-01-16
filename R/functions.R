@@ -861,17 +861,17 @@ get_population_weights <- function(GCAM_version = "v7.1") {
 #' Compute share of total income my decile
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `income_clean` global variables.
+#' @return `income_clean` and `income_raw` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_income <- function(GCAM_version = "v7.1") {
-  income_clean <- income_tmp <- income_w <- income <- NULL
+  income_clean <- income_raw <- income_w <- income <- NULL
 
   check_queries('income_clean', GCAM_version)
 
   if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
-    income_tmp <-
+    income_raw <-
       check_inf(rgcam::getQuery(prj, "subregional income"),
                 dataset_name = "subregional income") %>%
       dplyr::filter(grepl('resid',`gcam-consumer`)) %>%
@@ -881,7 +881,7 @@ get_income <- function(GCAM_version = "v7.1") {
                                  ' [Share]'))
 
     # compute income share by decile
-    income <- income_tmp %>%
+    income <- income_raw %>%
       dplyr::group_by(scenario, region, year) %>%
       dplyr::mutate(total = sum(value)) %>%
       dplyr::ungroup() %>%
@@ -889,7 +889,7 @@ get_income <- function(GCAM_version = "v7.1") {
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
     # compute income share by decile at the World level
-    income_w <- income_tmp %>%
+    income_w <- income_raw %>%
       dplyr::group_by(scenario, year, var) %>%
       dplyr::summarise(value = sum(value)) %>%
       dplyr::ungroup() %>%
@@ -908,9 +908,11 @@ get_income <- function(GCAM_version = "v7.1") {
 
   } else {
     income_clean <- NULL
+    income_raw <- NULL
     warning("The 'Income by Decile' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
   }
 
+  income_raw <<- income_raw
   income_clean <<- income_clean
 
 }
@@ -1142,6 +1144,120 @@ get_value_added <- function(GCAM_version = "v7.1") {
 
   value_added_clean <<- value_added_clean
 }
+
+
+#' get_en_expenditure
+#'
+#' Computes energy expenditure.as the share of the total expenditure by decile
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `energy_expenditure_per_clean` global variable.
+#' @keywords internal economy
+#' @importFrom magrittr %>%
+#' @export
+get_en_expenditure <- function(GCAM_version = "v7.1") {
+  energy_expenditure_per_clean <- energy_expenditure_per_w <-
+    energy_expenditure_per <- energy_expenditure_per_avR <- NULL
+
+  # income of the Reference scenario
+  income <- income_raw %>%
+    dplyr::filter(scenario == .myGlobals$ref_scen_name) %>%
+    dplyr::select(-var, -Units, -scenario) %>%
+    dplyr::rename(income = value,
+                  `gcam-decile` = `gcam-consumer`) %>%
+    # Units: from billion 1990$ per capita to 1900$ per capita
+    dplyr::mutate(income = 1e3 * income) %>%
+    # fix South America_Northern
+    dplyr::mutate(income = dplyr::if_else(region == 'South America_Northern', income / 20, income)) %>%
+    dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-decile`)))
+
+
+  # Energy expenditure
+  energy_mult <- get(paste('en_multiplier',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::select(-year)
+
+  energy_expenditure <-
+    # energy prices
+    check_inf(rgcam::getQuery(prj, "building service costs"),
+              dataset_name = "building service costs") %>%
+    # Units: from 1975$ to 1990$
+    dplyr::mutate(value = value *
+                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']] /
+                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]) %>%
+    # Units: from GJ to EJ (1GJ = 1e9EJ)
+    dplyr::mutate(value = get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['GJ_to_EJ']] * value) %>%
+    # other
+    dplyr::rename(cost = value) %>%
+    dplyr::filter(year %in% gcam_years) %>%
+    # energy demand
+    dplyr::left_join(
+      # left_join_error_no_match(
+      check_inf(rgcam::getQuery(prj, "building service output by service"),
+                dataset_name = "building service output by service") %>%
+        dplyr::rename(demand = value) %>%
+        tidyr::complete(tidyr::nesting(Units, scenario, region, sector), year = gcam_years, fill = list(demand = 0)),
+      by = c('scenario','region','sector','year')
+    ) %>%
+    # fix NAs in demand (Taiwan resid others coal)
+    dplyr::mutate(demand = dplyr::if_else(is.na(demand), 0, demand)) %>%
+    # EXPENDITURE
+    dplyr::mutate(energy_expenditure = demand * cost) %>%
+    dplyr::mutate(Units = '1990$') %>%
+    dplyr::select(-Units.x, -Units.y, `gcam-consumer` = sector) %>%
+    dplyr::filter(grepl('resid', `gcam-consumer`)) %>%
+    dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-consumer`))) %>%
+    dplyr::group_by(scenario, region, `gcam-decile`, year, Units) %>%
+    dplyr::summarise(energy_expenditure = sum(energy_expenditure)) %>%
+    dplyr::ungroup() %>%
+    # compute per capita expenditure
+    left_join_error_no_match(
+      rgcam::getQuery(prj, "population by region") %>%
+        # Units: from thous. to abs
+        dplyr::mutate(pop = 1e2 * value) %>%
+        dplyr::select(scenario, region, year, pop),
+      by = c('scenario','region','year')) %>%
+    dplyr::mutate(energy_expenditure = energy_expenditure / pop) %>%
+    dplyr::mutate(Units = '1990$cap') %>%
+    # add multipliers
+    left_join_error_no_match(energy_mult,
+                             by = c('region')) %>%
+    dplyr::mutate(energy_expenditure = energy_mult * energy_expenditure) %>%
+    dplyr::select(scenario, region, year, energy_expenditure, `gcam-decile`, Units)
+
+
+  energy_expenditure_per <- energy_expenditure %>%
+    left_join_error_no_match(income,
+                             by = c('region','gcam-decile','year')) %>%
+    dplyr::mutate(energy_expenditure_per = 1e2 * energy_expenditure / income) %>%
+    dplyr::mutate(var = paste0('Expenditure|Households|Energy|D',`gcam-decile`, ' [Share]')) %>%
+    dplyr::select(scenario, region, var, year, value = energy_expenditure_per)
+
+  energy_expenditure_per_avR <- energy_expenditure_per %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(var = 'Expenditure|Households|Energy [Share]',
+                     value = mean(value)) %>%
+    dplyr::ungroup()
+
+  energy_expenditure_per_w <- energy_expenditure_per %>%
+    left_join_error_no_match(tibble::as_tibble(pop_weights),
+                             by = c('scenario','region','year')) %>%
+    # weighted sum
+    dplyr::mutate(en_expenditure_per_weighted = value * share * 100) %>%
+    dplyr::group_by(scenario, year, var) %>%
+    dplyr::summarise(region = 'World',
+                     value = sum(en_expenditure_per_weighted)) %>%
+    dplyr::ungroup()
+
+
+  energy_expenditure_per_clean <- rbind(
+    energy_expenditure_per,
+    energy_expenditure_per_avR,
+    energy_expenditure_per_w
+  )
+
+  energy_expenditure_per_clean <<- energy_expenditure_per_clean
+}
+
 
 
 #' get_expenditure

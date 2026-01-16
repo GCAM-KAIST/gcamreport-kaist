@@ -196,6 +196,11 @@ use_data(en_demand_price_map_vScenarioMIPCMIP7, overwrite = T)
 
 
 # Energy Service maps
+en_multiplier_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "en_multiplier.csv"),
+                                                          comment = "#"
+)
+use_data(en_multiplier_vScenarioMIPCMIP7, overwrite = T)
+
 transport_en_service_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "transport_en_service.csv"),
                                       comment = "#"
 ) %>% gather_map()
