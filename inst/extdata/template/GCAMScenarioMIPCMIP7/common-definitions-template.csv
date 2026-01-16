@@ -51,6 +51,7 @@ Agricultural Production|Livestock|Non-Ruminant|Meat|Poultry,Production of poultr
 Agricultural Production|Livestock|Ruminant,"Production of ruminant meat (cattle, goat, sheep) and dairy products (milk, cheese)",million t DM/yr,2,ag_production_clean,done,,,,,,,,,,,,,,,,Production (PROD) - Dairy (DRY),
 Agricultural Production|Livestock|Ruminant|Dairy,"Production of dairy products (milk, cheese)",million t DM/yr,2,ag_production_clean,done,,,,,,,,,,,,,,,,Production (PROD) - Dairy (DRY),
 Agricultural Production|Livestock|Ruminant|Meat,"Production of ruminant meat (cattle, goat, sheep)",million t DM/yr,2,ag_production_clean,done,,,,,,,,,,,,,,,,Production (PROD) - Dairy (DRY),
+Agricultural Production|Non-Energy,Production of food and feed products,million t DM/yr,2,ag_production_clean,done,,,,susmip,,,,,,,,,,,,Production (PROD) - Dairy (DRY),
 Agricultural Production|Residues,Harvested agricultural residues,million t DM/yr,2,,,,,,A large share of residues usually remains on the field.,,,,,,,,,,,,,
 Air Pollution|PM2.5|Urban Population,Urban population weighted annual average PM2.5 concentrations.,ug/m3,,,,,,,,,,,,,,11,Population|Urban,,,Air Pollution|PM2.5|Urban population,,
 Building Stock|Commercial|Floor Space|Gross,Standing stock of floor space in residential and commercial buildings,billion m2,2,,,,,,,,,,,,,,,,,,,
