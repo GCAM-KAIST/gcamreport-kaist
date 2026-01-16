@@ -972,15 +972,17 @@ get_labor <- function(GCAM_version = "v7.1") {
 #' Retrieves GDP (PPP) data, computes regional GDP and annual GDPpc growth rate, and converts units to 10 USD.
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `GDP_PPP_clean` and `GDP_PPP_pc_growth_clean` global variables.
+#' @return `GDP_PPP_clean`, `GDP_PPP_pc_growth_clean`, and `GDP_PPP_pc_oecd_share_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_gdp_ppp <- function(GCAM_version = "v7.1") {
-  value <- pop_mill <- GDP_PPP_clean <- GDP_PPP_pc_growth_clean <- NULL
+  value <- pop_mill <- GDP_PPP_clean <- GDP_PPP_pc_growth_clean <-
+    GDP_PPP_pc_oecd_share_clean <- NULL
 
   check_queries('GDP_PPP_clean', GCAM_version)
   check_queries('GDP_PPP_pc_growth_clean', GCAM_version)
+  check_queries('GDP_PPP_pc_oecd_share_clean', GCAM_version)
 
   GDP_PPP_clean <-
     check_inf(rgcam::getQuery(prj, "GDP per capita PPP by region"),
@@ -1008,7 +1010,21 @@ get_gdp_ppp <- function(GCAM_version = "v7.1") {
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  GDP_PPP_pc_oecd_share_clean <-
+    check_inf(rgcam::getQuery(prj, "GDP per capita PPP by region"),
+              dataset_name = "GDP per capita PPP by region") %>%
+    dplyr::filter(value != 0) %>% # avoid null values present in the data due to the byu
+    dplyr::arrange(year) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(
+      value = 100 * (value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']])
+              / (get('GDP_PPP_OECD_pc_av', envir = asNamespace("gcamreport")) / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_10USD_25USD']]),
+      var = "GDP|PPP [per capita relative to OECD]"
+    ) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+
+  GDP_PPP_pc_oecd_share_clean <<- GDP_PPP_pc_oecd_share_clean
   GDP_PPP_pc_growth_clean <<- GDP_PPP_pc_growth_clean
   GDP_PPP_clean <<- GDP_PPP_clean
 }

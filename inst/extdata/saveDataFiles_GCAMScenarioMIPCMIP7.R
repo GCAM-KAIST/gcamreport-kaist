@@ -306,6 +306,7 @@ convert_vScenarioMIPCMIP7 <- list(
   # These values are taken from GDP inflator in the GCAM R package
   conv_05USD_10USD = 1.100372,
   conv_90USD_10USD = 1.515897,
+  conv_10USD_25USD = 1.492, # source: internet
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
   conv_19USD_75USD = 0.2658798,
