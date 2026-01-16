@@ -107,6 +107,11 @@ food_items_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "in
 )
 use_data(food_items_map_vScenarioMIPCMIP7, overwrite = T)
 
+food_expenditures_average_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "food_expenditures_average.csv"),
+                                                   comment = "#"
+)
+use_data(food_expenditures_average_vScenarioMIPCMIP7, overwrite = T)
+
 # waste share (waste / supply), exogenously driven per SSP scenario.
 L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
                                 comment = "#"
