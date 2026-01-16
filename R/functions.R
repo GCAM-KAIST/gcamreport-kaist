@@ -1345,6 +1345,23 @@ get_food_availability <- function(GCAM_version = "v7.1") {
   food_availability_clean <<- food_availability_clean
 }
 
+#' get_food_demand
+#'
+#' Computes Food demand
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `food_demand_clean` global variable.
+#' @keywords internal food
+#' @importFrom magrittr %>%
+#' @export
+get_food_demand <- function(GCAM_version = "v7.1") {
+  value <- food_demand_clean <- NULL
+
+  food_demand_clean <- food_availability_clean %>%
+    dplyr::mutate(var = gsub('Food Availability','Food Demand',var))
+
+  food_demand_clean <<- food_demand_clean
+}
 
 #' get_food_intake
 #'
