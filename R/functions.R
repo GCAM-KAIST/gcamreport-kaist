@@ -3648,6 +3648,37 @@ get_floor_space <- function(GCAM_version = "v7.1") {
 
 
 
+#' get_hdd_cdd
+#'
+#' Get HDD and CDD.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal energy
+#' @return `hdd_cdd_clean` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_hdd_cdd <- function(GCAM_version = "v7.1") {
+  hdd_cdd_clean <- NULL
+
+  check_queries("hdd_cdd_clean", GCAM_version)
+
+  # base data
+  tmp <- get(paste('hdd_cdd',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  hdd_cdd_clean <- tmp %>%
+    dplyr::mutate(scenario = scenarios.global[1])
+
+  for (sc in scenarios.global[-1]) {
+    hdd_cdd_clean <- rbind(
+      hdd_cdd_clean,
+      tmp %>%
+        dplyr::mutate(scenario = sc)
+    )
+  }
+
+  hdd_cdd_clean <<- hdd_cdd_clean
+}
+
+
+
 # industry production
 # could add chemicals but they're in terms of EJ, need to also add cement
 

@@ -206,6 +206,11 @@ buildings_en_service_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolde
 ) %>% gather_map()
 use_data(buildings_en_service_vScenarioMIPCMIP7, overwrite = T)
 
+hdd_cdd_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "hdd_cdd.csv"),
+                                      comment = "#"
+) %>% gather_map()
+use_data(hdd_cdd_vScenarioMIPCMIP7, overwrite = T)
+
 
 # capital updates
 capital_gcam_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "L223.GlobalIntTechCapital_elec.csv"),
