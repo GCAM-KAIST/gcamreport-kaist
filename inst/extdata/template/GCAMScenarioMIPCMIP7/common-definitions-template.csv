@@ -2871,7 +2871,7 @@ Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Fuel-Cell-Electr
 Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Internal Combustion,Energy service demand for passenger transport on roads in light duty vehicles with internal combustion engine drive not including plug-in hybrids (ICE),billion pkm/yr,2,energy_service_transportation_clean,,,Energy Service|Transportation|Road|LDV|ICE,,,,,,,,,,,,,,,
 Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Plug-in Hybrid,Energy service demand for passenger transport on roads in light duty vehicles with plug-in hybrid drive (PHEV),billion pkm/yr,2,energy_service_transportation_clean,,,Energy Service|Transportation|Road|LDV|PHEV,,,,,,,,,,,,,,,
 Expenditure|Government,Total expenditure by governments,billion USD_2010/yr,1,,,CR: Not tracked seperatly from Households,,,,,,,,,,,,,,,,
-Expenditure|Households,Total expenditure by households,billion USD_2010/yr,1,,,,Expenditure|Household,,,,,,,,,,,,,,,
+Expenditure|Households,Total expenditure by households,billion USD_2010/yr,1,expenditure_per_clean,,,Expenditure|Household,,,,,,,,,,,,,,,
 Expenditure|Households|Energy [Share],Share of energy expenditure in total income,%,,energy_expenditure_per_clean,done,,,,susmip,,,"[0, 100]",,,,,,,,,,
 Expenditure|Households|Energy|D1 [Share],Share of energy expenditure in total income accruing to the first decile,%,,energy_expenditure_per_clean,done,,,,susmip,,,"[0, 100]",,,,,,,,,,
 Expenditure|Households|Energy|D10 [Share],Share of energy expenditure in total income accruing to the tenth decile,%,,energy_expenditure_per_clean,done,,,,susmip,,,"[0, 100]",,,,,,,,,,

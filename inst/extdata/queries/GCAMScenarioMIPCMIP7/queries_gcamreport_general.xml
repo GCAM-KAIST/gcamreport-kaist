@@ -59,6 +59,15 @@
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="food demand">
+            <axis1 name="input">input[@name]</axis1>
+            <axis2 name="Year">demand-physical[@vintage]</axis2>
+            <xPath buildList="true" dataName="demand" group="false" sumAll="false">gcam-consumer[@name='FoodDemand']//*[@type='input']/demand-physical/node()</xPath>
+            <comments/>
+      </supplyDemandQuery>   
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="food demand prices">
          <axis1 name="input">input[@name]</axis1>
          <axis2 name="Year">price-paid[@vintage]</axis2>

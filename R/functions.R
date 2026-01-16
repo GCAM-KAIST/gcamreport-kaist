@@ -1159,6 +1159,8 @@ get_en_expenditure <- function(GCAM_version = "v7.1") {
   energy_expenditure_per_clean <- energy_expenditure_per_w <-
     energy_expenditure_per <- energy_expenditure_per_avR <- NULL
 
+  check_queries(energy_expenditure_per_clean)
+
   # income of the Reference scenario
   income <- income_raw %>%
     dplyr::filter(scenario == .myGlobals$ref_scen_name) %>%
@@ -1272,6 +1274,8 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
   food_expenditure_per_clean <- food_expenditure_per_w <-
     food_expenditure_per <- food_expenditure_per_avR <- NULL
 
+  check_queries(food_expenditure_per_clean)
+
   # income of the Reference scenario
   income <- income_raw %>%
     dplyr::filter(scenario == .myGlobals$ref_scen_name) %>%
@@ -1289,45 +1293,100 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
   food_exp <- get(paste('food_expenditures_average',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
     dplyr::select(-year)
 
-  food_expenditure <-
-    # food prices
-    check_inf(rgcam::getQuery(prj, "food demand prices by income group"),
-              dataset_name = "food demand prices by income group") %>%
-    # Units: from 2005$ to 2020$ (1990 to 2020 / 0.5575288)
-    dplyr::mutate(value = value *
-                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_05USD_10USD']] /
-                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]
-                  / 0.5575288) %>%
-    # Units: from Mcal to Pcal (1Mcal = 1e9Pcal)
-    dplyr::mutate(value = value * 1e9) %>%
-    # Units: from day to year (1year = 365.25days)
-    dplyr::mutate(value = value * 365.25) %>%
-    # other
-    dplyr::rename(cost = value) %>%
-    dplyr::filter(year %in% available_years) %>%
-    # food demand
-    left_join_error_no_match(
-      rgcam::getQuery(prj, "food demand by income group") %>%
-        dplyr::rename(demand = value),
-      by = c('scenario','region','gcam-consumer','nodeinput','input','year')
-    ) %>%
-    # EXPENDITURE
-    dplyr::mutate(food_expenditure = demand * cost) %>%
-    # sum staples and nonstaples to have the total food expenditure
-    dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-consumer`))) %>%
-    dplyr::group_by(scenario, region, `gcam-decile`, year) %>%
-    dplyr::summarise(food_expenditure = sum(food_expenditure)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(Units = '2020$') %>%
-    # compute per capita expenditure
-    left_join_error_no_match(
-      rgcam::getQuery(prj, "population by region") %>%
-        # Units: from thous. to abs
-        dplyr::mutate(pop = 1e2 * value) %>%
-        dplyr::select(scenario, region, year, pop),
-      by = c('scenario','region','year')) %>%
-    dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
-    dplyr::mutate(Units = '2020$cap')
+  # CASE 1: Income groups available
+  if ("food demand prices by income group" %in% rgcam::listQueries(prj)) {
+    food_expenditure <-
+      # food prices
+      check_inf(rgcam::getQuery(prj, "food demand prices by income group"),
+                dataset_name = "food demand prices by income group") %>%
+      # Units: from 2005$ to 2020$ (1990 to 2020 / 0.5575288)
+      dplyr::mutate(value = value *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_05USD_10USD']] /
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]
+                    / 0.5575288) %>%
+      # Units: from Mcal to Pcal (1Mcal = 1e9Pcal)
+      dplyr::mutate(value = value * 1e9) %>%
+      # Units: from day to year (1year = 365.25days)
+      dplyr::mutate(value = value * 365.25) %>%
+      # other
+      dplyr::rename(cost = value) %>%
+      dplyr::filter(year %in% gcam_years) %>%
+      # food demand
+      left_join_error_no_match(
+        check_inf(rgcam::getQuery(prj, "food demand by income group"),
+                  dataset_name = "food demand by income group") %>%
+          dplyr::rename(demand = value),
+        by = c('scenario','region','gcam-consumer','nodeinput','input','year')
+      ) %>%
+      # EXPENDITURE
+      dplyr::mutate(food_expenditure = demand * cost) %>%
+      # sum staples and nonstaples to have the total food expenditure
+      dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-consumer`))) %>%
+      dplyr::group_by(scenario, region, `gcam-decile`, year) %>%
+      dplyr::summarise(food_expenditure = sum(food_expenditure)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(Units = '2020$') %>%
+      # compute per capita expenditure
+      left_join_error_no_match(
+        rgcam::getQuery(prj, "population by region") %>%
+          # Units: from thous. to abs
+          dplyr::mutate(pop = 1e2 * value) %>%
+          dplyr::select(scenario, region, year, pop),
+        by = c('scenario','region','year')) %>%
+      dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
+      dplyr::mutate(Units = '2020$cap')
+
+
+  # CASE 2: Income groups not available
+  } else {
+    food_expenditure <-
+      # food prices
+      check_inf(rgcam::getQuery(prj, "food demand prices"),
+                dataset_name = "food demand prices") %>%
+      # Units: from 2005$ to 2020$ (1990 to 2020 / 0.5575288)
+      dplyr::mutate(value = value *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_05USD_10USD']] /
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]
+                    / 0.5575288) %>%
+      # Units: from Mcal to Pcal (1Mcal = 1e9Pcal)
+      dplyr::mutate(value = value * 1e9) %>%
+      # Units: from day to year (1year = 365.25days)
+      dplyr::mutate(value = value * 365.25) %>%
+      # other
+      dplyr::rename(cost = value) %>%
+      dplyr::filter(year %in% gcam_years) %>%
+      # food demand
+      left_join_error_no_match(
+        check_inf(rgcam::getQuery(prj, "food demand"),
+                  dataset_name = "food demand") %>%
+          dplyr::rename(demand = value),
+        by = c('scenario','region','gcam-consumer','nodeinput','input','year')
+      ) %>%
+      # EXPENDITURE
+      dplyr::mutate(food_expenditure = demand * cost,
+                    `gcam-decile` = '') %>%
+      # sum staples and nonstaples to have the total food expenditure
+      dplyr::group_by(scenario, region, `gcam-decile`, year) %>%
+      dplyr::summarise(food_expenditure = sum(food_expenditure)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(Units = '2020$') %>%
+      # compute per capita expenditure
+      left_join_error_no_match(
+        rgcam::getQuery(prj, "population by region") %>%
+          # Units: from thous. to abs
+          dplyr::mutate(pop = 1e2 * value) %>%
+          dplyr::select(scenario, region, year, pop),
+        by = c('scenario','region','year')) %>%
+      dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
+      dplyr::mutate(Units = '2020$cap')
+
+
+    income <- income %>%
+      dplyr::group_by(region, year) %>%
+      dplyr::summarise(`gcam-decile` = '',
+                       income = mean(income)) %>%
+      dplyr::ungroup()
+  }
 
   # compute the food multipliers
   food_mult <- food_expenditure %>%
@@ -1346,7 +1405,6 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
                              by = c('scenario', 'region')) %>%
     dplyr::mutate(food_expenditure_mult = food_mult * food_expenditure) %>%
     dplyr::select(scenario, region, year, food_expenditure, food_expenditure_mult, food_mult, `gcam-decile`, Units)
-
 
 
   food_expenditure_per <- food_expenditure %>%
@@ -1378,7 +1436,9 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
     food_expenditure_per,
     food_expenditure_per_avR,
     food_expenditure_per_w
-  )
+  ) %>%
+    dplyr::filter(var != 'Expenditure|Households|Food|D [Share]')
+
 
   food_expenditure_per_clean <<- food_expenditure_per_clean
 }
@@ -1390,23 +1450,26 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
 #' Computes food + energy expenditure.
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `expenditure_clean` global variable.
+#' @return `expenditure_per_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
 get_expenditure <- function(GCAM_version = "v7.1") {
-  value <- expenditure_clean <- NULL
+  value <- expenditure_per_clean <- NULL
 
-  expenditure_clean <- merge(
-    food_expenditure_per_clean %>%
-      dplyr::rename(food_value = value),
-    energy_expenditure_per_clean %>%
-      dplyr::rename(en_value = value)
+  expenditure_per_clean <- rbind(
+    food_expenditure_per_clean,
+    energy_expenditure_per_clean
   ) %>%
-    dplyr::mutate(value =
-                    food_value + en_value)
+    dplyr::mutate(decile = stringr::str_extract(var, "\\|D[0-9]+")) %>%
+    dplyr::mutate(decile = tidyr::replace_na(decile, "")) %>%
+    dplyr::group_by(scenario, region, decile, year) %>%
+    dplyr::reframe(value = sum(value),
+                     var = paste0('Expenditure|Households|Energy', decile, ' [Share]')) %>%
+    dplyr::distinct() %>%
+    dplyr::select(-decile)
 
-  expenditure_clean <<- expenditure_clean
+  expenditure_per_clean <<- expenditure_per_clean
 }
 
 
