@@ -1,6 +1,6 @@
-# common-definitions.url: git@github.com:IAMconsortium/common-definitions,,,,,,,,,,,,,,,,,,,,,,
-# common-definitions.commit_hash: 7e32405ade790677a6022ff498395bff00d9792d,,,,,,,,,,,,,,,,,,,,,,
-# common-definitions.commit_timestamp: 2025-10-20 10:42:13,,,,,,,,,,,,,,,,,,,,,,
+# common-definitions.url: git@github.com:IAMconsortium/common-definitions
+# common-definitions.commit_hash: 7e32405ade790677a6022ff498395bff00d9792d
+# common-definitions.commit_timestamp: 2025-10-20 10:42:13
 variable,description,unit,tier,Internal_variable,Status,comments.answers,navigate,engage,notes,lower_bound,note,range,region.aggregation,check.aggregate,skip.region.aggregation,sdg,weight,min,components,shape,agmip,ngfs5
 Agricultural Demand,"Total demand for food, non-food and feed products (crops and livestock) and bioenergy crops (1st & 2nd generation)",million t DM/yr,1,ag_demand_clean,done,,,,,,,,,,,,,,,,Domestic use (CONS),
 Agricultural Demand|Crops,"Demand for crops including food, feed products and bioenergy (1st & 2nd generation crops)",million t DM/yr,1,ag_demand_clean,done,,,,,,,,,,,,,,,,Domestic use (CONS) - Crops (CRP),
