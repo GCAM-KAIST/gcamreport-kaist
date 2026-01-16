@@ -80,6 +80,7 @@ en_weights;get_en_weights;fe_sector_raw,fe_transportation_raw,primary_energy_cle
 en_wld_weights;get_en_weights;fe_sector_raw,fe_transportation_raw,primary_energy_clean,secondary_energy_raw;
 fert_consumption_clean;get_fert_consumption;;fertilizer consumption by region
 food_availability_clean;get_food_availability;population_clean,pop_weights;food consumption by type (specific)
+food_demand_clean;get_food_demand;food_availability_clean;
 food_intake_clean;get_food_intake;population_clean,pop_weights;food consumption by type (specific)
 forestry_demand_clean;get_forestry;;inputs by tech
 forestry_production_clean;get_forestry;;inputs by tech

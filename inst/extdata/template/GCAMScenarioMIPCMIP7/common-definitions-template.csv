@@ -9967,3 +9967,4 @@ Yield|Cropland|Sugar Crops,"Yield of sugar crops (sugar beet, sugar cane), calcu
 Yield|Cropland|Sugar Crops [Harvested Area],"Yield of sugar crops (sugar beet, sugar cane), calculated as production (dry matter) divided by harvested cropland area",t DM/ha/yr,2,,,,,,Yields in FAOSTAT are reported on wet matter basis for harvested cropland area,,,,,,,,Land Cover|Cropland|Sugar Crops,,,,,
 Yield|Forestry|Timber Production,"Actual timber yield, average on productive forest land. Equals to harvested biomass volume divided by forest area used for timber production",m3/ha,2,,,,,,,,,,,,,,Harvested Area|Forestry,,,,,
 Temperature|Global Mean,Global mean temperature increase,ºC,,global_temp_clean,done,,,,"Manually added, since it is a useful variable",,,,,,,,,,,,,
+Forcing,Change in Earth's energy balance,W/m2,,forcing_clean,done,,,,susmip,,,,,,,,,,,,,
