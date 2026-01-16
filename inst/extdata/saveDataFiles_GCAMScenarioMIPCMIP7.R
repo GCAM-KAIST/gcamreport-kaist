@@ -320,6 +320,7 @@ convert_vScenarioMIPCMIP7 <- list(
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
   conv_19USD_75USD = 0.2658798,
+  conv_17USD_90USD = 0.5880752,
   conv_C_CO2 = 44 / 12,
   # Elec related conversions
   hr_per_yr = 8760,

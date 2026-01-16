@@ -856,7 +856,99 @@ get_population_weights <- function(GCAM_version = "v7.1") {
 }
 
 
-#' get_income
+
+#' get_poverty
+#'
+#' Compute povery variables
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `poverty_clean` global variables.
+#' @keywords internal econ
+#' @importFrom magrittr %>%
+#' @export
+get_poverty <- function(GCAM_version = "v7.1") {
+  poverty_clean <- NULL
+
+  check_queries('poverty_clean', GCAM_version)
+
+  if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
+    income <- income_raw %>% # thous 1990$ per cap
+      dplyr::select(-Units, -var, decile = `gcam-consumer`, income = value) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(median_by_reg = median(income)) %>%
+      dplyr::ungroup() %>%
+      # from 1990$ to 2017$
+      dplyr::mutate(income = income *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_17USD_90USD']])
+
+    population <- population_clean %>% # million
+      dplyr::select(-var, pop = value)
+
+
+    # Population|Poverty|Extreme Poverty
+    threshold <- 2.15 #USD_2017 2.15 PPP per day (World Bank definition)
+    poverty_extreme <- income %>%
+      # check threshold
+      dplyr::mutate(extreme_poverty = ifelse(income < threshold, T, F)) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::summarise(value = 10 * sum(extreme_poverty, na.rm = TRUE),
+                    var = 'Population|Poverty|Extreme Poverty') %>%
+      dplyr::ungroup() %>%
+      # compute population
+      left_join_error_no_match(population,
+                               by = c('scenario','region','year')) %>%
+      dplyr::mutate(value = value / 1e2 * pop) %>%
+      dplyr::select(-pop)
+
+
+    # Population|Poverty|LMIC Poverty Line
+    threshold <- 3.65 #USD_2017 3.65 PPP per day (World Bank LMIC definition)
+    poverty_LMIC <- income %>%
+      # check threshold
+      dplyr::mutate(extreme_poverty = ifelse(income < threshold, T, F)) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::summarise(value = 10 * sum(extreme_poverty, na.rm = TRUE),
+                    var = 'Population|Poverty|LMIC Poverty Line') %>%
+      dplyr::ungroup() %>%
+      # compute population
+      left_join_error_no_match(population,
+                               by = c('scenario','region','year')) %>%
+      dplyr::mutate(value = value / 1e2 * pop) %>%
+      dplyr::select(-pop)
+
+
+    # Population|Poverty|UMIC Poverty Line
+    threshold <- 6.85 #USD_2017 6.85 PPP per day (World Bank UMIC definition)
+    poverty_UMIC <- income %>%
+      # check threshold
+      dplyr::mutate(extreme_poverty = ifelse(income < threshold, T, F)) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::summarise(value = 10 * sum(extreme_poverty, na.rm = TRUE),
+                    var = 'Population|Poverty|UMIC Poverty Line') %>%
+      dplyr::ungroup() %>%
+      # compute population
+      left_join_error_no_match(population,
+                               by = c('scenario','region','year')) %>%
+      dplyr::mutate(value = value / 1e2 * pop) %>%
+      dplyr::select(-pop)
+
+    poverty_clean <- rbind(
+      poverty_extreme,
+      poverty_LMIC,
+      poverty_UMIC
+    )
+
+  } else {
+    poverty_clean <- NULL
+    warning("The 'Poverty' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
+  }
+
+  poverty_clean <<- poverty_clean
+
+}
+
+
+  #' get_income
 #'
 #' Compute share of total income my decile
 #'
@@ -1167,7 +1259,7 @@ get_en_expenditure <- function(GCAM_version = "v7.1") {
     dplyr::select(-var, -Units, -scenario) %>%
     dplyr::rename(income = value,
                   `gcam-decile` = `gcam-consumer`) %>%
-    # Units: from billion 1990$ per capita to 1900$ per capita
+    # Units: from thous. 1990$ per capita to 1900$ per capita
     dplyr::mutate(income = 1e3 * income) %>%
     # fix South America_Northern
     dplyr::mutate(income = dplyr::if_else(region == 'South America_Northern', income / 20, income)) %>%
