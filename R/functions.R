@@ -1651,7 +1651,7 @@ get_expenditure <- function(GCAM_version = "v7.1") {
     dplyr::mutate(decile = tidyr::replace_na(decile, "")) %>%
     dplyr::group_by(scenario, region, decile, year) %>%
     dplyr::reframe(value = sum(value),
-                     var = paste0('Expenditure|Households|Energy', decile, ' [Share]')) %>%
+                   var = paste0('Expenditure|Households', decile, ' [Share]')) %>%
     dplyr::distinct() %>%
     dplyr::select(-decile)
 
