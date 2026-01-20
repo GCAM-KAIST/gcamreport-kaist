@@ -146,8 +146,9 @@ check_queries <- function(var, GCAM_version = 'v7.1') {
   it = 1; allOk = TRUE
   while (sum(is.na(queryItems)) == 0 & it <= as.numeric(length(queryItems)) & allOk) {
     qi <- var_fun_map[var_fun_map$name == var, "queries"][[1]][it]
-    allOk = qi %in% rgcam::listQueries(prj)
-    it = it + 1
+    qi <- unlist(strsplit(qi, split = "|", fixed = TRUE))
+    allOk <- any(qi %in% rgcam::listQueries(prj))
+    it <- it + 1
   }
 
   if (!allOk) {
@@ -884,6 +885,13 @@ get_poverty <- function(GCAM_version = "v7.1") {
     population <- population_clean %>% # million
       dplyr::select(-var, pop = value)
 
+    # ## Population|Poverty|Below 50% of National Median Income [Share]
+    # poverty_50 <- income %>%
+    #   dplyr::mutate(below_reg_50 = ifelse(income < median_by_reg, T, F)) %>%
+    #   dplyr::group_by(scenario, region, year) %>%
+    #   dplyr::mutate(poverty_rate = 10 * sum(below_reg_50, na.rm = TRUE),
+    #                 var = 'Population|Poverty|Below 50% of National Median Income [Share]') %>%
+    #   dplyr::ungroup()
 
     # Population|Poverty|Extreme Poverty
     threshold <- 2.15 #USD_2017 2.15 PPP per day (World Bank definition)
@@ -948,7 +956,90 @@ get_poverty <- function(GCAM_version = "v7.1") {
 }
 
 
-  #' get_income
+
+#' get_inequality
+#'
+#' Compute inequality variables
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `inequality_clean` global variables.
+#' @keywords internal econ
+#' @importFrom magrittr %>%
+#' @export
+get_inequality <- function(GCAM_version = "v7.1") {
+  inequality_clean <- NULL
+
+  check_queries('inequality_clean', GCAM_version)
+
+  if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
+    income <- income_raw %>% # thous 1990$ per cap
+      dplyr::select(-Units, -var, decile = `gcam-consumer`, income = value) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(national_average = mean(income)) %>%
+      dplyr::ungroup() %>%
+      # from 1990$ to 2017$
+      dplyr::mutate(income = income *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_17USD_90USD']]) %>%
+      # decile number
+      dplyr::mutate(decile_num = as.numeric(stringr::str_extract(decile, "(?<=d)\\d+")))
+
+    population <- population_clean %>% # million
+      dplyr::select(-var, pop = value)
+
+    # Inequality|Average Income|Bottom 40% [Ratio]
+    ineq_40 <- income %>%
+      # ratio: bottom 40% (deciles 1-4) / national average
+      dplyr::filter(decile_num <= 4) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(bottom40 = mean(income)) %>%
+      dplyr::reframe(value = 100 * bottom40 / national_average,
+                     var = 'Inequality|Average Income|Bottom 40% [Ratio]')
+
+
+    # Inequality index|Gini
+    ineq_gini <- income %>%
+      dplyr::group_by(scenario, region, year) %>%
+      # order deciles 1 - 10
+      dplyr::arrange(decile_num) %>%
+      # proprtion of income by decile
+      dplyr::mutate(income_share = income / sum(income)) %>%
+      # accumulated income (Y_i)
+      dplyr::mutate(cum_income = cumsum(income_share)) %>%
+      # Gini computation by the trapezium formula
+      dplyr::summarize(value = {
+        # add the (0,0) point to do the full computation
+        x <- seq(0, 1, by = 0.1)
+        y <- c(0, cum_income)
+
+        # Area below the Lorenz curve (Trapezium integral)
+        # Area = sum ( (x_i - x_{i-1}) * (y_i + y_{i-1}) / 2 )
+        lorenz_area <- sum(diff(x) * (y[-1] + y[-length(y)]) / 2)
+
+        # Gini = equality area [0.5] - Lorenz area) / equality area [0.5]
+        # which simplifying is: 1 - 2 * lorenz_area
+        1 - 2 * lorenz_area
+      },
+      var = 'Inequality index|Gini',
+      .groups = "drop")
+
+    inequality_clean <- rbind(
+      ineq_40,
+      ineq_gini
+    )
+
+  } else {
+    inequality_clean <- NULL
+    warning("The 'Inequality' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
+  }
+
+  inequality_clean <<- inequality_clean
+
+}
+
+
+
+
+#' get_income
 #'
 #' Compute share of total income my decile
 #'
@@ -1251,7 +1342,7 @@ get_en_expenditure <- function(GCAM_version = "v7.1") {
   energy_expenditure_per_clean <- energy_expenditure_per_w <-
     energy_expenditure_per <- energy_expenditure_per_avR <- NULL
 
-  check_queries(energy_expenditure_per_clean)
+  check_queries('energy_expenditure_per_clean', GCAM_version)
 
   # income of the Reference scenario
   income <- income_raw %>%
@@ -1366,7 +1457,8 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
   food_expenditure_per_clean <- food_expenditure_per_w <-
     food_expenditure_per <- food_expenditure_per_avR <- NULL
 
-  check_queries(food_expenditure_per_clean)
+  check_queries('food_expenditure_per_clean', GCAM_version)
+
 
   # income of the Reference scenario
   income <- income_raw %>%
@@ -1548,6 +1640,8 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
 #' @export
 get_expenditure <- function(GCAM_version = "v7.1") {
   value <- expenditure_per_clean <- NULL
+
+  check_queries('expenditure_per_clean', GCAM_version)
 
   expenditure_per_clean <- rbind(
     food_expenditure_per_clean,
