@@ -2454,7 +2454,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
                       var = unique(var),
                       fill = list(value = 0)
       ) %>%
-      dplyr::filter(!is.na(var), year > 2005) %>%
+      dplyr::filter(!is.na(var), year > 2005, year <= final_year.global) %>%
       # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
       left_join_strict(refliq_bioshare %>%
                          tidyr::complete(tidyr::nesting(scenario, year),
@@ -2506,13 +2506,13 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
 
   # CO2 Removal items with further desegregation to compute later the Gross emissions
   co2_removal_raw <- suppressWarnings(
-    check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
+    check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech (nested subsector)"),
               dataset_name = "CO2 sequestration by tech") %>%
       # consider only carbon removal items
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      dplyr::filter(var == 'Carbon Removal', year >= 2005) %>%
+      dplyr::filter(var == 'Carbon Removal', year >= 2005, year <= final_year.global) %>%
       # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
       left_join_strict(refliq_bioshare %>%
                          tidyr::complete(tidyr::nesting(scenario, year),
@@ -3246,7 +3246,8 @@ get_elec_gen_tech <- function(GCAM_version = "v7.1") {
 
   secondary_energy_raw1 <- rbind(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech"),
-              dataset_name = "elec gen by gen tech"),
+              dataset_name = "elec gen by gen tech") %>%
+      dplyr::mutate(output = 'electricity'),
     dplyr::bind_rows(
       check_inf(rgcam::getQuery(prj, "gas production by tech"),
                 dataset_name = "gas production by tech"),

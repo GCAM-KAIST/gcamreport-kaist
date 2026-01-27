@@ -3856,3 +3856,20 @@ subpeak generation,refined liquids (CC CCS)_subpeak,Water XX,Water XX|Electricit
 subpeak generation,Gen_III_subpeak,Water XX,Water XX|Electricity,,,1
 subpeak generation,Gen_II_LWR_subpeak,Water XX,Water XX|Electricity,,,1
 subpeak generation,CSP_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Solar,Water XX |Electricity|Solar|CSP,1
+base load generation,biomass (IGCC CCS)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+base load generation,biomass (conv CCS)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+base load generation,coal (IGCC CCS)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+base load generation,coal (conv pul CCS)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+base load generation,gas (CC CCS)_base,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,refined liquids (CC CCS)_base,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+intermediate generation,biomass (IGCC CCS)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+intermediate generation,biomass (conv CCS)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+intermediate generation,coal (IGCC CCS)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+intermediate generation,coal (conv pul CCS)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+intermediate generation,gas (CC CCS)_int,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,refined liquids (CC CCS)_int,Water XX,Water XX|Electricity,Water XX|Electricity|Fossil,Water XX|Electricity|Oil,1
+subpeak generation,biomass (IGCC CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+subpeak generation,biomass (conv CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Biomass,,1
+subpeak generation,coal (IGCC CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+subpeak generation,coal (conv pul CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
+subpeak generation,gas (CC CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
