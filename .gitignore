@@ -254,3 +254,18 @@ inst/extdata/template/GCAMScenarioMIPCMIP7/updated.xlsx
 R/hands_on.R
 inst/extdata/template/GCAMScenarioMIPCMIP7/common-definitions-template_old.csv
 /extra_scripts
+
+/.quarto/
+**/*.quarto_ipynb
+
+# GCAM data folders
+gcam_input/
+kmip/
+output_kmip/
+
+# Other local files
+*.dat
+*.pdf
+images/
+.claude/
+/data/*
