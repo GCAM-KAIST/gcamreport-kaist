@@ -1,6 +1,10 @@
 # Converting raw data into package data
 library(usethis)
 library(magrittr)
+library(tidyverse)
+
+# Load gcamreport functions (including gather_map)
+source(file.path(here::here(), "R/functions.R"))
 
 ### paths
 rawDataFolder <- here::here()
@@ -11,7 +15,7 @@ nonco2_emissions_list_v7.0 <- c(
   "BC", "BC_AWB", "C2F6", "CF4", "CH4", "CH4_AGR", "CH4_AWB", "CO", "CO_AWB",
   "H2", "H2_AWB", "HFC125", "HFC134a", "HFC143a", "HFC152a", "HFC227ea", "HFC23", "HFC236fa",
   "HFC245fa", "HFC32", "HFC365mfc", "HFC43", "N2O", "N2O_AGR", "N2O_AWB", "NH3", "NH3_AGR",
-  "NH3_AWB", "NMVOC", "NMVOC_AGR", "NMVOC_AWB", "NOx", "NOx_AGR", "NOx_AWB", "OC", "OC_AWB",
+  "NH3_AWB", "NMVOC", "NMVOC_AGR", "NMVOC_AWB", "NOx", "NOx_AGR", "NOx_AWB", "OC", "OC_AWB", 
   "PM10", "PM2.5", "SF6", "SO2_1", "SO2_1_AWB", "SO2_2", "SO2_2_AWB", "SO2_3", "SO2_3_AWB",
   "SO2_4", "SO2_4_AWB"
 )
@@ -60,14 +64,26 @@ use_data(nonco2_emis_resource_map_v7.0, overwrite = T)
 
 carbon_seq_tech_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "carbon_seq_tech_map.csv"),
                                      comment = "#", na = ""
-) %>% gather_map()
+) %>%
+  # Convert unit_conv to numeric to ensure type consistency
+  # dplyr::mutate(unit_conv = as.numeric(unit_conv)) %>%
+  # Add missing feedstock technologies - all feedstocks are excluded from carbon sequestration reporting
+  add_row(sector = "chemical feedstocks", technology = "coal", var1 = "NoReported", unit_conv = "1") %>%
+  add_row(sector = "chemical feedstocks", technology = "gas", var1 = "NoReported", unit_conv = "1") %>%
+  gather_map()
 use_data(carbon_seq_tech_map_v7.0, overwrite = T)
 
 
 # ag maps
 ag_demand_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_demand_map.csv"),
                                comment = "#"
-) %>% gather_map()
+) %>%
+### have to check this part again
+  add_row(input = "bio-ceiling", sector = "regional biomass", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(input = "bio-ceiling CCS", sector = "regional biomass", var1 = "NoReported", unit_conv = 1) %>%
+  # Remove rows with NA input (lines 77-80, 86 in CSV) to prevent NA sectors in ag_weights
+  dplyr::filter(!is.na(input)) %>%
+gather_map()
 use_data(ag_demand_map_v7.0, overwrite = T)
 
 ag_price_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_price_map.csv"),
@@ -129,11 +145,17 @@ cereal_scaler_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/map
 use_data(cereal_scaler_v7.0, overwrite = T)
 
 
-
 # primary, secondary, final energy maps
 primary_energy_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "primary_energy_map.csv"),
                                     comment = "#"
-) %>% gather_map()
+) %>%
+  add_row(fuel = "bio-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(fuel = "coal-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(fuel = "irnstl-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(fuel = "uranium", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(fuel = "bio-ceiling CCS", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(fuel = "irnstl_ceiling_EAF", var1 = "NoReported", unit_conv = 1) %>%
+  gather_map()
 use_data(primary_energy_map_v7.0, overwrite = T)
 
 production_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "production_map.csv"),
@@ -144,6 +166,14 @@ use_data(production_map_v7.0, overwrite = T)
 secondary_energy_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "capacity_map.csv"),
                                       comment = "#"
 ) %>%
+add_row(
+    output = "electricity",
+    subsector = "nuclear",
+    technology = "Gen_III_Korea",
+    var1 = "Secondary Energy|Electricity",
+    var2 = "Secondary Energy|Electricity|Nuclear",
+    unit_conv = 1
+  ) %>%
   dplyr::filter(!grepl("cogen", technology)) %>%
   gather_map()
 use_data(secondary_energy_map_v7.0, overwrite = T)
@@ -151,23 +181,81 @@ use_data(secondary_energy_map_v7.0, overwrite = T)
 capacity_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "capacity_map.csv"),
                               comment = "#"
 ) %>%
+  add_row(
+    output = "electricity",
+    subsector = "nuclear",
+    technology = "Gen_III_Korea",
+    var1 = "Secondary Energy|Electricity",
+    var2 = "Secondary Energy|Electricity|Nuclear",
+    unit_conv = 1
+) %>%
   dplyr::filter(!grepl("cogen", technology)) %>%
   gather_map()
 use_data(capacity_map_v7.0, overwrite = T)
 
 cf_gcam_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "A23.globaltech_capacity_factor.csv"),
                          comment = "#", na = ""
-)
+) %>%
+  add_row(
+    supplysector = "electricity",
+    subsector = "nuclear",
+    technology = "Gen_III_Korea",
+    `1971` = 0.9,
+    `2100` = 0.9
+  ) %>%
+  add_row(
+    supplysector = "electricity",
+    subsector = "wind",
+    technology = "wind_offshore",
+    `1971` = 0.4,
+    `2100` = 0.4
+  )
 use_data(cf_gcam_v7.0, overwrite = T)
 
 cf_rgn_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.StubTechCapFactor_elec.csv"),
                         comment = "#", na = ""
-)
+) %>%
+  # Update South Korea renewable capacity factors
+  mutate(
+    capacity.factor = case_when(
+      # Rooftop PV: 17.7% -> 15.4%
+      region == "South Korea" & stub.technology == "rooftop_pv" ~ 0.154,
+      # PV and PV_storage: 20.9% -> 15.4%
+      region == "South Korea" & stub.technology == "PV" ~ 0.154,
+      region == "South Korea" & stub.technology == "PV_storage" ~ 0.154,
+      # Wind onshore: 36% -> 23%
+      region == "South Korea" & stub.technology == "wind" ~ 0.23,
+      region == "South Korea" & stub.technology == "wind_storage" ~ 0.23,
+      # Wind offshore: 32% -> 29%
+      region == "South Korea" & stub.technology == "wind_offshore" ~ 0.29,
+      # Keep all other values unchanged
+      TRUE ~ capacity.factor
+    )
+  ) 
 use_data(cf_rgn_v7.0, overwrite = T)
+
+# cf_rgn_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.StubTechCapFactor_elec.csv"),
+#                         comment = "#", na = ""
+# )
+  # Add Gen_III_Korea capacity factors for South Korea and Russia
+#   bind_rows(
+#     tibble::tibble(
+#       region = rep(c("South Korea"), each = 22),
+#       supplysector = "electricity",
+#       subsector = "nuclear",
+#       stub.technology = "Gen_III_Korea",
+#       year = c(1975, 1990, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050, 2055, 2060, 2065, 2070, 2075, 2080, 2085, 2090, 2095, 2100),
+#       capacity.factor = 0.9
+#     )
+# )
+# use_data(cf_rgn_v7.0, overwrite = T)
 
 final_energy_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "final_energy_map.csv"),
                                   comment = "#"
-) %>% gather_map()
+) %>%
+  add_row(sector = "iron and steel", input = "irnstl-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(sector = "iron and steel", input = "irnstl_ceiling_EAF", var1 = "NoReported", unit_conv = 1) %>%
+  gather_map()
 use_data(final_energy_map_v7.0, overwrite = T)
 
 en_demand_price_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_demand_price_map.csv"),
@@ -187,7 +275,22 @@ use_data(transport_final_en_map_v7.0, overwrite = T)
 
 energy_price_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_price_map.csv"),
                                   comment = "#", na = ""
-) %>% gather_map()
+) %>% 
+### have to check this part again
+  add_row(market = "SolGeneration-Floor", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "WindOff_Generation-Ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "WindOn_Generation-Ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "bio-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "coal-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "dac-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "imported H2", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "irnstl-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "irnstl_ceiling_EAF", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "CO2_Kor", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "rowbio-ceiling", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "rowCO2", var1 = "NoReported", unit_conv = 1) %>%
+  add_row(market = "rowCO2_LUC", var1 = "NoReported", unit_conv = 1) %>%
+gather_map()
 use_data(energy_price_map_v7.0, overwrite = T)
 
 en_demand_price_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "en_demand_price_map.csv"),
@@ -201,7 +304,7 @@ transport_en_service_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extd
                                       comment = "#"
 ) %>% gather_map()
 use_data(transport_en_service_v7.0, overwrite = T)
-
+ 
 buildings_en_service_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "buildings_en_service.csv"),
                                       comment = "#"
 ) %>% gather_map()
@@ -209,7 +312,7 @@ use_data(buildings_en_service_v7.0, overwrite = T)
 
 
 # capital updates
-capital_gcam_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.GlobalIntTechCapital_elec.csv"),
+capital_gcam_temp <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L223.GlobalIntTechCapital_elec.csv"),
                               comment = "#", na = ""
 ) %>%
   dplyr::rename(technology = intermittent.technology) %>%
@@ -217,6 +320,14 @@ capital_gcam_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mapp
                             comment = "#", na = ""
   )) %>%
   dplyr::select(sector = sector.name, subsector = subsector.name, technology, year, capital.overnight)
+
+# Add Gen_III_Korea capital costs (same as Gen_III)
+capital_gcam_v7.0 <- capital_gcam_temp %>%
+  bind_rows(
+    capital_gcam_temp %>%
+      filter(technology == "Gen_III") %>%
+      mutate(technology = "Gen_III_Korea")
+  )
 use_data(capital_gcam_v7.0, overwrite = T)
 
 investment_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "investment.csv"),
@@ -243,6 +354,40 @@ iea_capacity_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mapp
 use_data(iea_capacity_v7.0, overwrite = T)
 
 co2_market_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2market_new.csv"), comment = "#")
+
+# # Add CO2 removal and airCO2 markets but map them to NoReported region
+# # This prevents join errors while excluding them from Price|Carbon reporting
+# regions <- unique(co2_market_v7.0$region)
+
+# # Add CO2 removal markets (mapped to NoReported to exclude from reporting)
+# co2_removal_markets <- data.frame(
+#   market = paste0(regions, "CO2 removal"),
+#   region = "NoReported",
+#   stringsAsFactors = FALSE
+# )
+
+# # Add air CO2 markets (mapped to NoReported to exclude from reporting)
+# air_co2_markets <- data.frame(
+#   market = paste0(regions, "airCO2"),
+#   region = "NoReported",
+#   stringsAsFactors = FALSE
+# )
+
+# # Also add -tfe variants
+# co2_removal_tfe_markets <- data.frame(
+#   market = paste0(regions, "CO2 removal-tfe"),
+#   region = "NoReported",
+#   stringsAsFactors = FALSE
+# )
+
+# # Combine all markets
+# co2_market_v7.0 <- rbind(
+#   co2_market_v7.0,
+#   co2_removal_markets,
+#   air_co2_markets,
+#   co2_removal_tfe_markets
+# )
+
 use_data(co2_market_v7.0, overwrite = T)
 
 co2_market_frag_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "CO2market_frag_map.csv"),
@@ -369,6 +514,16 @@ use_data(template_v7.0, overwrite = T)
 var_fun_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata", "mappings/GCAM7.0/variables_functions_mapping.csv"),
                              sep = ";", header = T, na.strings = c("", "NA")
 )
+
+# Add missing consumption_hh_clean entry
+# new_row <- data.frame(
+#   name = "consumption_hh_clean",
+#   fun = "get_consumption_hh",
+#   dependencies = "",
+#   queries = "food demand prices,food consumption by type (general)",
+#   stringsAsFactors = FALSE
+# )
+# var_fun_map_v7.0 <- rbind(var_fun_map_v7.0, new_row)
 
 var_fun_map_v7.0$dependencies <- as.list(strsplit(var_fun_map_v7.0$dependencies, ","))
 var_fun_map_v7.0$queries <- as.list(strsplit(var_fun_map_v7.0$queries, ","))
