@@ -32,6 +32,7 @@ AusInt_desalinated water,NoReported,,,1
 backup_electricity,NoReported,,,1
 Beef,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Livestock [Index],,1
 BengalW_desalinated water,NoReported,,,1
+biochar storage,NoReported,,,1
 biomass,Price|Agriculture|Energy Crops,,,1
 BlackSeaS_desalinated water,NoReported,,,1
 BoHai_desalinated water,NoReported,,,1
@@ -43,6 +44,7 @@ BrzCstS_desalinated water,NoReported,,,1
 California_desalinated water,NoReported,,,1
 CanAtl_desalinated water,NoReported,,,1
 carbon-storage,NoReported,,,1
+carbon-storage-biochar,NoReported,,,1
 Caribbean_desalinated water,NoReported,,,1
 CaspianE_desalinated water,NoReported,,,1
 CaspianNE_desalinated water,NoReported,,,1
@@ -383,6 +385,7 @@ StLwrncR_desalinated water,NoReported,,,1
 SugarCrop,Price|Agriculture|Food Products [Index],Price|Agriculture|Food Products|Crops [Index],,1
 Sulawesi_desalinated water,NoReported,,,1
 Sumatra_desalinated water,NoReported,,,1
+surface carbon-storage,NoReported,,,1
 Sweden_desalinated water,NoReported,,,1
 SyrDaryaR_desalinated water,NoReported,,,1
 TagusR_desalinated water,NoReported,,,1

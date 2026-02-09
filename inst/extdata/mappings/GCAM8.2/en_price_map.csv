@@ -894,6 +894,7 @@ globalScavenging_Other_Rsrc,NoReported,,,,,,,,,,,,,,,,,,1
 globalbio-ceiling,NoReported,,,,,,,,,,,,,,,,,,1
 globalbio_externality_cost,NoReported,,,,,,,,,,,,,,,,,,1
 globalglobal solar resource,NoReported,,,,,,,,,,,,,,,,,,1
+global solar resource,NoReported,,,,,,,,,,,,,,,,,,1
 globallimestone,NoReported,,,,,,,,,,,,,,,,,,1
 globalmisc emissions sources,NoReported,,,,,,,,,,,,,,,,,,1
 globalnegative_emiss_budget,NoReported,,,,,,,,,,,,,,,,,,1
@@ -902,6 +903,22 @@ globaloil-credits,NoReported,,,,,,,,,,,,,,,,,,1
 globalscrap,NoReported,,,,,,,,,,,,,,,,,,1
 globalunconventional oil upscaling,NoReported,,,,,,,,,,,,,,,,,,1
 globaluranium,NoReported,,,,,,,,,,,,,,,,,,1
+globalC2F6,NoReported,,,,,,,,,,,,,,,,,,1
+globalCF4,NoReported,,,,,,,,,,,,,,,,,,1
+globalCH4,NoReported,,,,,,,,,,,,,,,,,,1
+globalCH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
+globalCH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
+globalGHG,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC125,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC134a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O,NoReported,,,,,,,,,,,,,,,,,,1    
+globalN2O_AGR,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O_AWB,NoReported,,,,,,,,,,,,,,,,,,1
+globalSF6,NoReported,,,,,,,,,,,,,,,,,,1
 industrial processes,NoReported,,,,,,,,,,,,,,,,,,1
 industrial wastewater treatment,NoReported,,,,,,,,,,,,,,,,,,1
 industrial water abstraction,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1635,7 +1652,6 @@ wholesale gas,Price|Final Energy|Agriculture|Gases,,Price|Final Energy|Gases,Pri
 wind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 woodpulp_energy,NoReported,,,,,,,,,,,,,,,,,,1
 woodpulp_processing,NoReported,,,,,,,,,,,,,,,,,,1
-wind_offshore-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 Ukraineagricultural energy use,NoReported,,,,,,,,,,,,,,,,,,1
 Ukraineagricultural energy use-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 Ukrainealumina,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1964,3 +1980,4 @@ Ukrainewind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 Ukrainewind_offshore-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 Ukrainewoodpulp_energy,NoReported,,,,,,,,,,,,,,,,,,1
 Ukrainewoodpulp_processing,NoReported,,,,,,,,,,,,,,,,,,1
+wind_offshore-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
