@@ -808,7 +808,8 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   if (is.null(ref_scen_name)) {
     hits <- sapply(get('scen_ref_patterns', envir = asNamespace("gcamreport")),
                    function(p) grep(p, scenarios.global, ignore.case = TRUE)[1])
-    first_hit <- na.omit(hits)[1]
+    first_hit <- hits[!is.na(hits)][1]
+    first_hit <- first_hit[!is.na(first_hit)]
     .myGlobals$ref_scen_name <- if (length(first_hit) > 0) scenarios.global[first_hit] else scenarios.global[1]
   } else {
     .myGlobals$ref_scen_name <- ref_scen_name

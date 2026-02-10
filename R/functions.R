@@ -1344,10 +1344,9 @@ get_en_expenditure <- function(GCAM_version = "v7.1") {
 
   check_queries('energy_expenditure_per_clean', GCAM_version)
 
-  # income of the Reference scenario
+  # fix income
   income <- income_raw %>%
-    dplyr::filter(scenario == .myGlobals$ref_scen_name) %>%
-    dplyr::select(-var, -Units, -scenario) %>%
+    dplyr::select(-var, -Units) %>%
     dplyr::rename(income = value,
                   `gcam-decile` = `gcam-consumer`) %>%
     # Units: from thous. 1990$ per capita to 1900$ per capita
@@ -1407,12 +1406,14 @@ get_en_expenditure <- function(GCAM_version = "v7.1") {
     left_join_error_no_match(energy_mult,
                              by = c('region')) %>%
     dplyr::mutate(energy_expenditure = energy_mult * energy_expenditure) %>%
-    dplyr::select(scenario, region, year, energy_expenditure, `gcam-decile`, Units)
+    dplyr::select(scenario, region, year, energy_expenditure, `gcam-decile`, Units) %>%
+    # restrict to desired years
+    dplyr::filter(year <= final_year.global)
 
 
   energy_expenditure_per <- energy_expenditure %>%
     left_join_error_no_match(income,
-                             by = c('region','gcam-decile','year')) %>%
+                             by = c('region','gcam-decile','year','scenario')) %>%
     dplyr::mutate(energy_expenditure_per = 1e2 * energy_expenditure / income) %>%
     dplyr::mutate(var = paste0('Expenditure|Households|Energy|D',`gcam-decile`, ' [Share]')) %>%
     dplyr::select(scenario, region, var, year, value = energy_expenditure_per)
@@ -1460,13 +1461,12 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
   check_queries('food_expenditure_per_clean', GCAM_version)
 
 
-  # income of the Reference scenario
+  # fix income
   income <- income_raw %>%
-    dplyr::filter(scenario == .myGlobals$ref_scen_name) %>%
-    dplyr::select(-var, -Units, -scenario) %>%
+    dplyr::select(-var, -Units) %>%
     dplyr::rename(income = value,
                   `gcam-decile` = `gcam-consumer`) %>%
-    # Units: from billion 1990$ per capita to 1900$ per capita
+    # Units: from thous. 1990$ per capita to 1900$ per capita
     dplyr::mutate(income = 1e3 * income) %>%
     # fix South America_Northern
     dplyr::mutate(income = dplyr::if_else(region == 'South America_Northern', income / 20, income)) %>%
@@ -1518,8 +1518,9 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
           dplyr::select(scenario, region, year, pop),
         by = c('scenario','region','year')) %>%
       dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
-      dplyr::mutate(Units = '2020$cap')
-
+      dplyr::mutate(Units = '2020$cap') %>%
+      # restrict to desired years
+      dplyr::filter(year <= final_year.global)
 
   # CASE 2: Income groups not available
   } else {
@@ -1562,11 +1563,12 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
           dplyr::select(scenario, region, year, pop),
         by = c('scenario','region','year')) %>%
       dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
-      dplyr::mutate(Units = '2020$cap')
-
+      dplyr::mutate(Units = '2020$cap') %>%
+      # restrict to desired years
+      dplyr::filter(year <= final_year.global)
 
     income <- income %>%
-      dplyr::group_by(region, year) %>%
+      dplyr::group_by(region, year, scenario) %>%
       dplyr::summarise(`gcam-decile` = '',
                        income = mean(income)) %>%
       dplyr::ungroup()
@@ -1594,7 +1596,7 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
   food_expenditure_per <- food_expenditure %>%
     left_join_error_no_match(income %>%
                                dplyr::mutate(income = income / 0.5575288),
-                             by = c('region','gcam-decile','year')) %>%
+                             by = c('region','gcam-decile','year','scenario')) %>%
     dplyr::mutate(food_expenditure_per = 100 * food_expenditure_mult / income) %>%
     dplyr::mutate(var = paste0('Expenditure|Households|Food|D',`gcam-decile`, ' [Share]')) %>%
     dplyr::select(scenario, region, var, year, value = food_expenditure_per)
@@ -4508,7 +4510,7 @@ get_co2_price_share_bysec <- function(GCAM_version = "v7.1") {
   co2_price_share_bysec_share_CO2_ETS <- co2_price_share_bysec_tmp %>%
     tidyr::pivot_wider(names_from = "ghg", values_from = "value") %>%
     dplyr::mutate(CO2_ETS = dplyr::if_else(is.na(CO2_ETS), 0, CO2_ETS)) %>%
-    dplyr::mutate(share_CO2_ETS = CO2_ETS / CO2) %>%
+    dplyr::mutate(share_CO2_ETS = dplyr::if_else(CO2 == 0, 0, CO2_ETS / CO2)) %>%
     # if the share is > 1, set it to 1 (seems that "biomass" is not accounted in the CO2 emissions query)
     dplyr::mutate(share_CO2_ETS = dplyr::if_else(share_CO2_ETS > 1, 1, share_CO2_ETS)) %>%
     dplyr::select(scenario, region, year, sector, share_CO2_ETS)

@@ -1,51 +1,6 @@
 # Non-intermittent technologies from L113.globaltech_capital_ATB and values interpolated from assumptions
 # Values determined by an exponential function with terms for minimum achievable cost and pace of reduction
-# NOTE: only for SDG version - GCAM_v7p1_plus - VanDeVen et al 2026
 sector.name,subsector.name,technology,year,input.capital,capital.overnight,fixed.charge.rate
-electricity,biomass,biomass (IGCC CCS),1975,capital,2357,0.13
-electricity,biomass,biomass (IGCC CCS),1990,capital,2357,0.13
-electricity,biomass,biomass (IGCC CCS),2005,capital,2357,0.13
-electricity,biomass,biomass (IGCC CCS),2010,capital,2357,0.13
-electricity,biomass,biomass (IGCC CCS),2015,capital,2357,0.13
-electricity,biomass,biomass (IGCC CCS),2020,capital,2235,0.13
-electricity,biomass,biomass (IGCC CCS),2025,capital,2124,0.13
-electricity,biomass,biomass (IGCC CCS),2030,capital,2024,0.13
-electricity,biomass,biomass (IGCC CCS),2035,capital,1934,0.13
-electricity,biomass,biomass (IGCC CCS),2040,capital,1853,0.13
-electricity,biomass,biomass (IGCC CCS),2045,capital,1779,0.13
-electricity,biomass,biomass (IGCC CCS),2050,capital,1712,0.13
-electricity,biomass,biomass (IGCC CCS),2055,capital,1652,0.13
-electricity,biomass,biomass (IGCC CCS),2060,capital,1597,0.13
-electricity,biomass,biomass (IGCC CCS),2065,capital,1548,0.13
-electricity,biomass,biomass (IGCC CCS),2070,capital,1503,0.13
-electricity,biomass,biomass (IGCC CCS),2075,capital,1463,0.13
-electricity,biomass,biomass (IGCC CCS),2080,capital,1427,0.13
-electricity,biomass,biomass (IGCC CCS),2085,capital,1394,0.13
-electricity,biomass,biomass (IGCC CCS),2090,capital,1364,0.13
-electricity,biomass,biomass (IGCC CCS),2095,capital,1337,0.13
-electricity,biomass,biomass (IGCC CCS),2100,capital,1313,0.13
-electricity,biomass,biomass (IGCC),1975,capital,1598,0.13
-electricity,biomass,biomass (IGCC),1990,capital,1598,0.13
-electricity,biomass,biomass (IGCC),2005,capital,1598,0.13
-electricity,biomass,biomass (IGCC),2010,capital,1598,0.13
-electricity,biomass,biomass (IGCC),2015,capital,1598,0.13
-electricity,biomass,biomass (IGCC),2020,capital,1534,0.13
-electricity,biomass,biomass (IGCC),2025,capital,1475,0.13
-electricity,biomass,biomass (IGCC),2030,capital,1423,0.13
-electricity,biomass,biomass (IGCC),2035,capital,1375,0.13
-electricity,biomass,biomass (IGCC),2040,capital,1332,0.13
-electricity,biomass,biomass (IGCC),2045,capital,1293,0.13
-electricity,biomass,biomass (IGCC),2050,capital,1258,0.13
-electricity,biomass,biomass (IGCC),2055,capital,1226,0.13
-electricity,biomass,biomass (IGCC),2060,capital,1197,0.13
-electricity,biomass,biomass (IGCC),2065,capital,1171,0.13
-electricity,biomass,biomass (IGCC),2070,capital,1148,0.13
-electricity,biomass,biomass (IGCC),2075,capital,1127,0.13
-electricity,biomass,biomass (IGCC),2080,capital,1107,0.13
-electricity,biomass,biomass (IGCC),2085,capital,1090,0.13
-electricity,biomass,biomass (IGCC),2090,capital,1074,0.13
-electricity,biomass,biomass (IGCC),2095,capital,1060,0.13
-electricity,biomass,biomass (IGCC),2100,capital,1047,0.13
 electricity,biomass,biomass (conv CCS),1975,capital,2051,0.13
 electricity,biomass,biomass (conv CCS),1990,capital,2051,0.13
 electricity,biomass,biomass (conv CCS),2005,capital,2051,0.13
@@ -90,50 +45,50 @@ electricity,biomass,biomass (conv),2085,capital,880,0.13
 electricity,biomass,biomass (conv),2090,capital,874,0.13
 electricity,biomass,biomass (conv),2095,capital,869,0.13
 electricity,biomass,biomass (conv),2100,capital,864,0.13
-electricity,coal,coal (IGCC CCS),1975,capital,1797,0.13
-electricity,coal,coal (IGCC CCS),1990,capital,1797,0.13
-electricity,coal,coal (IGCC CCS),2005,capital,1797,0.13
-electricity,coal,coal (IGCC CCS),2010,capital,1797,0.13
-electricity,coal,coal (IGCC CCS),2015,capital,1797,0.13
-electricity,coal,coal (IGCC CCS),2020,capital,1705,0.13
-electricity,coal,coal (IGCC CCS),2025,capital,1627,0.13
-electricity,coal,coal (IGCC CCS),2030,capital,1559,0.13
-electricity,coal,coal (IGCC CCS),2035,capital,1501,0.13
-electricity,coal,coal (IGCC CCS),2040,capital,1452,0.13
-electricity,coal,coal (IGCC CCS),2045,capital,1409,0.13
-electricity,coal,coal (IGCC CCS),2050,capital,1373,0.13
-electricity,coal,coal (IGCC CCS),2055,capital,1341,0.13
-electricity,coal,coal (IGCC CCS),2060,capital,1314,0.13
-electricity,coal,coal (IGCC CCS),2065,capital,1291,0.13
-electricity,coal,coal (IGCC CCS),2070,capital,1271,0.13
-electricity,coal,coal (IGCC CCS),2075,capital,1254,0.13
-electricity,coal,coal (IGCC CCS),2080,capital,1239,0.13
-electricity,coal,coal (IGCC CCS),2085,capital,1226,0.13
-electricity,coal,coal (IGCC CCS),2090,capital,1216,0.13
-electricity,coal,coal (IGCC CCS),2095,capital,1206,0.13
-electricity,coal,coal (IGCC CCS),2100,capital,1198,0.13
-electricity,coal,coal (IGCC),1975,capital,1089,0.13
-electricity,coal,coal (IGCC),1990,capital,1089,0.13
-electricity,coal,coal (IGCC),2005,capital,1089,0.13
-electricity,coal,coal (IGCC),2010,capital,1089,0.13
-electricity,coal,coal (IGCC),2015,capital,1089,0.13
-electricity,coal,coal (IGCC),2020,capital,1052,0.13
-electricity,coal,coal (IGCC),2025,capital,1020,0.13
-electricity,coal,coal (IGCC),2030,capital,993,0.13
-electricity,coal,coal (IGCC),2035,capital,970,0.13
-electricity,coal,coal (IGCC),2040,capital,950,0.13
-electricity,coal,coal (IGCC),2045,capital,932,0.13
-electricity,coal,coal (IGCC),2050,capital,917,0.13
-electricity,coal,coal (IGCC),2055,capital,905,0.13
-electricity,coal,coal (IGCC),2060,capital,894,0.13
-electricity,coal,coal (IGCC),2065,capital,884,0.13
-electricity,coal,coal (IGCC),2070,capital,876,0.13
-electricity,coal,coal (IGCC),2075,capital,870,0.13
-electricity,coal,coal (IGCC),2080,capital,864,0.13
-electricity,coal,coal (IGCC),2085,capital,858,0.13
-electricity,coal,coal (IGCC),2090,capital,854,0.13
-electricity,coal,coal (IGCC),2095,capital,850,0.13
-electricity,coal,coal (IGCC),2100,capital,847,0.13
+electricity,biomass,biomass (IGCC CCS),1975,capital,2357,0.13
+electricity,biomass,biomass (IGCC CCS),1990,capital,2357,0.13
+electricity,biomass,biomass (IGCC CCS),2005,capital,2357,0.13
+electricity,biomass,biomass (IGCC CCS),2010,capital,2357,0.13
+electricity,biomass,biomass (IGCC CCS),2015,capital,2357,0.13
+electricity,biomass,biomass (IGCC CCS),2020,capital,2235,0.13
+electricity,biomass,biomass (IGCC CCS),2025,capital,2124,0.13
+electricity,biomass,biomass (IGCC CCS),2030,capital,2024,0.13
+electricity,biomass,biomass (IGCC CCS),2035,capital,1934,0.13
+electricity,biomass,biomass (IGCC CCS),2040,capital,1853,0.13
+electricity,biomass,biomass (IGCC CCS),2045,capital,1779,0.13
+electricity,biomass,biomass (IGCC CCS),2050,capital,1712,0.13
+electricity,biomass,biomass (IGCC CCS),2055,capital,1652,0.13
+electricity,biomass,biomass (IGCC CCS),2060,capital,1597,0.13
+electricity,biomass,biomass (IGCC CCS),2065,capital,1548,0.13
+electricity,biomass,biomass (IGCC CCS),2070,capital,1503,0.13
+electricity,biomass,biomass (IGCC CCS),2075,capital,1463,0.13
+electricity,biomass,biomass (IGCC CCS),2080,capital,1427,0.13
+electricity,biomass,biomass (IGCC CCS),2085,capital,1394,0.13
+electricity,biomass,biomass (IGCC CCS),2090,capital,1364,0.13
+electricity,biomass,biomass (IGCC CCS),2095,capital,1337,0.13
+electricity,biomass,biomass (IGCC CCS),2100,capital,1313,0.13
+electricity,biomass,biomass (IGCC),1975,capital,1598,0.13
+electricity,biomass,biomass (IGCC),1990,capital,1598,0.13
+electricity,biomass,biomass (IGCC),2005,capital,1598,0.13
+electricity,biomass,biomass (IGCC),2010,capital,1598,0.13
+electricity,biomass,biomass (IGCC),2015,capital,1598,0.13
+electricity,biomass,biomass (IGCC),2020,capital,1534,0.13
+electricity,biomass,biomass (IGCC),2025,capital,1475,0.13
+electricity,biomass,biomass (IGCC),2030,capital,1423,0.13
+electricity,biomass,biomass (IGCC),2035,capital,1375,0.13
+electricity,biomass,biomass (IGCC),2040,capital,1332,0.13
+electricity,biomass,biomass (IGCC),2045,capital,1293,0.13
+electricity,biomass,biomass (IGCC),2050,capital,1258,0.13
+electricity,biomass,biomass (IGCC),2055,capital,1226,0.13
+electricity,biomass,biomass (IGCC),2060,capital,1197,0.13
+electricity,biomass,biomass (IGCC),2065,capital,1171,0.13
+electricity,biomass,biomass (IGCC),2070,capital,1148,0.13
+electricity,biomass,biomass (IGCC),2075,capital,1127,0.13
+electricity,biomass,biomass (IGCC),2080,capital,1107,0.13
+electricity,biomass,biomass (IGCC),2085,capital,1090,0.13
+electricity,biomass,biomass (IGCC),2090,capital,1074,0.13
+electricity,biomass,biomass (IGCC),2095,capital,1060,0.13
+electricity,biomass,biomass (IGCC),2100,capital,1047,0.13
 electricity,coal,coal (conv pul CCS),1975,capital,1553,0.13
 electricity,coal,coal (conv pul CCS),1990,capital,1553,0.13
 electricity,coal,coal (conv pul CCS),2005,capital,1553,0.13
@@ -178,6 +133,50 @@ electricity,coal,coal (conv pul),2085,capital,892,0.13
 electricity,coal,coal (conv pul),2090,capital,888,0.13
 electricity,coal,coal (conv pul),2095,capital,885,0.13
 electricity,coal,coal (conv pul),2100,capital,881,0.13
+electricity,coal,coal (IGCC CCS),1975,capital,1797,0.13
+electricity,coal,coal (IGCC CCS),1990,capital,1797,0.13
+electricity,coal,coal (IGCC CCS),2005,capital,1797,0.13
+electricity,coal,coal (IGCC CCS),2010,capital,1797,0.13
+electricity,coal,coal (IGCC CCS),2015,capital,1797,0.13
+electricity,coal,coal (IGCC CCS),2020,capital,1705,0.13
+electricity,coal,coal (IGCC CCS),2025,capital,1627,0.13
+electricity,coal,coal (IGCC CCS),2030,capital,1559,0.13
+electricity,coal,coal (IGCC CCS),2035,capital,1501,0.13
+electricity,coal,coal (IGCC CCS),2040,capital,1452,0.13
+electricity,coal,coal (IGCC CCS),2045,capital,1409,0.13
+electricity,coal,coal (IGCC CCS),2050,capital,1373,0.13
+electricity,coal,coal (IGCC CCS),2055,capital,1341,0.13
+electricity,coal,coal (IGCC CCS),2060,capital,1314,0.13
+electricity,coal,coal (IGCC CCS),2065,capital,1291,0.13
+electricity,coal,coal (IGCC CCS),2070,capital,1271,0.13
+electricity,coal,coal (IGCC CCS),2075,capital,1254,0.13
+electricity,coal,coal (IGCC CCS),2080,capital,1239,0.13
+electricity,coal,coal (IGCC CCS),2085,capital,1226,0.13
+electricity,coal,coal (IGCC CCS),2090,capital,1216,0.13
+electricity,coal,coal (IGCC CCS),2095,capital,1206,0.13
+electricity,coal,coal (IGCC CCS),2100,capital,1198,0.13
+electricity,coal,coal (IGCC),1975,capital,1089,0.13
+electricity,coal,coal (IGCC),1990,capital,1089,0.13
+electricity,coal,coal (IGCC),2005,capital,1089,0.13
+electricity,coal,coal (IGCC),2010,capital,1089,0.13
+electricity,coal,coal (IGCC),2015,capital,1089,0.13
+electricity,coal,coal (IGCC),2020,capital,1052,0.13
+electricity,coal,coal (IGCC),2025,capital,1020,0.13
+electricity,coal,coal (IGCC),2030,capital,993,0.13
+electricity,coal,coal (IGCC),2035,capital,970,0.13
+electricity,coal,coal (IGCC),2040,capital,950,0.13
+electricity,coal,coal (IGCC),2045,capital,932,0.13
+electricity,coal,coal (IGCC),2050,capital,917,0.13
+electricity,coal,coal (IGCC),2055,capital,905,0.13
+electricity,coal,coal (IGCC),2060,capital,894,0.13
+electricity,coal,coal (IGCC),2065,capital,884,0.13
+electricity,coal,coal (IGCC),2070,capital,876,0.13
+electricity,coal,coal (IGCC),2075,capital,870,0.13
+electricity,coal,coal (IGCC),2080,capital,864,0.13
+electricity,coal,coal (IGCC),2085,capital,858,0.13
+electricity,coal,coal (IGCC),2090,capital,854,0.13
+electricity,coal,coal (IGCC),2095,capital,850,0.13
+electricity,coal,coal (IGCC),2100,capital,847,0.13
 electricity,gas,gas (CC CCS),1975,capital,601,0.13
 electricity,gas,gas (CC CCS),1990,capital,601,0.13
 electricity,gas,gas (CC CCS),2005,capital,601,0.13
@@ -266,28 +265,6 @@ electricity,geothermal,geothermal,2085,capital,907,0.13
 electricity,geothermal,geothermal,2090,capital,902,0.13
 electricity,geothermal,geothermal,2095,capital,899,0.13
 electricity,geothermal,geothermal,2100,capital,895,0.13
-electricity,nuclear,Gen_III,1975,capital,1705,0.13
-electricity,nuclear,Gen_III,1990,capital,1705,0.13
-electricity,nuclear,Gen_III,2005,capital,1705,0.13
-electricity,nuclear,Gen_III,2010,capital,1705,0.13
-electricity,nuclear,Gen_III,2015,capital,1705,0.13
-electricity,nuclear,Gen_III,2020,capital,1675,0.13
-electricity,nuclear,Gen_III,2025,capital,1646,0.13
-electricity,nuclear,Gen_III,2030,capital,1619,0.13
-electricity,nuclear,Gen_III,2035,capital,1593,0.13
-electricity,nuclear,Gen_III,2040,capital,1568,0.13
-electricity,nuclear,Gen_III,2045,capital,1545,0.13
-electricity,nuclear,Gen_III,2050,capital,1523,0.13
-electricity,nuclear,Gen_III,2055,capital,1502,0.13
-electricity,nuclear,Gen_III,2060,capital,1481,0.13
-electricity,nuclear,Gen_III,2065,capital,1462,0.13
-electricity,nuclear,Gen_III,2070,capital,1444,0.13
-electricity,nuclear,Gen_III,2075,capital,1427,0.13
-electricity,nuclear,Gen_III,2080,capital,1410,0.13
-electricity,nuclear,Gen_III,2085,capital,1395,0.13
-electricity,nuclear,Gen_III,2090,capital,1380,0.13
-electricity,nuclear,Gen_III,2095,capital,1366,0.13
-electricity,nuclear,Gen_III,2100,capital,1352,0.13
 electricity,nuclear,Gen_II_LWR,1975,capital,1650,0.13
 electricity,nuclear,Gen_II_LWR,1990,capital,1650,0.13
 electricity,nuclear,Gen_II_LWR,2005,capital,1650,0.13
@@ -310,6 +287,28 @@ electricity,nuclear,Gen_II_LWR,2085,capital,1704,0.13
 electricity,nuclear,Gen_II_LWR,2090,capital,1704,0.13
 electricity,nuclear,Gen_II_LWR,2095,capital,1704,0.13
 electricity,nuclear,Gen_II_LWR,2100,capital,1704,0.13
+electricity,nuclear,Gen_III,1975,capital,1705,0.13
+electricity,nuclear,Gen_III,1990,capital,1705,0.13
+electricity,nuclear,Gen_III,2005,capital,1705,0.13
+electricity,nuclear,Gen_III,2010,capital,1705,0.13
+electricity,nuclear,Gen_III,2015,capital,1705,0.13
+electricity,nuclear,Gen_III,2020,capital,1675,0.13
+electricity,nuclear,Gen_III,2025,capital,1646,0.13
+electricity,nuclear,Gen_III,2030,capital,1619,0.13
+electricity,nuclear,Gen_III,2035,capital,1593,0.13
+electricity,nuclear,Gen_III,2040,capital,1568,0.13
+electricity,nuclear,Gen_III,2045,capital,1545,0.13
+electricity,nuclear,Gen_III,2050,capital,1523,0.13
+electricity,nuclear,Gen_III,2055,capital,1502,0.13
+electricity,nuclear,Gen_III,2060,capital,1481,0.13
+electricity,nuclear,Gen_III,2065,capital,1462,0.13
+electricity,nuclear,Gen_III,2070,capital,1444,0.13
+electricity,nuclear,Gen_III,2075,capital,1427,0.13
+electricity,nuclear,Gen_III,2080,capital,1410,0.13
+electricity,nuclear,Gen_III,2085,capital,1395,0.13
+electricity,nuclear,Gen_III,2090,capital,1380,0.13
+electricity,nuclear,Gen_III,2095,capital,1366,0.13
+electricity,nuclear,Gen_III,2100,capital,1352,0.13
 electricity,refined liquids,refined liquids (CC CCS),1975,capital,716,0.13
 electricity,refined liquids,refined liquids (CC CCS),1990,capital,716,0.13
 electricity,refined liquids,refined liquids (CC CCS),2005,capital,716,0.13

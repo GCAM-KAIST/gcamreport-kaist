@@ -39,6 +39,17 @@
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="building service output by service">
+         <axis1 name="sector">sector</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='building' or (exists(child::keyword[@final-energy='building'])))]//
+   output-primary[@type='output' (:collapse:)]/
+   physical-output/node()</xPath>
+         <comments/>
+      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="building total final energy by service">
          <axis1 name="sector">sector</axis1>
          <axis2 name="Year">demand-physical[@vintage]</axis2>
