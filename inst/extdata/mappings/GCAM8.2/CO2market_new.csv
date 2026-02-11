@@ -27,6 +27,7 @@ EU-15CO2,EU-15
 EU_15CO2,EU-15
 EUCO2,EU-15
 EU_ETSCO2_ETS,EU-15
+Europe_EasternCO2,Europe_Eastern
 UkraineCO2,Ukraine
 Europe_Non_EUCO2,Europe_Non_EU
 IndiaCO2,India
@@ -71,7 +72,8 @@ EU-15CO2_NearTerm,EU-15
 EU_15CO2_NearTerm,EU-15
 EUCO2_NearTerm,EU-15
 EU_ETSCO2_ETS,EU-15
-UkraineCO2_NearTerm,Ukraine
+Europe_EasternCO2_NearTerm,Europe_Eastern
+UkraineCO2,Ukraine
 Europe_Non_EUCO2_NearTerm,Europe_Non_EU
 IndiaCO2_NearTerm,India
 IndonesiaCO2_NearTerm,Indonesia

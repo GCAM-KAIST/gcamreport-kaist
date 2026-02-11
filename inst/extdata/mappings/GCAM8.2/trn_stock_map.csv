@@ -15,6 +15,8 @@ trn_pass_road_LDV,2W and 3W,BEV,Stocks|Transportation|Light-Duty Vehicle,Stocks|
 trn_pass_road_LDV,2W and 3W,LA-BEV,Stocks|Transportation|Light-Duty Vehicle,Stocks|Transportation|Light-Duty Vehicle|Plug-in Hybrid,Stocks|Transportation|Light-Duty Vehicle|Two-Wheeler,Stocks|Transportation|Light-Duty Vehicle|Two-Wheeler|Plug-in Hybrid,1
 trn_pass_road_LDV,2W and 3W,NG,Stocks|Transportation|Light-Duty Vehicle,Stocks|Transportation|Light-Duty Vehicle|Internal Combustion,Stocks|Transportation|Light-Duty Vehicle|Two-Wheeler,Stocks|Transportation|Light-Duty Vehicle|Two-Wheeler|Internal Combustion,1
 trn_freight_road,Light truck,NG,Stocks|Transportation|Truck,Stocks|Transportation|Truck|Internal Combustion,,,1
+trn_freight_road,Heavy truck,NG,Stocks|Transportation|Truck,Stocks|Transportation|Truck|Internal Combustion,,,1
+trn_freight_road,Medium truck,NG,Stocks|Transportation|Truck,Stocks|Transportation|Truck|Internal Combustion,,,1
 trn_freight_road,Heavy truck,Hybrid Liquids,Stocks|Transportation|Truck,Stocks|Transportation|Truck|Internal Combustion,,,1
 trn_freight_road,Light truck,Hybrid Liquids,Stocks|Transportation|Truck,Stocks|Transportation|Truck|Internal Combustion,,,1
 trn_freight_road,Medium truck,Hybrid Liquids,Stocks|Transportation|Truck,Stocks|Transportation|Truck|Internal Combustion,,,1

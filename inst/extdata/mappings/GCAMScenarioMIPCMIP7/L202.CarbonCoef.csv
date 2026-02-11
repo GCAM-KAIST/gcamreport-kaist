@@ -737,3 +737,31 @@ USA,regional oil,19.6
 USA,refined liquids industrial,19.6
 USA,refined liquids enduse,19.6
 USA,limestone,36.08
+Ukraine,biomass,0
+Ukraine,regional biomass,23
+Ukraine,delivered biomass,23
+Ukraine,regional biomassOil,19.6
+Ukraine,regional sugar for ethanol,19.6
+Ukraine,regional corn for ethanol,19.6
+Ukraine,coal,27.3
+Ukraine,regional coal,27.3
+Ukraine,delivered coal,27.3
+Ukraine,natural gas,14.2
+Ukraine,regional natural gas,14.2
+Ukraine,gas processing,14.2
+Ukraine,gas pipeline,14.2
+Ukraine,wholesale gas,14.2
+Ukraine,delivered gas,14.2
+Ukraine,crude oil,19.6
+Ukraine,regional oil,19.6
+Ukraine,refining,19.6
+Ukraine,refined liquids industrial,19.6
+Ukraine,refined liquids enduse,19.6
+Ukraine,limestone,0.08
+Ukraine,unconventional oil upscaling,1.5
+Ukraine,regional industrial_roundwood,0
+Ukraine,regional sawnwood,0
+Ukraine,regional woodpulp,0
+Ukraine,NonFoodDemand_sawnwood,0
+Ukraine,NonFoodDemand_woodpulp,0
+Ukraine,regional woodpulp for energy,23

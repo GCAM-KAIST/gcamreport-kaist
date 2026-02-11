@@ -146,8 +146,9 @@ check_queries <- function(var, GCAM_version = 'v7.1') {
   it = 1; allOk = TRUE
   while (sum(is.na(queryItems)) == 0 & it <= as.numeric(length(queryItems)) & allOk) {
     qi <- var_fun_map[var_fun_map$name == var, "queries"][[1]][it]
-    allOk = qi %in% rgcam::listQueries(prj)
-    it = it + 1
+    qi <- unlist(strsplit(qi, split = "|", fixed = TRUE))
+    allOk <- any(qi %in% rgcam::listQueries(prj))
+    it <- it + 1
   }
 
   if (!allOk) {
@@ -401,10 +402,14 @@ left_join_strict <- function(left_df, right_df, by = NULL, by_message = by, mapp
   if (!is.null(ignore) & nrow(unmatched) > 0) {
     unmatched_ignore <- unmatched %>%
       dplyr::filter(dplyr::if_any(.cols = everything(), ~ grepl(paste(ignore, collapse = "|"), .)))
-    unmatched <- unmatched %>%
-      dplyr::anti_join(unmatched_ignore)
-    result <- result %>%
-      dplyr::anti_join(unmatched_ignore)
+    unmatched <- suppressMessages(
+      unmatched %>%
+        dplyr::anti_join(unmatched_ignore)
+    )
+    result <-suppressMessages(
+      result %>%
+        dplyr::anti_join(unmatched_ignore)
+    )
   }
 
   # Check if there are any unmatched rows
@@ -852,22 +857,204 @@ get_population_weights <- function(GCAM_version = "v7.1") {
 }
 
 
+
+#' get_poverty
+#'
+#' Compute povery variables
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `poverty_clean` global variables.
+#' @keywords internal econ
+#' @importFrom magrittr %>%
+#' @export
+get_poverty <- function(GCAM_version = "v7.1") {
+  poverty_clean <- NULL
+
+  check_queries('poverty_clean', GCAM_version)
+
+  if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
+    income <- income_raw %>% # thous 1990$ per cap
+      dplyr::select(-Units, -var, decile = `gcam-consumer`, income = value) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(median_by_reg = median(income)) %>%
+      dplyr::ungroup() %>%
+      # from 1990$ to 2017$
+      dplyr::mutate(income = income *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_17USD_90USD']])
+
+    population <- population_clean %>% # million
+      dplyr::select(-var, pop = value)
+
+    # ## Population|Poverty|Below 50% of National Median Income [Share]
+    # poverty_50 <- income %>%
+    #   dplyr::mutate(below_reg_50 = ifelse(income < median_by_reg, T, F)) %>%
+    #   dplyr::group_by(scenario, region, year) %>%
+    #   dplyr::mutate(poverty_rate = 10 * sum(below_reg_50, na.rm = TRUE),
+    #                 var = 'Population|Poverty|Below 50% of National Median Income [Share]') %>%
+    #   dplyr::ungroup()
+
+    # Population|Poverty|Extreme Poverty
+    threshold <- 2.15 #USD_2017 2.15 PPP per day (World Bank definition)
+    poverty_extreme <- income %>%
+      # check threshold
+      dplyr::mutate(extreme_poverty = ifelse(income < threshold, T, F)) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::summarise(value = 10 * sum(extreme_poverty, na.rm = TRUE),
+                    var = 'Population|Poverty|Extreme Poverty') %>%
+      dplyr::ungroup() %>%
+      # compute population
+      left_join_error_no_match(population,
+                               by = c('scenario','region','year')) %>%
+      dplyr::mutate(value = value / 1e2 * pop) %>%
+      dplyr::select(-pop)
+
+
+    # Population|Poverty|LMIC Poverty Line
+    threshold <- 3.65 #USD_2017 3.65 PPP per day (World Bank LMIC definition)
+    poverty_LMIC <- income %>%
+      # check threshold
+      dplyr::mutate(extreme_poverty = ifelse(income < threshold, T, F)) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::summarise(value = 10 * sum(extreme_poverty, na.rm = TRUE),
+                    var = 'Population|Poverty|LMIC Poverty Line') %>%
+      dplyr::ungroup() %>%
+      # compute population
+      left_join_error_no_match(population,
+                               by = c('scenario','region','year')) %>%
+      dplyr::mutate(value = value / 1e2 * pop) %>%
+      dplyr::select(-pop)
+
+
+    # Population|Poverty|UMIC Poverty Line
+    threshold <- 6.85 #USD_2017 6.85 PPP per day (World Bank UMIC definition)
+    poverty_UMIC <- income %>%
+      # check threshold
+      dplyr::mutate(extreme_poverty = ifelse(income < threshold, T, F)) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::summarise(value = 10 * sum(extreme_poverty, na.rm = TRUE),
+                    var = 'Population|Poverty|UMIC Poverty Line') %>%
+      dplyr::ungroup() %>%
+      # compute population
+      left_join_error_no_match(population,
+                               by = c('scenario','region','year')) %>%
+      dplyr::mutate(value = value / 1e2 * pop) %>%
+      dplyr::select(-pop)
+
+    poverty_clean <- rbind(
+      poverty_extreme,
+      poverty_LMIC,
+      poverty_UMIC
+    )
+
+  } else {
+    poverty_clean <- NULL
+    warning("The 'Poverty' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
+  }
+
+  poverty_clean <<- poverty_clean
+
+}
+
+
+
+#' get_inequality
+#'
+#' Compute inequality variables
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `inequality_clean` global variables.
+#' @keywords internal econ
+#' @importFrom magrittr %>%
+#' @export
+get_inequality <- function(GCAM_version = "v7.1") {
+  inequality_clean <- NULL
+
+  check_queries('inequality_clean', GCAM_version)
+
+  if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
+    income <- income_raw %>% # thous 1990$ per cap
+      dplyr::select(-Units, -var, decile = `gcam-consumer`, income = value) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(national_average = mean(income)) %>%
+      dplyr::ungroup() %>%
+      # from 1990$ to 2017$
+      dplyr::mutate(income = income *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_17USD_90USD']]) %>%
+      # decile number
+      dplyr::mutate(decile_num = as.numeric(stringr::str_extract(decile, "(?<=d)\\d+")))
+
+    population <- population_clean %>% # million
+      dplyr::select(-var, pop = value)
+
+    # Inequality|Average Income|Bottom 40% [Ratio]
+    ineq_40 <- income %>%
+      # ratio: bottom 40% (deciles 1-4) / national average
+      dplyr::filter(decile_num <= 4) %>%
+      dplyr::group_by(scenario, region, year) %>%
+      dplyr::mutate(bottom40 = mean(income)) %>%
+      dplyr::reframe(value = 100 * bottom40 / national_average,
+                     var = 'Inequality|Average Income|Bottom 40% [Ratio]')
+
+
+    # Inequality index|Gini
+    ineq_gini <- income %>%
+      dplyr::group_by(scenario, region, year) %>%
+      # order deciles 1 - 10
+      dplyr::arrange(decile_num) %>%
+      # proprtion of income by decile
+      dplyr::mutate(income_share = income / sum(income)) %>%
+      # accumulated income (Y_i)
+      dplyr::mutate(cum_income = cumsum(income_share)) %>%
+      # Gini computation by the trapezium formula
+      dplyr::summarize(value = {
+        # add the (0,0) point to do the full computation
+        x <- seq(0, 1, by = 0.1)
+        y <- c(0, cum_income)
+
+        # Area below the Lorenz curve (Trapezium integral)
+        # Area = sum ( (x_i - x_{i-1}) * (y_i + y_{i-1}) / 2 )
+        lorenz_area <- sum(diff(x) * (y[-1] + y[-length(y)]) / 2)
+
+        # Gini = equality area [0.5] - Lorenz area) / equality area [0.5]
+        # which simplifying is: 1 - 2 * lorenz_area
+        1 - 2 * lorenz_area
+      },
+      var = 'Inequality index|Gini',
+      .groups = "drop")
+
+    inequality_clean <- rbind(
+      ineq_40,
+      ineq_gini
+    )
+
+  } else {
+    inequality_clean <- NULL
+    warning("The 'Inequality' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
+  }
+
+  inequality_clean <<- inequality_clean
+
+}
+
+
+
+
 #' get_income
 #'
 #' Compute share of total income my decile
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `income_clean` global variables.
+#' @return `income_clean` and `income_raw` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_income <- function(GCAM_version = "v7.1") {
-  income_clean <- income_tmp <- income_w <- income <- NULL
+  income_clean <- income_raw <- income_w <- income <- NULL
 
   check_queries('income_clean', GCAM_version)
 
   if (GCAM_version %in% c(get('deciles_GCAM_versions', envir = asNamespace("gcamreport")))) {
-    income_tmp <-
+    income_raw <-
       check_inf(rgcam::getQuery(prj, "subregional income"),
                 dataset_name = "subregional income") %>%
       dplyr::filter(grepl('resid',`gcam-consumer`)) %>%
@@ -877,7 +1064,7 @@ get_income <- function(GCAM_version = "v7.1") {
                                  ' [Share]'))
 
     # compute income share by decile
-    income <- income_tmp %>%
+    income <- income_raw %>%
       dplyr::group_by(scenario, region, year) %>%
       dplyr::mutate(total = sum(value)) %>%
       dplyr::ungroup() %>%
@@ -885,7 +1072,7 @@ get_income <- function(GCAM_version = "v7.1") {
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
     # compute income share by decile at the World level
-    income_w <- income_tmp %>%
+    income_w <- income_raw %>%
       dplyr::group_by(scenario, year, var) %>%
       dplyr::summarise(value = sum(value)) %>%
       dplyr::ungroup() %>%
@@ -904,9 +1091,11 @@ get_income <- function(GCAM_version = "v7.1") {
 
   } else {
     income_clean <- NULL
+    income_raw <- NULL
     warning("The 'Income by Decile' variables are unavailable in your project. They are only supported from GCAM version 7.1 onwards. If you are using version 7.1 or newer, please ensure the `subregional income` query is valid and not returning empty results.")
   }
 
+  income_raw <<- income_raw
   income_clean <<- income_clean
 
 }
@@ -968,15 +1157,17 @@ get_labor <- function(GCAM_version = "v7.1") {
 #' Retrieves GDP (PPP) data, computes regional GDP and annual GDPpc growth rate, and converts units to 10 USD.
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `GDP_PPP_clean` and `GDP_PPP_pc_growth_clean` global variables.
+#' @return `GDP_PPP_clean`, `GDP_PPP_pc_growth_clean`, and `GDP_PPP_pc_oecd_share_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
 get_gdp_ppp <- function(GCAM_version = "v7.1") {
-  value <- pop_mill <- GDP_PPP_clean <- GDP_PPP_pc_growth_clean <- NULL
+  value <- pop_mill <- GDP_PPP_clean <- GDP_PPP_pc_growth_clean <-
+    GDP_PPP_pc_oecd_share_clean <- NULL
 
   check_queries('GDP_PPP_clean', GCAM_version)
   check_queries('GDP_PPP_pc_growth_clean', GCAM_version)
+  check_queries('GDP_PPP_pc_oecd_share_clean', GCAM_version)
 
   GDP_PPP_clean <-
     check_inf(rgcam::getQuery(prj, "GDP per capita PPP by region"),
@@ -1004,7 +1195,21 @@ get_gdp_ppp <- function(GCAM_version = "v7.1") {
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  GDP_PPP_pc_oecd_share_clean <-
+    check_inf(rgcam::getQuery(prj, "GDP per capita PPP by region"),
+              dataset_name = "GDP per capita PPP by region") %>%
+    dplyr::filter(value != 0) %>% # avoid null values present in the data due to the byu
+    dplyr::arrange(year) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(
+      value = 100 * (value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']])
+              / (get('GDP_PPP_OECD_pc_av', envir = asNamespace("gcamreport")) / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_10USD_25USD']]),
+      var = "GDP|PPP [per capita relative to OECD]"
+    ) %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+
+  GDP_PPP_pc_oecd_share_clean <<- GDP_PPP_pc_oecd_share_clean
   GDP_PPP_pc_growth_clean <<- GDP_PPP_pc_growth_clean
   GDP_PPP_clean <<- GDP_PPP_clean
 }
@@ -1124,71 +1329,335 @@ get_value_added <- function(GCAM_version = "v7.1") {
 }
 
 
-#' get_expenditure
+#' get_en_expenditure
 #'
-#' Computes food expenditure.
+#' Computes energy expenditure.as the share of the total expenditure by decile
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#' @return `expenditure_clean` global variable.
+#' @return `energy_expenditure_per_clean` global variable.
+#' @keywords internal economy
+#' @importFrom magrittr %>%
+#' @export
+get_en_expenditure <- function(GCAM_version = "v7.1") {
+  energy_expenditure_per_clean <- energy_expenditure_per_w <-
+    energy_expenditure_per <- energy_expenditure_per_avR <- NULL
+
+  check_queries('energy_expenditure_per_clean', GCAM_version)
+
+  # fix income
+  income <- income_raw %>%
+    dplyr::select(-var, -Units) %>%
+    dplyr::rename(income = value,
+                  `gcam-decile` = `gcam-consumer`) %>%
+    # Units: from thous. 1990$ per capita to 1900$ per capita
+    dplyr::mutate(income = 1e3 * income) %>%
+    # fix South America_Northern
+    dplyr::mutate(income = dplyr::if_else(region == 'South America_Northern', income / 20, income)) %>%
+    dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-decile`)))
+
+
+  # Energy expenditure
+  energy_mult <- get(paste('en_multiplier',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::select(-year)
+
+  energy_expenditure <-
+    # energy prices
+    check_inf(rgcam::getQuery(prj, "building service costs"),
+              dataset_name = "building service costs") %>%
+    # Units: from 1975$ to 1990$
+    dplyr::mutate(value = value *
+                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']] /
+                    get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]) %>%
+    # Units: from GJ to EJ (1GJ = 1e9EJ)
+    dplyr::mutate(value = get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['GJ_to_EJ']] * value) %>%
+    # other
+    dplyr::rename(cost = value) %>%
+    dplyr::filter(year %in% gcam_years) %>%
+    # energy demand
+    dplyr::left_join(
+      # left_join_error_no_match(
+      check_inf(rgcam::getQuery(prj, "building service output by service"),
+                dataset_name = "building service output by service") %>%
+        dplyr::rename(demand = value) %>%
+        tidyr::complete(tidyr::nesting(Units, scenario, region, sector), year = gcam_years, fill = list(demand = 0)),
+      by = c('scenario','region','sector','year')
+    ) %>%
+    # fix NAs in demand (Taiwan resid others coal)
+    dplyr::mutate(demand = dplyr::if_else(is.na(demand), 0, demand)) %>%
+    # EXPENDITURE
+    dplyr::mutate(energy_expenditure = demand * cost) %>%
+    dplyr::mutate(Units = '1990$') %>%
+    dplyr::select(-Units.x, -Units.y, `gcam-consumer` = sector) %>%
+    dplyr::filter(grepl('resid', `gcam-consumer`)) %>%
+    dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-consumer`))) %>%
+    dplyr::group_by(scenario, region, `gcam-decile`, year, Units) %>%
+    dplyr::summarise(energy_expenditure = sum(energy_expenditure)) %>%
+    dplyr::ungroup() %>%
+    # compute per capita expenditure
+    left_join_error_no_match(
+      rgcam::getQuery(prj, "population by region") %>%
+        # Units: from thous. to abs
+        dplyr::mutate(pop = 1e2 * value) %>%
+        dplyr::select(scenario, region, year, pop),
+      by = c('scenario','region','year')) %>%
+    dplyr::mutate(energy_expenditure = energy_expenditure / pop) %>%
+    dplyr::mutate(Units = '1990$cap') %>%
+    # add multipliers
+    left_join_error_no_match(energy_mult,
+                             by = c('region')) %>%
+    dplyr::mutate(energy_expenditure = energy_mult * energy_expenditure) %>%
+    dplyr::select(scenario, region, year, energy_expenditure, `gcam-decile`, Units) %>%
+    # restrict to desired years
+    dplyr::filter(year <= final_year.global)
+
+
+  energy_expenditure_per <- energy_expenditure %>%
+    left_join_error_no_match(income,
+                             by = c('region','gcam-decile','year','scenario')) %>%
+    dplyr::mutate(energy_expenditure_per = 1e2 * energy_expenditure / income) %>%
+    dplyr::mutate(var = paste0('Expenditure|Households|Energy|D',`gcam-decile`, ' [Share]')) %>%
+    dplyr::select(scenario, region, var, year, value = energy_expenditure_per)
+
+  energy_expenditure_per_avR <- energy_expenditure_per %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(var = 'Expenditure|Households|Energy [Share]',
+                     value = mean(value)) %>%
+    dplyr::ungroup()
+
+  energy_expenditure_per_w <- energy_expenditure_per %>%
+    left_join_error_no_match(tibble::as_tibble(pop_weights),
+                             by = c('scenario','region','year')) %>%
+    # weighted sum
+    dplyr::mutate(en_expenditure_per_weighted = value * share * 100) %>%
+    dplyr::group_by(scenario, year, var) %>%
+    dplyr::summarise(region = 'World',
+                     value = sum(en_expenditure_per_weighted)) %>%
+    dplyr::ungroup()
+
+
+  energy_expenditure_per_clean <- rbind(
+    energy_expenditure_per,
+    energy_expenditure_per_avR,
+    energy_expenditure_per_w
+  )
+
+  energy_expenditure_per_clean <<- energy_expenditure_per_clean
+}
+
+
+#' get_food_expenditure
+#'
+#' Computes food expenditure.as the share of the total expenditure by decile
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `food_expenditure_per_clean` global variable.
+#' @keywords internal economy
+#' @importFrom magrittr %>%
+#' @export
+get_food_expenditure <- function(GCAM_version = "v7.1") {
+  food_expenditure_per_clean <- food_expenditure_per_w <-
+    food_expenditure_per <- food_expenditure_per_avR <- NULL
+
+  check_queries('food_expenditure_per_clean', GCAM_version)
+
+
+  # fix income
+  income <- income_raw %>%
+    dplyr::select(-var, -Units) %>%
+    dplyr::rename(income = value,
+                  `gcam-decile` = `gcam-consumer`) %>%
+    # Units: from thous. 1990$ per capita to 1900$ per capita
+    dplyr::mutate(income = 1e3 * income) %>%
+    # fix South America_Northern
+    dplyr::mutate(income = dplyr::if_else(region == 'South America_Northern', income / 20, income)) %>%
+    dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-decile`)))
+
+
+  # Food expenditure
+  food_exp <- get(paste('food_expenditures_average',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::select(-year)
+
+  # CASE 1: Income groups available
+  if ("food demand prices by income group" %in% rgcam::listQueries(prj)) {
+    food_expenditure <-
+      # food prices
+      check_inf(rgcam::getQuery(prj, "food demand prices by income group"),
+                dataset_name = "food demand prices by income group") %>%
+      # Units: from 2005$ to 2020$ (1990 to 2020 / 0.5575288)
+      dplyr::mutate(value = value *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_05USD_10USD']] /
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]
+                    / 0.5575288) %>%
+      # Units: from Mcal to Pcal (1Mcal = 1e9Pcal)
+      dplyr::mutate(value = value * 1e9) %>%
+      # Units: from day to year (1year = 365.25days)
+      dplyr::mutate(value = value * 365.25) %>%
+      # other
+      dplyr::rename(cost = value) %>%
+      dplyr::filter(year %in% gcam_years) %>%
+      # food demand
+      left_join_error_no_match(
+        check_inf(rgcam::getQuery(prj, "food demand by income group"),
+                  dataset_name = "food demand by income group") %>%
+          dplyr::rename(demand = value),
+        by = c('scenario','region','gcam-consumer','nodeinput','input','year')
+      ) %>%
+      # EXPENDITURE
+      dplyr::mutate(food_expenditure = demand * cost) %>%
+      # sum staples and nonstaples to have the total food expenditure
+      dplyr::mutate(`gcam-decile` = as.numeric(gsub("[^0-9.]", "", `gcam-consumer`))) %>%
+      dplyr::group_by(scenario, region, `gcam-decile`, year) %>%
+      dplyr::summarise(food_expenditure = sum(food_expenditure)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(Units = '2020$') %>%
+      # compute per capita expenditure
+      left_join_error_no_match(
+        rgcam::getQuery(prj, "population by region") %>%
+          # Units: from thous. to abs
+          dplyr::mutate(pop = 1e2 * value) %>%
+          dplyr::select(scenario, region, year, pop),
+        by = c('scenario','region','year')) %>%
+      dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
+      dplyr::mutate(Units = '2020$cap') %>%
+      # restrict to desired years
+      dplyr::filter(year <= final_year.global)
+
+  # CASE 2: Income groups not available
+  } else {
+    food_expenditure <-
+      # food prices
+      check_inf(rgcam::getQuery(prj, "food demand prices"),
+                dataset_name = "food demand prices") %>%
+      # Units: from 2005$ to 2020$ (1990 to 2020 / 0.5575288)
+      dplyr::mutate(value = value *
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_05USD_10USD']] /
+                      get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']]
+                    / 0.5575288) %>%
+      # Units: from Mcal to Pcal (1Mcal = 1e9Pcal)
+      dplyr::mutate(value = value * 1e9) %>%
+      # Units: from day to year (1year = 365.25days)
+      dplyr::mutate(value = value * 365.25) %>%
+      # other
+      dplyr::rename(cost = value) %>%
+      dplyr::filter(year %in% gcam_years) %>%
+      # food demand
+      left_join_error_no_match(
+        check_inf(rgcam::getQuery(prj, "food demand"),
+                  dataset_name = "food demand") %>%
+          dplyr::rename(demand = value),
+        by = c('scenario','region','gcam-consumer','nodeinput','input','year')
+      ) %>%
+      # EXPENDITURE
+      dplyr::mutate(food_expenditure = demand * cost,
+                    `gcam-decile` = '') %>%
+      # sum staples and nonstaples to have the total food expenditure
+      dplyr::group_by(scenario, region, `gcam-decile`, year) %>%
+      dplyr::summarise(food_expenditure = sum(food_expenditure)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(Units = '2020$') %>%
+      # compute per capita expenditure
+      left_join_error_no_match(
+        rgcam::getQuery(prj, "population by region") %>%
+          # Units: from thous. to abs
+          dplyr::mutate(pop = 1e2 * value) %>%
+          dplyr::select(scenario, region, year, pop),
+        by = c('scenario','region','year')) %>%
+      dplyr::mutate(food_expenditure = food_expenditure / pop) %>%
+      dplyr::mutate(Units = '2020$cap') %>%
+      # restrict to desired years
+      dplyr::filter(year <= final_year.global)
+
+    income <- income %>%
+      dplyr::group_by(region, year, scenario) %>%
+      dplyr::summarise(`gcam-decile` = '',
+                       income = mean(income)) %>%
+      dplyr::ungroup()
+  }
+
+  # compute the food multipliers
+  food_mult <- food_expenditure %>%
+    dplyr::filter(year == 2020) %>%
+    dplyr::group_by(scenario, region) %>%
+    dplyr::summarise(gcam_av_food_exp = mean(food_expenditure)) %>%
+    dplyr::ungroup() %>%
+    left_join_error_no_match(food_exp,
+                             by = c('region')) %>%
+    dplyr::mutate(food_mult = av_food_exp / gcam_av_food_exp) %>%
+    dplyr::select(scenario, region, food_mult)
+
+  # add multipliers
+  food_expenditure <- food_expenditure %>%
+    left_join_error_no_match(food_mult,
+                             by = c('scenario', 'region')) %>%
+    dplyr::mutate(food_expenditure_mult = food_mult * food_expenditure) %>%
+    dplyr::select(scenario, region, year, food_expenditure, food_expenditure_mult, food_mult, `gcam-decile`, Units)
+
+
+  food_expenditure_per <- food_expenditure %>%
+    left_join_error_no_match(income %>%
+                               dplyr::mutate(income = income / 0.5575288),
+                             by = c('region','gcam-decile','year','scenario')) %>%
+    dplyr::mutate(food_expenditure_per = 100 * food_expenditure_mult / income) %>%
+    dplyr::mutate(var = paste0('Expenditure|Households|Food|D',`gcam-decile`, ' [Share]')) %>%
+    dplyr::select(scenario, region, var, year, value = food_expenditure_per)
+
+  food_expenditure_per_avR <- food_expenditure_per %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(var = 'Expenditure|Households|Food [Share]',
+                     value = mean(value)) %>%
+    dplyr::ungroup()
+
+  food_expenditure_per_w <- food_expenditure_per %>%
+    left_join_error_no_match(tibble::as_tibble(pop_weights),
+                             by = c('scenario','region','year')) %>%
+    # weighted sum
+    dplyr::mutate(food_expenditure_per_weighted = value * share * 100) %>%
+    dplyr::group_by(scenario, year, var) %>%
+    dplyr::summarise(region = 'World',
+                     value = sum(food_expenditure_per_weighted)) %>%
+    dplyr::ungroup()
+
+
+  food_expenditure_per_clean <- rbind(
+    food_expenditure_per,
+    food_expenditure_per_avR,
+    food_expenditure_per_w
+  ) %>%
+    dplyr::filter(var != 'Expenditure|Households|Food|D [Share]')
+
+
+  food_expenditure_per_clean <<- food_expenditure_per_clean
+}
+
+
+
+#' get_expenditure
+#'
+#' Computes food + energy expenditure.
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `expenditure_per_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
 get_expenditure <- function(GCAM_version = "v7.1") {
-  value <- expenditure_clean <- consumption <- prices <-
-    expenditure_food <- expenditure_food_w <- NULL
+  value <- expenditure_per_clean <- NULL
 
-  check_queries('expenditure_clean', GCAM_version)
+  check_queries('expenditure_per_clean', GCAM_version)
 
-  consumption <-
-    check_inf(rgcam::getQuery(prj, "demand balances by crop commodity"),
-              dataset_name = "demand balances by crop commodity") %>%
-    dplyr::filter(stringr::str_starts(sector, 'FoodDemand')) %>%
-    dplyr::select(-sector) %>%
-    dplyr::rename(consumption = value,
-                  sector = input) %>%
-    # Units: 1Mt = 1e9kg (units of the food price)
-    dplyr::mutate(consumption = consumption * 1e9)
-
-  prices <- check_inf(rgcam::getQuery(prj, "ag regional prices (current consumer prices)"),
-                      dataset_name = "ag regional prices (current consumer prices)") %>%
-    dplyr::rename(price = value) %>%
-    # Units: 1975$/kg to billion 2010$/kg (units of the GDP)
-    dplyr::mutate(price = 1e-9 * price / get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_75USD_10USD']])
-
-  expenditure_food <- left_join_strict(
-    consumption,
-    prices,
-    by = c('scenario','region','sector','year')
+  expenditure_per_clean <- rbind(
+    food_expenditure_per_clean,
+    energy_expenditure_per_clean
   ) %>%
-    dplyr::mutate(food = consumption * price) %>%
-    dplyr::group_by(scenario, region, year) %>%
-    dplyr::summarise(food = sum(food), .groups = 'drop',
-                     value = 0) %>%
-    dplyr::mutate(var = "Expenditure|Households|Food|Agriculture [Share]") %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns), food) %>%
-    # Units: share (of the GDP)
-    left_join_strict(GDP_MER_clean %>%
-                       dplyr::rename(gdp = value) %>%
-                       dplyr::select(-var),
-                     by = c('scenario','region','year')) %>%
-    dplyr::mutate(value = 1e3 * food / gdp) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+    dplyr::mutate(decile = stringr::str_extract(var, "\\|D[0-9]+")) %>%
+    dplyr::mutate(decile = tidyr::replace_na(decile, "")) %>%
+    dplyr::group_by(scenario, region, decile, year) %>%
+    dplyr::reframe(value = sum(value),
+                   var = paste0('Expenditure|Households', decile, ' [Share]')) %>%
+    dplyr::distinct() %>%
+    dplyr::select(-decile)
 
-  expenditure_food_w <- expenditure_food %>%
-    left_join_strict(population_clean %>%
-                       dplyr::rename(pop = value) %>%
-                       dplyr::select(-var),
-                     by = c('scenario','region','year')) %>%
-    dplyr::group_by(scenario, var, year) %>%
-    dplyr::summarise(value = weighted.mean(value, w = pop),
-                     region = 'World', .groups = 'drop')
-
-
-  expenditure_clean <- dplyr::bind_rows(
-    expenditure_food,
-    expenditure_food_w
-  )
-  expenditure_clean <<- expenditure_clean
+  expenditure_per_clean <<- expenditure_per_clean
 }
 
 
@@ -1341,6 +1810,23 @@ get_food_availability <- function(GCAM_version = "v7.1") {
   food_availability_clean <<- food_availability_clean
 }
 
+#' get_food_demand
+#'
+#' Computes Food demand
+#'
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @return `food_demand_clean` global variable.
+#' @keywords internal food
+#' @importFrom magrittr %>%
+#' @export
+get_food_demand <- function(GCAM_version = "v7.1") {
+  value <- food_demand_clean <- NULL
+
+  food_demand_clean <- food_availability_clean %>%
+    dplyr::mutate(var = gsub('Food Availability','Food Demand',var))
+
+  food_demand_clean <<- food_demand_clean
+}
 
 #' get_food_intake
 #'
@@ -2121,7 +2607,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
   }
 
 
-  nonco2_clean <- dplyr::bind_rows(
+  nonco2_tmp2 <- dplyr::bind_rows(
     nonco2_agg %>%
       rbind(nonco2_tmp %>% # Land|Fires|Forest Burning
               dplyr::filter(grepl('UnmanagedLand', sector) &
@@ -2159,6 +2645,13 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
 
+  nonco2_clean <-
+    nonco2_tmp2 %>%
+    rbind(f_gases_hfc,
+          f_gases_pfc) %>%
+    rbind(f_gases_total)
+
+
   nonco2_clean <<- nonco2_clean
 }
 
@@ -2168,28 +2661,64 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
 #'
 #' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
-#' @return `f_gas_clean` global variable.
+#' @return `f_gases_total`, `f_gases_hfc`, `f_gases_pfc` global variables.
 #' @keywords internal f-gases process
 #' @importFrom magrittr %>%
 #' @export
 get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
-  ghg <- variable <- scenario <- region <- year <- value <- f_gas_clean <- NULL
+  ghg <- variable <- scenario <- region <- year <- value <-
+    f_gases_total <- f_gases_hfc <- f_gases_pfc <- NULL
 
-  check_queries("f_gas_clean", GCAM_version)
+  check_queries("f_gases_total", GCAM_version)
 
-  f_gas_clean <-
+  f_gas_subtotal <-
     check_inf(rgcam::getQuery(prj, "nonCO2 emissions by region"),
               dataset_name = "nonCO2 emissions by region") %>%
     dplyr::filter(!grepl("CO2_ETS", ghg)) %>%
     conv_ghg_co2e(GWP_version = GWP_version, GCAM_version = GCAM_version) %>%
-    dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+    dplyr::filter(variable %in% get(paste('F_GASES',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+
+  # F-Gases total
+  f_gases_total <-
+    f_gas_subtotal %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::summarise(value = sum(value, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(var = "Emissions|F-Gases") %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
-  f_gas_clean <<- f_gas_clean
+  # HFCs & PFCs (aggregates of several gases homogenizing the units)
+  gwp_hfc <- get(paste('ghg_GWP',GWP_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(GHG_gases == 'HFC134a') %>%
+    dplyr::pull(GWP)
+
+  f_gases_hfc <- f_gas_subtotal %>%
+    dplyr::filter(grepl('HFC', variable)) %>%
+    dplyr::mutate(value = value / gwp_hfc) %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = "Emissions|HFC") %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+
+  gwp_pfc <- get(paste('ghg_GWP',GWP_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+    dplyr::filter(GHG_gases == 'CF4') %>%
+    dplyr::pull(GWP)
+
+  f_gases_pfc <- f_gas_subtotal %>%
+    dplyr::filter(grepl('CF4', variable) | grepl('C2F6', variable)) %>%
+    dplyr::mutate(value = value / gwp_pfc) %>%
+    dplyr::group_by(scenario, region, year) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(var = "Emissions|PFC") %>%
+    dplyr::select(dplyr::all_of(gcamreport::long_columns))
+
+
+  f_gases_total <<- f_gases_total
+  f_gases_hfc <<- f_gases_hfc
+  f_gases_pfc <<- f_gases_pfc
 }
 
 
@@ -3584,6 +4113,37 @@ get_floor_space <- function(GCAM_version = "v7.1") {
 
 
 
+#' get_hdd_cdd
+#'
+#' Get HDD and CDD.
+#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @keywords internal energy
+#' @return `hdd_cdd_clean` global variable
+#' @importFrom magrittr %>%
+#' @export
+get_hdd_cdd <- function(GCAM_version = "v7.1") {
+  hdd_cdd_clean <- NULL
+
+  check_queries("hdd_cdd_clean", GCAM_version)
+
+  # base data
+  tmp <- get(paste('hdd_cdd',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  hdd_cdd_clean <- tmp %>%
+    dplyr::mutate(scenario = scenarios.global[1])
+
+  for (sc in scenarios.global[-1]) {
+    hdd_cdd_clean <- rbind(
+      hdd_cdd_clean,
+      tmp %>%
+        dplyr::mutate(scenario = sc)
+    )
+  }
+
+  hdd_cdd_clean <<- hdd_cdd_clean
+}
+
+
+
 # industry production
 # could add chemicals but they're in terms of EJ, need to also add cement
 
@@ -3950,7 +4510,7 @@ get_co2_price_share_bysec <- function(GCAM_version = "v7.1") {
   co2_price_share_bysec_share_CO2_ETS <- co2_price_share_bysec_tmp %>%
     tidyr::pivot_wider(names_from = "ghg", values_from = "value") %>%
     dplyr::mutate(CO2_ETS = dplyr::if_else(is.na(CO2_ETS), 0, CO2_ETS)) %>%
-    dplyr::mutate(share_CO2_ETS = CO2_ETS / CO2) %>%
+    dplyr::mutate(share_CO2_ETS = dplyr::if_else(CO2 == 0, 0, CO2_ETS / CO2)) %>%
     # if the share is > 1, set it to 1 (seems that "biomass" is not accounted in the CO2 emissions query)
     dplyr::mutate(share_CO2_ETS = dplyr::if_else(share_CO2_ETS > 1, 1, share_CO2_ETS)) %>%
     dplyr::select(scenario, region, year, sector, share_CO2_ETS)

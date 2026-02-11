@@ -10,7 +10,7 @@ get_income(GCAM_version = "v7.1")
 \item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
 }
 \value{
-`income_clean` global variables.
+`income_clean` and `income_raw` global variables.
 }
 \description{
 Compute share of total income my decile

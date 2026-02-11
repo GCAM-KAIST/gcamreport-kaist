@@ -5,7 +5,7 @@
 \alias{convert_vScenarioMIPCMIP7}
 \title{convert_vScenarioMIPCMIP7}
 \format{
-An object of class \code{list} of length 16.
+An object of class \code{list} of length 18.
 }
 \usage{
 convert_vScenarioMIPCMIP7

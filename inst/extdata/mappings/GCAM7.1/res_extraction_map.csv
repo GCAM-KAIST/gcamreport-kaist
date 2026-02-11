@@ -88,6 +88,7 @@ California_water withdrawals,NoReported,,1
 CanAtl_water consumption,NoReported,,1
 CanAtl_water withdrawals,NoReported,,1
 capital,NoReported,,1
+carbon-storage dynamic,NoReported,,1
 Caribbean_water consumption,NoReported,,1
 Caribbean_water withdrawals,NoReported,,1
 CaspianE_water consumption,NoReported,,1
@@ -213,6 +214,7 @@ IndCstW_water consumption,NoReported,,1
 IndCstW_water withdrawals,NoReported,,1
 IndusR_water consumption,NoReported,,1
 IndusR_water withdrawals,NoReported,,1
+inorganic-surface-storage,NoReported,,1
 Iran_water consumption,NoReported,,1
 Iran_water withdrawals,NoReported,,1
 Ireland_water consumption,NoReported,,1
