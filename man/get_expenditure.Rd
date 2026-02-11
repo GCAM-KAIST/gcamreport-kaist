@@ -10,10 +10,10 @@ get_expenditure(GCAM_version = "v7.1")
 \item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
 }
 \value{
-`expenditure_clean` global variable.
+`expenditure_per_clean` global variable.
 }
 \description{
-Computes food expenditure.
+Computes food + energy expenditure.
 }
 \keyword{economy}
 \keyword{internal}
