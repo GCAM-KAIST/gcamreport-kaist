@@ -740,9 +740,9 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   # base year prima: year used for multiple computations
   base_year_p <<- dplyr::if_else(base_year == 2021, base_year, 2020)
   # gcam model years
-  gcam_years <<- years_in_prj[years_in_prj >= 1990]
+  gcam_years <<- years_in_prj[years_in_prj >= 1990 & years_in_prj <= final_year.global]
   # gcamreport available reporting years
-  available_reporting_years <<- years_in_prj[years_in_prj >= 2005]
+  available_reporting_years <<- years_in_prj[years_in_prj >= 2005 & years_in_prj <= final_year.global]
   # gcamreport available final year
   available_final_year <<- years_in_prj[years_in_prj >= 2025]
 
