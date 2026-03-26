@@ -222,8 +222,8 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
     required_queries <- unique(required_queries[!is.na(required_queries)])
 
     # save the read-to-use queries in a vector
-    queries_touse_short <- queries_short[names(queries_short) %in% required_queries]
-    queries_touse_large <- queries_large[names(queries_large) %in% required_queries]
+    queries_touse_short <- queries_short[names(queries_short) %in% unlist(strsplit(required_queries, "\\|"))]
+    queries_touse_large <- queries_large[names(queries_large) %in% unlist(strsplit(required_queries, "\\|"))]
   } else {
     # save the read-to-use queries in a vector. These are all the possible queries
     queries_touse_short <- queries_short
