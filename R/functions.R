@@ -2137,7 +2137,8 @@ get_fert_consumption <- function(GCAM_version = "v7.1") {
   fert_consumption_clean <-
     check_inf(rgcam::getQuery(prj, "fertilizer consumption by region"),
               dataset_name = "fertilizer consumption by region") %>%
-    dplyr::mutate(var = 'Fertilizer Use|Nitrogen') %>%
+    dplyr::left_join(get(paste('fertilizer_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                     by = "input", multiple = "all") %>%
     # 1Mt = 1Tg
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 

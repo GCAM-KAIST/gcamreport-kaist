@@ -273,6 +273,18 @@
 #' }
 "ag_demand_map_v8.2"
 
+#' fertilizer_map_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v8.2
+#' }
+"fertilizer_map_v8.2"
+
 #' ag_price_map_v8.2
 #'
 #' @source github
@@ -939,6 +951,18 @@
 #' gcamreport::ag_demand_map_vScenarioMIPCMIP7
 #' }
 "ag_demand_map_vScenarioMIPCMIP7"
+
+#' fertilizer_map_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_vScenarioMIPCMIP7
+#' }
+"fertilizer_map_vScenarioMIPCMIP7"
 
 #' ag_price_map_vScenarioMIPCMIP7
 #'
@@ -1633,6 +1657,18 @@
 #' }
 "ag_demand_map_v7.2"
 
+#' fertilizer_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v7.2
+#' }
+"fertilizer_map_v7.2"
+
 #' ag_price_map_v7.2
 #'
 #' @source github
@@ -2301,6 +2337,18 @@
 #' }
 "ag_demand_map_v7.1"
 
+#' fertilizer_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v7.1
+#' }
+"fertilizer_map_v7.1"
+
 #' ag_price_map_v7.1
 #'
 #' @source github
@@ -2968,6 +3016,18 @@
 #' gcamreport::ag_demand_map_v7.0
 #' }
 "ag_demand_map_v7.0"
+
+#' fertilizer_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v7.0
+#' }
+"fertilizer_map_v7.0"
 
 #' ag_price_map_v7.0
 #'
