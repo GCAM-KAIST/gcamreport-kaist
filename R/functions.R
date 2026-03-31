@@ -3738,8 +3738,7 @@ get_elec_gen_tech <- function(GCAM_version = "v7.1") {
                     fill = list(value = 0)
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
-    dplyr::bind_rows(secondary_solids) %>%
-    filter_variables()
+    dplyr::bind_rows(secondary_solids)
 
   secondary_energy_raw <<- secondary_energy_raw
   secondary_energy_clean <<- secondary_energy_clean
@@ -4456,7 +4455,6 @@ get_co2_price_global_tmp <- function(GCAM_version = "v7.1") {
       left_join_strict(get(paste('co2_market_frag_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = "market", mapping = paste('co2_market_frag_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      filter_variables() %>%
       tidyr::expand_grid(tibble::tibble(region = unique(co2_emiss$region))) %>%
       dplyr::select(dplyr::all_of(gcamreport::long_columns))
   } else {
@@ -4662,11 +4660,9 @@ get_co2_price <- function(GCAM_version = "v7.1") {
                          left_join_strict(get(paste('co2_market_frag_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                                           by = "sector", mapping = paste('co2_market_frag_map',GCAM_version,sep='_'), multiple = "all") %>%
                          dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-                         filter_variables() %>%
                          dplyr::select(-sector,-market,-year),
                        by = c('region','scenario','var')) %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      filter_variables() %>%
       dplyr::mutate(weighted_value = value * share_CO2_world) %>%
       dplyr::group_by(scenario, var, year) %>%
       dplyr::summarise(value = sum(weighted_value)) %>%
@@ -4723,7 +4719,6 @@ get_gov_revenue <- function(GCAM_version = 'v7.1') {
       var = "Revenue|Government"
     ) %>%
     dplyr::mutate(value = value / 1000) %>%
-    filter_variables() %>%
     dplyr::group_by(scenario, region, year, var) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
