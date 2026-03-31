@@ -1380,7 +1380,7 @@ Emissions|CO2|Energy|Supply|Gases|Coal,Emissions of carbon dioxide (CO2) for pro
 Emissions|CO2|Energy|Supply|Gases|Combustion,Emissions of carbon dioxide (CO2) from fuel combustion during production of gaseous fuels not including hydrogen,Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
 Emissions|CO2|Energy|Supply|Gases|Electricity,"Emissions of carbon dioxide (CO2) for production of gas from electricity i.e., 'power-to-gas' (if hydrogen is not explicitly modeled as an intermediate product)",Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
 Emissions|CO2|Energy|Supply|Gases|Fossil,Emissions of carbon dioxide (CO2) for production of gaseous fuels from fossil fuels including Natural gas and coal,Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
-Emissions|CO2|Energy|Supply|Gases|Fugitive,Fugitive emissions of carbon dioxide (CO2) during production of gaseous fuels not including hydrogen,Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
+Emissions|CO2|Energy|Supply|Gases|Fugitive,Fugitive emissions of carbon dioxide (CO2) during production of gaseous fuels not including hydrogen,Mt CO2/yr,3,co2_emissions_clean,,,,,,,,,,,,,,,,,,
 Emissions|CO2|Energy|Supply|Gases|Gas,Emissions of carbon dioxide (CO2) for production of fossil methane ('Natural gas'),Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
 Emissions|CO2|Energy|Supply|Gases|Hydrogen,Emissions of carbon dioxide (CO2) for production of gaseous fuels from hydrogen (if hydrogen is explicitly modeled as a commodity and not an implicit intermediate product of the transformation technologies),Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
 Emissions|CO2|Energy|Supply|Gases|Other,Emissions of carbon dioxide (CO2) for production of gaseous fuels from sources that do not fit any other category,Mt CO2/yr,3,,,,,,,,,,,,,,,,,,,
