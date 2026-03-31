@@ -2057,13 +2057,12 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('trade_ag',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector"), mapping = paste('trade_ag',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
     # add water content data
     left_join_strict(get(paste('water_content'), envir = asNamespace("gcamreport")) %>%
                        dplyr::mutate(input = GCAM_commodity),
                      by = 'input') %>%
     # units to annual million t DM
-    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
+    dplyr::mutate(value = value * (as.numeric(unit_conv) - as.numeric(mean_water_content))) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
@@ -2093,7 +2092,7 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
                        dplyr::mutate(item = GCAM_commodity),
                      by = 'item') %>%
     # units to annual million t DM
-    dplyr::mutate(value = value * (unit_conv - mean_water_content)) %>%
+    dplyr::mutate(value = value * (as.numeric(unit_conv) - as.numeric(mean_water_content))) %>%
     dplyr::group_by(scenario, region, var, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
