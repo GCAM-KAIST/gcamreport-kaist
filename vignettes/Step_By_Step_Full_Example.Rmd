@@ -44,18 +44,18 @@ library(gcamreport)
 dbpath <- "examples"
 dbname <- "database_basexdb_ref"
 scen <- "Reference"
-GCAMv <- "v7.1"
+GCAM_version <- "v7.1"
 
 ## -- choose a project name
 prjname <- "example1_v7.1.dat"
 
 ## -- generate the reporting dataset until 2050 for EU-12 and EU-15 for all the 
-## -- Agricultural variables, save the output in .RData, .csv and .xlsx format, 
-## -- and lunch the user interface
+## -- Agricultural Productionvariables, save the output in .RData, .csv and 
+## -- .xlsx format, and lunch the user interface
 generate_report(db_path = dbpath, db_name = dbname, scenarios = scen, 
-                prj_name = prjname, final_year = 2050, GCAM_version = GCAMv,
+                prj_name = prjname, final_year = 2050, GCAM_version = GCAM_version,
                 desired_regions = c('EU-12', 'EU-15'), 
-                desired_variables = c('Agricultural*'), 
+                desired_variables = c('Agricultural Production*'), 
                 save_output = TRUE, launch_ui = TRUE)
 ```
 
@@ -110,14 +110,15 @@ library(gcamreport)
 ```r
 ## -- store the project path and name in a variable.
 prjname <- "examples/example2_v7.1.dat"
+GCAM_version = 'v7.1'
 
 ## -- generate the reporting dataset until 2050 for EU-12 and EU-15 for all the 
-## -- Agricultural variables, save the output in .RData, .csv and .xlsx format, 
-## -- and lunch the user interface
+## -- Agricultural Production variables, save the output in .RData, .csv and
+## -- .xlsx format, and lunch the user interface
 generate_report(prj_name = prjname, final_year = 2050, 
-                GCAM_version = 'v7.1',
+                GCAM_version = GCAM_version,
                 desired_regions = c('EU-12', 'EU-15'),
-                desired_variables = c('Agricultural*'), 
+                desired_variables = c('Agricultural Production*'), 
                 save_output = TRUE, launch_ui = TRUE)
 ```
 In case you experience some trouble, check this [troubleshooting section](https://bc3lc.github.io/gcamreport/articles/Dataset_Generation_Tutorial.html#troubleshooting-for-the-generate_report-function).
@@ -167,10 +168,10 @@ library(gcamreport) # if using R
 
 ## -- store the project path and name in a variable.
 datapath <- "examples/example3_v7.1.RData"
-GCAMv <- "v7.1"
+GCAM_version <- "v7.1"
 
 ## -- launch the user interface
-launch_gcamreport_ui(data_path = datapath, GCAM_version = GCAMv)
+launch_gcamreport_ui(data_path = datapath, GCAM_version = GCAM_version)
 ```
 In case you experience some trouble, check this [troubleshooting section](https://bc3lc.github.io/gcamreport/articles/Interactive_UI_Tutorial.html#troubleshooting-when-launching-the-ui-with-the-docker-installation).
 
@@ -188,10 +189,10 @@ library(gcamreport) # if using R
 
 ## -- store the database path, name, and scenarios in a variable.
 dataname <- "report"
-GCAMv <- "v7.1"
+GCAM_version <- "v7.1"
 
 ## -- launch the user interface
-launch_gcamreport_ui(data = dataname, GCAM_version = GCAMv)
+launch_gcamreport_ui(data = dataname, GCAM_version = GCAM_version)
 ```
 
 **Note**: You can do this step-by-step example using the provided `example3_v7.0.RData` file or any file generated through your own database! Remember to indicate the `GCAM_version` when generating the report ;)
