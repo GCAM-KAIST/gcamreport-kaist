@@ -828,7 +828,7 @@ aluminum,NoReported,,,,,,,,,,,,,,,,,,1
 aluminum-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 ammonia,NoReported,,,,,,,,,,,,,,,,,,1
 backup_electricity,NoReported,,,,,,,,,,,,,,,,,,1
-biomass,Price|Secondary Energy|Solids,,,,,,,,,,,,,,,,,,1
+biomass,Price|Secondary Energy|Solids,Price|Secondary Energy|Solids|Biomass,,,,,,,,,,,,,,,,,1
 biophysical water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 capital,NoReported,,,,,,,,,,,,,,,,,,1
 carbon-storage,NoReported,,,,,,,,,,,,,,,,,,1
@@ -838,7 +838,7 @@ chemical,NoReported,,,,,,,,,,,,,,,,,,1
 chemical energy use,NoReported,,,,,,,,,,,,,,,,,,1
 chemical feedstocks,NoReported,,,,,,,,,,,,,,,,,,1
 chemical-tfe,NoReported,,,,,,,,,,,,,,,,,,1
-coal,Price|Secondary Energy|Solids,,,,,,,,,,,,,,,,,,1
+coal,Price|Secondary Energy|Solids,Price|Secondary Energy|Solids|Coal,,,,,,,,,,,,,,,,,1
 comm cooling,NoReported,,,,,,,,,,,,,,,,,,1
 comm heating,NoReported,,,,,,,,,,,,,,,,,,1
 comm others,NoReported,,,,,,,,,,,,,,,,,,1
