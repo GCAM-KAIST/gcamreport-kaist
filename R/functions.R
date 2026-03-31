@@ -3307,7 +3307,9 @@ get_ag_weights <- function(GCAM_version = "v7.1") {
     dplyr::right_join(get(paste('ag_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
                         dplyr::filter(ag_price_variable != 'NoReported', ag_price_variable != ""),
                       by = c('var' = 'ag_demand_variable'), relationship = "many-to-many") %>%
-    dplyr::distinct()
+    dplyr::distinct() %>%
+    dplyr::filter(!is.na(value))
+
 
 
   # weights by sector within each region
@@ -4292,7 +4294,9 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.1") {
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
     # add weights
-    dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= min(final_year.global, max(unique(ag_wld_weights$year)))]) %>%
+    dplyr::filter(sector != 'FeedCrops',
+                  year %in% gcam_years[gcam_years <= min(final_year.global, max(unique(ag_wld_weights$year)))],
+                  var %in% unique(ag_wld_weights$var)) %>%
     left_join_strict(ag_wld_weights %>%
                        left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
                                           dplyr::rename(sector = regional_item),
@@ -4349,7 +4353,9 @@ get_ag_price <- function(GCAM_version = "v7.1") {
     dplyr::mutate(value = dplyr::if_else(is.na(value), 0, value)) %>%
     dplyr::ungroup() %>%
     # add weights
-    dplyr::filter(sector != 'FeedCrops', year %in% gcam_years[gcam_years <= min(final_year.global, max(unique(ag_wld_weights$year)))]) %>%
+    dplyr::filter(sector != 'FeedCrops',
+                  year %in% gcam_years[gcam_years <= min(final_year.global, max(unique(ag_wld_weights$year)))],
+                  var %in% unique(ag_weights$var)) %>%
     left_join_strict(ag_weights %>%
                        left_join_strict(get(paste('food_items_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
                                           dplyr::rename(sector = regional_item),
