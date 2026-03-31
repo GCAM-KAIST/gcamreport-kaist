@@ -703,6 +703,10 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
       }
     }
   }
+  # show parameters inconsistency (but keep going)
+  if (inverse_desired_variables && desired_variables == 'All') {
+    cat("INFO: `inverse_desired_variables` being ignored since `desired_variables = All` was introduced.")
+  }
 
   # check that the prj_name is correctly defined
   if (!endsWith(prj_name, ".dat") && !endsWith(prj_name, ".prj")) {
