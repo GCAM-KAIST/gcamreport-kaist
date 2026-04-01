@@ -572,6 +572,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
 
   # boolean variable
   prj_loaded <- FALSE
+  GCAM_version <- as.character(GCAM_version)
 
   # check that GCAM_version is available
   if (is.character(GCAM_version)) {
