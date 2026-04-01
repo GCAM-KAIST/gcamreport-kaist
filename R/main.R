@@ -705,7 +705,7 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
     }
   }
   # show parameters inconsistency (but keep going)
-  if (inverse_desired_variables && desired_variables == 'All') {
+  if (inverse_desired_variables && any(desired_variables == 'All')) {
     cat("INFO: `inverse_desired_variables` being ignored since `desired_variables = All` was introduced.")
   }
 
@@ -764,13 +764,13 @@ generate_report <- function(db_path = NULL, db_name = NULL, prj_name, scenarios 
   # check that final_year is >= 2025
   if (final_year.global < 2025) {
     stop(sprintf(
-      "'final_year' is set to '%s' but must be at least 2025. Please select a valid year: '%s.\n",
+      "'final_year' is set to '%s' but must be at least 2025. Please select a valid year: %s.\n",
       final_year.global, paste(available_final_year, collapse = ", ")))
   }
   # check that final_year is availabe (5-year interval)
   if (!final_year.global %in% available_final_year) {
     stop(sprintf(
-      "'final_year' is set to '%s' but must align with the available years in your project data. Please select a valid year: '%s.\n",
+      "'final_year' is set to '%s' but must align with the available years in your project data. Please select a valid year: %s.\n",
       final_year.global, paste(available_final_year, collapse = ", ")))
   }
 
