@@ -75,7 +75,7 @@ test_that("Test2_v7. load project", {
 #
 test_that("Test5_v7. run - dataset saved with default output_file", {
   generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"),
-                  desired_variables = c('Agricultural Production*'), inverse_desired_variables = T,
+                  desired_variables = c('Agricultural Production*'),
                   launch_ui = FALSE, GCAM_version = "v7.0")
 
   testResult <- read.csv(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7_standardized.csv"))
