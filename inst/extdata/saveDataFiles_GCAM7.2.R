@@ -64,6 +64,11 @@ use_data(carbon_seq_tech_map_v7.2, overwrite = T)
 
 
 # ag maps
+fertilizer_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "fertilizer_map.csv"),
+                                       comment = "#"
+) %>% gather_map()
+use_data(fertilizer_map_v7.2, overwrite = T)
+
 ag_demand_map_v7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.2", "ag_demand_map.csv"),
                                comment = "#"
 ) %>% gather_map()

@@ -120,3 +120,5 @@ Price|Secondary Energy|Heat,Secondary Energy|Heat
 Price|Secondary Energy|Hydrogen,Secondary Energy|Hydrogen
 Price|Secondary Energy|Liquids,Secondary Energy|Liquids
 Price|Secondary Energy|Solids,Secondary Energy|Solids
+Price|Secondary Energy|Solids|Biomass,Secondary Energy|Solids|Biomass
+Price|Secondary Energy|Solids|Coal,Secondary Energy|Solids|Coal
