@@ -4613,7 +4613,6 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
                        by = "sector", multiple = "all") %>%
       dplyr::filter(stats::complete.cases(.)) %>%
       tidyr::complete(tidyr::nesting(scenario, var, year, market, Units), region = regions.global, fill = list(value = 0)) %>%
-      filter_variables() %>%
       dplyr::select(all_of(gcamreport::long_columns))
 
   } else {
