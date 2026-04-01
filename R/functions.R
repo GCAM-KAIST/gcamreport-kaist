@@ -4026,7 +4026,8 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
   # compute Active & Public share (regional)
   energy_service_transportation_share <-
     energy_service_transportation %>%
-    dplyr::filter(grepl("Passenger", var), var != 'Energy Service|Transportation|Passenger|Road') %>%
+    dplyr::filter((grepl("Passenger", var) & grepl("[Share]",var, fixed = TRUE)) |
+                    var == "Energy Service|Transportation|Passenger") %>%
     dplyr::group_by(scenario, region, year) %>%
     dplyr::mutate(
       total_p = value[var == "Energy Service|Transportation|Passenger"],
@@ -4041,7 +4042,8 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
 
   # compute Active & Public share (World)
   energy_service_transportation_share_w <- energy_service_transportation %>%
-    dplyr::filter(grepl("Passenger", var), var != 'Energy Service|Transportation|Passenger|Road') %>%
+    dplyr::filter((grepl("Passenger", var) & grepl("[Share]",var, fixed = TRUE)) |
+                    var == "Energy Service|Transportation|Passenger") %>%
     dplyr::group_by(scenario, year, var) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
