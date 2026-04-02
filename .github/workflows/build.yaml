@@ -10,6 +10,7 @@ on:
 jobs:
   R-CMD:
     runs-on: ${{ matrix.config.os }}
+    timeout-minutes: 360
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
