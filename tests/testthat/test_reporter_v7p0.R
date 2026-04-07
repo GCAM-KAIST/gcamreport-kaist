@@ -3,76 +3,12 @@ library(testthat)
 library(magrittr)
 
 
-# test_that("Test1_v7. download db, create project, and run", {
-#   # load a reference GCAM db form a Zenodo repository
-#   db_path <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0")
-#   rpackageutils::download_unpack_zip(
-#     data_directory = db_path,
-#     url = "https://zenodo.org/record/10258919/files/database_basexdb_ref.zip?download=1"
-#   )
-#   testthat::expect_equal(1, 1)
-#
-#   # create the prj
-#   db_name <- "database_basexdb_ref"
-#   prj_name <- "gcamv7.0_test.dat"
-#   scenarios <- "Reference"
-#
-#   create_project(db_path, db_name, prj_name, scenarios, GCAM_version = "v7.0")
-#   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test7.dat")))
-#   ## - RUN LOCALLY
-#   # testthat::expect_equal(prj$Reference$`nonCO2 emissions by region`, testResult$Reference$`nonCO2 emissions by region`)
-#   # testthat::expect_equal(prj$Reference$`nonCO2 emissions by subsector (excluding resource production)`, testResult$Reference$`nonCO2 emissions by subsector (excluding resource production)`)
-#   testthat::expect_equal(prj$Reference$`CO2 prices`, testResult$Reference$`CO2 prices`)
-#
-#   # check nonCO2 emissions query
-#   dt_sec <- data_query("nonCO2 emissions by subsector (excluding resource production)", db_path, db_name, prj_name, scenarios, GCAM_version = "v7.0")
-#   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/result_test1.RData")))
-#   testthat::expect_equal(dt_sec, testResult)
-# })
-
 test_that("Test2_v7. load project", {
   testResult <- as.numeric(length(load_project(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"))))
   testthat::expect(!is.null(testResult), 'Null project. Check if the path exists or the "load_project" function works correctly.')
 })
 
-# test_that("Test3_v7. run - dataset created", {
-#   generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"),
-#                   launch_ui = FALSE, GCAM_version = "v7.0")
-#   testthat::expect(!is.null(report) & dplyr::n_distinct(report) > 0, 'Empty dataset. Check if the project path exists or the "run" function works correctly.')
-# })
-#
-# test_that("Test4_v7 standardize", { ## - RUN LOCALLY
-#   generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"), launch_ui = FALSE, GCAM_version = "v7.0")
-#   testthat::expect_equal(report, get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test7_standardized.RData"))))
-# })
-#
-# test_that("Test4_v7. run - dataset saved with output_file specified - RUN MANUALLY", {
-#   generate_report(
-#     prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"), launch_ui = FALSE, GCAM_version = "v7.0",
-#     output_file = file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test7_output")
-#   )
-#
-#   testResult1 <- read.csv(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test7_output.csv"))
-#   testthat::expect(dplyr::n_distinct(testResult1) > 0, 'Dataset not saved. Check if the project path exists or the "run" function works correctly.')
-#   testResult2 <- read.csv(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/result_test4.1.csv"))
-#   testthat::expect_equal(
-#     testResult1 %>%
-#       dplyr::select(-Unit),
-#     testResult2 %>%
-#       dplyr::select(-Unit)
-#   )
-#
-#   testResult1 <- readxl::read_excel(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test7_output.xlsx"))
-#   testthat::expect(dplyr::n_distinct(testResult1) > 0, 'Dataset not saved. Check if the project path exists or the "run" function works correctly.')
-#   testResult2 <- readxl::read_excel(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/result_test4.2.xlsx"))
-#   testthat::expect_equal(
-#     testResult1 %>%
-#       dplyr::select(-Unit),
-#     testResult2 %>%
-#       dplyr::select(-Unit)
-#   )
-# })
-#
+
 test_that("Test5_v7. run - dataset saved with default output_file", {
   generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"),
                   desired_variables = c('Agricultural Production*'),
@@ -85,40 +21,6 @@ test_that("Test5_v7. run - dataset saved with default output_file", {
   testthat::expect(dplyr::n_distinct(testResult) > 0, 'Dataset not saved. Check if the project path exists or the "run" function works correctly.')
 })
 
-# test_that("Test6_v7. load variable and get function", {
-#   # load prj
-#   generate_report(prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test7.dat"),
-#                   desired_variables = c('Agricultural Demand*','Forestry*','Trade*'), inverse_desired_variables = T,
-#                   launch_ui = FALSE, GCAM_version = "v7.0")
-#
-#   # load variables
-#   vv <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/results_test6.RData")))
-#   loaded_internal_variables.global <<- c()
-#   desired_regions <<- "All"
-#   desired_variables <<- "All"
-#   GCAM_version <<- "v7.0"
-#   template_internal_variable <- get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['Internal_variable']]
-#   variables_base <- data.frame(
-#     "name" = unique(template_internal_variable)[!is.na(unique(template_internal_variable)) & unique(template_internal_variable) != ""],
-#     "required" = TRUE,
-#     stringsAsFactors = FALSE
-#   )
-#   variables.global <<- merge(variables_base,
-#                              get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
-#                              by = "name", all = TRUE) %>%
-#     tidyr::replace_na(list(required = FALSE))
-#
-#   # test
-#   load_variable(var = vv, GCAM_version = GCAM_version)
-#
-#   testthat::expect(exists("ag_price_wld"), "Loading variables function is broken.")
-#
-#   get_elec_capital(GCAM_version = GCAM_version)
-#   testthat::expect(exists("elec_capital_clean"), "get_elec_capital() function is broken.")
-#   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/result_test6.1.RData")))
-#   testthat::expect_equal(elec_capital_clean, testResult)
-#   rm(list = ls())
-# })
 
 test_that("Test7_v7.0 specify variables, regions, continents", {
   test_regions <- available_regions(T, GCAM_version = 'v7.0')
@@ -428,45 +330,6 @@ test_that("Test10v_7.0 vetting", {
 })
 
 test_that("Test11v_7.0 scenarios", {
-  # # check when creating project
-  # expect_error(
-  #   generate_report(
-  #     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-  #     db_name = "database_basexdb_ref",
-  #     prj_name = "gcamv7.11.1_p1.dat",
-  #     scenarios = c("dummy", "Reference"),
-  #     launch_ui = FALSE,
-  #     GCAM_version = 'v7.0'
-  #   ),
-  #   "The desired scenario dummy is not present in the database."
-  # )
-  #
-  # expect_error(
-  #   generate_report(
-  #     db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/"),
-  #     db_name = "database_basexdb_ref",
-  #     prj_name = "gcamv7.11.2_p1.dat",
-  #     scenarios = c("dummy1", "dummy2", "Reference"),
-  #     launch_ui = FALSE,
-  #     GCAM_version = 'v7.0'
-  #   ),
-  #   "The desired scenarios dummy1, dummy2 are not present in the database."
-  # )
-  #
-  # generate_report(
-  #   db_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0"),
-  #   db_name = "database_basexdb_ref",
-  #   prj_name = "gcamv7.11.3_test_scenarios.dat",
-  #   final_year = 2050,
-  #   desired_regions = "All",
-  #   desired_variables = c("Emissions|CH4*"),
-  #   launch_ui = FALSE
-  # )
-  #
-  # testResult <- rgcam::listScenarios(prj)
-  # testthat::expect_equal("Reference", testResult)
-
-  # check when loading project
   expect_error(
     generate_report(
       prj_name = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/database_basexdb_test_scenarios7.dat"),
@@ -530,25 +393,6 @@ test_that("Test12v_7.0 other functions", {
   testthat::expect_equal(data.frame(testResult), data.frame(testExpect))
 
 })
-
-# test_that("Test13v_7.0 specify queries", {
-#
-#   # transform_to_xml ancillary function
-#   testResult <- transform_to_xml(gcamreport::queries_nonCO2_v7.0)
-#   testExpect <- xml2::read_xml(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/result_test13.1.xml"))
-#   testthat::expect_equal(testResult, testExpect)
-#
-#   # generate standardize report specifying the query file
-#   prj_name <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/database_basexdb_CO2price_test.dat")
-#   generate_report(prj_name = prj_name,
-#                   final_year = 2050, desired_variables = c('Price|Carbon*','GDP*'),
-#                   save_output = T, launch_ui = F, GCAM_version = 'v7.0',
-#                   queries_general_file = file.path(rprojroot::find_root(rprojroot::is_testthat), "inst/extdata/queries/GCAM7.1/queries_gcamreport_general.xml"))
-#   testResult <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/gcamv7.1_test_specify_queries_standardized.RData")))
-#   testExpect <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/result_test13.2.RData")))
-#   testthat::expect_equal(testResult, testExpect)
-#
-# })
 
 test_that("Test14v_7.0 ghg GWP", {
 
