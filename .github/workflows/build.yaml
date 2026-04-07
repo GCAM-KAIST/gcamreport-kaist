@@ -51,3 +51,7 @@ jobs:
       - name: Check
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), build_args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), error_on = "error")
         shell: Rscript {0}
+
+      - name: Run tests
+        run: devtools::test()
+        shell: Rscript {0}
