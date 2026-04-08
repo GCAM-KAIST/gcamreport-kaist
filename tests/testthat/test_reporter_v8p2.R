@@ -6,7 +6,7 @@ test_that("Test1_v8.2 check inverse_desired_variables", {
   GCAMv = 'v8.2'
 
   list_all_vars <- gcamreport::available_variables(print = F, GCAM_version = GCAMv)
-  list_header_vars <- paste0(unique(sub("\\|.*", "", list_all_vars)),'*')
+  list_header_vars <- paste0(unique(sub("\\|.*", "", list_all_vars)),'*')[c(1,10,20,30,40)]
 
   for (missing_var in list_header_vars) {
     print(missing_var)

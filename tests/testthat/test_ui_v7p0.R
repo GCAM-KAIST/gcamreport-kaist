@@ -121,10 +121,7 @@ test_that("Test3. reset", {
   testthat::expect_equal(noReg, FALSE)
   testthat::expect_equal(noVars, FALSE)
   testthat::expect_equal(updatedVars, FALSE)
-  # testthat::expect_equal(
-  #   tree_reg,
-  #   get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_3.a.RData")))
-  # )
+
   testthat::expect_equal(
     cols.global,
     get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_3.b.RData")))
@@ -165,38 +162,3 @@ test_that("Test5. do_data_sample", {
   testthat::expect_equal(testResult, testExpect)
 })
 
-# test_that("Test6. update_user_choices_plot", {
-#
-#   # update_user_choices_plot
-#   firstReg <<- firstVars <<- T
-#   noReg <<- noVars <<- F
-#   GCAM_version <<- 'v7.0'
-#   selected_scen <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test_ui_6.selected_scen.RData")))
-#   selected_years <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test_ui_6.selected_years.RData")))
-#   sidebarItemExpanded <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test_ui_6.sidebarItemExpanded.RData")))
-#   tree_regions <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test_ui_6.tree_regions.RData")))
-#   tree_variables <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test_ui_6.tree_variables.RData")))
-#   testResult <- update_user_choices_plot(selected_scen, selected_years, tree_regions, tree_variables, sidebarItemExpanded)
-#   testExpect <- get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_6.1.RData")))
-#   testthat::expect_equal(testResult, testExpect)
-#
-# })
-#
-
-#
-# test_that("Test4. launch ui", {
-#   launch_gcamreport_ui(data_path = file.path(rprojroot::find_root(rprojroot::is_testthat), "testInputs/v_7.0/test_launch_ui.RData"))
-#
-#   testthat::expect_equal(available_years, c(2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050))
-#   testthat::expect_equal(sdata,
-#                          get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_4.a.RData"))))
-#   testthat::expect_equal(cols.global,
-#                          get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_4.b.RData"))))
-#   testthat::expect_equal(tree_vars,
-#                          get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_4.c.RData"))))
-#   testthat::expect_equal(tree_reg,
-#                          get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_4.d.RData"))))
-#   testthat::expect_equal(all_varss,
-#                          get(load(file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs/v_7.0/test_ui_4.e.RData"))))
-#
-# })
