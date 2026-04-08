@@ -4587,6 +4587,11 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
         market_adj = dplyr::if_else(grepl("CO2IND|CO2_industry|CO2_cement", market), "CO2_ETS", market_adj),
         market_adj = dplyr::if_else(grepl("CO2TRAN|CO2_transport", market), "CO2TRAN", market_adj)
       ) %>%
+      # Remove attribution of "Rest of World" (ROW) carbon prices to regions with region-specific carbon prices
+      dplyr::group_by(dplyr::across(c(-value, -market))) %>%
+      dplyr::mutate(group_size = dplyr::n()) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!(grepl("ROW", market) & group_size > 1)) %>%
       # consider the value sum of by market
       dplyr::group_by(Units, scenario, year, market_adj, region) %>%
       dplyr::mutate(value = sum(value)) %>%
