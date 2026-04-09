@@ -95,7 +95,11 @@ listYears <- function (projData, scenarios = NULL, queries = NULL, anyscen = TRU
     all_years <- unlist(sqlist)
     all_years <- all_years[!is.na(all_years)]
     year_counts <- table(all_years)
-    result <- sort(as.numeric(names(year_counts[year_counts > (length(queries)/2 + 1)])))
+    if (length(queries) == 1) {
+      result <- sort(as.numeric(names(year_counts)))
+    } else {
+      result <- sort(as.numeric(names(year_counts[year_counts > (length(queries)/2 + 1)])))
+    }
   } else {
     # Intersect case: just intersect all elements
     result <- Reduce(intersect, Reduce(intersect, sqlist))
