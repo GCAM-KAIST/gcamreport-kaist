@@ -120,6 +120,7 @@ CH4,NoReported,,,,,,,,,,,,,,,,,,1
 CH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 CH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
 CO2,NoReported,,,,,,,,,,,,,,,,,,1
+CO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
 CO2 removal,NoReported,,,,,,,,,,,,,,,,,,1
 CO2 removal-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 CO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
@@ -138,6 +139,24 @@ WorldsupCO2ccs90,NoReported,,,,,,,,,,,,,,,,,,1
 WorldsupCO2ccs92,NoReported,,,,,,,,,,,,,,,,,,1
 WorldtrnCO2,NoReported,,,,,,,,,,,,,,,,,,1
 globalCO2,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
+globalGHG,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC125,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC134a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC143a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC152a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC227ea,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC23,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC236fa,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC32,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC365mfc,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC43,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O_AGR,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O_AWB,NoReported,,,,,,,,,,,,,,,,,,1
+globalSF6,NoReported,,,,,,,,,,,,,,,,,,1
 CaliforniaCalifornia_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 CaliforniaCalifornia_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 California_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
@@ -217,6 +236,8 @@ EUCH4,NoReported,,,,,,,,,,,,,,,,,,1
 EUCH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 EUCH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
 EUCO2,NoReported,,,,,,,,,,,,,,,,,,1
+EUCO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
+EUCO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
 EUGHG,NoReported,,,,,,,,,,,,,,,,,,1
 EUHFC125,NoReported,,,,,,,,,,,,,,,,,,1
 EUHFC134a,NoReported,,,,,,,,,,,,,,,,,,1
@@ -228,6 +249,7 @@ EUHFC236fa,NoReported,,,,,,,,,,,,,,,,,,1
 EUHFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
 EUHFC32,NoReported,,,,,,,,,,,,,,,,,,1
 EUHFC365mfc,NoReported,,,,,,,,,,,,,,,,,,1
+EUHFC43,NoReported,,,,,,,,,,,,,,,,,,1
 EUN2O,NoReported,,,,,,,,,,,,,,,,,,1
 EUN2O_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 EUN2O_AWB,NoReported,,,,,,,,,,,,,,,,,,1
@@ -339,6 +361,7 @@ HFC236fa,NoReported,,,,,,,,,,,,,,,,,,1
 HFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
 HFC32,NoReported,,,,,,,,,,,,,,,,,,1
 HFC365mfc,NoReported,,,,,,,,,,,,,,,,,,1
+HFC43,NoReported,,,,,,,,,,,,,,,,,,1
 HainanHainan_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 HainanHainan_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 Hainan_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
@@ -598,6 +621,8 @@ ROWCH4,NoReported,,,,,,,,,,,,,,,,,,1
 ROWCH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 ROWCH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
 ROWCO2,NoReported,,,,,,,,,,,,,,,,,,1
+ROWCO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
+ROWCO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
 ROWGHG,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC125,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC134a,NoReported,,,,,,,,,,,,,,,,,,1
@@ -609,6 +634,7 @@ ROWHFC236fa,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC32,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC365mfc,NoReported,,,,,,,,,,,,,,,,,,1
+ROWHFC43,NoReported,,,,,,,,,,,,,,,,,,1
 ROWN2O,NoReported,,,,,,,,,,,,,,,,,,1
 ROWN2O_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 ROWN2O_AWB,NoReported,,,,,,,,,,,,,,,,,,1
