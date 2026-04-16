@@ -5582,7 +5582,6 @@ get_elec_capacity_add <- function(GCAM_version = "v7.1") {
     left_join_strict(get(paste('capacity_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>% dplyr::select(-output),
                      by = c("technology"), mapping = paste('capacity_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-    filter_variables() %>%
     dplyr::mutate(
       value = GW * unit_conv,
       var = sub("Secondary Energy", "Capacity Additions", var)
