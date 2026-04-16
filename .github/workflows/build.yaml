@@ -48,6 +48,12 @@ jobs:
           remotes::install_github("shinyTree/shinyTree")
         shell: Rscript {0}
 
+      - name: Install dependencies without compilation
+        run: |
+          options(repos = c(PPM = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))
+          install.packages(c("pak", "remotes", "devtools"))
+        shell: Rscript {0}
+
       - name: Run tests
         run: devtools::test()
         shell: Rscript {0}
