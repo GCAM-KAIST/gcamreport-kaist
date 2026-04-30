@@ -108,7 +108,7 @@ git clone https://github.com/bc3LC/gcamreport.git
 
 ``` r
 install.packages('devtools')
-devtools::load_all()
+devtools::load_all(".", reset = TRUE)
 ```
 
 Now `gcamreport` package is fully loaded. Enjoy! :smile:
