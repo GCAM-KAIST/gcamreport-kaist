@@ -5944,6 +5944,18 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
     dplyr::select(dplyr::all_of(gcamreport::long_columns)) %>%
     dplyr::bind_rows(resource_investment) # %>% dplyr::group_by(scenario, var, year) %>% dplyr::summarise(value = sum(value)) %>% tidyr::spread(year, value)
 
+
+  # add parent category
+  resource_investment_clean <- rbind(
+    resource_investment_clean,
+    resource_investment_clean %>%
+      dplyr::mutate(var = "Investment|Energy Supply") %>%
+      dplyr::group_by(scenario, region, var, year) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup()
+  )
+
+
   resource_investment_clean <<- resource_investment_clean
 }
 
@@ -5964,15 +5976,11 @@ get_total_investment <- function(GCAM_version = "v7.1") {
   total_investment_clean <- dplyr::bind_rows(
     resource_investment_clean,
     elec_investment_clean,
-    nonelec_investment_clean %>%
-      dplyr::filter(var %in% c("Investment|Energy Supply|Hydrogen",
-                                "Investment|Energy Supply|Liquids",
-                                "Investment|Energy Supply|Gases"))
-  ) %>%
-    dplyr::group_by(scenario,region,year) %>%
+    nonelec_investment_clean) %>%
+    dplyr::filter(var == 'Investment|Energy Supply') %>%
+    dplyr::group_by(scenario,region,year,var) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(var = 'Investment|Energy Supply') %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   total_investment_clean <<- total_investment_clean
