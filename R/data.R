@@ -598,6 +598,18 @@
 #' }
 "investment_v8.2"
 
+#' nonelec_investment_map_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v8.2
+#' }
+"nonelec_investment_map_v8.2"
+
 #' carbon_content_v8.2
 #'
 #' @source github
@@ -1301,6 +1313,18 @@
 #' }
 "investment_vScenarioMIPCMIP7"
 
+#' nonelec_investment_map_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_vScenarioMIPCMIP7
+#' }
+"nonelec_investment_map_vScenarioMIPCMIP7"
+
 #' carbon_content_vScenarioMIPCMIP7
 #'
 #' @source github
@@ -1982,6 +2006,18 @@
 #' }
 "investment_v7.2"
 
+#' nonelec_investment_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v7.2
+#' }
+"nonelec_investment_map_v7.2"
+
 #' carbon_content_v7.2
 #'
 #' @source github
@@ -2662,6 +2698,18 @@
 #' }
 "investment_v7.1"
 
+#' nonelec_investment_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v7.1
+#' }
+"nonelec_investment_map_v7.1"
+
 #' carbon_content_v7.1
 #'
 #' @source github
@@ -3306,6 +3354,18 @@
 #' gcamreport::investment_v7.0
 #' }
 "investment_v7.0"
+
+#' nonelec_investment_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v7.0
+#' }
+"nonelec_investment_map_v7.0"
 
 #' carbon_content_v7.0
 #'

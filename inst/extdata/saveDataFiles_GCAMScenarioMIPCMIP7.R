@@ -247,6 +247,10 @@ investment_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/e
   dplyr::mutate(value = as.numeric(value))
 use_data(investment_vScenarioMIPCMIP7, overwrite = T)
 
+nonelec_investment_map_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "nonelec_investment_map.csv"),
+                                               comment = "#", na = ""
+) %>% gather_map()
+use_data(nonelec_investment_map_vScenarioMIPCMIP7, overwrite = T)
 
 carbon_content_vScenarioMIPCMIP7 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "L202.CarbonCoef.csv"),
                                 comment = "#", na = ""
