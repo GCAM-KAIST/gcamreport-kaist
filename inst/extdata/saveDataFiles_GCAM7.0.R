@@ -75,6 +75,11 @@ use_data(carbon_seq_tech_map_v7.0, overwrite = T)
 
 
 # ag maps
+fertilizer_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "fertilizer_map.csv"),
+                                       comment = "#"
+) %>% gather_map()
+use_data(fertilizer_map_v7.0, overwrite = T)
+
 ag_demand_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "ag_demand_map.csv"),
                                comment = "#"
 ) %>%
@@ -339,6 +344,10 @@ investment_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappin
   dplyr::mutate(value = as.numeric(value))
 use_data(investment_v7.0, overwrite = T)
 
+nonelec_investment_map_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "nonelec_investment_map.csv"),
+                                               comment = "#", na = ""
+) %>% gather_map()
+use_data(nonelec_investment_map_v7.0, overwrite = T)
 
 carbon_content_v7.0 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.0", "L202.CarbonCoef.csv"),
                                 comment = "#", na = ""
@@ -446,6 +455,7 @@ convert_v7.0 <- list(
   # These values are taken from GDP inflator in the GCAM R package
   conv_05USD_10USD = 1.100372,
   conv_90USD_10USD = 1.515897,
+  conv_10USD_25USD = 1.492, # source: internet
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
   conv_19USD_75USD = 0.2658798,

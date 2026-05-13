@@ -114,14 +114,19 @@ BrzCstN_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
 BrzCstSBrzCstS_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 BrzCstSBrzCstS_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 BrzCstS_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
+carbon-storage dynamic,NoReported,,,,,,,,,,,,,,,,,,1
+ccs dynamic-capacity,NoReported,,,,,,,,,,,,,,,,,,1
 C2F6,NoReported,,,,,,,,,,,,,,,,,,1
 CF4,NoReported,,,,,,,,,,,,,,,,,,1
 CH4,NoReported,,,,,,,,,,,,,,,,,,1
 CH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 CH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
 CO2,NoReported,,,,,,,,,,,,,,,,,,1
+CO2 pipeline,NoReported,,,,,,,,,,,,,,,,,,1
 CO2 removal,NoReported,,,,,,,,,,,,,,,,,,1
 CO2 removal-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+CO2 ship,NoReported,,,,,,,,,,,,,,,,,,1
+CO2 truck,NoReported,,,,,,,,,,,,,,,,,,1
 CO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
 CaliforniaCalifornia_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 CaliforniaCalifornia_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
@@ -259,6 +264,25 @@ FodderGrass,NoReported,,,,,,,,,,,,,,,,,,1
 FodderHerb_Residue,NoReported,,,,,,,,,,,,,,,,,,1
 FoodDemand_NonStaples,NoReported,,,,,,,,,,,,,,,,,,1
 FoodDemand_NonStaples-budget-fraction-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Dairy,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Fish,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_FruitsVeg,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_NonRuminant,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Oils,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_OtherCrop,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_PlantProtein,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Ruminant,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Sugar,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Dairy-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Fish-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_FruitsVeg-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_NonRuminant-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Oils-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_OtherCrop-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_PlantProtein-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Ruminant-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_NonStaples_Sugar-tfe,NoReported,,,,,,,,,,,,,,,,,,1
+FoodDemand_Staples-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 FoodDemand_Staples,NoReported,,,,,,,,,,,,,,,,,,1
 FoodDemand_Staples-budget-fraction-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 Forest,NoReported,,,,,,,,,,,,,,,,,,1
@@ -305,6 +329,7 @@ GuineaGulfGuineaGulf_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 GuineaGulfGuineaGulf_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 GuineaGulf_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
 H2 central production,Price|Secondary Energy|Hydrogen,,,,,,,,,,,,,,,,,,1
+H2 central productionDemand_int,NoReported,,,,,,,,,,,,,,,,,,1
 H2 industrial,Price|Final Energy|Industry|Hydrogen,Price|Final Energy|Industry|Chemicals|Ammonia|Hydrogen,Price|Final Energy|Industry|Iron and Steel|Hydrogen,Price|Final Energy|Industry|Other Sector|Hydrogen,,,,,,,,,,,,,,,1
 H2 liquid truck,NoReported,,,,,,,,,,,,,,,,,,1
 H2 pipeline,NoReported,,,,,,,,,,,,,,,,,,1
@@ -529,6 +554,8 @@ ObR_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
 OderROderR_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 OderROderR_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 OderR_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
+offshore CO2 transport,NoReported,,,,,,,,,,,,,,,,,,1
+onshore CO2 transport,NoReported,,,,,,,,,,,,,,,,,,1
 OhioROhioR_water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 OhioROhioR_water withdrawals,NoReported,,,,,,,,,,,,,,,,,,1
 OhioR_desalinated water,NoReported,,,,,,,,,,,,,,,,,,1
@@ -584,6 +611,8 @@ ROWCH4,NoReported,,,,,,,,,,,,,,,,,,1
 ROWCH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 ROWCH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
 ROWCO2,NoReported,,,,,,,,,,,,,,,,,,1
+ROWCO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
+ROWCO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
 ROWGHG,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC125,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC134a,NoReported,,,,,,,,,,,,,,,,,,1
@@ -595,6 +624,7 @@ ROWHFC236fa,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC32,NoReported,,,,,,,,,,,,,,,,,,1
 ROWHFC365mfc,NoReported,,,,,,,,,,,,,,,,,,1
+ROWHFC43,NoReported,,,,,,,,,,,,,,,,,,1
 ROWN2O,NoReported,,,,,,,,,,,,,,,,,,1
 ROWN2O_AGR,NoReported,,,,,,,,,,,,,,,,,,1
 ROWN2O_AWB,NoReported,,,,,,,,,,,,,,,,,,1
@@ -801,7 +831,7 @@ aluminum,NoReported,,,,,,,,,,,,,,,,,,1
 aluminum-tfe,NoReported,,,,,,,,,,,,,,,,,,1
 ammonia,NoReported,,,,,,,,,,,,,,,,,,1
 backup_electricity,NoReported,,,,,,,,,,,,,,,,,,1
-biomass,Price|Secondary Energy|Solids,,,,,,,,,,,,,,,,,,1
+biomass,Price|Secondary Energy|Solids,Price|Secondary Energy|Solids|Biomass,,,,,,,,,,,,,,,,,1
 biophysical water consumption,NoReported,,,,,,,,,,,,,,,,,,1
 capital,NoReported,,,,,,,,,,,,,,,,,,1
 carbon-storage,NoReported,,,,,,,,,,,,,,,,,,1
@@ -811,7 +841,7 @@ chemical,NoReported,,,,,,,,,,,,,,,,,,1
 chemical energy use,NoReported,,,,,,,,,,,,,,,,,,1
 chemical feedstocks,NoReported,,,,,,,,,,,,,,,,,,1
 chemical-tfe,NoReported,,,,,,,,,,,,,,,,,,1
-coal,Price|Secondary Energy|Solids,,,,,,,,,,,,,,,,,,1
+coal,Price|Secondary Energy|Solids,Price|Secondary Energy|Solids|Coal,,,,,,,,,,,,,,,,,1
 comm cooling,NoReported,,,,,,,,,,,,,,,,,,1
 comm heating,NoReported,,,,,,,,,,,,,,,,,,1
 comm others,NoReported,,,,,,,,,,,,,,,,,,1
@@ -895,6 +925,7 @@ globalScavenging_Other_Rsrc,NoReported,,,,,,,,,,,,,,,,,,1
 globalbio-ceiling,NoReported,,,,,,,,,,,,,,,,,,1
 globalbio_externality_cost,NoReported,,,,,,,,,,,,,,,,,,1
 globalglobal solar resource,NoReported,,,,,,,,,,,,,,,,,,1
+global solar resource,NoReported,,,,,,,,,,,,,,,,,,1
 globallimestone,NoReported,,,,,,,,,,,,,,,,,,1
 globalmisc emissions sources,NoReported,,,,,,,,,,,,,,,,,,1
 globalnegative_emiss_budget,NoReported,,,,,,,,,,,,,,,,,,1
@@ -903,10 +934,35 @@ globaloil-credits,NoReported,,,,,,,,,,,,,,,,,,1
 globalscrap,NoReported,,,,,,,,,,,,,,,,,,1
 globalunconventional oil upscaling,NoReported,,,,,,,,,,,,,,,,,,1
 globaluranium,NoReported,,,,,,,,,,,,,,,,,,1
+globalC2F6,NoReported,,,,,,,,,,,,,,,,,,1
+globalCF4,NoReported,,,,,,,,,,,,,,,,,,1
+globalCH4,NoReported,,,,,,,,,,,,,,,,,,1
+globalCH4_AGR,NoReported,,,,,,,,,,,,,,,,,,1
+globalCH4_AWB,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2_FUG,NoReported,,,,,,,,,,,,,,,,,,1
+globalCO2_LUC,NoReported,,,,,,,,,,,,,,,,,,1
+globalGHG,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC125,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC134a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC143a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC152a,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC227ea,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC23,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC236fa,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC245fa,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC32,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC365mfc,NoReported,,,,,,,,,,,,,,,,,,1
+globalHFC43,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O_AGR,NoReported,,,,,,,,,,,,,,,,,,1
+globalN2O_AWB,NoReported,,,,,,,,,,,,,,,,,,1
+globalSF6,NoReported,,,,,,,,,,,,,,,,,,1
 industrial processes,NoReported,,,,,,,,,,,,,,,,,,1
 industrial wastewater treatment,NoReported,,,,,,,,,,,,,,,,,,1
 industrial water abstraction,NoReported,,,,,,,,,,,,,,,,,,1
 industrial water treatment,NoReported,,,,,,,,,,,,,,,,,,1
+inorganic-surface-storage,NoReported,,,,,,,,,,,,,,,,,,1
 iron and steel,NoReported,,,,,,,,,,,,,,,,,,1
 irrigation water abstraction,NoReported,,,,,,,,,,,,,,,,,,1
 mining energy use,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1053,6 +1109,7 @@ rooftop_pv,NoReported,,,,,,,,,,,,,,,,,,1
 sawnwood_processing,NoReported,,,,,,,,,,,,,,,,,,1
 seawater,NoReported,,,,,,,,,,,,,,,,,,1
 solar-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
+surface carbon-storage,NoReported,,,,,,,,,,,,,,,,,,1
 total beef,NoReported,,,,,,,,,,,,,,,,,,1
 total biomass,NoReported,,,,,,,,,,,,,,,,,,1
 total corn,NoReported,,,,,,,,,,,,,,,,,,1
@@ -1639,8 +1696,7 @@ water_td_muni_C,NoReported,,,,,,,,,,,,,,,,,,1
 water_td_muni_W,NoReported,,,,,,,,,,,,,,,,,,1
 water_td_pri_C,NoReported,,,,,,,,,,,,,,,,,,1
 water_td_pri_W,NoReported,,,,,,,,,,,,,,,,,,1
-wholesale gas,Price|Final Energy|Agriculture|Gases,,Price|Final Energy|Gases,Price|Final Energy|Industry|Gases,,,Price|Final Energy|Industry|Iron and Steel|Gases,Price|Final Energy|Industry|Other Sector|Gases,,,,,,,,,,,1
-wholesale gas feedstocks,,,Price|Final Energy|Gases,Price|Final Energy|Industry|Gases,Price|Final Energy|Industry|Chemicals|Ammonia|Gases,Price|Final Energy|Industry|Chemicals|Gases,,,,,,,,,,,,,1
+wholesale gas,Price|Final Energy|Agriculture|Gases,,Price|Final Energy|Gases,Price|Final Energy|Industry|Gases,Price|Final Energy|Industry|Chemicals|Ammonia|Gases,Price|Final Energy|Industry|Chemicals|Gases,Price|Final Energy|Industry|Iron and Steel|Gases,Price|Final Energy|Industry|Other Sector|Gases,,,,,,,,,,,1
 wind-trial-supply,NoReported,,,,,,,,,,,,,,,,,,1
 woodpulp_energy,NoReported,,,,,,,,,,,,,,,,,,1
 woodpulp_processing,NoReported,,,,,,,,,,,,,,,,,,1

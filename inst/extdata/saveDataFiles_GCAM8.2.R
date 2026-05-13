@@ -64,6 +64,11 @@ use_data(carbon_seq_tech_map_v8.2, overwrite = T)
 
 
 # ag maps
+fertilizer_map_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "fertilizer_map.csv"),
+                                                    comment = "#"
+) %>% gather_map()
+use_data(fertilizer_map_v8.2, overwrite = T)
+
 ag_demand_map_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "ag_demand_map.csv"),
                                comment = "#"
 ) %>% gather_map()
@@ -106,6 +111,11 @@ food_items_map_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/ma
                                 comment = "#"
 )
 use_data(food_items_map_v8.2, overwrite = T)
+
+food_expenditures_average_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "food_expenditures_average.csv"),
+                                                   comment = "#"
+)
+use_data(food_expenditures_average_v8.2, overwrite = T)
 
 # waste share (waste / supply), exogenously driven per SSP scenario.
 L100.AgMIP_FoodWaste_Share_Pathway_SSP_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
@@ -196,6 +206,11 @@ use_data(en_demand_price_map_v8.2, overwrite = T)
 
 
 # Energy Service maps
+en_multiplier_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "en_multiplier.csv"),
+                                                          comment = "#"
+)
+use_data(en_multiplier_v8.2, overwrite = T)
+
 transport_en_service_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "transport_en_service.csv"),
                                       comment = "#"
 ) %>% gather_map()
@@ -206,6 +221,10 @@ buildings_en_service_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extd
 ) %>% gather_map()
 use_data(buildings_en_service_v8.2, overwrite = T)
 
+hdd_cdd_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "hdd_cdd.csv"),
+                                      comment = "#"
+) %>% gather_map()
+use_data(hdd_cdd_v8.2, overwrite = T)
 
 # capital updates
 capital_gcam_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "L223.GlobalIntTechCapital_elec.csv"),
@@ -226,6 +245,11 @@ investment_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappin
   dplyr::mutate(value = gsub("%", "", value)) %>%
   dplyr::mutate(value = as.numeric(value))
 use_data(investment_v8.2, overwrite = T)
+
+nonelec_investment_map_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "nonelec_investment_map.csv"),
+                                               comment = "#", na = ""
+) %>% gather_map()
+use_data(nonelec_investment_map_v8.2, overwrite = T)
 
 
 carbon_content_v8.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM8.2", "L202.CarbonCoef.csv"),
@@ -301,9 +325,11 @@ convert_v8.2 <- list(
   # These values are taken from GDP inflator in the GCAM R package
   conv_05USD_10USD = 1.100372,
   conv_90USD_10USD = 1.515897,
+  conv_10USD_25USD = 1.492, # source: internet
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
   conv_19USD_75USD = 0.2658798,
+  conv_17USD_90USD = 0.5880752,
   conv_C_CO2 = 44 / 12,
   # Elec related conversions
   hr_per_yr = 8760,

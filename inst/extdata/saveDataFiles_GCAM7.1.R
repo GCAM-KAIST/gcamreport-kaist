@@ -26,7 +26,6 @@ reg_cont_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings
 )
 use_data(reg_cont_v7.1, overwrite = T)
 
-
 # emissions maps
 co2_ets_sector_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "CO2_ETS_sector_map.csv"),
                                     comment = "#", na = ""
@@ -39,7 +38,7 @@ co2_tech_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mapp
 use_data(co2_tech_map_v7.1, overwrite = T)
 
 co2_resource_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "CO2_resource_map.csv"),
-                                  comment = "#", na = ""
+                              comment = "#", na = ""
 ) %>% gather_map()
 use_data(co2_resource_map_v7.1, overwrite = T)
 
@@ -65,6 +64,11 @@ use_data(carbon_seq_tech_map_v7.1, overwrite = T)
 
 
 # ag maps
+fertilizer_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "fertilizer_map.csv"),
+                                       comment = "#"
+) %>% gather_map()
+use_data(fertilizer_map_v7.1, overwrite = T)
+
 ag_demand_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "ag_demand_map.csv"),
                                comment = "#"
 ) %>% gather_map()
@@ -93,7 +97,7 @@ land_use_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mapp
 ) %>% gather_map()
 use_data(land_use_map_v7.1, overwrite = T)
 
-yield_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMScenarioMIPCMIP7", "yield_map.csv"),
+yield_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "yield_map.csv"),
                                                comment = "#"
 )
 use_data(yield_map_v7.1, overwrite = T)
@@ -107,6 +111,11 @@ food_items_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/ma
                               comment = "#"
 )
 use_data(food_items_map_v7.1, overwrite = T)
+
+food_expenditures_average_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "food_expenditures_average.csv"),
+                                                   comment = "#"
+)
+use_data(food_expenditures_average_v7.1, overwrite = T)
 
 # waste share (waste / supply), exogenously driven per SSP scenario.
 L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
@@ -175,6 +184,11 @@ en_demand_price_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extda
 )
 use_data(en_demand_price_map_v7.1, overwrite = T)
 
+res_extraction_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "res_extraction_map.csv"),
+                                    comment = "#"
+) %>% gather_map()
+use_data(res_extraction_map_v7.1, overwrite = T)
+
 transport_final_en_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "transport_final_en_map.csv"),
                                         comment = "#", na = ""
 ) %>% gather_map()
@@ -190,12 +204,13 @@ en_demand_price_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extda
 )
 use_data(en_demand_price_map_v7.1, overwrite = T)
 
-res_extraction_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "res_extraction_map.csv"),
-                                comment = "#"
-) %>% gather_map()
-use_data(res_extraction_map_v7.1, overwrite = T)
 
 # Energy Service maps
+en_multiplier_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "en_multiplier.csv"),
+                                                          comment = "#"
+)
+use_data(en_multiplier_v7.1, overwrite = T)
+
 transport_en_service_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "transport_en_service.csv"),
                                       comment = "#"
 ) %>% gather_map()
@@ -206,6 +221,10 @@ buildings_en_service_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extd
 ) %>% gather_map()
 use_data(buildings_en_service_v7.1, overwrite = T)
 
+hdd_cdd_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "hdd_cdd.csv"),
+                                      comment = "#"
+) %>% gather_map()
+use_data(hdd_cdd_v7.1, overwrite = T)
 
 # capital updates
 capital_gcam_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "L223.GlobalIntTechCapital_elec.csv"),
@@ -226,6 +245,11 @@ investment_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappin
   dplyr::mutate(value = gsub("%", "", value)) %>%
   dplyr::mutate(value = as.numeric(value))
 use_data(investment_v7.1, overwrite = T)
+
+nonelec_investment_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "nonelec_investment_map.csv"),
+                                               comment = "#", na = ""
+) %>% gather_map()
+use_data(nonelec_investment_map_v7.1, overwrite = T)
 
 
 carbon_content_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1", "L202.CarbonCoef.csv"),
@@ -272,7 +296,7 @@ ucd_core_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings
 use_data(ucd_core_v7.1, overwrite = T)
 
 region_mapping_ucd_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1",
-                                              "region_mapping_ucd.csv"), comment = "#")
+                                          "region_mapping_ucd.csv"), comment = "#")
 use_data(region_mapping_ucd_v7.1, overwrite = T)
 
 transport_stock_map_v7.1 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAM7.1",
@@ -301,9 +325,11 @@ convert_v7.1 <- list(
   # These values are taken from GDP inflator in the GCAM R package
   conv_05USD_10USD = 1.100372,
   conv_90USD_10USD = 1.515897,
+  conv_10USD_25USD = 1.492, # source: internet
   conv_75USD_10USD = 3.227608,
   conv_15USD_10USD = 0.91863,
   conv_19USD_75USD = 0.2658798,
+  conv_17USD_90USD = 0.5880752,
   conv_C_CO2 = 44 / 12,
   # Elec related conversions
   hr_per_yr = 8760,
@@ -352,8 +378,8 @@ use_data(queries_nonCO2_v7.1, overwrite = T)
 
 # Read in template
 template_v7.1 <- read.csv2(file.path(rawDataFolder, "inst/extdata", "template/GCAM7.1/common-definitions-template.csv"),
-                           comment = "#", sep = ',', fileEncoding = "UTF-8"
-) %>%
+                                        comment = "#", sep = ',', fileEncoding = "UTF-8"
+ ) %>%
   dplyr::select(Variable = variable, Unit = unit, Tier = tier, Internal_variable) %>%
   dplyr::mutate(Model = "GCAM 7.1") %>%
   as.data.frame()

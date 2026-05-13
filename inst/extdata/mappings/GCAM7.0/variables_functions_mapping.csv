@@ -3,19 +3,19 @@ population_clean;get_population;;population by region
 pop_weights;get_population_weights;population_clean;
 GDP_PPP_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_PPP_pc_growth_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
+GDP_PPP_pc_oecd_share_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_MER_clean;get_gdp_mer;;GDP MER by region
 forcing_clean;get_forcing;;total climate forcing
 global_temp_clean;get_temperature;;global mean temperature
 co2_concentration_clean;get_co2_concentration;;CO2 concentrations
-nonbio_share;get_nonbio_tmp;;CO2 emissions by sector (excluding resource production),CO2 emissions by sector (no bio) (excluding resource production)
-co2_tech_nobio;get_co2_tech_nobio_tmp;nonbio_share;CO2 emissions by tech (excluding resource production)
-co2_emiss;get_co2_emiss;;CO2 emissions by tech (excluding resource production),CO2 emissions by resource production,CO2 emissions by region
-iron_steel_map;get_iron_steel_map;;industry final energy by tech and fue
-co2_tech_ironsteel;get_co2_iron_steel;co2_tech_nobio,iron_steel_map;
+nonbio_diff;get_nonbio_tmp;;CO2 emissions by sector (excluding resource production),CO2 emissions by sector (no bio) (excluding resource production)
+co2_emiss;get_co2_emiss;nonbio_diff;CO2 emissions by tech (excluding resource production),CO2 emissions by resource production,CO2 emissions by region
 LUC_emiss;get_lu_co2;;LUC emissions by region
 co2_emissions_clean;get_co2_emissions;co2_emiss,LUC_emiss;
-nonco2_clean;get_nonco2_emissions;;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production
-f_gas_clean;get_fgas;;nonCO2 emissions by region
+nonco2_clean;get_nonco2_emissions;f_gases_total,f_gases_hfc,f_gases_pfc;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production
+f_gases_total;get_fgas;;nonCO2 emissions by region
+f_gases_hfc;get_fgas;;nonCO2 emissions by region
+f_gases_pfc;get_fgas;;nonCO2 emissions by region
 ghg_all;get_ghg;LUC_emiss;nonCO2 emissions by region
 kyoto_gases_clean;get_kyoto_gases;LUC_emiss;nonCO2 emissions by subsector (excluding resource production),nonCO2 emissions by resource production,CO2 emissions by tech (excluding resource production)
 co2_sequestration_clean;get_co2_sequestration;LUC_emiss,refliq_bioshare;CO2 sequestration by tech
@@ -63,7 +63,8 @@ elec_capital_clean;get_elec_capital;;
 elec_investment_clean;get_elec_investment;elec_capacity_add;
 transmission_invest_clean;get_transmission_invest;elec_capacity_add_clean;
 resource_investment_clean;get_resource_investment;;resource production by tech and vintage,regional primary energy prices,prices of all markets
-total_investment_clean;get_total_investment;elec_investment_clean,resource_investment_clean;
+nonelec_investment_clean;get_nonelec_investment;;capital investment demands by tech
+total_investment_clean;get_total_investment;elec_investment_clean,resource_investment_clean,nonelec_investment_clean;
 iron_steel_imports;get_iron_steel_imports;;regional iron and steel sources
 iron_steel_exports;get_iron_steel_exports;;traded iron and steel
 iron_steel_clean;get_iron_steel_clean;iron_steel_imports,iron_steel_exports;

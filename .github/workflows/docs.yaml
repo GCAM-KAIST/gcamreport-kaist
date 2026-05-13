@@ -10,44 +10,32 @@ on:
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
-
     env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      GITHUB_PAT: ${{ secrets.GH_GCAMREPORT_TOKEN}}
-      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GH_GCAMREPORT_TOKEN }}
+      RENV_CONFIG_REPOS_OVERRIDE: https://packagemanager.posit.co/cran/__linux__/jammy/latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.1.0'
+          r-version: '4.1'
+          use-public-rspm: true
 
       - uses: r-lib/actions/setup-pandoc@v2
-
-      - name: Install libraries
+      
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
-
-      - name: Restart R
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+          
+      - name: Install dependencies
         run: |
-          R --vanilla --quiet
-          echo 'q()' | R --no-save
-
-      - name: Install dependencies 1
-        run: |
-          install.packages(c("remotes", "rcmdcheck"), repos = "https://cloud.r-project.org")
-        shell: Rscript {0}
-
-      - name: Install dependencies 2
-        run: |
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-
-      - name: Install dependencies 3
-        run: |
-          install.packages("pkgdown")
+          install.packages("pak")
+          # 1. Install all system libs and R deps automatically
+          pak::local_install_dev_deps()
+          # 2. Specifically install pkgdown and any extra GitHub tools
+          pak::pkg_install("pkgdown")
         shell: Rscript {0}
 
       - name: Install package
@@ -57,4 +45,5 @@ jobs:
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          # pkgdown is now safely installed with all its sub-deps
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'

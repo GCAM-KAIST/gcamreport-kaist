@@ -9,44 +9,41 @@ on:
 
 jobs:
   R-CMD:
-    runs-on: ${{ matrix.config.os }}
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - { os: ubuntu-latest, r: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    name: ubuntu-latest (4.1)
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      GITHUB_PAT: ${{ secrets.GH_GCAMREPORT_TOKEN}}
+      GITHUB_PAT: ${{ secrets.GH_GCAMREPORT_TOKEN }}
+      RENV_CONFIG_REPOS_OVERRIDE: https://packagemanager.posit.co/cran/__linux__/jammy/latest
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: r-lib/actions/setup-r@v2-branch
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: '4.1'
-      - uses: r-lib/actions/setup-pandoc@v2-branch
-      - uses: r-lib/actions/setup-tinytex@v2-branch
+          use-public-rspm: true
 
-      - name: Install libraries
-        if: startsWith(matrix.config.os, 'ubuntu')
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Install system dependencies
         run: |
-          sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev libharfbuzz-dev libfribidi-dev
-
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+          
       - name: Install dependencies
         run: |
-          install.packages(c("remotes","rcmdcheck","stringi"), repos = "https://cloud.r-project.org")
-          install.packages(c("evaluate"), repos = "https://cloud.r-project.org")
-          install.packages(c("knitr","rmarkdown","htmlwidgets"), repos = "https://cloud.r-project.org")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("JGCRI/rpackageutils")
-          remotes::install_github("shinyTree/shinyTree")
+          install.packages("pak")
+          # Install everything needed for the package and its tests
+          pak::local_install_dev_deps()
+          # Install specific extra tools and GitHub packages
+          pak::pkg_install(c("devtools", "rcmdcheck", "JGCRI/rpackageutils", "shinyTree/shinyTree"))
         shell: Rscript {0}
 
-      - name: Check
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), build_args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), error_on = "error")
+      - name: Run tests
+        run: |
+          # Ensure pkgload and testthat are ready
+          devtools::test()
         shell: Rscript {0}

@@ -273,6 +273,18 @@
 #' }
 "ag_demand_map_v8.2"
 
+#' fertilizer_map_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v8.2
+#' }
+"fertilizer_map_v8.2"
+
 #' ag_price_map_v8.2
 #'
 #' @source github
@@ -368,6 +380,18 @@
 #' gcamreport::food_items_map_v8.2
 #' }
 "food_items_map_v8.2"
+
+#' food_expenditures_average_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_expenditures_average_v8.2
+#' }
+"food_expenditures_average_v8.2"
 
 #' L100.AgMIP_FoodWaste_Share_Pathway_SSP_v8.2
 #'
@@ -514,6 +538,18 @@
 #' }
 "transport_en_service_v8.2"
 
+#' en_multiplier_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description energy services compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_multiplier_v8.2
+#' }
+"en_multiplier_v8.2"
+
 #' buildings_en_service_v8.2
 #'
 #' @source github
@@ -525,6 +561,18 @@
 #' gcamreport::buildings_en_service_v8.2
 #' }
 "buildings_en_service_v8.2"
+
+#' hdd_cdd_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description buildings energy services compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::hdd_cdd_v8.2
+#' }
+"hdd_cdd_v8.2"
 
 #' capital_gcam_v8.2
 #'
@@ -549,6 +597,18 @@
 #' gcamreport::investment_v8.2
 #' }
 "investment_v8.2"
+
+#' nonelec_investment_map_v8.2
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM8.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v8.2
+#' }
+"nonelec_investment_map_v8.2"
 
 #' carbon_content_v8.2
 #'
@@ -904,6 +964,18 @@
 #' }
 "ag_demand_map_vScenarioMIPCMIP7"
 
+#' fertilizer_map_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_vScenarioMIPCMIP7
+#' }
+"fertilizer_map_vScenarioMIPCMIP7"
+
 #' ag_price_map_vScenarioMIPCMIP7
 #'
 #' @source github
@@ -999,6 +1071,18 @@
 #' gcamreport::food_items_map_vScenarioMIPCMIP7
 #' }
 "food_items_map_vScenarioMIPCMIP7"
+
+#' food_expenditures_average_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_expenditures_average_vScenarioMIPCMIP7
+#' }
+"food_expenditures_average_vScenarioMIPCMIP7"
 
 #' L100.AgMIP_FoodWaste_Share_Pathway_SSP_vScenarioMIPCMIP7
 #'
@@ -1169,6 +1253,18 @@
 #' }
 "transport_en_service_vScenarioMIPCMIP7"
 
+#' en_multiplier_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description energy services compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_multiplier_vScenarioMIPCMIP7
+#' }
+"en_multiplier_vScenarioMIPCMIP7"
+
 #' buildings_en_service_vScenarioMIPCMIP7
 #'
 #' @source github
@@ -1180,6 +1276,18 @@
 #' gcamreport::buildings_en_service_vScenarioMIPCMIP7
 #' }
 "buildings_en_service_vScenarioMIPCMIP7"
+
+#' hdd_cdd_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description buildings energy services compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::hdd_cdd_vScenarioMIPCMIP7
+#' }
+"hdd_cdd_vScenarioMIPCMIP7"
 
 #' capital_gcam_vScenarioMIPCMIP7
 #'
@@ -1204,6 +1312,18 @@
 #' gcamreport::investment_vScenarioMIPCMIP7
 #' }
 "investment_vScenarioMIPCMIP7"
+
+#' nonelec_investment_map_vScenarioMIPCMIP7
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAMScenarioMIPCMIP7.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_vScenarioMIPCMIP7
+#' }
+"nonelec_investment_map_vScenarioMIPCMIP7"
 
 #' carbon_content_vScenarioMIPCMIP7
 #'
@@ -1561,6 +1681,18 @@
 #' }
 "ag_demand_map_v7.2"
 
+#' fertilizer_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v7.2
+#' }
+"fertilizer_map_v7.2"
+
 #' ag_price_map_v7.2
 #'
 #' @source github
@@ -1656,6 +1788,18 @@
 #' gcamreport::food_items_map_v7.2
 #' }
 "food_items_map_v7.2"
+
+#' food_expenditures_average_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_expenditures_average_v7.2
+#' }
+"food_expenditures_average_v7.2"
 
 #' L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.2
 #'
@@ -1802,6 +1946,18 @@
 #' }
 "transport_en_service_v7.2"
 
+#' en_multiplier_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description energy services compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_multiplier_v7.2
+#' }
+"en_multiplier_v7.2"
+
 #' buildings_en_service_v7.2
 #'
 #' @source github
@@ -1813,6 +1969,18 @@
 #' gcamreport::buildings_en_service_v7.2
 #' }
 "buildings_en_service_v7.2"
+
+#' hdd_cdd_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description buildings energy services compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::hdd_cdd_v7.2
+#' }
+"hdd_cdd_v7.2"
 
 #' capital_gcam_v7.2
 #'
@@ -1837,6 +2005,18 @@
 #' gcamreport::investment_v7.2
 #' }
 "investment_v7.2"
+
+#' nonelec_investment_map_v7.2
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v7.2
+#' }
+"nonelec_investment_map_v7.2"
 
 #' carbon_content_v7.2
 #'
@@ -2193,6 +2373,18 @@
 #' }
 "ag_demand_map_v7.1"
 
+#' fertilizer_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v7.1
+#' }
+"fertilizer_map_v7.1"
+
 #' ag_price_map_v7.1
 #'
 #' @source github
@@ -2289,6 +2481,18 @@
 #' gcamreport::food_items_map_v7.1
 #' }
 "food_items_map_v7.1"
+
+#' food_expenditures_average_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_expenditures_average_v7.1
+#' }
+"food_expenditures_average_v7.1"
 
 #' L100.AgMIP_FoodWaste_Share_Pathway_SSP_v7.1
 #'
@@ -2434,6 +2638,18 @@
 #' }
 "transport_en_service_v7.1"
 
+#' en_multiplier_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description energy services compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_multiplier_v7.1
+#' }
+"en_multiplier_v7.1"
+
 #' buildings_en_service_v7.1
 #'
 #' @source github
@@ -2445,6 +2661,18 @@
 #' gcamreport::buildings_en_service_v7.1
 #' }
 "buildings_en_service_v7.1"
+
+#' hdd_cdd_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description buildings energy services compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::hdd_cdd_v7.1
+#' }
+"hdd_cdd_v7.1"
 
 #' capital_gcam_v7.1
 #'
@@ -2469,6 +2697,18 @@
 #' gcamreport::investment_v7.1
 #' }
 "investment_v7.1"
+
+#' nonelec_investment_map_v7.1
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM7.1.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v7.1
+#' }
+"nonelec_investment_map_v7.1"
 
 #' carbon_content_v7.1
 #'
@@ -2825,6 +3065,18 @@
 #' }
 "ag_demand_map_v7.0"
 
+#' fertilizer_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_v7.0
+#' }
+"fertilizer_map_v7.0"
+
 #' ag_price_map_v7.0
 #'
 #' @source github
@@ -3102,6 +3354,18 @@
 #' gcamreport::investment_v7.0
 #' }
 "investment_v7.0"
+
+#' nonelec_investment_map_v7.0
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM7.0.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_v7.0
+#' }
+"nonelec_investment_map_v7.0"
 
 #' carbon_content_v7.0
 #'

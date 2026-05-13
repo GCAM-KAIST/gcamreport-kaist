@@ -254,7 +254,6 @@ inst/extdata/template/GCAMScenarioMIPCMIP7/updated.xlsx
 R/hands_on.R
 inst/extdata/template/GCAMScenarioMIPCMIP7/common-definitions-template_old.csv
 /extra_scripts
-
 /.quarto/
 **/*.quarto_ipynb
 
@@ -265,6 +264,7 @@ output_kmip/
 
 # IDE / editor
 .obsidian/
+/.vs
 
 # Local-only outputs that should not be tracked
 availvar.csv

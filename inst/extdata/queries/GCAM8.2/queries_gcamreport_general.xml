@@ -39,6 +39,17 @@
    </aQuery>
    <aQuery>
       <all-regions />
+      <supplyDemandQuery title="building service output by service">
+         <axis1 name="sector">sector</axis1>
+         <axis2 name="Year">physical-output[@vintage]</axis2>
+         <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='building' or (exists(child::keyword[@final-energy='building'])))]//
+   output-primary[@type='output' (:collapse:)]/
+   physical-output/node()</xPath>
+         <comments/>
+      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
       <supplyDemandQuery title="building total final energy by service">
          <axis1 name="sector">sector</axis1>
          <axis2 name="Year">demand-physical[@vintage]</axis2>
@@ -56,6 +67,29 @@
     *[@type='subsector']/cost/text()</xPath>
          <comments/>
      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="food demand">
+            <axis1 name="input">input[@name]</axis1>
+            <axis2 name="Year">demand-physical[@vintage]</axis2>
+            <xPath buildList="true" dataName="demand" group="false" sumAll="false">gcam-consumer[@name='FoodDemand']//*[@type='input']/demand-physical/node()</xPath>
+            <comments/>
+			<!--  For some scenarios (e.g., SUSMIP), we require to manually run this query and select the food-processing from Staples and NonStaples to have the demand by gcam-consumer
+ *[@type='sector' and (@name='FoodDemand_Staples' 
+      or @name='FoodDemand_NonStaples'
+      or @name='FoodDemand_NonStaples_Oils'
+      or @name='FoodDemand_NonStaples_FruitsVeg'
+      or @name='FoodDemand_NonStaples_PlantProtein'
+      or @name='FoodDemand_NonStaples_Sugar'
+      or @name='FoodDemand_NonStaples_OtherCrop'
+      or @name='FoodDemand_NonStaples_Ruminant'
+      or @name='FoodDemand_NonStaples_NonRuminant'
+      or @name='FoodDemand_NonStaples_Dairy'
+      or @name='FoodDemand_NonStaples_Fish')]//
+                  *[@type='input']/demand-physical/node()-->
+
+      </supplyDemandQuery>   
    </aQuery>
    <aQuery>
       <all-regions />
@@ -1452,6 +1486,15 @@ A user can adjust the query to search for any of:
    physical-output/node()</xPath>
          <comments/>
          <showAttribute attribute-name="year" level="technology"/>
+      </supplyDemandQuery>
+   </aQuery>
+   <aQuery>
+      <all-regions />
+      <supplyDemandQuery title="Capital investment demands by tech">
+         <axis1 name="technology">technology[@name]</axis1>
+         <axis2 name="Year">technology[@year]</axis2>
+         <xPath buildList="true" dataName="capital" group="false" sumAll="false">*[@type='sector']/*[@type = 'subsector']/*[@type = 'technology']/*[@type='input' (: collapse :)]/capital/text()</xPath>
+         <comments>Note: these are investment demands per timestep</comments>
       </supplyDemandQuery>
    </aQuery>
 </queries>

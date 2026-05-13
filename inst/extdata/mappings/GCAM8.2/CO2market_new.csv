@@ -71,7 +71,7 @@ EU-15CO2_NearTerm,EU-15
 EU_15CO2_NearTerm,EU-15
 EUCO2_NearTerm,EU-15
 EU_ETSCO2_ETS,EU-15
-UkraineCO2_NearTerm,Ukraine
+UkraineCO2,Ukraine
 Europe_Non_EUCO2_NearTerm,Europe_Non_EU
 IndiaCO2_NearTerm,India
 IndonesiaCO2_NearTerm,Indonesia
@@ -93,4 +93,35 @@ EU_ETSCO2_ETS,EU-15
 EUCO2_ETS,EU-12
 EUCO2_ETS,EU-15
 European Free Trade AssociationCO2_ETS,European Free Trade Association
-
+ROWCO2,Africa_Eastern
+ROWCO2,Africa_Northern
+ROWCO2,Africa_Southern
+ROWCO2,Africa_Western
+ROWCO2,Argentina
+ROWCO2,Australia_NZ
+ROWCO2,Brazil
+ROWCO2,Canada
+ROWCO2,Central America and Caribbean
+ROWCO2,Central Asia
+ROWCO2,China
+ROWCO2,Colombia
+ROWCO2,European Free Trade Association
+ROWCO2,EU-12
+ROWCO2,EU-15
+ROWCO2,Ukraine
+ROWCO2,Europe_Non_EU
+ROWCO2,India
+ROWCO2,Indonesia
+ROWCO2,Pakistan
+ROWCO2,Japan
+ROWCO2,Mexico
+ROWCO2,Middle East
+ROWCO2,Russia
+ROWCO2,South Africa
+ROWCO2,South America_Southern
+ROWCO2,South America_Northern
+ROWCO2,South Asia
+ROWCO2,South Korea
+ROWCO2,Southeast Asia
+ROWCO2,Taiwan
+ROWCO2,USA
