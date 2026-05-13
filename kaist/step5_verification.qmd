@@ -2,10 +2,8 @@
 title: "KAIST GCAM Verification Report"
 subtitle: "Comparison of Manual vs Automated Reporting"
 format:
-  html:
-    output-dir: "../projects/kmip2023/output"
+  html: default
   pdf:
-    output-dir: "../projects/kmip2023/output"
     toc: false
     number-sections: false
     colorlinks: true
@@ -53,27 +51,23 @@ library(kableExtra)
 ```
 
 ```{r parameters}
-# ========== CONFIGURATION ==========
-# These should match kaist/config.R settings
-project_name <- "kmip2023"
-output_prefix <- "kaist_report"
-
-# Output directory (relative to project root)
-output_dir <- file.path(here(), "projects", project_name, "output")
+# ========== LOAD CONFIGURATION ==========
+source(file.path(here(), "kaist/config.R"))
+template_path <- file.path(output_dir, "KMIP2025_DB_template V_S1S08_SAME(HighGas).xlsx")
 
 # ========== SCENARIO SELECTION ==========
 # Manual reporting scenario
-manual_scenario <- "NZAdv"
+manual_scenario <- "S0.8"
 
 # Automated reporting scenario
-auto_scenario <- "NZAdv"
-auto_region <- "South Korea"
+auto_scenario <- "S08"
+auto_region <- target_region  # From config.R
 ```
 
 ```{r load-data}
 # Load manual data (first sheet)
 manual_data <- read_excel(
-  file.path(output_dir, "template.xlsx"),
+  template_path,  # From config.R
   sheet = 1
 ) %>%
   rename_with(tolower) %>%
@@ -101,9 +95,7 @@ auto_data <- read_csv(
 ) %>%
   rename_with(tolower) %>%
   filter(
-    scenario == auto_scenario,
-    region == auto_region
-  ) %>%
+    scenario == auto_scenario  ) %>%
   select(scenario, variable, unit,
          `2020`, `2025`, `2030`, `2035`, `2040`, `2045`, `2050`) %>%
   pivot_longer(
@@ -229,14 +221,18 @@ create_comparison_page <- function(data,
       axis.text = element_text(size = 20),
       axis.title = element_text(size = 22),
       plot.title = element_text(size = 28, face = "bold"),
-      legend.position = "right",
-      legend.key.size = unit(1.6, "cm"),
-      legend.text = element_text(size = 20),
+      legend.position = if (n_vars > 12) "bottom" else "right",
+      legend.key.size = unit(if (n_vars > 12) 1.0 else 1.6, "cm"),
+      legend.text = element_text(size = if (n_vars > 12) 16 else 20),
       strip.background = element_rect(fill = "grey90", color = "grey50"),
       strip.text = element_text(face = "bold", size = 22),
       panel.spacing = unit(1.5, "lines")
     ) +
-    guides(fill = guide_legend(ncol = 1, byrow = FALSE, reverse = FALSE))
+    guides(fill = guide_legend(
+      ncol = if (n_vars > 12) 4 else 1,
+      byrow = TRUE,
+      reverse = FALSE
+    ))
 
   # Create summary table
   summary_stats <- plot_data %>%
@@ -276,6 +272,9 @@ create_comparison_page <- function(data,
     if (!("Manual" %in% names(wide_data)) || !("Auto" %in% names(wide_data))) {
       return(NULL)
     }
+
+    # Ensure consistent column order (Manual, Auto) after pivot_wider
+    wide_data <- wide_data %>% select(variable, Manual, Auto)
 
     wide_data <- wide_data %>%
       mutate(
@@ -318,7 +317,7 @@ create_comparison_page <- function(data,
 
 \newpage
 
-## 1. Emissions|CO2
+## 1. Emissions\|CO2
 
 ```{r page1-co2, fig.width=20, fig.height=10}
 co2_positive_vars <- c(
@@ -389,31 +388,23 @@ if (!is.null(result$detail_2050) && nrow(result$detail_2050) > 0) {
 
 \newpage
 
-## 2. Secondary Energy|Electricity by fuel
+## 2. Emissions\|N2O
 
-```{r page2-sec-elec, fig.width=20, fig.height=10}
-sec_elec_vars <- c(
-  "Secondary Energy|Electricity|Biomass|w/ CCS",
-  "Secondary Energy|Electricity|Biomass|w/o CCS",
-  "Secondary Energy|Electricity|Coal|w/ CCS",
-  "Secondary Energy|Electricity|Coal|w/o CCS",
-  "Secondary Energy|Electricity|Gas|w/ CCS",
-  "Secondary Energy|Electricity|Gas|w/o CCS",
-  "Secondary Energy|Electricity|Hydro",
-  "Secondary Energy|Electricity|Nuclear",
-  "Secondary Energy|Electricity|Oil|w/ CCS",
-  "Secondary Energy|Electricity|Oil|w/o CCS",
-  "Secondary Energy|Electricity|Solar|CSP",
-  "Secondary Energy|Electricity|Solar|PV",
-  "Secondary Energy|Electricity|Wind|Offshore",
-  "Secondary Energy|Electricity|Wind|Onshore",
-  "Secondary Energy|Electricity|Hydrogen",
-  "Secondary Energy|Electricity|Other"
+```{r page2-n2o, fig.width=20, fig.height=10}
+n2o_positive_vars <- c(
+  "Emissions|N2O|Energy|Demand|AFOFI",
+  "Emissions|N2O|Energy|Demand|Building",
+  "Emissions|N2O|Energy|Demand|Industry",
+  "Emissions|N2O|Energy|Demand|Transportation",
+  "Emissions|N2O|Energy|Supply|Electricity",
+  "Emissions|N2O|Energy|Supply|Heat",
+  "Emissions|N2O|Energy|Supply|Hydrogen",
+  "Emissions|N2O|Energy|Supply|Refinery"
 )
 
 result2 <- create_comparison_page(
   data = combined_data,
-  positive_vars = sec_elec_vars,
+  positive_vars = n2o_positive_vars,
   negative_vars = NULL,
   manual_scenario = manual_scenario,
   auto_scenario = auto_scenario
@@ -463,33 +454,23 @@ if (!is.null(result2$detail_2050) && nrow(result2$detail_2050) > 0) {
 
 \newpage
 
-## 3. Capacity|Electricity
+## 3. Emissions\|CH4
 
-```{r page3-capacity-elec, fig.width=20, fig.height=10}
-capacity_elec_vars <- c(
-  "Capacity|Electricity|Biomass|w/ CCS",
-  "Capacity|Electricity|Biomass|w/o CCS",
-  "Capacity|Electricity|Coal|w/ CCS",
-  "Capacity|Electricity|Coal|w/o CCS",
-  "Capacity|Electricity|Gas|w/ CCS",
-  "Capacity|Electricity|Gas|w/o CCS",
-  "Capacity|Electricity|Hydro",
-  "Capacity|Electricity|Hydrogen",
-  "Capacity|Electricity|Nuclear",
-  "Capacity|Electricity|Oil|w/ CCS",
-  "Capacity|Electricity|Oil|w/o CCS",
-  "Capacity|Electricity|Solar|CSP",
-  "Capacity|Electricity|Solar|PV",
-  "Capacity|Electricity|Wind|Offshore",
-  "Capacity|Electricity|Wind|Onshore",
-  "Capacity|Electricity|Storage|Battery ESS",
-  "Capacity|Electricity|Storage|PSH",
-  "Capacity|Electricity|Storage|Hydrogen"
+```{r page3-ch4, fig.width=20, fig.height=10}
+ch4_positive_vars <- c(
+  "Emissions|CH4|Energy|Demand|AFOFI",
+  "Emissions|CH4|Energy|Demand|Building",
+  "Emissions|CH4|Energy|Demand|Industry",
+  "Emissions|CH4|Energy|Demand|Transportation",
+  "Emissions|CH4|Energy|Supply|Electricity",
+  "Emissions|CH4|Energy|Supply|Heat",
+  "Emissions|CH4|Energy|Supply|Hydrogen",
+  "Emissions|CH4|Energy|Supply|Refinery"
 )
 
 result3 <- create_comparison_page(
   data = combined_data,
-  positive_vars = capacity_elec_vars,
+  positive_vars = ch4_positive_vars,
   negative_vars = NULL,
   manual_scenario = manual_scenario,
   auto_scenario = auto_scenario
@@ -539,22 +520,16 @@ if (!is.null(result3$detail_2050) && nrow(result3$detail_2050) > 0) {
 
 \newpage
 
-## 4. Final Energy
+## 4. Carbon Price
 
-```{r page4-final-energy, fig.width=20, fig.height=10}
-final_energy_vars <- c(
-  "Final Energy|Coal",
-  "Final Energy|Gas",
-  "Final Energy|Oil",
-  "Final Energy|Biomass",
-  "Final Energy|Electricity",
-  "Final Energy|Heat",
-  "Final Energy|Hydrogen"
+```{r page4-carbon-price, fig.width=20, fig.height=10}
+carbon_price_vars <- c(
+  "Price|Carbon"
 )
 
 result4 <- create_comparison_page(
   data = combined_data,
-  positive_vars = final_energy_vars,
+  positive_vars = carbon_price_vars,
   negative_vars = NULL,
   manual_scenario = manual_scenario,
   auto_scenario = auto_scenario
@@ -577,7 +552,7 @@ if (!is.null(result4$detail_2030) && nrow(result4$detail_2030) > 0) {
   knitr::kable(
     result4$detail_2030,
     caption = paste0("2030 Variable-level Comparison (", result4$unit, ")"),
-    digits = c(0, 0, 0, 0, 1),
+    digits = c(0, 2, 2, 2, 1),
     format.args = list(big.mark = ","),
     col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
     longtable = TRUE,
@@ -591,6 +566,429 @@ if (!is.null(result4$detail_2050) && nrow(result4$detail_2050) > 0) {
   knitr::kable(
     result4$detail_2050,
     caption = paste0("2050 Variable-level Comparison (", result4$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 5. Carbon Sequestration
+
+```{r page5-carbon-seq, fig.width=20, fig.height=10}
+carbon_seq_positive_vars <- c(
+  "Carbon Sequestration|CCS|Energy|Demand",
+  "Carbon Sequestration|CCS|Energy|Supply|Electricity",
+  "Carbon Sequestration|CCS|Energy|Supply|Heat",
+  "Carbon Sequestration|CCS|Energy|Supply|Hydrogen",
+  "Carbon Sequestration|CCS|Energy|Supply|Refinery"
+)
+
+carbon_seq_negative_vars <- c(
+  "Carbon Sequestration|DAC"
+)
+
+result5 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = carbon_seq_positive_vars,
+  negative_vars = carbon_seq_negative_vars,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result5$plot)
+```
+
+```{r page5-table, results='asis'}
+knitr::kable(
+  result5$table,
+  caption = paste0("Total Net Emissions by Year (", result5$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result5$detail_2030) && nrow(result5$detail_2030) > 0) {
+  knitr::kable(
+    result5$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result5$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result5$detail_2050) && nrow(result5$detail_2050) > 0) {
+  knitr::kable(
+    result5$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result5$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 6. Secondary Energy\|Electricity by fuel
+
+```{r page6-sec-elec, fig.width=20, fig.height=10}
+sec_elec_vars <- c(
+  "Secondary Energy|Electricity|Biomass|w/ CCS",
+  "Secondary Energy|Electricity|Biomass|w/o CCS",
+  "Secondary Energy|Electricity|Coal|w/ CCS",
+  "Secondary Energy|Electricity|Coal|w/o CCS",
+  "Secondary Energy|Electricity|Gas|w/ CCS",
+  "Secondary Energy|Electricity|Gas|w/o CCS",
+  "Secondary Energy|Electricity|Hydro",
+  "Secondary Energy|Electricity|Nuclear",
+  "Secondary Energy|Electricity|Oil|w/ CCS",
+  "Secondary Energy|Electricity|Oil|w/o CCS",
+  "Secondary Energy|Electricity|Solar|CSP",
+  "Secondary Energy|Electricity|Solar|PV",
+  "Secondary Energy|Electricity|Wind|Offshore",
+  "Secondary Energy|Electricity|Wind|Onshore",
+  "Secondary Energy|Electricity|Hydrogen",
+  "Secondary Energy|Electricity|Other"
+)
+
+result6 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = sec_elec_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result6$plot)
+```
+
+```{r page6-table, results='asis'}
+knitr::kable(
+  result6$table,
+  caption = paste0("Total by Year (", result6$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result6$detail_2030) && nrow(result6$detail_2030) > 0) {
+  knitr::kable(
+    result6$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result6$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result6$detail_2050) && nrow(result6$detail_2050) > 0) {
+  knitr::kable(
+    result6$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result6$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 7. Secondary Energy\|Hydrogen
+
+```{r page7-sec-hydrogen, fig.width=20, fig.height=10}
+sec_hydrogen_vars <- c(
+  "Secondary Energy|Hydrogen|Domestic|Biomass",
+  "Secondary Energy|Hydrogen|Domestic|Electricity",
+  "Secondary Energy|Hydrogen|Domestic|Coal|w/ CCS",
+  "Secondary Energy|Hydrogen|Domestic|Coal|w/o CCS",
+  "Secondary Energy|Hydrogen|Domestic|Gas|w/ CCS",
+  "Secondary Energy|Hydrogen|Domestic|Gas|w/o CCS",
+  "Secondary Energy|Hydrogen|Import"
+)
+
+result7 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = sec_hydrogen_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result7$plot)
+```
+
+```{r page7-table, results='asis'}
+knitr::kable(
+  result7$table,
+  caption = paste0("Total by Year (", result7$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result7$detail_2030) && nrow(result7$detail_2030) > 0) {
+  knitr::kable(
+    result7$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result7$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result7$detail_2050) && nrow(result7$detail_2050) > 0) {
+  knitr::kable(
+    result7$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result7$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 8. Capacity\|Electricity
+
+```{r page8-capacity-elec, fig.width=20, fig.height=10}
+capacity_elec_vars <- c(
+  "Capacity|Electricity|Biomass|w/ CCS",
+  "Capacity|Electricity|Biomass|w/o CCS",
+  "Capacity|Electricity|Coal|w/ CCS",
+  "Capacity|Electricity|Coal|w/o CCS",
+  "Capacity|Electricity|Gas|w/ CCS",
+  "Capacity|Electricity|Gas|w/o CCS",
+  "Capacity|Electricity|Hydro",
+  "Capacity|Electricity|Hydrogen",
+  "Capacity|Electricity|Nuclear",
+  "Capacity|Electricity|Oil|w/ CCS",
+  "Capacity|Electricity|Oil|w/o CCS",
+  "Capacity|Electricity|Solar|CSP",
+  "Capacity|Electricity|Solar|PV",
+  "Capacity|Electricity|Wind|Offshore",
+  "Capacity|Electricity|Wind|Onshore",
+  "Capacity|Electricity|Storage|Battery ESS",
+  "Capacity|Electricity|Storage|PSH",
+  "Capacity|Electricity|Storage|Hydrogen"
+)
+
+result8 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = capacity_elec_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result8$plot)
+```
+
+```{r page8-table, results='asis'}
+# knitr::kable(
+#   result8$table,
+#   caption = paste0("Total by Year (", result8$unit, ")"),
+#   digits = 1,
+#   format.args = list(big.mark = ","),
+#   escape = FALSE
+# ) %>%
+# kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result8$detail_2030) && nrow(result8$detail_2030) > 0) {
+  knitr::kable(
+    result8$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result8$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result8$detail_2050) && nrow(result8$detail_2050) > 0) {
+  knitr::kable(
+    result8$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result8$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 9. Capacity Additions\|Electricity
+
+```{r page9-capacity-additions, fig.width=20, fig.height=10}
+capacity_additions_vars <- c(
+  "Capacity Additions|Electricity|Biomass|w/ CCS",
+  "Capacity Additions|Electricity|Biomass|w/o CCS",
+  "Capacity Additions|Electricity|Coal|w/ CCS",
+  "Capacity Additions|Electricity|Coal|w/o CCS",
+  "Capacity Additions|Electricity|Gas|w/ CCS",
+  "Capacity Additions|Electricity|Gas|w/o CCS",
+  "Capacity Additions|Electricity|Hydro",
+  "Capacity Additions|Electricity|Hydrogen",
+  "Capacity Additions|Electricity|Nuclear",
+  "Capacity Additions|Electricity|Oil|w/ CCS",
+  "Capacity Additions|Electricity|Oil|w/o CCS",
+  "Capacity Additions|Electricity|Solar|CSP",
+  "Capacity Additions|Electricity|Solar|PV",
+  "Capacity Additions|Electricity|Wind|Offshore",
+  "Capacity Additions|Electricity|Wind|Onshore",
+  "Capacity Additions|Electricity|Storage|Battery ESS",
+  "Capacity Additions|Electricity|Storage|PSH",
+  "Capacity Additions|Electricity|Storage|Hydrogen"
+)
+
+result9 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = capacity_additions_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result9$plot)
+```
+
+```{r page9-table, results='asis'}
+knitr::kable(
+  result9$table,
+  caption = paste0("Total by Year (", result9$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result9$detail_2030) && nrow(result9$detail_2030) > 0) {
+  knitr::kable(
+    result9$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result9$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result9$detail_2050) && nrow(result9$detail_2050) > 0) {
+  knitr::kable(
+    result9$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result9$unit, ")"),
+    digits = c(0, 2, 2, 2, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 10. Final Energy\|Input
+
+```{r page10-final-energy, fig.width=20, fig.height=10}
+final_energy_vars <- c(
+  "Final Energy|Coal",
+  "Final Energy|Gas",
+  "Final Energy|Oil",
+  "Final Energy|Biomass",
+  "Final Energy|Electricity",
+  "Final Energy|Heat",
+  "Final Energy|Hydrogen"
+)
+
+result10 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = final_energy_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result10$plot)
+```
+
+```{r page10-table, results='asis'}
+knitr::kable(
+  result10$table,
+  caption = paste0("Total by Year (", result10$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result10$detail_2030) && nrow(result10$detail_2030) > 0) {
+  knitr::kable(
+    result10$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result10$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result10$detail_2050) && nrow(result10$detail_2050) > 0) {
+  knitr::kable(
+    result10$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result10$unit, ")"),
     digits = c(0, 0, 0, 0, 1),
     format.args = list(big.mark = ","),
     col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
@@ -604,9 +1002,204 @@ if (!is.null(result4$detail_2050) && nrow(result4$detail_2050) > 0) {
 
 \newpage
 
-## 5. Primary Energy
+## 11. Final Energy\|Building\|Input
 
-```{r page5-primary-energy, fig.width=20, fig.height=10}
+```{r page11-final-building, fig.width=20, fig.height=10}
+final_building_vars <- c(
+  "Final Energy|Building|Coal",
+  "Final Energy|Building|Gas",
+  "Final Energy|Building|Oil",
+  "Final Energy|Building|Biomass",
+  "Final Energy|Building|Electricity",
+  "Final Energy|Building|Heat",
+  "Final Energy|Building|Hydrogen"
+)
+
+result11 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = final_building_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result11$plot)
+```
+
+```{r page11-table, results='asis'}
+knitr::kable(
+  result11$table,
+  caption = paste0("Total by Year (", result11$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result11$detail_2030) && nrow(result11$detail_2030) > 0) {
+  knitr::kable(
+    result11$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result11$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result11$detail_2050) && nrow(result11$detail_2050) > 0) {
+  knitr::kable(
+    result11$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result11$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 12. Final Energy\|Transportation\|Input
+
+```{r page12-final-transport, fig.width=20, fig.height=10}
+final_transport_vars <- c(
+  "Final Energy|Transportation|Coal",
+  "Final Energy|Transportation|Gas",
+  "Final Energy|Transportation|Oil",
+  "Final Energy|Transportation|Biomass",
+  "Final Energy|Transportation|Electricity",
+  "Final Energy|Transportation|Heat",
+  "Final Energy|Transportation|Hydrogen"
+)
+
+result12 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = final_transport_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result12$plot)
+```
+
+```{r page12-table, results='asis'}
+knitr::kable(
+  result12$table,
+  caption = paste0("Total by Year (", result12$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result12$detail_2030) && nrow(result12$detail_2030) > 0) {
+  knitr::kable(
+    result12$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result12$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result12$detail_2050) && nrow(result12$detail_2050) > 0) {
+  knitr::kable(
+    result12$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result12$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 13. Final Energy\|Industry\|Input
+
+```{r page13-final-industry, fig.width=20, fig.height=10}
+final_industry_vars <- c(
+  "Final Energy|Industry|Coal",
+  "Final Energy|Industry|Gas",
+  "Final Energy|Industry|Oil",
+  "Final Energy|Industry|Biomass",
+  "Final Energy|Industry|Electricity",
+  "Final Energy|Industry|Heat",
+  "Final Energy|Industry|Hydrogen"
+)
+
+result13 <- create_comparison_page(
+  data = combined_data,
+  positive_vars = final_industry_vars,
+  negative_vars = NULL,
+  manual_scenario = manual_scenario,
+  auto_scenario = auto_scenario
+)
+
+print(result13$plot)
+```
+
+```{r page13-table, results='asis'}
+knitr::kable(
+  result13$table,
+  caption = paste0("Total by Year (", result13$unit, ")"),
+  digits = 1,
+  format.args = list(big.mark = ","),
+  escape = FALSE
+) %>%
+kableExtra::kable_styling(font_size = 9)
+
+if (!is.null(result13$detail_2030) && nrow(result13$detail_2030) > 0) {
+  knitr::kable(
+    result13$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result13$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+
+if (!is.null(result13$detail_2050) && nrow(result13$detail_2050) > 0) {
+  knitr::kable(
+    result13$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result13$unit, ")"),
+    digits = c(0, 0, 0, 0, 1),
+    format.args = list(big.mark = ","),
+    col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
+    longtable = TRUE,
+    escape = FALSE
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+  kableExtra::column_spec(1, width = "7cm")
+}
+```
+
+\newpage
+
+## 14. Primary Energy
+
+```{r page14-primary-energy, fig.width=20, fig.height=10}
 primary_energy_vars <- c(
   "Primary Energy|Coal",
   "Primary Energy|Gas",
@@ -625,7 +1218,7 @@ primary_energy_vars <- c(
   "Primary Energy|Other"
 )
 
-result5 <- create_comparison_page(
+result14 <- create_comparison_page(
   data = combined_data,
   positive_vars = primary_energy_vars,
   negative_vars = NULL,
@@ -633,23 +1226,23 @@ result5 <- create_comparison_page(
   auto_scenario = auto_scenario
 )
 
-print(result5$plot)
+print(result14$plot)
 ```
 
-```{r page5-table, results='asis'}
+```{r page14-table, results='asis'}
 knitr::kable(
-  result5$table,
-  caption = paste0("Total by Year (", result5$unit, ")"),
+  result14$table,
+  caption = paste0("Total by Year (", result14$unit, ")"),
   digits = 1,
   format.args = list(big.mark = ","),
   escape = FALSE
 ) %>%
 kableExtra::kable_styling(font_size = 9)
 
-if (!is.null(result5$detail_2030) && nrow(result5$detail_2030) > 0) {
+if (!is.null(result14$detail_2030) && nrow(result14$detail_2030) > 0) {
   knitr::kable(
-    result5$detail_2030,
-    caption = paste0("2030 Variable-level Comparison (", result5$unit, ")"),
+    result14$detail_2030,
+    caption = paste0("2030 Variable-level Comparison (", result14$unit, ")"),
     digits = c(0, 0, 0, 0, 1),
     format.args = list(big.mark = ","),
     col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),
@@ -660,10 +1253,10 @@ if (!is.null(result5$detail_2030) && nrow(result5$detail_2030) > 0) {
   kableExtra::column_spec(1, width = "7cm")
 }
 
-if (!is.null(result5$detail_2050) && nrow(result5$detail_2050) > 0) {
+if (!is.null(result14$detail_2050) && nrow(result14$detail_2050) > 0) {
   knitr::kable(
-    result5$detail_2050,
-    caption = paste0("2050 Variable-level Comparison (", result5$unit, ")"),
+    result14$detail_2050,
+    caption = paste0("2050 Variable-level Comparison (", result14$unit, ")"),
     digits = c(0, 0, 0, 0, 1),
     format.args = list(big.mark = ","),
     col.names = c("Variable", "Manual", "Auto", "Diff", "Diff (%)"),

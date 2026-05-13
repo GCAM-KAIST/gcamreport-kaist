@@ -507,6 +507,9 @@ decode_html <- function(text) {
 }
 # Applying the function to decode HTML entities in col1
 template_v7.0$Unit <- sapply(template_v7.0$Unit, decode_html)
+template_v7.0 <- template_v7.0 %>%
+dplyr::filter(!Internal_variable %in% c("income_clean", "consumption_hh_clean",
+                                         "iron_steel_map", "ag_trade", "trade_clean"))
 use_data(template_v7.0, overwrite = T)
 
 
@@ -520,7 +523,7 @@ var_fun_map_v7.0 <- read.csv(file.path(rawDataFolder, "inst/extdata", "mappings/
 #   name = "consumption_hh_clean",
 #   fun = "get_consumption_hh",
 #   dependencies = "",
-#   queries = "food demand prices,food consumption by type (general)",
+#   queries = "food demand prices, food consumption by type (general)",
 #   stringsAsFactors = FALSE
 # )
 # var_fun_map_v7.0 <- rbind(var_fun_map_v7.0, new_row)

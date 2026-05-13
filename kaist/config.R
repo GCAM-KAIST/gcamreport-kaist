@@ -10,24 +10,24 @@
 ################################################################################
 
 # === Project Settings ===
-project_name <- "kmip2023"      # Project identifier (folder name)
+project_name <- "kmip2026"      # Project identifier (folder name)
 output_prefix <- "kaist_report" # Output file prefix
 target_region <- "South Korea"  # Region to process in step2
 
 # === GCAM Database Settings ===
 # Set this to your GCAM output database location
-db_path <- "C:/GCAM/gcam-v7.1/output"
-db_name <- "database_basexdb"
+db_path <- "C:/GCAM/gcamreport/kmip"
+db_name <- "DB26"
 
 # === Year Range ===
 start_year <- 2005
 final_year <- 2050
 version_number <- "7.0"
 
-# === Derived Paths (do not modify) ===
+# === Derived Paths ===
 # Project output directory
-project_dir <- file.path(getwd(), "projects", project_name)
-output_dir <- file.path(project_dir, "output")
+project_dir <- "C:/GCAM/gcamreport/kmip"
+output_dir <- "C:/GCAM/gcamreport/kmip/DB26_output"
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # KAIST data directory (coefficient files, etc.)
@@ -37,3 +37,12 @@ kaist_data_dir <- file.path(getwd(), "kaist/data")
 model_name <- paste("GCAM", version_number)
 
 cat("Config loaded: project =", project_name, ", output_dir =", output_dir, "\n")
+
+# === Reference Scenario (optional) ===
+# Used for vehicle capacity conversion ratio (step2)
+# If not set, first available scenario is used
+# ref_scenario <- "Ref_Con"
+
+# === Template & Mapping Files ===
+template_path <- file.path(output_dir, "KMIP2025_DB_final.xlsx")
+mapping_path <- file.path(output_dir, "kmip_gcam_mapping_template.xlsx")

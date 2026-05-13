@@ -37,13 +37,12 @@ library(writexl)
 library(tidyverse)
 ################################
 
+
 ########## Input Files ##########
 # GCAM data from step2 (in output/)
 gcam_data_path <- file.path(output_dir, paste0(output_prefix, "_korea.csv"))
 
 # Template and mapping files (at project root, not in output/)
-mapping_path <- file.path(project_dir, "mapping_template.xlsx")
-template_path <- file.path(project_dir, "template.xlsx")
 
 # Year columns for processing (derived from config)
 year_cols <- as.character(seq(start_year, final_year, by = 5))
@@ -81,12 +80,28 @@ unit_table <- tribble(
 # Load GCAM report results
 gcam_data <- read_csv(gcam_data_path, show_col_types = FALSE)
 
+# # Remove duplicate year columns: CSV may have both "X2020" and "2020" formats.
+# # Keep only the "X"-prefixed versions (which have the actual data), then rename.
+# bare_year_cols <- grep("^\\d{4}$", names(gcam_data), value = TRUE)
+# x_year_cols <- grep("^X\\d{4}$", names(gcam_data), value = TRUE)
+# if (length(bare_year_cols) > 0 && length(x_year_cols) > 0) {
+#   gcam_data <- gcam_data[, !names(gcam_data) %in% bare_year_cols]
+# }
+
 # Remove 'X' prefix from year columns if present (X2020 -> 2020)
 names(gcam_data) <- gsub("^X(\\d{4})$", "\\1", names(gcam_data))
 
-# Load mapping and template
-mapping <- read_excel(mapping_path)
-template <- read_excel(template_path)
+# Load mapping and template (normalize all column names to lowercase)
+mapping <- read_excel(mapping_path) %>%
+  rename_with(tolower)
+
+template <- read_excel(template_path) %>%
+  rename_with(tolower)
+
+# Variable priority (Required/Optional) from template's 'region' column
+var_priority <- template %>%
+  select(Variable = variable, Priority = region) %>%
+  distinct()
 ###############################
 
 ########## Process Variable Operations ##########
@@ -217,6 +232,12 @@ original_template_vars <- gcam_data %>%
 # Combine original + new variables
 all_variables_original <- bind_rows(original_template_vars, new_rows_df)
 
+# Replace Region with Required/Optional priority
+all_variables_original <- all_variables_original %>%
+  select(-Region) %>%
+  left_join(var_priority %>% rename(Region = Priority), by = "Variable") %>%
+  relocate(Region, .after = Scenario)
+
 # Save before unit conversion
 write_csv(all_variables_original,
           file.path(output_dir, "variables_before_unit_conversion.csv"),
@@ -225,8 +246,9 @@ write_csv(all_variables_original,
 
 ########## Unit Conversion ##########
 # Create unit mapping from template
+# Note: template has lowercase column names after rename_with(tolower)
 template_units <- template %>%
-  select(Variable, target_unit = Unit) %>%
+  select(Variable = variable, target_unit = unit) %>%
   distinct()
 
 # Convert to long format
@@ -280,7 +302,7 @@ df_after <- df_converted_long %>%
 
 ########## Fill Complete Template ##########
 # Get the variable order from template (preserve original order)
-template_var_order <- unique(template$Variable)
+template_var_order <- unique(template$variable)
 all_scenarios <- unique(gcam_data$Scenario)
 
 # Create complete skeleton: all template variables x all scenarios
@@ -296,10 +318,10 @@ df_complete <- complete_skeleton %>%
 
 # Fill in missing columns with appropriate defaults
 df_final <- df_complete %>%
-  mutate(
-    Model = coalesce(Model, first(na.omit(df_after$Model))),
-    Region = coalesce(Region, first(na.omit(df_after$Region)))
-  )
+  mutate(Model = coalesce(Model, first(na.omit(df_after$Model)))) %>%
+  select(-any_of("Region")) %>%
+  left_join(var_priority %>% rename(Region = Priority), by = "Variable") %>%
+  relocate(Region, .after = Scenario)
 
 # Reorder columns to match expected format
 col_order <- c("Model", "Scenario", "Region", "Variable", "Unit", year_cols)
@@ -308,24 +330,30 @@ df_final <- df_final %>% select(any_of(col_order))
 # Sort by template variable order
 df_final <- df_final %>%
   mutate(Variable = factor(Variable, levels = template_var_order)) %>%
-  arrange(Variable, Scenario) %>%
+  arrange(Scenario, Variable) %>%
   mutate(Variable = as.character(Variable))
 ############################################
 
 ########## Generate Reports ##########
-# Check how many variables have no data per scenario
-missing_report <- df_final %>%
+required_vars <- var_priority %>% filter(Priority == "Required") %>% pull(Variable)
+optional_vars <- var_priority %>% filter(Priority == "Optional") %>% pull(Variable)
+
+# Check missing variables per scenario with priority breakdown
+missing_detail <- df_final %>%
   rowwise() %>%
-  mutate(
-    all_years_missing = all(is.na(c_across(all_of(year_cols))))
-  ) %>%
+  mutate(all_years_missing = all(is.na(c_across(all_of(year_cols))))) %>%
   ungroup() %>%
-  filter(all_years_missing) %>%
-  group_by(Scenario) %>%
+  left_join(var_priority, by = "Variable") %>%
+  mutate(Priority = coalesce(Priority, "Other"))
+
+missing_report <- missing_detail %>%
+  group_by(Scenario, Priority) %>%
   summarise(
-    missing_count = n(),
+    missing = sum(all_years_missing),
+    total = n(),
     .groups = "drop"
-  )
+  ) %>%
+  pivot_wider(names_from = Priority, values_from = c(missing, total), values_fill = 0)
 
 # Save after conversion with complete variable list
 write_csv(df_final,
@@ -334,14 +362,34 @@ write_csv(df_final,
 
 cat("\n=== Step 4 Complete ===\n")
 cat("Output:", file.path(output_dir, "variables_after_unit_conversion.csv"), "\n")
-cat("\n=== Missing data report by scenario ===\n")
+
+cat("\n=== Coverage report by scenario ===\n")
 for (i in seq_len(nrow(missing_report))) {
-  scenario_name <- missing_report$Scenario[i]
-  missing_count <- missing_report$missing_count[i]
-  total_vars <- length(template_var_order)
-  pct <- round(missing_count / total_vars * 100, 1)
-  cat(sprintf("  %s: %d / %d variables missing (%.1f%%)\n",
-              scenario_name, missing_count, total_vars, pct))
+  scen <- missing_report$Scenario[i]
+  cat(sprintf("\n  [%s]\n", scen))
+
+  # Total
+  total_all <- length(template_var_order)
+  missing_all <- sum(missing_detail$all_years_missing[missing_detail$Scenario == scen])
+  covered_all <- total_all - missing_all
+  cat(sprintf("    Total:    %d / %d covered (%.1f%%)\n",
+              covered_all, total_all, covered_all / total_all * 100))
+
+  # Required
+  total_req <- length(required_vars)
+  missing_req <- sum(missing_detail$all_years_missing[
+    missing_detail$Scenario == scen & missing_detail$Variable %in% required_vars])
+  covered_req <- total_req - missing_req
+  cat(sprintf("    Required: %d / %d covered (%.1f%%)\n",
+              covered_req, total_req, covered_req / total_req * 100))
+
+  # Optional
+  total_opt <- length(optional_vars)
+  missing_opt <- sum(missing_detail$all_years_missing[
+    missing_detail$Scenario == scen & missing_detail$Variable %in% optional_vars])
+  covered_opt <- total_opt - missing_opt
+  cat(sprintf("    Optional: %d / %d covered (%.1f%%)\n",
+              covered_opt, total_opt, covered_opt / total_opt * 100))
 }
 cat("\nNext: Run kaist/step5_verification.qmd to verify results\n")
 ######################################

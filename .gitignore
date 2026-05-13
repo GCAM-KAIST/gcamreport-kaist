@@ -263,6 +263,13 @@ gcam_input/
 kmip/
 output_kmip/
 
+# IDE / editor
+.obsidian/
+
+# Local-only outputs that should not be tracked
+availvar.csv
+variables_7.1.csv
+
 # Other local files
 *.dat
 *.pdf

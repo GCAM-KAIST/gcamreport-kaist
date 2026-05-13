@@ -68,6 +68,11 @@ runQuery_patched <- function(dbConn, query, scenarios = NULL, regions = NULL, wa
   xqRegion <- ifelse(length(regions) == 0, "()",
                      paste0("('", paste(regions, collapse = "','"), "')"))
 
+  # parse_batch_query returns a list: [[1]]=character(0), [[2]]=XML string, [[3]]=title
+  # Extract just the XML string if query is a list
+  if (is.list(query)) {
+    query <- query[[2]]
+  }
   query <- gsub("\n", "", query)
   query <- gsub("\\s+", " ", query)
 

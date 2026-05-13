@@ -41,11 +41,11 @@ library(stringr)
 ################################
 
 ########## Input Files ##########
-# Template file (at project root, not in output/)
-template_path <- file.path(project_dir, "template.xlsx")
+# Template and mapping paths from config.R
+# (template_path and mapping_path are set in config.R)
 
-# Previous mapping file (at project root, optional - for incremental updates)
-mapping_output_path <- file.path(project_dir, "mapping_template.xlsx")
+# Previous mapping file (for incremental updates)
+mapping_output_path <- mapping_path
 previous_mapping_path <- mapping_output_path
 #################################
 
@@ -55,8 +55,9 @@ gcam_vars <- read.csv(file.path(output_dir, paste0(output_prefix, "_korea.csv"))
                       stringsAsFactors = FALSE) %>%
   distinct(Variable, Unit)
 
-# Load template variables
+# Load template variables (normalize column names to Title Case)
 template_vars <- read_excel(template_path, sheet = 1) %>%
+  rename_with(str_to_title) %>%
   distinct(Region, Variable, Unit)
 
 # Load previous mapping if exists

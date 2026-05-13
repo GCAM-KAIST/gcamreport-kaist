@@ -40,11 +40,11 @@ source(file.path(getwd(), "kaist/config.R"))
 
 ########## Project File (.prj) ##########
 # Option 1: New file - queries database and creates new .prj
-prj_name <- file.path(project_dir, paste0("project_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".dat"))
+# prj_name <- paste0("project_nopatch_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".dat")
 
 # Option 2: Existing file - skips queries, uses cached data
-#   Use when re-running after MAPPING error (queries already done)
-# prj_name <- file.path(project_dir, "project_20251230_225347.dat")
+# Use when re-running after MAPPING error (queries already done)
+prj_name <- file.path(db_path, "DB26_project_nopatch_20260328_233334.dat")
 #########################################
 
 ########## Libraries ##########
@@ -55,28 +55,31 @@ library(tidyr)
 library(readxl)
 
 # Apply rgcam patch for BaseX compatibility
-source(file.path(getwd(), "kaist/rgcam_patch.R"))
+# source(file.path(getwd(), "kaist/rgcam_patch.R"))
 ################################
 
 ########## Generate Report ##########
-target_var <- c(
-  "Emissions|CH4*", "Emissions|N2O*", "Emissions|CO2*",
-  "Primary Energy*", "Final Energy*",
-  "Secondary Energy*", "Capacity*",
-  "Price|Primary Energy*", "Price|Secondary Energy*",
-  "Investment*", "Carbon Capture*", "Production*", "Capital Cost*", "Price|Carbon"
-)
+# target_var <- c(
+#   "Emissions|CH4*", "Emissions|N2O*", "Emissions|CO2*",
+#   "Primary Energy*", "Final Energy*",
+#   "Secondary Energy*", "Capacity*",
+#   "Price|Primary Energy*", "Price|Secondary Energy*",
+#   "Investment*", "Carbon Capture*", "Production*", "Capital Cost*", # "Price|Carbon"
+#   "Energy Service*"
+# )
+# all_vars <- available_variables(print = FALSE, GCAM_version = paste0("v", version_number))
+# target_var <- all_vars[all_vars != "Price|Carbon"]
 
 generate_report(
   db_path = db_path,
   db_name = db_name,
-  # scenarios = scenarios,
+  scenarios = c("S1","S08", "05_nzL1b_Adv_plus"), # "S1", # scenarios,
   prj_name = prj_name,
   final_year = final_year,
   GCAM_version = paste0("v", version_number),
-  desired_variables = target_var,
+  desired_variables = "All", # target_var, # "All", 
   save_output = TRUE,
-  desired_regions = "All",  # Or: c("South Korea", "Japan")
+  desired_regions = "All", # "All",  # Or: c("South Korea", "Russia")
   output_file = file.path(output_dir, output_prefix),
   launch_ui = FALSE
 )
