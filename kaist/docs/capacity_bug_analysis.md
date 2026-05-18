@@ -64,8 +64,9 @@ The relevant code lives in `R/functions.R` and runs in this order:
 ## What the bug looks like on real data
 
 A simplified version of the duplicate situation that triggers the
-averaging is in `kaist/diagnostics/cf_debug.R` (Section 3). The script
-builds two rows for `(wind, South Korea, 2030)`:
+averaging is in `kaist/diagnostics/cf_debug.R` Section 3 (only on the
+`kaist-workflow` branch). The script builds two rows for
+`(wind, South Korea, 2030)`:
 
 | source   | cf   |
 |----------|------|
@@ -227,10 +228,8 @@ description.
   `get_elec_capacity_tot`).
 - `kaist/step2_process_data.R` — vintage-based recalculation that
   bypasses the bug for KMIP runs.
-- `kaist/diagnostics/cf_debug.R` — combined inspection + bug demo scripts.
-- `kaist/diagnostics/debug_capacity_calc.R` — verifies the workaround
-  against a known dataset.
-- `kaist/diagnostics/check_cf_reverse.R` — back-calculates CF from
-  reported capacity to double-check.
 - `kaist/Gen_III_Korea_bypass_evidence.md` — related nuclear-specific
   issue, separate from the CF bug.
+- Diagnostic / debug scripts (`kaist/diagnostics/cf_debug.R`,
+  `debug_capacity_calc.R`, `check_cf_reverse.R`) live on the
+  `kaist-workflow` branch of this repo.

@@ -285,3 +285,6 @@ images/
 /working_notes_builiding_vintage.md
 kaist/docs/email_to_claudia_draft.md
 kaist/docs/lab_meeting_summary.md
+
+# Generated artifacts
+coverage.xml

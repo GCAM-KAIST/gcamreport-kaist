@@ -24,8 +24,7 @@ gcamreport-kaist/
 │   ├── step4_fill_template.R
 │   ├── step5_verification.qmd
 │   ├── rgcam_patch.R       # BaseX compatibility fix
-│   ├── data/               # Coefficient files
-│   └── examples/           # Mapping & template examples
+│   └── data/               # Coefficient files
 └── projects/               # Output directory (gitignored)
     └── {project_name}/
         ├── template.xlsx
@@ -57,11 +56,6 @@ gcamreport-kaist/
    - Each project gets its own folder under `projects/`
    - Template and mapping files at project root
    - Generated outputs in `output/` subfolder
-
-4. **Included examples**
-   - `saveDataFiles_GCAM7.0_example.R` - Reference for prerequisites
-   - Mapping templates and examples
-   - Sample template file
 
 ## Quick Start
 

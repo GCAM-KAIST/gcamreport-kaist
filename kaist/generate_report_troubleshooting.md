@@ -102,9 +102,7 @@ rgcam은 동일 이름 시나리오 중 **최신 것**을 사용.
 
 | 파일 | 용도 |
 |------|------|
-| `kaist/unavailable_query.R` | .dat 없이 DB 직접 쿼리 가능 여부 확인 + saveDataFiles 필터 제안 |
 | `kaist/rgcam_patch.R` | BaseX 9.5+ 호환 + `character(0)` 접두어 제거 |
-| `kaist/query_browser_without_dat.R` | Main_queries.xml 335개 쿼리 직접 실행/export |
 
 ## 6. unavailable_query.R vs rgcam
 
