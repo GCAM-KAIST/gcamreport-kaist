@@ -51,7 +51,7 @@ previous_mapping_path <- mapping_output_path
 
 ########## Load Data ##########
 # Load GCAM Korea variables from step2 output
-gcam_vars <- read.csv(file.path(output_dir, paste0(output_prefix, "_korea.csv")),
+gcam_vars <- read.csv(file.path(output_dir, paste0(run_name, "_korea.csv")),
                       stringsAsFactors = FALSE) %>%
   distinct(Variable, Unit)
 

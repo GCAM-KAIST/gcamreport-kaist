@@ -40,7 +40,7 @@ library(tidyverse)
 
 ########## Input Files ##########
 # GCAM data from step2 (in output/)
-gcam_data_path <- file.path(output_dir, paste0(output_prefix, "_korea.csv"))
+gcam_data_path <- file.path(output_dir, paste0(run_name, "_korea.csv"))
 
 # Template and mapping files (at project root, not in output/)
 

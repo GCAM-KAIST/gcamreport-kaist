@@ -44,11 +44,7 @@ source(file.path(here(), "kaist/rgcam_patch.R"))
 ########################################
 
 ########## Load Project File (.dat cache) ##########
-prj_files <- c(
-  list.files(project_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE),
-  list.files(output_dir,  pattern = ".*project_.*\\.dat$", full.names = TRUE)
-)
-prj_files <- unique(prj_files)
+prj_files <- list.files(output_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
 
 if (length(prj_files) == 0) {
   warning("No .dat project file found. Cached query functions will not work.")

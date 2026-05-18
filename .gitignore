@@ -278,3 +278,10 @@ variables_7.1.csv
 images/
 .claude/
 /data/*
+
+# Local-only working notes (not shared in repo)
+/claudecode_planmode.md
+/gcamreport_issues_for_developers.md
+/working_notes_builiding_vintage.md
+kaist/docs/email_to_claudia_draft.md
+kaist/docs/lab_meeting_summary.md

@@ -11,8 +11,8 @@
 #   2. Coefficient files in kaist/data/
 #
 # OUTPUT:
-#   - {output_prefix}.csv: Updated data for all regions
-#   - {output_prefix}_korea.csv: Korea data with additional calculations
+#   - {run_name}.csv: Updated data for all regions
+#   - {run_name}_korea.csv: Korea data with additional calculations
 #
 # NEXT STEP:
 #   - kaist/step3_create_mapping.R
@@ -25,7 +25,7 @@ source(file.path(getwd(), "kaist/config.R"))
 
 ########## Project File (.prj) ##########
 # Auto-find latest project file from step1
-prj_files <- list.files(project_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
+prj_files <- list.files(output_dir, pattern = paste0("^", run_name, "_project_.*\\.dat$"), full.names = TRUE)
 if (length(prj_files) > 0) {
   prj_file <- prj_files[order(file.mtime(prj_files), decreasing = TRUE)[1]]
   cat("Using project file:", basename(prj_file), "\n")
@@ -43,7 +43,7 @@ library(rgcam)
 ################################
 
 ########## Load Data ##########
-excel_file <- file.path(output_dir, paste0(output_prefix, ".xlsx"))
+excel_file <- file.path(output_dir, paste0(run_name, ".xlsx"))
 data <- read_excel(excel_file)
 
 prj <- loadProject(prj_file)
@@ -59,26 +59,33 @@ prj <- loadProject(prj_file)
 ################################################################################
 
 ########## Update CO2 Prices ##########
-co2_prices <- getQuery(prj, "CO2 prices")
-regions_list <- unique(getQuery(prj, "CO2 emissions by region")$region)
-valid_markets <- paste0(regions_list, "CO2")
+# Skip if the .dat does not have the "CO2 prices" query (e.g. step1 was run
+# with desired_variables restricted to Capacity / Emissions only).
+co2_prices <- tryCatch(getQuery(prj, "CO2 prices"), error = function(e) NULL)
 
-co2_price_all <- co2_prices %>%
-  filter(market %in% valid_markets) %>%
-  select(scenario, market, year, value) %>%
-  pivot_wider(names_from = year, values_from = value) %>%
-  mutate(
-    Model = model_name,
-    Region = sub("CO2$", "", market),
-    Variable = "Price|Carbon",
-    Unit = "1990$/tC"
-  ) %>%
-  rename(Scenario = scenario) %>%
-  select(Model, Scenario, Region, Variable, Unit, everything(), -market)
+if (!is.null(co2_prices)) {
+  regions_list <- unique(getQuery(prj, "CO2 emissions by region")$region)
+  valid_markets <- paste0(regions_list, "CO2")
 
-data <- data %>%
-  filter(Variable != "Price|Carbon") %>%
-  bind_rows(co2_price_all)
+  co2_price_all <- co2_prices %>%
+    filter(market %in% valid_markets) %>%
+    select(scenario, market, year, value) %>%
+    pivot_wider(names_from = year, values_from = value) %>%
+    mutate(
+      Model = model_name,
+      Region = sub("CO2$", "", market),
+      Variable = "Price|Carbon",
+      Unit = "1990$/tC"
+    ) %>%
+    rename(Scenario = scenario) %>%
+    select(Model, Scenario, Region, Variable, Unit, everything(), -market)
+
+  data <- data %>%
+    filter(Variable != "Price|Carbon") %>%
+    bind_rows(co2_price_all)
+} else {
+  message("Skipping CO2 Prices update -- query not present in .dat.")
+}
 #########################################
 
 ########## Battery Storage Capacity ##########
@@ -533,7 +540,7 @@ if (length(hvc_idx) > 0) {
 #########################################
 
 ########## Save All Regions Data ##########
-csv_file <- file.path(output_dir, paste0(output_prefix, ".csv"))
+csv_file <- file.path(output_dir, paste0(run_name, ".csv"))
 data <- data %>% mutate(across(where(is.numeric), ~replace_na(., 0)))
 write.csv(data, csv_file, row.names = FALSE)
 cat("Saved all regions data:", csv_file, "\n")
@@ -953,7 +960,7 @@ for (var in mhdv_vars) {
 #########################################
 
 ########## Save Korea Data ##########
-korea_output <- file.path(output_dir, paste0(output_prefix, "_korea.csv"))
+korea_output <- file.path(output_dir, paste0(run_name, "_korea.csv"))
 data_korea <- data_korea %>% mutate(across(where(is.numeric), ~replace_na(., 0)))
 write.csv(data_korea, korea_output, row.names = FALSE, fileEncoding = "UTF-8")
 

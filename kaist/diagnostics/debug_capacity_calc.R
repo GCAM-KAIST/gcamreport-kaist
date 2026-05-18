@@ -10,7 +10,7 @@ load(file.path(getwd(), "data/cf_rgn_v7.0.rda"))
 load(file.path(getwd(), "data/cf_gcam_v7.0.rda"))
 
 # Load project
-prj_files <- list.files(project_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
+prj_files <- list.files(output_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
 prj_file <- prj_files[order(file.mtime(prj_files), decreasing = TRUE)[1]]
 prj <- loadProject(prj_file)
 
@@ -94,7 +94,7 @@ if (nrow(wind_storage_processed) > 0) {
 }
 
 cat("\n========== Step 5: Compare with current output ==========\n")
-csv_file <- file.path(output_dir, paste0(output_prefix, ".csv"))
+csv_file <- file.path(output_dir, paste0(run_name, ".csv"))
 if (file.exists(csv_file)) {
   current_data <- read.csv(csv_file)
   wind_onshore <- current_data %>%

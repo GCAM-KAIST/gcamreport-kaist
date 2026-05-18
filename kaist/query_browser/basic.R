@@ -35,16 +35,11 @@ source(file.path(here(), "kaist/config.R"))
 ########################################
 
 ########## Load Project File ##########
-# project_dir and output_dir are absolute paths from config.R
-# Search both project_dir and output_dir for .dat files
-prj_files <- c(
-  list.files(project_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE),
-  list.files(output_dir,  pattern = ".*project_.*\\.dat$", full.names = TRUE)
-)
-prj_files <- unique(prj_files)
+# .dat project files live in output_dir (created by step1).
+prj_files <- list.files(output_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
 
 if (length(prj_files) == 0) {
-  stop("No .dat project file found in:\n  ", project_dir, "\n  ", output_dir,
+  stop("No .dat project file found in:\n  ", output_dir,
        "\nRun step1_generate_report.R first.")
 }
 

@@ -19,7 +19,7 @@ library(rgcam)
 source(file.path(here(), "kaist/config.R"))
 
 # Load project file
-prj_files <- list.files(file.path(here(), project_dir), pattern = ".*project_.*\\.dat$", full.names = TRUE)
+prj_files <- list.files(file.path(here(), output_dir), pattern = ".*project_.*\\.dat$", full.names = TRUE)
 prj_file <- prj_files[order(file.mtime(prj_files), decreasing = TRUE)[1]]
 prj <- loadProject(prj_file)
 
@@ -57,7 +57,7 @@ library(rgcam)
 source(file.path(here(), "kaist/config.R"))
 
 # Load project
-prj_files <- list.files(project_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
+prj_files <- list.files(output_dir, pattern = ".*project_.*\\.dat$", full.names = TRUE)
 prj_file <- prj_files[order(file.mtime(prj_files), decreasing = TRUE)[1]]
 prj <- loadProject(prj_file)
 
