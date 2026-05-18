@@ -154,6 +154,73 @@ A minimal patch to `R/functions.R`:
 The choice between those two is best made with the bc3LC maintainer
 (Claudia / klau506) since either changes the semantics of `cf_iea`.
 
+## Second bug — `conv_EJ_GW` ignores the caller's `GCAM_version`
+
+Found while running step1 against GCAM 7.0 after the upstream merge.
+
+`conv_EJ_GW()` is defined in `R/functions.R` (around line 716) with a
+hard-coded default:
+
+```r
+conv_EJ_GW <- function(data, cf, EJ, GCAM_version = "v7.1") { ... }
+```
+
+Inside `get_elec_capacity_tot()` the function is called four times
+(around lines 5357, 5437, 5496, 5555) **without passing
+`GCAM_version`**:
+
+```r
+... %>%
+  conv_EJ_GW() %>%
+  ...
+```
+
+So even when the caller of `get_elec_capacity_tot` sets
+`GCAM_version = "v7.0"`, the inner `conv_EJ_GW` call falls back to the
+v7.1 default and tries to load `convert_v7.1` via `get(... envir =
+asNamespace("gcamreport"))`. If `convert_v7.1.rda` does not exist locally
+(e.g. you only generated v7.0 rda files), step1 fails with:
+
+```
+Error in `dplyr::mutate()`:
+ℹ In argument: `gw = `/`(...)`.
+Caused by error in `get()`:
+! object 'convert_v7.1' not found
+```
+
+This is purely a version-propagation bug. The numerical impact is small
+because `convert_*` constants (`hr_per_yr`, `EJ_to_GWh`, ...) are
+identical across versions, but the missing-object crash blocks any
+non-v7.1 run.
+
+### Local workaround
+
+Generate the v7.1 rda alongside v7.0:
+
+```r
+source("inst/extdata/saveDataFiles_GCAM7.1.R")
+```
+
+The v7.1 rda's get used only for the constants table; the result of
+step1 is the same as a clean v7.0 run.
+
+### Proposed upstream patch
+
+Pass `GCAM_version` through at each call site inside
+`get_elec_capacity_tot` (and any other function that has the same
+pattern). One-line change per call:
+
+```r
+... %>%
+  conv_EJ_GW(GCAM_version = GCAM_version) %>%
+  ...
+```
+
+This is small enough to bundle into the same PR as the `cf_iea`
+dedup fix, since both live in the same `get_elec_capacity_tot` /
+`get_elec_cf_tmp` area of `R/functions.R`. Mention both in the PR
+description.
+
 ## Related files in this repo
 
 - `R/functions.R` — buggy code lives here (`get_cf_iea_tmp`, `get_elec_cf_tmp`,
