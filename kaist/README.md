@@ -3,7 +3,7 @@
 ## Overview
 
 This folder contains the KAIST 5-step pipeline that turns GCAM output into
-KMIP (Korea Mid-century Integrated Planning) report tables. The rest of
+KMIP report tables. The rest of
 the repository is the original [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport)
 R package, used as-is.
 
