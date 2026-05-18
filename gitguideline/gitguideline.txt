@@ -1,0 +1,164 @@
+https://kaist-iam.github.io/group/ 
+나는 위 kaist iam group의 석사과정 학생이야. 교수님께서 해당 pdf를 보내주시면서 
+
+우리도 이거 복사해서 하나 만들어주세요
+Jiheun  12:18 PM
+네 랩미팅에서 발표하는 용도인가요?
+Haewon  3:25 PM
+아니요. 그냥 신입생 사용 설명서
+
+라고 하셨어.
+
+음 그러러면 내가 먼저 내용을 이해해야겠지? 그리고 나는 한국어버전 영어버전 두개를 다 만드려고해. 교수님께서 복사해서 하나 만들어달라고 하셨으니까 출처를 첫 페이지에 밝히고 거의 비슷하게 만들어도 되겠지? 이 CGS에서 만든 버전에서 어떤것을 수정하면 더 좋은 사용설명서가 될까? 피드백을 줘봐. IAMgroup이고 gcam run을 많이 하는 그룹이야.
+
+간략히 보기
+오후 8:24
+
+CGS 가이드를 분석하고 GCAM 그룹 맞춤형 수정사항을 구상했다.
+
+
+
+
+
+좋아, Jiheun! PDF 내용을 살펴봤어. CGS 가이드가 꽤 잘 만들어져 있는데, KAIST IAM 그룹용으로 수정하면 더 좋아질 부분들을 정리해볼게.
+
+현재 CGS 가이드의 강점
+기본 개념 설명이 깔끔하고, xkcd 만화와 Openscapes 일러스트로 시각적 이해를 돕는 점이 좋아. Workflow 1, 2로 실제 작업 흐름을 구체적으로 보여주는 것도 실용적이야.
+
+수정/추가하면 좋을 점
+1. GCAM 특화 내용 추가
+
+GCAM을 많이 돌리는 그룹이니까 .gitignore 설정이 매우 중요해. GCAM output 파일들(CSV, XML 결과물 등)은 용량이 크고 Git에 올리면 안 되거든. 구체적인 .gitignore 예시 템플릿을 넣으면 신입생들이 실수를 방지할 수 있어.
+
+2. 예시를 KAIST-specific으로 변경
+
+현재 "study2", "practice" 같은 CGS 레포지토리 예시를 KAIST IAM 그룹의 실제 레포지토리 구조와 브랜치 네이밍 컨벤션으로 바꿔야 해.
+
+3. 대용량 파일 처리
+
+IAM 연구는 데이터 파일이 클 수 있으니 Git LFS(Large File Storage) 설명을 간단히 추가하거나, "절대 Git에 올리면 안 되는 파일 종류" 리스트를 명시하면 좋겠어.
+
+4. 협업 시나리오 구체화
+
+예를 들어 "시나리오 분석 결과를 공유할 때", "모델 파라미터를 수정했을 때" 같은 IAM 연구 맥락의 예시로 바꾸면 신입생이 더 직관적으로 이해할 수 있어.
+
+5. 트러블슈팅 섹션
+
+신입생들이 자주 겪는 문제들(merge conflict 해결, 잘못된 commit 되돌리기 등)을 Q&A 형식으로 추가하면 실용적일 거야.
+
+더 구체적으로 어떤 부분을 먼저 작업할지 정해볼까?
+
+오 git ignore과 git LFS 트러블 슈팅 좋다. 각각의 내용이 어디 사이에 들어가면 되는지 알려줘.
+
+오후 8:26
+
+기존 목차 구조 내 최적 위치를 파악하고 제안했다.
+10초
+
+
+
+
+
+현재 CGS 가이드 구조 기준으로 위치를 제안할게:
+
+1. .gitignore → Core concepts 섹션, git add + git commit 직후 (p.8 뒤)
+git add를 설명하면서 "어떤 파일을 tracking 할지" 얘기하니까, 바로 다음에 "어떤 파일을 tracking에서 제외할지"를 설명하는 게 자연스러워.
+
+내용 예시:
+
+.gitignore가 뭔지
+GCAM/IAM 작업시 ignore해야 할 파일 유형 (output 폴더, .Rdata, 대용량 CSV 등)
+템플릿 예시
+2. Git LFS → Best practices 섹션 끝 (p.17 뒤)
+Best practices에서 "데이터 파일 올리지 말 것"을 언급하고, 그 연장선에서 "만약 큰 파일을 버전관리 해야 한다면 LFS를 써라"로 연결하면 자연스러워.
+
+3. 트러블슈팅 → Git in practice 뒤, Resources 앞 (p.21과 p.22 사이)
+실제 workflow를 다 설명한 후에 "이런 상황에선 이렇게 해결해라"가 오는 게 논리적이야. 신입생이 workflow 따라하다가 문제 생기면 바로 다음 섹션에서 해결책을 찾을 수 있고.
+
+정리하면 새 목차는:
+
+Overview
+Basic commands (여기에 .gitignore 추가)
+Best practices (여기에 Git LFS 추가)
+Git in practice
+Troubleshooting (신규)
+Additional resources
+이 구조로 갈까?
+
+1768217331829_image.png
+그리고 좀 더 실용적으로 vs code에서 gitlens다운받기 등 더 실용적인 내용을 넣고싶어. 이거 지금 내 vscode 왼쪽 화면 캡쳐인데  git lens 위에 있는 툴은 뭐지??? graph? source control? 
+
+오후 8:32
+스크린샷을 보니 VS Code의 Git 관련 패널들이 보여! 하나씩 설명할게:
+
+스크린샷에 보이는 것들
+SOURCE CONTROL (소스 제어)
+
+VS Code에 기본 내장된 Git 기능이야
+별도 설치 필요 없음
+Changes 목록, Commit 버튼, staged/unstaged 파일 관리 등 기본적인 Git 작업 가능
+GRAPH
+
+이건 GitLens의 기능 중 하나야
+브랜치 히스토리를 시각적으로 보여줌
+네 스크린샷에서 "reformulate korea region..." 커밋과 "original version of the file" 커밋이 보이는 부분
+GITLENS
+
+GitLens 확장 프로그램 설치하면 생기는 패널
+커밋 히스토리, 작성자, 비교 기능 등 고급 기능 제공
+가이드에 추가할 내용 제안
+Best practices나 Resources 섹션에 "VS Code 설정" 페이지 추가:
+
+필수: GitLens 확장 설치
+기본 Source Control 패널 사용법
+GitLens Graph로 브랜치 시각화하는 법
+VS Code에서 merge conflict 해결하는 법 (GUI로 하면 훨씬 직관적)
+CGS 가이드가 "터미널 써라"를 강조하는데, 신입생한테는 VS Code GUI로 시작해서 익숙해지면 터미널로 넘어가는 게 더 현실적일 수 있거든. 이 부분도 포함할까?
+
+근데 나 git lens를 방금 처음으로 다운받와봤는데 git lens를 깔기 전에도 graph는 보이던데.. CGS 가이드가 "터미널 써라"를 강조해? 어디? 왜?
+
+오후 8:33
+아 내가 잘못 말했네! 다시 확인해볼게.
+
+Graph 관련
+네 말이 맞아, 다시 보니까 GRAPH와 GITLENS가 별도 섹션으로 나뉘어 있네. Graph가 GitLens 설치 전에도 있었다면, VS Code에 다른 Git 확장이 이미 설치되어 있거나 VS Code 최신 버전에서 기본 제공하는 기능일 수 있어. 혹시 Git Graph라는 별도 확장 프로그램이 설치되어 있는지 확인해볼 수 있어?
+
+"터미널 써라" 관련
+CGS 가이드 p.17 Best Practices 첫 번째 항목:
+
+"Use the terminal (terminal on mac or git bash on windows) - git features provided by RStudio are simplifications of the software and using them can lead to unintended problems"
+
+RStudio의 Git GUI가 단순화되어 있어서 의도치 않은 문제가 생길 수 있다는 이유야. 근데 이건 RStudio 한정 얘기고, VS Code의 Source Control이나 GitLens는 꽤 안정적이라서 동일하게 적용할 필요는 없을 것 같아.
+
+KAIST IAM 가이드에서는 "터미널이 기본이지만, VS Code GUI도 괜찮다" 정도로 유연하게 써도 될 듯!
+
+아 그러면 신입생 가이드니까  Rstudio깔고 R깔고 vscode깔고 이런것까지 다 들어가야하나... 어떻게 하지.... 그건 아닌가...
+
+오후 8:38
+
+Git 가이드와 환경설정을 분리하는 방안을 검토했습니다.
+
+
+
+
+그건 분리하는 게 나을 것 같아!
+
+제안: 문서 분리
+이번에 만드는 건 → Git 가이드만
+
+교수님이 "이거 복사해서 만들어달라"고 한 게 CGS Git 가이드니까
+범위를 Git 사용법으로 한정
+환경 설정 (R, RStudio, VS Code 등)은 → 별도 문서 or 링크
+
+이미 KAIST IAM 그룹에 신입생 온보딩 문서가 있을 수도 있고
+없으면 나중에 따로 만들거나
+Git 가이드 맨 앞에 "Prerequisites: VS Code 설치되어 있어야 함" 정도로만 언급
+Git 가이드 안에서는
+VS Code 설치법까지는 안 넣고, 대신:
+
+"VS Code + GitLens 확장 프로그램 사용을 권장함. 설치 방법은 [링크] 참고"
+
+이렇게 외부 링크로 처리하면 가이드가 깔끔하게 유지돼.
+
+교수님한테 "Git 가이드 먼저 만들고, 환경설정 가이드도 필요하시면 별도로 만들까요?" 여쭤보는 것도 방법이야.
+
