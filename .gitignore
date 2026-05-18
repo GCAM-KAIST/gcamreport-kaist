@@ -273,6 +273,8 @@ variables_7.1.csv
 # Other local files
 *.dat
 *.pdf
+# but DO track guideline PDFs that live inside gitguideline/
+!gitguideline/*.pdf
 images/
 .claude/
 /data/*
