@@ -2,34 +2,33 @@
 
 ## Overview
 
-This folder contains KAIST-customized scripts for generating GCAM reports, specifically designed for KMIP (Korea Model Intercomparison Project) reporting.
+This folder contains the KAIST 5-step pipeline that turns GCAM output into
+KMIP (Korea Mid-century Integrated Planning) report tables. The rest of
+the repository is the original [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport)
+R package, used as-is.
 
-## Repository Changes
-
-### Fork Setup
-- Previously: Repository was cloned but not properly forked
-- Now: Properly forked from [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport)
-- Upstream sync enabled for future updates from original package
-
-### New Folder Structure
+## Folder Structure
 
 ```
 gcamreport-kaist/
-├── R/, inst/, data/        # Original gcamreport package (untouched)
-├── kaist/                  # KAIST custom scripts
-│   ├── config.R            # Shared configuration
+├── R/, inst/, data/           # Original gcamreport R package (untouched)
+├── kaist/                     # KAIST custom scripts (this folder)
+│   ├── config.R               # Shared configuration for all steps
 │   ├── step1_generate_report.R
 │   ├── step2_process_data.R
 │   ├── step3_create_mapping.R
 │   ├── step4_fill_template.R
 │   ├── step5_verification.qmd
-│   ├── rgcam_patch.R       # BaseX compatibility fix
-│   └── data/               # Coefficient files
-└── projects/               # Output directory (gitignored)
-    └── {project_name}/
-        ├── template.xlsx
-        ├── mapping_template.xlsx
-        └── output/
+│   ├── rgcam_patch.R          # BaseX 9.5+ compatibility fix
+│   ├── data/                  # Coefficient files (L223, L225 CSVs)
+│   └── docs/                  # Bug analyses and other technical notes
+└── kmip/                      # Local GCAM databases (gitignored)
+    ├── DB25/, DB26/, ...      # One BaseX folder per scenario set
+    └── DB26_output/           # Pipeline outputs land here
+        ├── {run_name}.xlsx
+        ├── {run_name}.csv
+        ├── {run_name}_korea.csv
+        └── {run_name}_project_*.dat
 ```
 
 ## Workflow Scripts
@@ -44,24 +43,30 @@ gcamreport-kaist/
 
 ## Key Improvements
 
-1. **Separated KAIST code from original package**
-   - Original gcamreport code remains untouched
-   - Easy to sync with upstream updates
+1. **Separated KAIST code from the original package**
+   - Original gcamreport code in `R/` and `inst/` is untouched.
+   - Easy to sync with bc3LC upstream updates.
 
 2. **Shared configuration (`config.R`)**
-   - Single file for all project settings
-   - No need to edit multiple files when changing projects
+   - One file for run name, database, region, and year range.
+   - No need to edit multiple step scripts when changing the run.
 
-3. **Organized output structure**
-   - Each project gets its own folder under `projects/`
-   - Template and mapping files at project root
-   - Generated outputs in `output/` subfolder
+3. **Per-database output folder**
+   - Outputs are written under `kmip/{db_name}_output/`, so different
+     databases (DB25, DB26, ...) do not mix.
 
 ## Quick Start
 
-1. Edit `kaist/config.R` with your project settings
-2. Follow prerequisites in `step1_generate_report.R`
-3. Run scripts in order: step1 → step2 → step3 → step4 → step5
+1. Open R in the repo root and run `devtools::load_all(".")` once to
+   build the gcamreport package locally.
+2. Edit `kaist/config.R`: set `run_name`, `db_name`, `target_region`,
+   and the year range.
+3. If BaseX 9.5+ is installed, source `kaist/rgcam_patch.R` once per
+   session before step 1 (see the comment block in step1).
+4. Run the steps in order:
+   `step1_generate_report.R` -> `step2_process_data.R` ->
+   `step3_create_mapping.R` -> `step4_fill_template.R` ->
+   `step5_verification.qmd`.
 
 ## References
 

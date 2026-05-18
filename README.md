@@ -1,5 +1,7 @@
 # gcamreport
 
+> **KAIST fork notice.** This repository is a [GCAM-KAIST](https://github.com/GCAM-KAIST) fork of [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport). On top of the original package it adds a 5-step KMIP (Korea Mid-century Integrated Planning) reporting pipeline in the [`kaist/`](kaist/) folder. **If you are a KAIST lab member, start with [`kaist/README.md`](kaist/README.md).** The rest of this file is the original bc3LC documentation and applies to the underlying R package.
+
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![docs](https://github.com/bc3LC/gcamreport/actions/workflows/docs.yaml/badge.svg)](https://github.com/bc3LC/gcamreport/actions/workflows/docs.yaml)
 [![pages-build-deployment](https://github.com/bc3LC/gcamreport/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/bc3LC/gcamreport/actions/workflows/pages/pages-build-deployment) 
