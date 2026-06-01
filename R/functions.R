@@ -5354,6 +5354,16 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
                          dplyr::group_by(scenario, region, technology, vintage, year) %>%
                          dplyr::summarise(value = sum(value, na.rm = T)) %>%
                          dplyr::ungroup()) %>%
+      # simplify technology names
+      dplyr::mutate(technology = stringr::str_remove(technology,',depth=1')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_base')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_int')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_peak')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_subpeak')) %>%
+      dplyr::filter(technology != 'battery') %>%
+      dplyr::group_by(scenario,region,technology,vintage,year) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
       # remove grid regions (GCAM-Europe issue)
       dplyr::filter(!region %in% grid_regions) %>%
       left_join_strict(elec_cf %>%
@@ -5435,6 +5445,15 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
       # remove grid regions (GCAM-Europe issue)
       dplyr::filter(!region %in% grid_regions) %>%
       # use GCAM cf for capacity additions
+      dplyr::mutate(technology = stringr::str_remove(technology,',depth=1')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_base')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_int')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_peak')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_subpeak')) %>%
+      dplyr::filter(technology != 'battery') %>%
+      dplyr::group_by(scenario,region,technology,year) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
       left_join_strict(elec_cf %>%
                          dplyr::select(-'cf.rgn') %>%
                          dplyr::rename(year = vintage),

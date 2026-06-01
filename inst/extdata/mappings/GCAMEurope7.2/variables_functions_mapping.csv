@@ -1,8 +1,15 @@
 name;fun;dependencies;queries
 population_clean;get_population;;population by region
 pop_weights;get_population_weights;population_clean;
+income_raw;get_income;;subregional income
+energy_expenditure_per_clean;get_en_expenditure;pop_weights,income_raw;building service costs,building service output by service,population by region
+food_expenditure_per_clean;get_food_expenditure;pop_weights,income_raw;food demand prices by income group|food demand prices,food demand by income group|food demand,population by region
+expenditure_per_clean;get_expenditure;food_expenditure_per_clean,energy_expenditure_per_clean;
+poverty_clean;get_poverty;income_raw,population_clean;
+inequality_clean;get_inequality;income_raw,population_clean;
 GDP_PPP_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_PPP_pc_growth_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
+GDP_PPP_pc_oecd_share_clean;get_gdp_ppp;population_clean;GDP per capita PPP by region
 GDP_MER_clean;get_gdp_mer;;GDP MER by region
 forcing_clean;get_forcing;;total climate forcing
 global_temp_clean;get_temperature;;global mean temperature

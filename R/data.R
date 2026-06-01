@@ -274,6 +274,18 @@
 #' }
 "ag_demand_map_vEurope7.2"
 
+#' fertilizer_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_vEurope7.2
+#' }
+"fertilizer_map_vEurope7.2"
+
 #' ag_price_map_vEurope7.2
 #'
 #' @source github
@@ -369,6 +381,18 @@
 #' gcamreport::food_items_map_vEurope7.2
 #' }
 "food_items_map_vEurope7.2"
+
+#' food_expenditures_average_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_expenditures_average_vEurope7.2
+#' }
+"food_expenditures_average_vEurope7.2"
 
 #' L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2
 #'
@@ -514,6 +538,18 @@
 #' gcamreport::transport_en_service_vEurope7.2
 #' }
 "transport_en_service_vEurope7.2"
+
+#' en_multiplier_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description energy services compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_multiplier_vEurope7.2
+#' }
+"en_multiplier_vEurope7.2"
 
 #' buildings_en_service_vEurope7.2
 #'

@@ -78,6 +78,11 @@ use_data(carbon_seq_tech_map_vEurope7.2, overwrite = T)
 
 
 # ag maps
+fertilizer_map_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "fertilizer_map.csv"),
+                                                    comment = "#"
+) %>% gather_map()
+use_data(fertilizer_map_vEurope7.2, overwrite = T)
+
 ag_demand_map_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "ag_demand_map.csv"),
                                comment = "#"
 ) %>% gather_map()
@@ -120,6 +125,11 @@ food_items_map_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extd
                                 comment = "#"
 )
 use_data(food_items_map_vEurope7.2, overwrite = T)
+
+food_expenditures_average_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "food_expenditures_average.csv"),
+                                                               comment = "#"
+)
+use_data(food_expenditures_average_vEurope7.2, overwrite = T)
 
 # waste share (waste / supply), exogenously driven per SSP scenario.
 L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "L100.AgMIP_FoodWaste_Share_Pathway_SSP.csv"),
@@ -206,6 +216,11 @@ en_demand_price_map_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst
 )
 use_data(en_demand_price_map_vEurope7.2, overwrite = T)
 
+
+en_multiplier_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "en_multiplier.csv"),
+                                                   comment = "#"
+)
+use_data(en_multiplier_vEurope7.2, overwrite = T)
 
 # Energy Service maps
 transport_en_service_vEurope7.2 <- readr::read_csv(file.path(rawDataFolder, "inst/extdata/mappings/GCAMEurope7.2", "transport_en_service.csv"),
