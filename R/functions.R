@@ -2356,6 +2356,7 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
   # Add the no bio difference by sector
   tmp <-
     check_inf(rgcam::getQuery(prj, queryItem1), dataset_name = queryItem1) %>%
+    dplyr::filter(year %in% years_in_prj) %>%
     dplyr::mutate(ghg = 'CO2') %>%
     dplyr::mutate(sector_orig = sector) %>%
     dplyr::mutate(sector = dplyr::case_when(grepl("elec_", sector) & !grepl("CCS", sector) ~ "electricity",
@@ -2907,6 +2908,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
   co2_sequestration <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
               dataset_name = "CO2 sequestration by tech") %>%
+    dplyr::filter(year %in% years_in_prj) %>%
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -2968,6 +2970,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
   co2_removal_raw <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech (nested subsector)"),
               dataset_name = "CO2 sequestration by tech") %>%
+      dplyr::filter(year %in% years_in_prj) %>%
       # consider only carbon removal items
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
@@ -5899,7 +5902,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
 
   resource_investment2020 <-
     resource_addition %>%
-    dplyr::filter(year == 2020) %>%
+    dplyr::filter(year == base_year_p) %>%
     left_join_strict(
       check_inf(rgcam::getQuery(prj, "regional primary energy prices"),
                 dataset_name = "regional primary energy prices") %>%
@@ -5931,7 +5934,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
 
   resource_investment <-
     resource_addition %>%
-    dplyr::filter(year != 2020) %>%
+    dplyr::filter(year != base_year_p) %>%
     dplyr::rename(resource = fuel) %>%
     dplyr::group_by(scenario, resource) %>%
     dplyr::mutate(rate = production / production[year == 2015 & region == reg]) %>%
@@ -5943,7 +5946,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
       by = c("scenario", "resource")
     ) %>%
     dplyr::bind_rows(resource_addition %>%
-                       dplyr::filter(year == 2020) %>%
+                       dplyr::filter(year == base_year_p) %>%
                        dplyr::rename(resource = fuel) %>%
                        dplyr::group_by(scenario, resource) %>%
                        dplyr::mutate(rate = production / production[region == reg]) %>%
@@ -6052,7 +6055,8 @@ get_nonelec_investment <- function(GCAM_version = "v7.1") {
     rgcam::getQuery(prj, "capital investment demands by tech"),
     dataset_name = "capital investment demands by tech"
   ) %>%
-    dplyr::filter(sector %in% unique(inv_map$sector))
+    dplyr::filter(sector %in% unique(inv_map$sector),
+                  year %in% years_in_prj)
 
   # timestep length: 5 years for all future periods
   # annualize and convert 1975$ -> billion 2010$

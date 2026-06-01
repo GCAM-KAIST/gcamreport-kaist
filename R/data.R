@@ -587,6 +587,18 @@
 #' }
 "investment_vEurope8.7"
 
+#' nonelec_investment_map_vEurope8.7
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM Europe 8.7 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_vEurope8.7
+#' }
+"nonelec_investment_map_vEurope8.7"
+
 #' carbon_content_vEurope8.7
 #'
 #' @source github
@@ -1266,6 +1278,18 @@
 #' gcamreport::investment_vEurope7.2
 #' }
 "investment_vEurope7.2"
+
+#' nonelec_investment_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description non-electricity investment mapping compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonelec_investment_map_vEurope7.2
+#' }
+"nonelec_investment_map_vEurope7.2"
 
 #' carbon_content_vEurope7.2
 #'
