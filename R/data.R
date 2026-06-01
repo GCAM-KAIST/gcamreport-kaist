@@ -115,6 +115,685 @@
 "en_blocks"
 
 
+
+#' queries_general_vEurope7.2
+#'
+#' @source local
+#' @format vector
+#' @description gcamreport queries compatible with GCAM Europe 7.2 version.
+#' Contain all queries except for nonCO2 queries
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::queries_general_vEurope7.2
+#' }
+"queries_general_vEurope7.2"
+
+#' queries_nonCO2_vEurope7.2
+#'
+#' @source local
+#' @format vector
+#' @description gcamreport nonCO2 query compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::queries_nonCO2_vEurope7.2
+#' }
+"queries_nonCO2_vEurope7.2"
+
+
+#' nonco2_emissions_list_vEurope7.2
+#'
+#' @source local
+#' @format vector
+#' @description nonCO2 pollutants list
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_emissions_list_vEurope7.2
+#' }
+"nonco2_emissions_list_vEurope7.2"
+
+#' var_fun_map_vEurope7.2
+#'
+#' @source local
+#' @format .csv
+#' @description mapping between variables, functions to load them, dependent variables, and available verifications compatible with GCAM Europe 7.2.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::var_fun_map_vEurope7.2
+#' }
+"var_fun_map_vEurope7.2"
+
+#' template_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description read in template compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::template_vEurope7.2
+#' }
+"template_vEurope7.2"
+
+#' co2_ets_sector_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_ets_sector_map_vEurope7.2
+#' }
+"co2_ets_sector_map_vEurope7.2"
+
+#' co2_tech_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_tech_map_vEurope7.2
+#' }
+"co2_tech_map_vEurope7.2"
+
+#' co2_resource_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions map by resource production compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_resource_map_vEurope7.2
+#' }
+"co2_resource_map_vEurope7.2"
+
+#' kyoto_sector_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::kyoto_sector_map_vEurope7.2
+#' }
+"kyoto_sector_map_vEurope7.2"
+
+#' nonco2_emis_sector_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_emis_sector_map_vEurope7.2
+#' }
+"nonco2_emis_sector_map_vEurope7.2"
+
+#' nonco2_emis_resource_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_emis_resource_map_vEurope7.2
+#' }
+"nonco2_emis_resource_map_vEurope7.2"
+
+#' carbon_seq_tech_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description emissions maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::carbon_seq_tech_map_vEurope7.2
+#' }
+"carbon_seq_tech_map_vEurope7.2"
+
+#' ag_demand_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_demand_map_vEurope7.2
+#' }
+"ag_demand_map_vEurope7.2"
+
+#' fertilizer_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::fertilizer_map_vEurope7.2
+#' }
+"fertilizer_map_vEurope7.2"
+
+#' ag_price_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_price_map_vEurope7.2
+#' }
+"ag_price_map_vEurope7.2"
+
+#' ag_demand_price_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_demand_price_map_vEurope7.2
+#' }
+"ag_demand_price_map_vEurope7.2"
+
+#' ag_production_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ag_production_map_vEurope7.2
+#' }
+"ag_production_map_vEurope7.2"
+
+#' trade_ag_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::trade_ag_vEurope7.2
+#' }
+"trade_ag_vEurope7.2"
+
+#' land_use_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::land_use_map_vEurope7.2
+#' }
+"land_use_map_vEurope7.2"
+
+#' yield_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description ag maps compatible with yield_map_vEurope7.2
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::yield_map_vEurope7.2
+#' }
+"yield_map_vEurope7.2"
+
+#' food_intake_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_intake_map_vEurope7.2
+#' }
+"food_intake_map_vEurope7.2"
+
+#' food_items_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_items_map_vEurope7.2
+#' }
+"food_items_map_vEurope7.2"
+
+#' food_expenditures_average_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::food_expenditures_average_vEurope7.2
+#' }
+"food_expenditures_average_vEurope7.2"
+
+#' L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description food waste share (waste/supppy) compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2
+#' }
+"L100.AgMIP_FoodWaste_Share_Pathway_SSP_vEurope7.2"
+
+#' primary_energy_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::primary_energy_map_vEurope7.2
+#' }
+"primary_energy_map_vEurope7.2"
+
+#' production_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::production_map_vEurope7.2
+#' }
+"production_map_vEurope7.2"
+
+#' capacity_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::capacity_map_vEurope7.2
+#' }
+"capacity_map_vEurope7.2"
+
+#' cf_gcam_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::cf_gcam_vEurope7.2
+#' }
+"cf_gcam_vEurope7.2"
+
+#' cf_rgn_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::cf_rgn_vEurope7.2
+#' }
+"cf_rgn_vEurope7.2"
+
+#' final_energy_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::final_energy_map_vEurope7.2
+#' }
+"final_energy_map_vEurope7.2"
+
+#' en_demand_price_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy demand - price maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_demand_price_map_vEurope7.2
+#' }
+"en_demand_price_map_vEurope7.2"
+
+#' res_extraction_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description resource extraction map compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::res_extraction_map_vEurope7.2
+#' }
+"res_extraction_map_vEurope7.2"
+
+
+#' transport_final_en_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_final_en_map_vEurope7.2
+#' }
+"transport_final_en_map_vEurope7.2"
+
+#' energy_price_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description primary, secondary, final energy maps compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::energy_price_map_vEurope7.2
+#' }
+"energy_price_map_vEurope7.2"
+
+#' transport_en_service_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport energy services compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_en_service_vEurope7.2
+#' }
+"transport_en_service_vEurope7.2"
+
+#' en_multiplier_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description energy services compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::en_multiplier_vEurope7.2
+#' }
+"en_multiplier_vEurope7.2"
+
+#' buildings_en_service_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description buildings energy services compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::buildings_en_service_vEurope7.2
+#' }
+"buildings_en_service_vEurope7.2"
+
+#' capital_gcam_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description capital update compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::capital_gcam_vEurope7.2
+#' }
+"capital_gcam_vEurope7.2"
+
+#' investment_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description capital investment compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::investment_vEurope7.2
+#' }
+"investment_vEurope7.2"
+
+#' carbon_content_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description carbon content compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::carbon_content_vEurope7.2
+#' }
+"carbon_content_vEurope7.2"
+
+#' nonco2_content_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description non CO2 content compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::nonco2_content_vEurope7.2
+#' }
+"nonco2_content_vEurope7.2"
+
+#' iea_capacity_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description iea 2019 capacity compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::iea_capacity_vEurope7.2
+#' }
+"iea_capacity_vEurope7.2"
+
+#' co2_market_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description new CO2 market compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_market_vEurope7.2
+#' }
+"co2_market_vEurope7.2"
+
+#' co2_market_frag_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description new CO2 regional markets map compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::co2_market_frag_map_vEurope7.2
+#' }
+"co2_market_frag_map_vEurope7.2"
+
+#' iron_steel_trade_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description iron steel imports and exports map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::iron_steel_trade_map_vEurope7.2
+#' }
+"iron_steel_trade_map_vEurope7.2"
+
+#' water_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description water withdrawals/consumption map
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::water_map_vEurope7.2
+#' }
+"water_map_vEurope7.2"
+
+#' conveyance.eff_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description irrigation water conveyance loss factor
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::conveyance.eff_vEurope7.2
+#' }
+"conveyance.eff_vEurope7.2"
+
+#' ucd_size_class_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport size class
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_size_class_vEurope7.2
+#' }
+"ucd_size_class_vEurope7.2"
+
+#' ucd_core_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description UCD transport data
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::ucd_core_vEurope7.2
+#' }
+"ucd_core_vEurope7.2"
+
+#' transport_sales_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport sales mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_sales_map_vEurope7.2
+#' }
+"transport_sales_map_vEurope7.2"
+
+#' transport_stock_map_vEurope7.2
+#'
+#' @source github
+#' @format .csv
+#' @description transport stock mapping
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::transport_stock_map_vEurope7.2
+#' }
+"transport_stock_map_vEurope7.2"
+
+#' convert_vEurope7.2
+#'
+#' @description units conversion list
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::convert_vEurope7.2
+#' }
+"convert_vEurope7.2"
+
+#' F_GASES_vEurope7.2
+#'
+#' @description ghg emission conversion.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::F_GASES_vEurope7.2
+#' }
+"F_GASES_vEurope7.2"
+
+#' GHG_gases_vEurope7.2
+#'
+#' @description ghg emission conversion.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::GHG_gases_vEurope7.2
+#' }
+"GHG_gases_vEurope7.2"
+
+#' gcameurope.EUROSTAT_COUNTRIES_vEurope7.2
+#'
+#' @description list of GCAM Europe 7.2 countries with Eurostat data available
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::gcameurope.EUROSTAT_COUNTRIES_vEurope7.2
+#' }
+"gcameurope.EUROSTAT_COUNTRIES_vEurope7.2"
+
+#' last_historical_year_vEurope7.2
+#'
+#' @description last historical year compatible with GCAM Europe 7.2 version.
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::last_historical_year_vEurope7.2
+#' }
+"last_historical_year_vEurope7.2"
+
+#' reg_cont_vEurope7.2
+#'
+#' @source local
+#' @format .csv
+#' @description mapping between regions and continents compatible with GCAM Europe 7.2 version
+#' @examples
+#' \dontrun{
+#' library(gcamreport)
+#' gcamreport::reg_cont_vEurope7.2
+#' }
+"reg_cont_vEurope7.2"
+
+
 #' queries_general_v8.2
 #'
 #' @source local
@@ -132,7 +811,7 @@
 #'
 #' @source local
 #' @format vector
-#' @description gcamreport nonCO2 query compatible with GCAM 8.2 version compatible with GCAM8.2.
+#' @description gcamreport nonCO2 query compatible with GCAM 8.2 version.
 #' @examples
 #' \dontrun{
 #' library(gcamreport)
