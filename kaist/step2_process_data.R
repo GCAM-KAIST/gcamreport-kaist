@@ -34,6 +34,13 @@ if (length(prj_files) > 0) {
 }
 #########################################
 
+########## Apply KAIST data overrides ##########
+# Re-apply KAIST customizations to data/*.rda so the upstream
+# inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
+# See kaist/functions.R::patch_gcam_data. Must run before load_all.
+patch_gcam_data(paste0("v", version_number))
+################################################
+
 ########## Libraries ##########
 devtools::load_all(".", reset = TRUE)
 library(dplyr)
@@ -89,9 +96,8 @@ if (!is.null(co2_prices)) {
 
 ########## Battery Storage Capacity ##########
 load(file.path(getwd(), "data/cf_rgn_v7.0.rda"))
-# Append South Korea conventional capacity factors (KMIP reference values).
-# Kept out of the upstream data file -- see kaist/functions.R::add_korea_cf.
-cf_rgn_v7.0 <- add_korea_cf(cf_rgn_v7.0)
+# cf_rgn_v7.0.rda was already patched by patch_gcam_data() above (South Korea
+# renewable CF overrides + Korea conventional CFs), so it is used as loaded.
 
 elec_gen <- getQuery(prj, "elec gen by gen tech")
 

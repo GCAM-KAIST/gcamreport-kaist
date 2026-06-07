@@ -51,6 +51,13 @@ prj_name     <- prj_basename
 # prj_name <- "C:/GCAM/gcamreport/kmip/DB26_merge_test_project_20260513_150847.dat"
 #########################################
 
+########## Apply KAIST data overrides ##########
+# Re-apply KAIST customizations to data/*.rda so the upstream
+# inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
+# See kaist/functions.R::patch_gcam_data. Must run before load_all.
+patch_gcam_data(paste0("v", version_number))
+################################################
+
 ########## Libraries ##########
 devtools::load_all(".", reset = TRUE)
 library(dplyr)
