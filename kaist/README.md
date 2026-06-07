@@ -14,6 +14,7 @@ gcamreport-kaist/
 ├── R/, inst/, data/           # Original gcamreport R package (untouched)
 ├── kaist/                     # KAIST custom scripts (this folder)
 │   ├── config.R               # Shared configuration for all steps
+│   ├── functions.R            # KAIST helpers + data overrides (patch_gcam_data)
 │   ├── step1_generate_report.R
 │   ├── step2_process_data.R
 │   ├── step3_create_mapping.R
@@ -44,8 +45,9 @@ gcamreport-kaist/
 ## Key Improvements
 
 1. **Separated KAIST code from the original package**
-   - Original gcamreport code in `R/` and `inst/` is untouched.
-   - Easy to sync with bc3LC upstream updates.
+   - Original gcamreport code in `R/`, `inst/`, and `data/` is untouched.
+   - KAIST customizations live only in `kaist/`, so syncing with bc3LC
+     upstream is conflict-free (see "Syncing with upstream" below).
 
 2. **Shared configuration (`config.R`)**
    - One file for run name, database, region, and year range.
@@ -67,6 +69,52 @@ gcamreport-kaist/
    `step1_generate_report.R` -> `step2_process_data.R` ->
    `step3_create_mapping.R` -> `step4_fill_template.R` ->
    `step5_verification.qmd`.
+
+## Syncing with upstream gcamreport
+
+`R/`, `inst/`, and `data/` are kept byte-identical to upstream, so pulling the
+latest gcamreport is conflict-free:
+
+```
+git fetch upstream
+git merge upstream/gcam-core      # no conflicts -- all KAIST code is in kaist/
+git push origin main
+```
+
+All KAIST customizations live in `kaist/`:
+
+- **Custom functions** -> `kaist/functions.R`.
+- **Data customizations** (the extra mapping rows and capacity-factor overrides
+  that gcamreport needs for KAIST's GCAM runs -- `bio-ceiling`, `irnstl-ceiling`,
+  `Gen_III_Korea`, Korea capacity factors, ...) are re-applied at runtime by
+  `patch_gcam_data()` in `kaist/functions.R`. It is called at the top of step1
+  and step2 (before `devtools::load_all`) and rewrites the built `data/*.rda`
+  objects in place. The upstream `inst/extdata/saveDataFiles_*.R` is **never
+  edited**, which is why merges never conflict.
+
+## Moving to a new GCAM version (v8.2, v9, ...)
+
+The applier (`patch_gcam_data`) stays the same; only the per-version values
+change. To support a new version:
+
+1. Set `version_number` in `kaist/config.R` (e.g. `"8.2"`).
+2. Open `kaist/functions.R` and find the `kaist_overrides` list. It currently
+   holds a single entry, `"v7.0" = list(...)`. **Add a sibling entry** keyed by
+   the new GCAM_version string, right next to it:
+
+   ```r
+   kaist_overrides <- list(
+     "v7.0" = list( ... ),    # existing -- leave as is
+     "v8.2" = list( ... )     # <-- add this; copy the v7.0 block and adjust
+   )
+   ```
+
+   Copy the whole `"v7.0"` block as a template and adjust the values (technology
+   names, CF values, dropped `template` variables) for the new version. If a step
+   errors on a missing/renamed column, check that version's mapping CSV column
+   names.
+3. Nothing else changes -- `patch_gcam_data("v8.2")` will pick up the new block
+   automatically via the `paste0("v", version_number)` call in step1/step2.
 
 ## References
 
