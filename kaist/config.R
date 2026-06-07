@@ -45,3 +45,8 @@ mapping_path  <- file.path(output_dir, "kmip_gcam_mapping_template.xlsx")
 cat("Config loaded: run_name =", run_name,
     ", db =", db_name,
     ", output_dir =", output_dir, "\n")
+
+# === KAIST helper functions ===================================================
+# Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
+# kaist/ so the package source under R/ stays identical to upstream.
+source(file.path(getwd(), "kaist/functions.R"))

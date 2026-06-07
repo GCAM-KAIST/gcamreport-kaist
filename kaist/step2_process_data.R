@@ -48,9 +48,8 @@ data <- read_excel(excel_file)
 
 prj <- loadProject(prj_file)
 
-#여기지금문제있음 
-# gcam_vars <- available_variables_with_units(print = FALSE, GCAM_version = paste0("v", version_number))
-# write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.names = FALSE)
+gcam_vars <- available_variables_with_units(print = FALSE, GCAM_version = paste0("v", version_number))
+write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.names = FALSE)
 ###############################
 
 
@@ -90,6 +89,9 @@ if (!is.null(co2_prices)) {
 
 ########## Battery Storage Capacity ##########
 load(file.path(getwd(), "data/cf_rgn_v7.0.rda"))
+# Append South Korea conventional capacity factors (KMIP reference values).
+# Kept out of the upstream data file -- see kaist/functions.R::add_korea_cf.
+cf_rgn_v7.0 <- add_korea_cf(cf_rgn_v7.0)
 
 elec_gen <- getQuery(prj, "elec gen by gen tech")
 
@@ -298,37 +300,12 @@ if (!is.null(elec_gen_vintage) && nrow(elec_gen_vintage) > 0) {
   cf_gcam_lookup <- cf_gcam_v7.0 %>%
     select(technology, cf_default = `2100`)
 
-  # South Korea-specific CF overrides (KMIP reference values)
-  korea_cf_override <- tribble(
-    ~technology,                  ~cf_korea,
-    # Coal
-    "coal (conv pul)",            0.635,
-    "coal (conv pul CCS)",        0.635,
-    "coal (IGCC)",                0.635,
-    "coal (IGCC CCS)",            0.635,
-    # Gas
-    "gas (CC)",                   0.50,
-    "gas (CC CCS)",               0.50,
-    "gas (steam/CT)",             0.50,
-    # Hydro
-    "hydro",                      0.084,
-    # Nuclear
-    "Gen_III",                    0.8144,
-    "Gen_III_Korea",              0.8144,
-    "Gen_II_LWR",                 0.8144,
-    # Oil
-    "refined liquids (CC)",       0.76,
-    "refined liquids (CC CCS)",   0.76,
-    "refined liquids (steam/CT)", 0.76,
-    # Biomass
-    "biomass (conv)",             0.80,
-    "biomass (conv CCS)",         0.80,
-    "biomass (IGCC)",             0.80,
-    "biomass (IGCC CCS)",         0.80,
-    # Solar CSP
-    "CSP",                        0.20,
-    "CSP_storage",                0.20
-  )
+  # NOTE: Korea-specific CF overrides for conventional techs (coal, gas, oil,
+  # hydro, nuclear, biomass, CSP) are NOT hard-coded here anymore. They live
+  # in inst/extdata/saveDataFiles_GCAM7.0.R as additional South Korea rows in
+  # cf_rgn_v7.0, so they are picked up automatically by cf_rgn_lookup above.
+  # If you need to change a Korea CF value, edit saveDataFiles_GCAM7.0.R and
+  # rerun it once to regenerate data/cf_rgn_v7.0.rda.
 
   # Process vintage data
   # Technology column format: "tech_name,year=vintage"
@@ -354,15 +331,12 @@ if (!is.null(elec_gen_vintage) && nrow(elec_gen_vintage) > 0) {
         summarise(cf = first(cf), .groups = "drop"),  # Use first CF (they're all same)
       by = c("region", "tech_base" = "technology")
     ) %>%
-    # If no cf_rgn, use cf_gcam
+    # If no cf_rgn, fall back to cf_gcam global default
     left_join(cf_gcam_lookup, by = c("tech_base" = "technology")) %>%
-    # Apply South Korea-specific CF overrides
-    left_join(korea_cf_override, by = c("tech_base" = "technology")) %>%
+    # CF priority: cf_rgn (per-region; includes Korea overrides from data
+    # file) -> cf_gcam (global default)
     mutate(
-      cf_final = case_when(
-        region == "South Korea" & !is.na(cf_korea) ~ cf_korea,
-        TRUE ~ coalesce(cf, cf_default)
-      ),
+      cf_final = coalesce(cf, cf_default),
       # Calculate capacity for this vintage: GW = EJ / (CF * 8760 * 3.6e-6)
       capacity_gw = ifelse(
         !is.na(cf_final) & cf_final > 0,

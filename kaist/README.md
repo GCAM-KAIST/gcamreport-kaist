@@ -70,5 +70,4 @@ gcamreport-kaist/
 
 ## References
 
-- [Modify_Mapping_Template_Tutorial.Rmd](Modify_Mapping_Template_Tutorial.Rmd) - How to modify mappings
 - [rgcam_patch.R](rgcam_patch.R) - Fix for BaseX 9.5+ compatibility

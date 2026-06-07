@@ -12,7 +12,6 @@
 #      by inst/extdata/saveDataFiles_GCAM7.0.R must be up to date.
 #   2. If you changed any mapping CSV, re-run saveDataFiles_GCAM7.0.R first.
 #   3. Open a fresh R session before running this script.
-#   (Detailed instructions: kaist/Modify_Mapping_Template_Tutorial.Rmd)
 #
 # TROUBLESHOOTING:
 #   - Mapping error: fix the mapping CSV, then rerun this script with
@@ -24,7 +23,7 @@
 ################################################################################
 
 ########## Load configuration ##########
-# source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/config.R"))
 ########################################
 
 ########## Project file (.dat) ##########

@@ -520,36 +520,6 @@ available_variables <- function(print = TRUE, GCAM_version = 'v7.1') {
 }
 
 
-#' available_variables_with_units
-#'
-#' Like `available_variables`, but returns each variable together with its unit.
-#' Useful when you need to save a list of variables for later reference
-#' (for example writing to a CSV to share with collaborators).
-#'
-#' @param print Logical. If TRUE (default), prints `"Variable (Unit)"` lines to the console.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
-#'
-#' @return A data frame with two columns: `Variable` and `Unit`.
-#' @export
-available_variables_with_units <- function(print = TRUE, GCAM_version = 'v7.1') {
-  Internal_variable <- Variable <- Unit <- NULL
-
-  av_var <- get(paste('template', GCAM_version, sep = '_'),
-                envir = asNamespace("gcamreport")) %>%
-    dplyr::filter(!is.na(Internal_variable) & Internal_variable != "") %>%
-    dplyr::select(Variable, Unit) %>%
-    dplyr::distinct()
-
-  if (print) {
-    for (i in seq_len(nrow(av_var))) {
-      cat(av_var$Variable[i], " (", av_var$Unit[i], ")\n", sep = "")
-    }
-  }
-
-  return(av_var)
-}
-
-
 #' generate_report
 #'
 #' Main function for generating a GCAM project report. This function handles:
