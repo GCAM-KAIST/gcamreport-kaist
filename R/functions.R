@@ -2369,9 +2369,11 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     dplyr::mutate(subsector = ifelse(is.na(subsector), unique(subsector)[1], subsector)) %>%
     dplyr::mutate(technology = ifelse(is.na(technology), unique(technology)[1], technology)) %>%
     dplyr::group_by(scenario, region, sector, year) %>%
-    # ensure that negative bio emissions not applied to purely fossil techs like coal
+    # ensure that negative bio emissions not applied to purely fossil techs like coal and NG
     dplyr::mutate(diff = ifelse(grepl("coal", technology) & sum(!grepl("coal", technology)) > 0, 0, diff)) %>%
-    dplyr::mutate(diff = dplyr::case_when(sum(diff != 0) > 0 ~ diff / sum(diff != 0),
+    dplyr::mutate(diff = ifelse(grepl("NG", technology) & sum(!grepl("NG", technology)) > 0, 0, diff)) %>%
+    # Distribute the emissions difference based on the tech's share of emissions within the sector
+    dplyr::mutate(diff = dplyr::case_when(sum(diff != 0) > 0 ~ diff / sum(diff != 0) * (value / sum(value)),
                                           .default = diff)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(value = value + diff) %>%
@@ -5983,6 +5985,18 @@ get_total_investment <- function(GCAM_version = "v7.1") {
     dplyr::ungroup() %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
+  # Remove aggregated value from invest tibbles,
+  # now that summed value is in total_investment_clean
+  resource_investment_clean <<- resource_investment_clean %>%
+    dplyr::filter(var != 'Investment|Energy Supply')
+
+  elec_investment_clean <<- elec_investment_clean %>%
+    dplyr::filter(var != 'Investment|Energy Supply')
+
+  nonelec_investment_clean <<- nonelec_investment_clean %>%
+    dplyr::filter(var != 'Investment|Energy Supply')
+
+
   total_investment_clean <<- total_investment_clean
 }
 
@@ -6008,8 +6022,8 @@ get_nonelec_investment <- function(GCAM_version = "v7.1") {
                  envir = asNamespace("gcamreport"))
 
   raw <- check_inf(
-    rgcam::getQuery(prj, "Capital investment demands by tech"),
-    dataset_name = "Capital investment demands by tech"
+    rgcam::getQuery(prj, "capital investment demands by tech"),
+    dataset_name = "capital investment demands by tech"
   ) %>%
     dplyr::filter(sector %in% unique(inv_map$sector))
 
