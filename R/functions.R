@@ -5379,7 +5379,7 @@ get_elec_capacity_tot <- function(GCAM_version = 'v8.2') {
       left_join_strict(elec_cf %>%
                          dplyr::select(-cf.rgn), by = c("region", "technology", "vintage")) %>%
       dplyr::mutate(EJ = value) %>%
-      conv_EJ_GW() %>%
+      conv_EJ_GW(GCAM_version = GCAM_version) %>%
       dplyr::group_by(scenario, region, technology, year) %>%
       dplyr::summarise(value = sum(gw, na.rm = T)) %>%
       dplyr::ungroup() %>%
@@ -5471,7 +5471,7 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v8.2') {
       dplyr::distinct() %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
-      conv_EJ_GW() %>%
+      conv_EJ_GW(GCAM_version = GCAM_version) %>%
       dplyr::group_by(scenario, region, technology, year) %>% #
       dplyr::summarise(GW = sum(gw, na.rm = T), EJ = sum(EJ, na.rm = T)) %>%
       dplyr::ungroup()
@@ -5530,7 +5530,7 @@ get_refliq_capacity_add_tmp <- function(GCAM_version = 'v8.2') {
       filter_variables() %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
-      conv_EJ_GW() %>%
+      conv_EJ_GW(GCAM_version = GCAM_version) %>%
       dplyr::group_by(scenario, region, technology, year) %>% #
       dplyr::summarise(GW = sum(gw, na.rm = T), EJ = sum(EJ, na.rm = T)) %>%
       dplyr::ungroup()
@@ -5589,7 +5589,7 @@ get_hydrogen_capacity_add_tmp <- function(GCAM_version = 'v8.2') {
       filter_variables() %>%
       # use average annual additions
       dplyr::mutate(EJ = value / 5) %>%
-      conv_EJ_GW() %>%
+      conv_EJ_GW(GCAM_version = GCAM_version) %>%
       dplyr::group_by(scenario, region, technology, year) %>% #
       dplyr::summarise(GW = sum(gw, na.rm = T), EJ = sum(EJ, na.rm = T)) %>%
       dplyr::ungroup()
