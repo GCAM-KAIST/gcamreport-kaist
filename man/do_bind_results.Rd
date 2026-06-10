@@ -4,10 +4,10 @@
 \alias{do_bind_results}
 \title{do_bind_results}
 \usage{
-do_bind_results(GCAM_version = "v7.1", all_tier1 = F)
+do_bind_results(GCAM_version = "v8.2", all_tier1 = F)
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 
 \item{all_tier1}{If `TRUE` (not default), introduce all Tier 1 Variables (as 0) in the standardized report.}
 }

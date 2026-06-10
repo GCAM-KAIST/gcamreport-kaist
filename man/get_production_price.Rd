@@ -4,7 +4,7 @@
 \alias{get_production_price}
 \title{get_production_price}
 \usage{
-get_production_price(GCAM_version = "v7.1")
+get_production_price(GCAM_version = "v8.2")
 }
 \value{
 `production_price_clean` global variable

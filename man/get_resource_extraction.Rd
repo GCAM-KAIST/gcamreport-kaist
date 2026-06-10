@@ -4,7 +4,7 @@
 \alias{get_resource_extraction}
 \title{get_resource_extraction}
 \usage{
-get_resource_extraction(GCAM_version = "v7.1")
+get_resource_extraction(GCAM_version = "v8.2")
 }
 \value{
 `resource_extraction_clean` global variable

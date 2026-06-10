@@ -4,12 +4,12 @@
 \alias{load_variable}
 \title{load_variable}
 \usage{
-load_variable(var, GCAM_version = "v7.1", GWP_version = "AR5")
+load_variable(var, GCAM_version = "v8.2", GWP_version = "AR5")
 }
 \arguments{
 \item{var}{The name of the variable to be loaded. This should be specified as a character string.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 
 \item{GWP_version}{Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.}
 }

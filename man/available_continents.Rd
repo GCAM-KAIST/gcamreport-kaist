@@ -4,12 +4,12 @@
 \alias{available_continents}
 \title{available_continents}
 \usage{
-available_continents(print = TRUE, GCAM_version = "v7.1")
+available_continents(print = TRUE, GCAM_version = "v8.2")
 }
 \arguments{
 \item{print}{Logical. If TRUE (default), prints the list of available regions' groups. to the console. If FALSE, suppresses the printing and only returns the list.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 A vector of character strings representing the names of all available regions' groups. If `print` is TRUE, the function also prints this list to the console.

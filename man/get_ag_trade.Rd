@@ -4,10 +4,10 @@
 \alias{get_ag_trade}
 \title{get_ag_trade}
 \usage{
-get_ag_trade(GCAM_version = "v7.1")
+get_ag_trade(GCAM_version = "v8.2")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 `ag_trade` global variable.

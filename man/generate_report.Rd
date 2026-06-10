@@ -19,7 +19,7 @@ generate_report(
   output_file = NULL,
   launch_ui = TRUE,
   interactive = F,
-  GCAM_version = "v7.1",
+  GCAM_version = "v8.2",
   GWP_version = "AR5",
   queries_general_file = NULL,
   queries_nonCO2_file = NULL,
@@ -57,7 +57,7 @@ Note2: Global variables like "Emissions" will only account for selected variable
 
 \item{interactive}{If `TRUE` (not default), asks the user what to do when Warnings appear. Otherwise, the Warnings are displayed at the end of the script.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 
 \item{GWP_version}{Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.}
 

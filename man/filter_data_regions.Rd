@@ -4,12 +4,12 @@
 \alias{filter_data_regions}
 \title{Filter data by desired regions.}
 \usage{
-filter_data_regions(data, GCAM_version = "v7.1")
+filter_data_regions(data, GCAM_version = "v8.2")
 }
 \arguments{
 \item{data}{The dataset to be filtered.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 A subset of the original data containing only the specified regions.

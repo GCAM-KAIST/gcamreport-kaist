@@ -8,7 +8,7 @@ load_project(
   project_path,
   desired_regions = "All",
   scenarios = NULL,
-  GCAM_version = "v7.1"
+  GCAM_version = "v8.2"
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ load_project(
 
 \item{scenarios}{Names of the scenarios to consider from the project. Defaults to all scenarios available within the project. If specific scenarios are needed, provide a vector of scenario names.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 The function loads the specified GCAM project into the global environment. It does not return a value, but the project data becomes available for use in further analysis or reporting.

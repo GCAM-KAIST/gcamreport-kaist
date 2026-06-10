@@ -4,10 +4,10 @@
 \alias{get_fe_sector}
 \title{Compute and aggregate final energy by sector.}
 \usage{
-get_fe_sector(GCAM_version = "v7.1")
+get_fe_sector(GCAM_version = "v8.2")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 `fe_sector_clean` global variable.
