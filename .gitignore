@@ -256,3 +256,15 @@ inst/extdata/template/GCAMScenarioMIPCMIP7/common-definitions-template_old.csv
 /extra_scripts
 /.vs
 .positai
+*.dat
+queries_*
+*queries.csv
+*queries.xlsx
+*queries2.csv
+*queries2.xlsx
+*queries3.csv
+*queries3.xlsx
+*standardized.csv
+*standardized.xlsx
+*standardized.RData
+*.txt
