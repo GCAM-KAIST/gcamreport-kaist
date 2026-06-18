@@ -3132,7 +3132,8 @@ get_yield <- function(GCAM_version = 'v8.2') {
                                        left_join_strict(ag_production_clean %>%
                                                           dplyr::rename(prod = value, prod_var = var) %>%
                                                           dplyr::filter(prod_var %in% yield_map$prod_var) %>%
-                                                          tidyr::complete(tidyr::nesting(scenario, region, year),
+                                                          tidyr::complete(tidyr::nesting(scenario, region),
+                                                                          year = unique(land_yield$year),
                                                                           prod_var = unique(yield_map$prod_var),
                                                                           prod = 0) %>%
                                                           dplyr::group_by(scenario, prod_var, region, year) %>%
@@ -5870,7 +5871,7 @@ get_resource_investment <- function(GCAM_version = 'v8.2') {
 
   extraction2020 <-
     get(paste('investment',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::filter(Region == "World", Variable == "Extraction and Conversion - Fossil Fuels", year == 2020) %>%
+    dplyr::filter(Region == "World", Variable == "Extraction and Conversion - Fossil Fuels", year == base_year_p) %>%
     dplyr::mutate(value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_15USD_10USD']]) %>%
     dplyr::summarise(value = mean(value, na.rm = T)) %>%
     unlist()
