@@ -2379,12 +2379,14 @@ get_co2_emiss <- function(GCAM_version = 'v8.2') {
     dplyr::mutate(diff = ifelse(grepl("coal", technology) & sum(!grepl("coal", technology)) > 0, 0, diff)) %>%
     dplyr::mutate(diff = ifelse(grepl("NG", technology) & sum(!grepl("NG", technology)) > 0, 0, diff)) %>%
     # Distribute the emissions difference based on the tech's share of emissions within the sector
-    dplyr::mutate(diff = dplyr::case_when(sum(diff != 0) > 0 ~ diff / sum(diff != 0) * (value / sum(value)),
-                                          .default = diff)) %>%
+    dplyr::mutate(diff_by_share = dplyr::case_when(sum(diff != 0) > 0 ~ diff * value / (sum(value[diff != 0])),
+                                                   .default = diff)) %>%
+    # Correct ones which became NaN due to sum of value being zero
+    dplyr::mutate(diff_by_share = ifelse(is.na(diff_by_share), diff / sum(diff != 0), diff_by_share)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(value = value + diff) %>%
+    dplyr::mutate(value = value + diff_by_share) %>%
     dplyr::mutate(sector = ifelse(!is.na(sector_orig), sector_orig, sector)) %>%
-    dplyr::select(-diff, -sector_orig)
+    dplyr::select(-diff, -diff_by_share, -sector_orig)
 
   # gather deciles if necessary
   if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
@@ -2457,7 +2459,7 @@ get_co2_emiss <- function(GCAM_version = 'v8.2') {
 
   # Check Total Emissions|CO2 matches the output of CO2 emissions by region query
   avail_variables <- available_variables(print = F, GCAM_version = GCAM_version)
-  if (all(avail_variables[grep('^Emissions',avail_variables)] %in% desired_variables.global)) {
+  if (grepl("^All$", desired_variables.global)[1] | all(avail_variables[grep('^Emissions',avail_variables)] %in% desired_variables.global)) {
     check <-
       check_inf(rgcam::getQuery(prj, queryItem3), dataset_name = queryItem3) %>%
       dplyr::mutate(value = value *
