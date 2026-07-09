@@ -40,12 +40,15 @@ H2 central production,biomass,biomass to H2,Secondary Energy|Hydrogen,Secondary 
 H2 central production,biomass,biomass to H2 CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Biomass,,,,,Secondary Energy,1
 H2 central production,electricity,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Electricity,,,,,Secondary Energy,1
 H2 central production,gas,natural gas steam reforming,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Fossil,,,,Secondary Energy,1
+H2 central production,gas,natural gas steam reforming CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Fossil,,,,Secondary Energy,1
 H2 central production,gas,gas ATR CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Fossil,Secondary Energy|Hydrogen|Gas|w/ CCS,,,Secondary Energy,1
 H2 central production,nuclear,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Electricity,,,,,Secondary Energy,1
+H2 central production,nuclear,thermal splitting,Secondary Energy|Nuclear,Secondary Energy|Nuclear|Other,,,,,Secondary Energy,1
 H2 central production,solar,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Electricity,,,,,Secondary Energy,1
 H2 central production,wind,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Electricity,,,,,Secondary Energy,1
 H2 central production,coal,coal chemical CCS,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Coal,Secondary Energy|Hydrogen|Fossil,Secondary Energy|Hydrogen|Coal|w/ CCS,,,Secondary Energy,1
 H2 industrial,onsite production,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Other,,,,,Secondary Energy,1
+H2 industrial,forecourt production,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Other,,,,,Secondary Energy,1
 H2 wholesale dispensing,forecourt production,electrolysis,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Other,,,,,Secondary Energy,1
 H2 wholesale dispensing,forecourt production,natural gas steam reforming,Secondary Energy|Hydrogen,Secondary Energy|Hydrogen|Gas,Secondary Energy|Hydrogen|Fossil,,,,Secondary Energy,1
 district heat,biomass,biomass,Secondary Energy|Heat,Secondary Energy|Heat|Biomass,,,,,Secondary Energy,1
