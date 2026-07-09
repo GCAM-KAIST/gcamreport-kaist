@@ -53,8 +53,6 @@
 Moreover, we support the 2015 and 2021 GCAM base years. Check the [version guide](https://bc3lc.github.io/gcamreport/articles/Version_Guide.html) to see how to run your version! :rocket:
 
 
-**Note**:exclamation:: To standardize GCAM-Europe outputs, you might require manual queries extraction. See [this post](https://bc3lc.github.io/gcamreport/articles/GCAMEurope.html) for more info!
-
 <br>
 
 <!-- ------------------------>
