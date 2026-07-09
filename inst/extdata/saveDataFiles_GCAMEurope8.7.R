@@ -378,12 +378,12 @@ use_data(gcameurope.EUROSTAT_COUNTRIES_vEurope8.7, overwrite = T)
 
 # QUERY files
 
-# gcamreport7 queries complete
+# gcamreport GCAM-Europe 8.7 queries complete
 queryFile <- file.path(rawDataFolder, "inst/extdata/queries/GCAMEurope8.7", "queries_gcamreport_general.xml")
 queries_general_vEurope8.7 <- rgcam::parse_batch_query(queryFile)
 use_data(queries_general_vEurope8.7, overwrite = T)
 
-# gcamreport7 queries nonCO2
+# gcamreport GCAM-Europe 8.7 queries nonCO2
 queryFile <- file.path(rawDataFolder, "inst/extdata/queries/GCAMEurope8.7", "queries_gcamreport_nonCO2.xml")
 queries_nonCO2_vEurope8.7 <- rgcam::parse_batch_query(queryFile)
 use_data(queries_nonCO2_vEurope8.7, overwrite = T)

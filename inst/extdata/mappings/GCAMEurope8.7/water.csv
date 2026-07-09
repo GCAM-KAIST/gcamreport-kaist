@@ -3874,3 +3874,35 @@ subpeak generation,biomass (conv CCS)_subpeak,Water XX,Water XX|Electricity,Wate
 subpeak generation,coal (IGCC CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
 subpeak generation,coal (conv pul CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Coal,1
 subpeak generation,gas (CC CCS)_subpeak,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,hydro,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,refined liquids,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,hydro,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,refined liquids,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,hydro,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,refined liquids,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,hydro,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,refined liquids,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,biomass,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,coal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,gas,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,geothermal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,solar,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,biomass,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,coal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,gas,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,geothermal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,solar,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,biomass,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,coal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,gas,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,geothermal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,solar,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,biomass,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,coal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,gas,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,geothermal,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,solar,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+base load generation,nuclear,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+intermediate generation,nuclear,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+peak generation,nuclear,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1
+subpeak generation,nuclear,Water XX,Water XX|Electricity,Water XX |Electricity|Fossil,Water XX |Electricity|Gas,1

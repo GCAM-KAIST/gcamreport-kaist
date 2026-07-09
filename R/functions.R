@@ -3047,9 +3047,25 @@ get_water_withdrawals <- function(GCAM_version = 'v8.2') {
 
   check_queries("water_withdrawals_clean", GCAM_version)
 
-  water_withdrawals_clean <-
-    check_inf(rgcam::getQuery(prj, "water withdrawals by subsector"),
-              dataset_name = "water withdrawals by subsector") %>%
+  # read queries according to the indicated GCAM version
+  var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  queryItems <- var_fun_map[var_fun_map$name == "water_withdrawals_clean", "queries"][[1]]
+
+  if (length(queryItems) > 1) {
+    # if (grep('Europe',GCAM_version)) {
+    water_withdrawals <- check_inf(rgcam::getQuery(prj, "water withdrawals by subsector - nested subsectors2"),
+                                   dataset_name = "water withdrawals by subsector") %>%
+      rename(technology = 'subsector...6',
+             subsector = 'subsector...5') %>%
+      rbind(check_inf(rgcam::getQuery(prj, "water withdrawals by subsector - nested subsectors1"),
+                      dataset_name = "water withdrawals by subsector"))
+  } else {
+    water_withdrawals <-
+      check_inf(rgcam::getQuery(prj, "water withdrawals by subsector"),
+                dataset_name = "water withdrawals by subsector")
+  }
+
+  water_withdrawals_clean <- water_withdrawals %>%
     left_join_strict(get(paste('water_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector", "subsector"), mapping = paste('water_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -3083,9 +3099,25 @@ get_water_consumption <- function(GCAM_version = 'v8.2') {
 
   check_queries("water_consumption_clean", GCAM_version)
 
-  water_consumption_clean <-
-    check_inf(rgcam::getQuery(prj, "water consumption by subsector"),
-              dataset_name = "water consumption by subsector") %>%
+  # read queries according to the indicated GCAM version
+  var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  queryItems <- var_fun_map[var_fun_map$name == "water_consumption_clean", "queries"][[1]]
+
+  if (length(queryItems) > 1) {
+  # if (grep('Europe',GCAM_version)) {
+    water_consumption <- check_inf(rgcam::getQuery(prj, "water consumption by subsector - nested subsectors2"),
+                                   dataset_name = "water consumption by subsector") %>%
+      rename(technology = 'subsector...6',
+             subsector = 'subsector...5') %>%
+      rbind(check_inf(rgcam::getQuery(prj, "water consumption by subsector - nested subsectors1"),
+                      dataset_name = "water consumption by subsector"))
+  } else {
+    water_consumption <-
+      check_inf(rgcam::getQuery(prj, "water consumption by subsector"),
+                dataset_name = "water consumption by subsector")
+  }
+
+  water_consumption_clean <- water_consumption %>%
     left_join_strict(get(paste('water_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector", "subsector"), mapping = paste('water_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
