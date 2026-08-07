@@ -77,16 +77,16 @@ generate_report(
   prj_name          = prj_name,
   final_year        = final_year,
   GCAM_version      = paste0("v", version_number),
-  desired_variables = c("Emissions|CO2*", "Capacity*"),
-  desired_regions   = "All",                          # or e.g. c("South Korea")
+  desired_variables = c("Capacity*", "Emiss*"),
+  desired_regions   = c("South Korea", "Russia"),                          # or e.g. c("South Korea")
   save_output       = TRUE,
   output_file       = file.path(output_dir, run_name),
   launch_ui         = FALSE
 )
 
 ########## Move .dat into output_dir ##########
-# Only when we created a new project (Option 1). Skip the move if the user
-# pointed prj_name at an existing absolute path (Option 2).
+# Only when we created a new project (Option 1). 
+# Skip the move if the user pointed prj_name at an existing absolute path (Option 2).
 if (exists("prj_basename") && identical(prj_name, prj_basename)) {
   created_dat <- file.path(db_path, paste(db_name, prj_basename, sep = "_"))
   moved_dat   <- file.path(output_dir, prj_basename)
