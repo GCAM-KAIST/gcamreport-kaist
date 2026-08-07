@@ -4,12 +4,12 @@
 \alias{check_queries}
 \title{check_queries}
 \usage{
-check_queries(var, GCAM_version = "v7.1")
+check_queries(var, GCAM_version = "v8.2")
 }
 \arguments{
-\item{var}{variable name}
+\item{var}{Variable name}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 boolean indicating if all the required queries to compute the desired variable are available.

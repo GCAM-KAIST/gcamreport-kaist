@@ -4,10 +4,10 @@
 \alias{get_floor_space}
 \title{get_energy_service_buildings}
 \usage{
-get_floor_space(GCAM_version = "v7.1")
+get_floor_space(GCAM_version = "v8.2")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 `floor_space_clean` global variable

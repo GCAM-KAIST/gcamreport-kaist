@@ -4,10 +4,10 @@
 \alias{do_check_vetting}
 \title{do_check_vetting}
 \usage{
-do_check_vetting(GCAM_version = "v7.1")
+do_check_vetting(GCAM_version = "v8.2")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 A message confirming the success of the vetting process.

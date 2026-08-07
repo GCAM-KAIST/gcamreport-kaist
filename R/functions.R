@@ -139,11 +139,11 @@ check_inf <- function(dataset, value_var_name = 'value', dataset_name = NULL) {
 #' An internal function designed to assess if all the necessary queries to compute
 #' the desired variable are loaded in the project.
 #'
-#' @param var variable name
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param var Variable name
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return boolean indicating if all the required queries to compute the desired variable are available.
 #' @export
-check_queries <- function(var, GCAM_version = 'v7.1') {
+check_queries <- function(var, GCAM_version = 'v8.2') {
   var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
   queryItems <- var_fun_map[var_fun_map$name == var, "queries"][[1]]
 
@@ -172,16 +172,20 @@ check_queries <- function(var, GCAM_version = 'v7.1') {
 #'
 #' @keywords internal tmp process
 #' @param data The dataset to be filtered.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return A subset of the original data containing only the specified regions.
 #' @importFrom magrittr %>%
 #' @export
-filter_data_regions <- function(data) {
+filter_data_regions <- function(data, GCAM_version = 'v8.2') {
   region <- NULL
 
   if (!(identical(desired_regions.global, "All"))) {
     data <- data %>%
       dplyr::filter(region %in% desired_regions.global)
   }
+  data <- data %>%
+    dplyr::filter(region %in% c('All',na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])))
+
 
   return(data)
 }
@@ -526,12 +530,12 @@ start_with_pattern <- function(vector, pattern) {
 #' @param data Dataframe to filter.
 #' @param desired_regions Vector of regions to include. Defaults to 'All'. To view available regions, run `available_regions()`. The dataset will only include the specified regions.
 #' @param variable Variable information for the dataset.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return Filtered dataframe.
 #' @importFrom magrittr %>%
 #' @keywords internal
 #' @export
-filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM_version = 'v7.1') {
+filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM_version = 'v8.2') {
   market <- region <- NULL
 
   if (!(identical(desired_regions, "All"))) {
@@ -593,31 +597,31 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
       data <- data %>%
         dplyr::filter(region %in% desired_regions)
     } else if (!(variable %in% c(
-        "CO2 concentrations", "global mean temperature",
-        "total climate forcing", "primary energy consumption with CCS by region (direct equivalent)"
-      )) & ('market' %in% colnames(data))) {
-        # check the desired regions are available in the data
-        avail_markets <- unique(data$market)
-        default_regions <- get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']]
-        default_regions <- default_regions[!is.na(default_regions)]
-        default_regions <- c(default_regions, 'global')
-        pattern <- paste0("(", paste(default_regions, collapse = "|"), ")")
-        avail_reg <- unique(stringr::str_extract(avail_markets, pattern))
-        avail_reg <- avail_reg[!is.na(avail_reg) & avail_reg != "NA"]
-        if (!all(desired_regions %in% avail_reg)) {
-          not_avail <- setdiff(desired_regions, avail_reg)
-          if (length(not_avail) == 1) {
-            warning(sprintf(
-              "The desired region '%s' is not available in the loaded project. Specifically, it is missing from the query '%s'. Please check the available regions in the project or update the query.",
-              not_avail, variable
-            ))
-          } else if (length(not_avail) > 1) {
-            warning(sprintf(
-              "The desired regions %s are not available in the loaded project. Specifically, they are missing from the query '%s'. Please check the available regions in the project or update the query.",
-              paste(shQuote(not_avail), collapse = ", "), variable
-            ))
-          }
+      "CO2 concentrations", "global mean temperature",
+      "total climate forcing", "primary energy consumption with CCS by region (direct equivalent)"
+    )) & ('market' %in% colnames(data))) {
+      # check the desired regions are available in the data
+      avail_markets <- unique(data$market)
+      default_regions <- get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']]
+      default_regions <- default_regions[!is.na(default_regions)]
+      default_regions <- c(default_regions, 'global')
+      pattern <- paste0("(", paste(default_regions, collapse = "|"), ")")
+      avail_reg <- unique(stringr::str_extract(avail_markets, pattern))
+      avail_reg <- avail_reg[!is.na(avail_reg) & avail_reg != "NA"]
+      if (!all(desired_regions %in% avail_reg)) {
+        not_avail <- setdiff(desired_regions, avail_reg)
+        if (length(not_avail) == 1) {
+          warning(sprintf(
+            "The desired region '%s' is not available in the loaded project. Specifically, it is missing from the query '%s'. Please check the available regions in the project or update the query.",
+            not_avail, variable
+          ))
+        } else if (length(not_avail) > 1) {
+          warning(sprintf(
+            "The desired regions %s are not available in the loaded project. Specifically, they are missing from the query '%s'. Please check the available regions in the project or update the query.",
+            paste(shQuote(not_avail), collapse = ", "), variable
+          ))
         }
+      }
       data <- data %>%
         dplyr::mutate(region = stringr::str_extract(market, pattern)) %>%
         dplyr::filter(region %in% desired_regions) %>%
@@ -642,12 +646,12 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
 filter_variables <- function(data, variable = NULL, extra = NULL) {
 
   # if (variable %in% variables.global[variables.global$required == TRUE, ]$name) {
-    if (!(length(desired_variables.global) == 1 && desired_variables.global == "All")) {
-      if ("var" %in% colnames(data)) {
-        data <- data %>%
-          dplyr::filter(var %in% c(desired_variables.global,'NoReported',extra))
-      }
+  if (!(length(desired_variables.global) == 1 && desired_variables.global == "All")) {
+    if ("var" %in% colnames(data)) {
+      data <- data %>%
+        dplyr::filter(var %in% c(desired_variables.global,'NoReported',extra))
     }
+  }
   # }
 
   return(data)
@@ -677,12 +681,12 @@ gather_map <- function(df) {
 #' Converts GHG emissions to CO2e.
 #'
 #' @param data Dataset containing GHG emissions.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
 #' @importFrom magrittr %>%
 #' @keywords internal conversion
 #' @export
-conv_ghg_co2e <- function(data, GCAM_version = 'v7.1', GWP_version = 'AR5') {
+conv_ghg_co2e <- function(data, GCAM_version = 'v8.2', GWP_version = 'AR5') {
   ghg <- variable <- value <- GWP <- NULL
 
   # GHG emission conversion
@@ -709,11 +713,11 @@ conv_ghg_co2e <- function(data, GCAM_version = 'v7.1', GWP_version = 'AR5') {
 #' @param data Dataset containing energy data.
 #' @param cf Conversion factor for EJ to GW.
 #' @param EJ Amount of energy in EJ.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @importFrom magrittr %>%
 #' @keywords internal conversion
 #' @export
-conv_EJ_GW <- function(data, cf, EJ, GCAM_version = "v7.1") {
+conv_EJ_GW <- function(data, cf, EJ, GCAM_version = 'v8.2') {
   data %>%
     dplyr::mutate(gw = EJ / (cf *
                                get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['hr_per_yr']] *
@@ -812,12 +816,12 @@ check_match <- function(x, y, colmn_x, colmn_y = NULL, opt = "e") {
 #'
 #' Retrieves the population query and converts units to millions.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `population_clean` global variable.
 #' @keywords internal population
 #' @importFrom magrittr %>%
 #' @export
-get_population <- function(GCAM_version = "v7.1") {
+get_population <- function(GCAM_version = 'v8.2') {
   value <- population_clean <- NULL
 
   check_queries('population_clean', GCAM_version)
@@ -840,12 +844,12 @@ get_population <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the population weight by region. World = 1
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `pop_weights` global variable.
 #' @keywords internal population
 #' @importFrom magrittr %>%
 #' @export
-get_population_weights <- function(GCAM_version = "v7.1") {
+get_population_weights <- function(GCAM_version = 'v8.2') {
   value <- pop_weights <- NULL
 
   check_queries('pop_weights', GCAM_version)
@@ -866,12 +870,12 @@ get_population_weights <- function(GCAM_version = "v7.1") {
 #'
 #' Compute povery variables
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `poverty_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_poverty <- function(GCAM_version = "v7.1") {
+get_poverty <- function(GCAM_version = 'v8.2') {
   poverty_clean <- NULL
 
   check_queries('poverty_clean', GCAM_version)
@@ -965,12 +969,12 @@ get_poverty <- function(GCAM_version = "v7.1") {
 #'
 #' Compute inequality variables
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `inequality_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_inequality <- function(GCAM_version = "v7.1") {
+get_inequality <- function(GCAM_version = 'v8.2') {
   inequality_clean <- NULL
 
   check_queries('inequality_clean', GCAM_version)
@@ -1047,12 +1051,12 @@ get_inequality <- function(GCAM_version = "v7.1") {
 #'
 #' Compute share of total income my decile
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `income_clean` and `income_raw` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_income <- function(GCAM_version = "v7.1") {
+get_income <- function(GCAM_version = 'v8.2') {
   income_clean <- income_raw <- income_w <- income <- NULL
 
   check_queries('income_clean', GCAM_version)
@@ -1109,12 +1113,12 @@ get_income <- function(GCAM_version = "v7.1") {
 #'
 #' Compute active and inactive labor force
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `labor_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_labor <- function(GCAM_version = "v7.1") {
+get_labor <- function(GCAM_version = 'v8.2') {
   labor_clean <- NULL
 
   check_queries('labor_clean', GCAM_version)
@@ -1160,12 +1164,12 @@ get_labor <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves GDP (PPP) data, computes regional GDP and annual GDPpc growth rate, and converts units to 10 USD.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `GDP_PPP_clean`, `GDP_PPP_pc_growth_clean`, and `GDP_PPP_pc_oecd_share_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_gdp_ppp <- function(GCAM_version = "v7.1") {
+get_gdp_ppp <- function(GCAM_version = 'v8.2') {
   value <- pop_mill <- GDP_PPP_clean <- GDP_PPP_pc_growth_clean <-
     GDP_PPP_pc_oecd_share_clean <- NULL
 
@@ -1223,12 +1227,12 @@ get_gdp_ppp <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves GDP (MER) data and converts units to 10 USD.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `GDP_MER_clean` global variable.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_gdp_mer <- function(GCAM_version = "v7.1") {
+get_gdp_mer <- function(GCAM_version = 'v8.2') {
   value <- GDP_MER_clean <- NULL
 
   check_queries('GDP_MER_clean', GCAM_version)
@@ -1254,12 +1258,12 @@ get_gdp_mer <- function(GCAM_version = "v7.1") {
 #' Compute net exports of all goods measured in monetary quantities: materials-net-export +
 #' capital-net-export + energy-net-export
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `goods_trade_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_goods_trade <- function(GCAM_version = "v7.1") {
+get_goods_trade <- function(GCAM_version = 'v8.2') {
   goods_trade_clean <- NULL
 
   check_queries('goods_trade_clean', GCAM_version)
@@ -1293,12 +1297,12 @@ get_goods_trade <- function(GCAM_version = "v7.1") {
 #' Compute value added by the the aggregated agr + ind + services sectors.
 #' Each sector receives 1/3 of the total value added
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `value_added_clean` global variables.
 #' @keywords internal econ
 #' @importFrom magrittr %>%
 #' @export
-get_value_added <- function(GCAM_version = "v7.1") {
+get_value_added <- function(GCAM_version = 'v8.2') {
   value_added_clean <- NULL
 
   check_queries('value_added_clean', GCAM_version)
@@ -1337,12 +1341,12 @@ get_value_added <- function(GCAM_version = "v7.1") {
 #'
 #' Computes energy expenditure.as the share of the total expenditure by decile
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `energy_expenditure_per_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
-get_en_expenditure <- function(GCAM_version = "v7.1") {
+get_en_expenditure <- function(GCAM_version = 'v8.2') {
   energy_expenditure_per_clean <- energy_expenditure_per_w <-
     energy_expenditure_per <- energy_expenditure_per_avR <- NULL
 
@@ -1453,12 +1457,12 @@ get_en_expenditure <- function(GCAM_version = "v7.1") {
 #'
 #' Computes food expenditure.as the share of the total expenditure by decile
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `food_expenditure_per_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
-get_food_expenditure <- function(GCAM_version = "v7.1") {
+get_food_expenditure <- function(GCAM_version = 'v8.2') {
   food_expenditure_per_clean <- food_expenditure_per_w <-
     food_expenditure_per <- food_expenditure_per_avR <- NULL
 
@@ -1639,12 +1643,12 @@ get_food_expenditure <- function(GCAM_version = "v7.1") {
 #'
 #' Computes food + energy expenditure.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `expenditure_per_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
-get_expenditure <- function(GCAM_version = "v7.1") {
+get_expenditure <- function(GCAM_version = 'v8.2') {
   value <- expenditure_per_clean <- NULL
 
   check_queries('expenditure_per_clean', GCAM_version)
@@ -1669,12 +1673,12 @@ get_expenditure <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves Capital Stock data and converts units to 2010 USD.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `capital_stock_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
-get_capital_stock <- function(GCAM_version = "v7.1") {
+get_capital_stock <- function(GCAM_version = 'v8.2') {
   value <- var <- capital_stock_clean <- NULL
 
   check_queries('capital_stock_clean', GCAM_version)
@@ -1702,12 +1706,12 @@ get_capital_stock <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Capital Formation data.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `capital_formation_clean` global variable.
 #' @keywords internal economy
 #' @importFrom magrittr %>%
 #' @export
-get_capital_formation <- function(GCAM_version = "v7.1") {
+get_capital_formation <- function(GCAM_version = 'v8.2') {
   value <- var <- capital_formation_clean <- NULL
 
   check_queries('capital_formation_clean', GCAM_version)
@@ -1736,19 +1740,19 @@ get_capital_formation <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Food availability
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `food_availability_clean` global variable.
 #' @keywords internal food
 #' @importFrom magrittr %>%
 #' @export
-get_food_availability <- function(GCAM_version = "v7.1") {
+get_food_availability <- function(GCAM_version = 'v8.2') {
   value <- food_availability_clean <- NULL
 
   check_queries('food_availability_clean', GCAM_version)
 
   # GCAM does not track consumer waste, so food availability is food intake adjusted by the food waste parameter (exogenous)
   food_availability_pre <- check_inf(rgcam::getQuery(prj, 'food consumption by type (specific)'),
-                                        dataset_name = "food consumption by type (specific)") %>%
+                                     dataset_name = "food consumption by type (specific)") %>%
     dplyr::filter(year <= final_year.global, year >= 1990) %>%
     # if "subsector...4" is a colnum name, change it to "subsector". Otherwise, keep going
     {
@@ -1818,12 +1822,12 @@ get_food_availability <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Food demand
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `food_demand_clean` global variable.
 #' @keywords internal food
 #' @importFrom magrittr %>%
 #' @export
-get_food_demand <- function(GCAM_version = "v7.1") {
+get_food_demand <- function(GCAM_version = 'v8.2') {
   value <- food_demand_clean <- NULL
 
   food_demand_clean <- food_availability_clean %>%
@@ -1836,12 +1840,12 @@ get_food_demand <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Food intake
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `food_intake_clean` global variable.
 #' @keywords internal food
 #' @importFrom magrittr %>%
 #' @export
-get_food_intake <- function(GCAM_version = "v7.1") {
+get_food_intake <- function(GCAM_version = 'v8.2') {
   value <- food_intake_clean <- food_intake_clean_w <- NULL
 
   check_queries('food_intake_clean', GCAM_version)
@@ -1859,7 +1863,7 @@ get_food_intake <- function(GCAM_version = "v7.1") {
       }
     } %>%
     left_join_strict(get(paste('food_intake_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
-                   by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
+                     by = c("subsector","technology"), mapping = paste('food_intake_map',GCAM_version,sep='_'), multiple = "all") %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     filter_variables() %>%
     dplyr::mutate(value = value * unit_conv) %>%
@@ -1909,12 +1913,12 @@ get_food_intake <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Forestry production and demand
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `forestry_demand_clean` and `forestry_production_clean` global variables.
 #' @keywords internal forestry
 #' @importFrom magrittr %>%
 #' @export
-get_forestry <- function(GCAM_version = "v7.1") {
+get_forestry <- function(GCAM_version = 'v8.2') {
   value <- forestry_demand_clean <- forestry_production_clean <- NULL
 
   check_queries('forestry_demand_clean', GCAM_version)
@@ -2044,12 +2048,12 @@ get_forestry <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Agricultural trade
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `ag_trade` global variable.
 #' @keywords internal food
 #' @importFrom magrittr %>%
 #' @export
-get_ag_trade <- function(GCAM_version = "v7.1") {
+get_ag_trade <- function(GCAM_version = 'v8.2') {
   value <- ag_trade <- ag_trade_exports <- ag_trade_imports <- NULL
 
   check_queries('ag_trade', GCAM_version)
@@ -2127,12 +2131,12 @@ get_ag_trade <- function(GCAM_version = "v7.1") {
 #'
 #' Computes Fertilizer consumption
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `fert_consumption_clean` global variable.
 #' @keywords internal fertilizer
 #' @importFrom magrittr %>%
 #' @export
-get_fert_consumption <- function(GCAM_version = "v7.1") {
+get_fert_consumption <- function(GCAM_version = 'v8.2') {
   value <- fert_consumption_clean <- NULL
 
   check_queries('fert_consumption_clean', GCAM_version)
@@ -2156,12 +2160,12 @@ get_fert_consumption <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the global forcing query.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `forcing_clean` global variable.
 #' @keywords internal forcing
 #' @importFrom magrittr %>%
 #' @export
-get_forcing <- function(GCAM_version = "v7.1") {
+get_forcing <- function(GCAM_version = 'v8.2') {
   year <- forcing_clean <- NULL
 
   check_queries('forcing_clean', GCAM_version)
@@ -2181,12 +2185,12 @@ get_forcing <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the global mean temperature query.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `global_temp_clean` global variable.
 #' @keywords internal temperature
 #' @importFrom magrittr %>%
 #' @export
-get_temperature <- function(GCAM_version = "v7.1") {
+get_temperature <- function(GCAM_version = 'v8.2') {
   year <- global_temp_clean <- NULL
 
   check_queries('global_temp_clean', GCAM_version)
@@ -2206,12 +2210,12 @@ get_temperature <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the global CO2 concentration query.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `co2_concentration_clean` global variable.
 #' @keywords internal co2
 #' @importFrom magrittr %>%
 #' @export
-get_co2_concentration <- function(GCAM_version = "v7.1") {
+get_co2_concentration <- function(GCAM_version = 'v8.2') {
   year <- co2_concentration_clean <- NULL
 
   check_queries('co2_concentration_clean', GCAM_version)
@@ -2230,11 +2234,11 @@ get_co2_concentration <- function(GCAM_version = "v7.1") {
 #'
 #' Get World's CO2 ETS emissions query.
 #' @keywords internal co2
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `co2_ets_byreg` and `co2_ets_bysec` global variables
 #' @importFrom magrittr %>%
 #' @export
-get_co2_ets <- function(GCAM_version = 'v7.1') {
+get_co2_ets <- function(GCAM_version = 'v8.2') {
   ghg <- value <- year <- unit_conv <- scenario <- region <- var <-
     co2_ets_bysec <- co2_ets_byreg <- NULL
 
@@ -2286,12 +2290,12 @@ get_co2_ets <- function(GCAM_version = 'v7.1') {
 #'
 #' Retrieves the non-bio CO2 emissions query by sector.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `nonbio_diff` global variable.
 #' @keywords internal co2
 #' @importFrom magrittr %>%
 #' @export
-get_nonbio_tmp <- function(GCAM_version = "v7.1") {
+get_nonbio_tmp <- function(GCAM_version = 'v8.2') {
   value.y <- value.x <- queryItem1 <- queryItem2 <-
     by_sector <- by_sector_no_bio <- nonbio_diff <- NULL
 
@@ -2303,11 +2307,12 @@ get_nonbio_tmp <- function(GCAM_version = "v7.1") {
 
   # More closely align sectors in the original query with those in the no bio query
   by_sector <- check_inf(rgcam::getQuery(prj, queryItem1), dataset_name = queryItem1) %>%
-    dplyr::mutate(sector = dplyr::case_when(grepl("elec_", sector) & !grepl("CCS", sector) ~ "electricity",
-                                           .default = sector)) %>%
-      dplyr::group_by(across(c(-value))) %>%
-      dplyr::summarise(value = sum(value, na.rm = T)) %>%
-      dplyr::ungroup()
+    dplyr::mutate(ghg = 'CO2',
+                  sector = dplyr::case_when(grepl("elec_", sector) & !grepl("CCS", sector) ~ "electricity",
+                                            .default = sector)) %>%
+    dplyr::group_by(across(c(-value))) %>%
+    dplyr::summarise(value = sum(value, na.rm = T)) %>%
+    dplyr::ungroup()
 
   by_sector_no_bio <- check_inf(rgcam::getQuery(prj, queryItem2), dataset_name = queryItem2)
 
@@ -2335,14 +2340,14 @@ get_nonbio_tmp <- function(GCAM_version = "v7.1") {
 #' Retrieves the non-bio CO2 emissions query by sector, subsector, and technology.
 #' Emissions are scaled to the no bio sector within the get_co2_emiss function.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `co2_emiss` global variable.
 #' @keywords internal co2 tmp
 #' @importFrom magrittr %>%
 #' @export
-get_co2_emiss <- function(GCAM_version = "v7.1") {
+get_co2_emiss <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
-  queryItem1 <- co2_emiss <- ghg <- technology <- subsector <- NULL
+    queryItem1 <- co2_emiss <- ghg <- technology <- subsector <- NULL
 
   check_queries("co2_emiss", GCAM_version)
 
@@ -2355,10 +2360,11 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
   # Add the no bio difference by sector
   tmp <-
     check_inf(rgcam::getQuery(prj, queryItem1), dataset_name = queryItem1) %>%
+    dplyr::filter(year %in% years_in_prj) %>%
     dplyr::mutate(ghg = 'CO2') %>%
     dplyr::mutate(sector_orig = sector) %>%
     dplyr::mutate(sector = dplyr::case_when(grepl("elec_", sector) & !grepl("CCS", sector) ~ "electricity",
-                                         .default = sector)) %>%
+                                            .default = sector)) %>%
     dplyr::full_join(nonbio_diff %>%
                        dplyr::select(-ghg),
                      by = c("region", "scenario", "year", "sector", "Units")) %>%
@@ -2373,12 +2379,14 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
     dplyr::mutate(diff = ifelse(grepl("coal", technology) & sum(!grepl("coal", technology)) > 0, 0, diff)) %>%
     dplyr::mutate(diff = ifelse(grepl("NG", technology) & sum(!grepl("NG", technology)) > 0, 0, diff)) %>%
     # Distribute the emissions difference based on the tech's share of emissions within the sector
-    dplyr::mutate(diff = dplyr::case_when(sum(diff != 0) > 0 ~ diff / sum(diff != 0) * (value / sum(value)),
-                                          .default = diff)) %>%
+    dplyr::mutate(diff_by_share = dplyr::case_when(sum(diff != 0) > 0 ~ diff * value / (sum(value[diff != 0])),
+                                                   .default = diff)) %>%
+    # Correct ones which became NaN due to sum of value being zero
+    dplyr::mutate(diff_by_share = ifelse(is.na(diff_by_share), diff / sum(diff != 0), diff_by_share)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(value = value + diff) %>%
+    dplyr::mutate(value = value + diff_by_share) %>%
     dplyr::mutate(sector = ifelse(!is.na(sector_orig), sector_orig, sector)) %>%
-    dplyr::select(-diff, -sector_orig)
+    dplyr::select(-diff, -diff_by_share, -sector_orig)
 
   # gather deciles if necessary
   if(GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
@@ -2451,7 +2459,7 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
 
   # Check Total Emissions|CO2 matches the output of CO2 emissions by region query
   avail_variables <- available_variables(print = F, GCAM_version = GCAM_version)
-  if (all(avail_variables[grep('^Emissions',avail_variables)] %in% desired_variables.global)) {
+  if (grepl("^All$", desired_variables.global)[1] | all(avail_variables[grep('^Emissions',avail_variables)] %in% desired_variables.global)) {
     check <-
       check_inf(rgcam::getQuery(prj, queryItem3), dataset_name = queryItem3) %>%
       dplyr::mutate(value = value *
@@ -2484,14 +2492,14 @@ get_co2_emiss <- function(GCAM_version = "v7.1") {
 #' not accounting for negative emissions from bioenergy with CCS (BECCS) or
 #' agriculture, forestry and other land use (AFOLU)
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `gross_co2_emiss_clean` global variable.
 #' @keywords internal co2 tmp
 #' @importFrom magrittr %>%
 #' @export
-get_gross_co2_emiss <- function(GCAM_version = "v7.1") {
+get_gross_co2_emiss <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
-  gross_co2_emiss_clean <- ghg <- technology <- subsector <- NULL
+    gross_co2_emiss_clean <- ghg <- technology <- subsector <- NULL
 
   check_queries("gross_co2_emiss_clean", GCAM_version)
 
@@ -2512,12 +2520,12 @@ get_gross_co2_emiss <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves land use CO2 emissions data.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `LUC_emiss` global variable.
 #' @keywords internal lu co2
 #' @importFrom magrittr %>%
 #' @export
-get_lu_co2 <- function(GCAM_version = "v7.1") {
+get_lu_co2 <- function(GCAM_version = 'v8.2') {
   year <- scenario <- region <- value <- var <- LUC_emiss <- NULL
 
   check_queries("LUC_emiss", GCAM_version)
@@ -2554,12 +2562,12 @@ get_lu_co2 <- function(GCAM_version = "v7.1") {
 #'
 #' Combines CO2 emission queries into a single dataset.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `co2_emissions_clean` global variable.
 #' @keywords internal co2 process
 #' @importFrom magrittr %>%
 #' @export
-get_co2_emissions <- function(GCAM_version = 'v7.1') {
+get_co2_emissions <- function(GCAM_version = 'v8.2') {
   scenario <- region <- year <- var <- value <- co2_emissions_clean <- NULL
 
   check_queries("co2_emissions_clean", GCAM_version)
@@ -2578,12 +2586,12 @@ get_co2_emissions <- function(GCAM_version = 'v7.1') {
 #'
 #' Retrieves non-CO2 emissions data.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `nonco2_clean` global variable.
 #' @keywords internal nonco2
 #' @importFrom magrittr %>%
 #' @export
-get_nonco2_emissions <- function(GCAM_version = "v7.1") {
+get_nonco2_emissions <- function(GCAM_version = 'v8.2') {
   value <- unit_conv <- scenario <- region <- year <- var <-
     queryItem1 <- queryItem2 <- nonco2_clean <- NULL
 
@@ -2617,7 +2625,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
     nonco2_agg %>%
       rbind(nonco2_tmp %>% # Land|Fires|Forest Burning
               dplyr::filter(grepl('UnmanagedLand', sector) &
-                            grepl('ForestFire|GrasslandFires', subsector)) %>%
+                              grepl('ForestFire|GrasslandFires', subsector)) %>%
               dplyr::mutate(subsector = dplyr::if_else(grepl('ForestFire',subsector),'ForestFire',
                                                        dplyr::if_else(grepl('GrasslandFires',subsector),'GrasslandFires',NA))) %>%
               dplyr::group_by(Units, scenario, region, sector, subsector, ghg, year) %>%
@@ -2625,7 +2633,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
               dplyr::ungroup()) %>%
       rbind(nonco2_tmp %>% # Waste
               dplyr::filter(grepl('urban processes', sector) &
-                            grepl('landfills|wastewater|waste_incineration', subsector)) %>%
+                              grepl('landfills|wastewater|waste_incineration', subsector)) %>%
               dplyr::mutate(subsector = dplyr::if_else(grepl('landfills',subsector),'landfills',
                                                        dplyr::if_else(grepl('wastewater',subsector),'wastewater',
                                                                       dplyr::if_else(grepl('waste_incineration',subsector),'waste_incineration',NA)))) %>%
@@ -2640,7 +2648,7 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
       dplyr::filter(!grepl('CO2',ghg)) %>%
       left_join_strict(get(paste('nonco2_emis_resource_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("ghg", "resource"), multiple = "all", relationship = "many-to-many")
-    ) %>%
+  ) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
     filter_variables() %>%
     # 1Tg = 1Mt; 1Gg = 1kt; 1Tg = 1000kt
@@ -2665,13 +2673,13 @@ get_nonco2_emissions <- function(GCAM_version = "v7.1") {
 #'
 #' Computes F-Gases emissions.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
 #' @return `f_gases_total`, `f_gases_hfc`, `f_gases_pfc` global variables.
 #' @keywords internal f-gases process
 #' @importFrom magrittr %>%
 #' @export
-get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
+get_fgas <- function(GCAM_version = 'v8.2', GWP_version = 'AR5') {
   ghg <- variable <- scenario <- region <- year <- value <-
     f_gases_total <- f_gases_hfc <- f_gases_pfc <- NULL
 
@@ -2732,13 +2740,13 @@ get_fgas <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 #'
 #' Get sectorial GHG emissions.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @param GWP_version Global Warming Potential (GWP) version: 'AR5' (default), 'AR6', or 'AR4'.
 #' @return `kyoto_gases_clean` global variable.
 #' @keywords internal ghg
 #' @importFrom magrittr %>%
 #' @export
-get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
+get_kyoto_gases <- function(GCAM_version = 'v8.2', GWP_version = 'AR5') {
   ghg <- resource <- subresource <- sector <- variable <- scenario <- tmp <-
     region <- var <- year <- value <- queryItem1 <- queryItem2 <- queryItem3 <-
     Units <- subsector <- kyoto_gases_clean <- unit_conv <- NULL
@@ -2844,19 +2852,19 @@ get_kyoto_gases <- function(GCAM_version = "v7.1", GWP_version = 'AR5') {
 #'
 #' Get biomass share of feedstocks refined liquids production
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal co2
 #' @return `refliq_bioshare` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_refliq_bioshare <- function(GCAM_version = "v7.1") {
+get_refliq_bioshare <- function(GCAM_version = 'v8.2') {
   scenario <- region <- year <- var <- value <- unit_conv <-
     refliq_bioshare <- refliq_bioshare_w <- NULL
 
   check_queries("refliq_bioshare", GCAM_version)
 
   refliq_bioshare <- check_inf(rgcam::getQuery(prj, "refined liquids production by tech"),
-                        dataset_name = "refined liquids production by tech") %>%
+                               dataset_name = "refined liquids production by tech") %>%
     dplyr::group_by(scenario, region, subsector, year) %>%
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup() %>%
@@ -2891,12 +2899,12 @@ get_refliq_bioshare <- function(GCAM_version = "v7.1") {
 #'
 #' Get carbon sequestration.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal co2
 #' @return `co2_sequestration_clean` and `co2_removal_raw` global variables.
 #' @importFrom magrittr %>%
 #' @export
-get_co2_sequestration <- function(GCAM_version = "v7.1") {
+get_co2_sequestration <- function(GCAM_version = 'v8.2') {
   scenario <- region <- year <- var <- value <- unit_conv <-
     co2_removal_raw <- co2_sequestration <- NULL
 
@@ -2906,6 +2914,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
   co2_sequestration <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
               dataset_name = "CO2 sequestration by tech") %>%
+    dplyr::filter(year %in% years_in_prj) %>%
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -2913,7 +2922,7 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
                       var = unique(var),
                       fill = list(value = 0)
       ) %>%
-      dplyr::filter(!is.na(var), year > 2005) %>%
+      dplyr::filter(!is.na(var), year > 2005, year <= final_year.global) %>%
       # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
       left_join_strict(refliq_bioshare %>%
                          tidyr::complete(tidyr::nesting(scenario, year),
@@ -2967,11 +2976,12 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
   co2_removal_raw <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "CO2 sequestration by tech"),
               dataset_name = "CO2 sequestration by tech") %>%
+      dplyr::filter(year %in% years_in_prj) %>%
       # consider only carbon removal items
       left_join_strict(get(paste('carbon_seq_tech_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                        by = c("sector", "technology"), mapping = paste('carbon_seq_tech_map',GCAM_version,sep='_'), multiple = "all") %>%
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
-      dplyr::filter(var == 'Carbon Removal', year >= 2005) %>%
+      dplyr::filter(var == 'Carbon Removal', year >= 2005, year <= final_year.global) %>%
       # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
       left_join_strict(refliq_bioshare %>%
                          tidyr::complete(tidyr::nesting(scenario, year),
@@ -3029,19 +3039,35 @@ get_co2_sequestration <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the water withdrawals.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `water_withdrawals_clean` global variable.
 #' @keywords internal water
 #' @importFrom magrittr %>%
 #' @export
-get_water_withdrawals <- function(GCAM_version = "v7.1") {
+get_water_withdrawals <- function(GCAM_version = 'v8.2') {
   year <- water_withdrawals_clean <- NULL
 
   check_queries("water_withdrawals_clean", GCAM_version)
 
-  water_withdrawals_clean <-
-    check_inf(rgcam::getQuery(prj, "water withdrawals by subsector"),
-              dataset_name = "water withdrawals by subsector") %>%
+  # read queries according to the indicated GCAM version
+  var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  queryItems <- var_fun_map[var_fun_map$name == "water_withdrawals_clean", "queries"][[1]]
+
+  if (length(queryItems) > 1) {
+    # if (grep('Europe',GCAM_version)) {
+    water_withdrawals <- check_inf(rgcam::getQuery(prj, "water withdrawals by subsector - nested subsectors2"),
+                                   dataset_name = "water withdrawals by subsector") %>%
+      dplyr::rename(technology = 'subsector...6',
+                    subsector = 'subsector...5') %>%
+      rbind(check_inf(rgcam::getQuery(prj, "water withdrawals by subsector - nested subsectors1"),
+                      dataset_name = "water withdrawals by subsector"))
+  } else {
+    water_withdrawals <-
+      check_inf(rgcam::getQuery(prj, "water withdrawals by subsector"),
+                dataset_name = "water withdrawals by subsector")
+  }
+
+  water_withdrawals_clean <- water_withdrawals %>%
     left_join_strict(get(paste('water_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector", "subsector"), mapping = paste('water_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -3065,19 +3091,35 @@ get_water_withdrawals <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the water get_water_consumption
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `water_consumption_clean` global variable.
 #' @keywords internal water
 #' @importFrom magrittr %>%
 #' @export
-get_water_consumption <- function(GCAM_version = "v7.1") {
+get_water_consumption <- function(GCAM_version = 'v8.2') {
   year <- water_consumption_clean <- NULL
 
   check_queries("water_consumption_clean", GCAM_version)
 
-  water_consumption_clean <-
-    check_inf(rgcam::getQuery(prj, "water consumption by subsector"),
-              dataset_name = "water consumption by subsector") %>%
+  # read queries according to the indicated GCAM version
+  var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  queryItems <- var_fun_map[var_fun_map$name == "water_consumption_clean", "queries"][[1]]
+
+  if (length(queryItems) > 1) {
+  # if (grep('Europe',GCAM_version)) {
+    water_consumption <- check_inf(rgcam::getQuery(prj, "water consumption by subsector - nested subsectors2"),
+                                   dataset_name = "water consumption by subsector") %>%
+      dplyr::rename(technology = 'subsector...6',
+                    subsector = 'subsector...5') %>%
+      rbind(check_inf(rgcam::getQuery(prj, "water consumption by subsector - nested subsectors1"),
+                      dataset_name = "water consumption by subsector"))
+  } else {
+    water_consumption <-
+      check_inf(rgcam::getQuery(prj, "water consumption by subsector"),
+                dataset_name = "water consumption by subsector")
+  }
+
+  water_consumption_clean <- water_consumption %>%
     left_join_strict(get(paste('water_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
                      by = c("sector", "subsector"), mapping = paste('water_map',GCAM_version,sep='_')) %>%
     dplyr::filter(var != 'NoReported', !is.na(var)) %>%
@@ -3106,65 +3148,66 @@ get_water_consumption <- function(GCAM_version = "v7.1") {
 #'
 #' Get agricultural demand.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `yield_clean` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_yield <- function(GCAM_version = "v7.1") {
+get_yield <- function(GCAM_version = 'v8.2') {
   yield_regional <- yield_world <- yield_map <- yield_clean <- NULL
 
   yield_map <- get(paste('yield_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
 
   yield_regional <- suppressMessages(land_yield %>%
-    dplyr::rename(land = value, land_var = var) %>%
-    dplyr::filter(land_var %in% yield_map$land_var) %>%
-    left_join_strict(yield_map, by = 'land_var') %>%
-    dplyr::filter(year <= final_year.global) %>%
-    left_join_strict(ag_production_clean %>%
-                       dplyr::rename(prod = value, prod_var = var) %>%
-                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
-                       tidyr::complete(tidyr::nesting(scenario, region, year),
-                                       prod_var = unique(yield_map$prod_var),
-                                       prod = 0) %>%
-                       dplyr::group_by(scenario, prod_var, region, year) %>%
-                       dplyr::summarise(prod = sum(prod)) %>%
-                       dplyr::ungroup() %>%
-                       dplyr::filter(year <= final_year.global),
-                     by = c('prod_var','scenario','region','year')) %>%
-    dplyr::mutate(value = prod / land) %>%
-    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
-    dplyr::rename(var = yield_var) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+                                       dplyr::rename(land = value, land_var = var) %>%
+                                       dplyr::filter(land_var %in% yield_map$land_var) %>%
+                                       left_join_strict(yield_map, by = 'land_var') %>%
+                                       dplyr::filter(year <= final_year.global) %>%
+                                       left_join_strict(ag_production_clean %>%
+                                                          dplyr::rename(prod = value, prod_var = var) %>%
+                                                          dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                                                          tidyr::complete(tidyr::nesting(scenario, region),
+                                                                          year = unique(land_yield$year),
+                                                                          prod_var = unique(yield_map$prod_var),
+                                                                          prod = 0) %>%
+                                                          dplyr::group_by(scenario, prod_var, region, year) %>%
+                                                          dplyr::summarise(prod = sum(prod)) %>%
+                                                          dplyr::ungroup() %>%
+                                                          dplyr::filter(year <= final_year.global),
+                                                        by = c('prod_var','scenario','region','year')) %>%
+                                       dplyr::mutate(value = prod / land) %>%
+                                       dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+                                       dplyr::rename(var = yield_var) %>%
+                                       dplyr::select(dplyr::all_of(gcamreport::long_columns)))
 
   yield_world <- suppressMessages(land_yield %>%
-    dplyr::rename(land = value, land_var = var) %>%
-    dplyr::filter(land_var %in% yield_map$land_var) %>%
-    dplyr::group_by(scenario, land_var, year) %>%
-    dplyr::summarise(land = sum(land)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(region = 'World') %>%
-    left_join_strict(yield_map, by = 'land_var') %>%
-    dplyr::filter(year <= final_year.global) %>%
-    left_join_strict(ag_production_clean %>%
-                       dplyr::rename(prod = value, prod_var = var) %>%
-                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
-                       dplyr::group_by(scenario, prod_var, year) %>%
-                       dplyr::summarise(prod = sum(prod)) %>%
-                       dplyr::ungroup() %>%
-                       dplyr::mutate(region = 'World') %>%
-                       tidyr::complete(tidyr::nesting(scenario, region, year),
-                                       prod_var = unique(yield_map$prod_var),
-                                       prod = 0) %>%
-                       dplyr::group_by(scenario, prod_var, region, year) %>%
-                       dplyr::summarise(prod = sum(prod)) %>%
-                       dplyr::ungroup() %>%
-                       dplyr::filter(year <= final_year.global),
-                     by = c('prod_var','scenario','region','year')) %>%
-    dplyr::mutate(value = prod / land) %>%
-    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
-    dplyr::rename(var = yield_var) %>%
-    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
+                                    dplyr::rename(land = value, land_var = var) %>%
+                                    dplyr::filter(land_var %in% yield_map$land_var) %>%
+                                    dplyr::group_by(scenario, land_var, year) %>%
+                                    dplyr::summarise(land = sum(land)) %>%
+                                    dplyr::ungroup() %>%
+                                    dplyr::mutate(region = 'World') %>%
+                                    left_join_strict(yield_map, by = 'land_var') %>%
+                                    dplyr::filter(year <= final_year.global) %>%
+                                    left_join_strict(ag_production_clean %>%
+                                                       dplyr::rename(prod = value, prod_var = var) %>%
+                                                       dplyr::filter(prod_var %in% yield_map$prod_var) %>%
+                                                       dplyr::group_by(scenario, prod_var, year) %>%
+                                                       dplyr::summarise(prod = sum(prod)) %>%
+                                                       dplyr::ungroup() %>%
+                                                       dplyr::mutate(region = 'World') %>%
+                                                       tidyr::complete(tidyr::nesting(scenario, region, year),
+                                                                       prod_var = unique(yield_map$prod_var),
+                                                                       prod = 0) %>%
+                                                       dplyr::group_by(scenario, prod_var, region, year) %>%
+                                                       dplyr::summarise(prod = sum(prod)) %>%
+                                                       dplyr::ungroup() %>%
+                                                       dplyr::filter(year <= final_year.global),
+                                                     by = c('prod_var','scenario','region','year')) %>%
+                                    dplyr::mutate(value = prod / land) %>%
+                                    dplyr::mutate(value = dplyr::if_else(is.na(value) | is.nan(value), 0, value)) %>%
+                                    dplyr::rename(var = yield_var) %>%
+                                    dplyr::select(dplyr::all_of(gcamreport::long_columns)))
 
 
   yield_clean <- rbind(
@@ -3180,12 +3223,12 @@ get_yield <- function(GCAM_version = "v7.1") {
 #' Get biomass production shares: total = residue + msw + purpose_grown;
 #' The share of msw + residue over the total will be substracted from the biomass ag demand
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `biomass_shares` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_biomass_shares <- function(GCAM_version = "v7.1") {
+get_biomass_shares <- function(GCAM_version = 'v8.2') {
 
   check_queries("biomass_shares", GCAM_version)
 
@@ -3222,12 +3265,12 @@ get_biomass_shares <- function(GCAM_version = "v7.1") {
 #'
 #' Get agricultural demand.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `ag_demand_clean` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_ag_demand <- function(GCAM_version = "v7.1") {
+get_ag_demand <- function(GCAM_version = 'v8.2') {
   sector <- input <- var <- value <- unit_conv <- scenario <- region <- year <-
     ag_demand_clean <- NULL
 
@@ -3279,12 +3322,12 @@ get_ag_demand <- function(GCAM_version = "v7.1") {
 #'
 #' Get agricultural items weighted by demand. By region and global.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `ag_weights` and `ag_wld_weights` global variables.
 #' @importFrom magrittr %>%
 #' @export
-get_ag_weights <- function(GCAM_version = "v7.1") {
+get_ag_weights <- function(GCAM_version = 'v8.2') {
   sector <- input <- var <- value <- unit_conv <- scenario <- region <-
     year <- ag_weights <- ag_wld_weights <- NULL
 
@@ -3336,7 +3379,7 @@ get_ag_weights <- function(GCAM_version = "v7.1") {
       scenario = unique(ag_weights$scenario),
       region = unique(ag_weights$region),
       year = unique(ag_weights$year)
-      )
+    )
 
   ag_weights <- dplyr::left_join(
     sectors_combination,
@@ -3384,12 +3427,12 @@ get_ag_weights <- function(GCAM_version = "v7.1") {
 #'
 #' Get agricultural production.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `ag_production_clean` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_ag_production <- function(GCAM_version = "v7.1") {
+get_ag_production <- function(GCAM_version = 'v8.2') {
   Units <- scenario <- region <- year <- var <- value <-
     ag_production_clean <- NULL
 
@@ -3427,12 +3470,12 @@ get_ag_production <- function(GCAM_version = "v7.1") {
 #'
 #' Get land use area.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `land_clean` and `land_yield` global variables.
 #' @importFrom magrittr %>%
 #' @export
-get_land <- function(GCAM_version = "v7.1") {
+get_land <- function(GCAM_version = 'v8.2') {
   value <- unit_conv <- scenario <- region <- year <- var <- land_clean <- land_yield <- landleaf <- NULL
 
   check_queries("land_clean", GCAM_version)
@@ -3548,12 +3591,12 @@ get_land <- function(GCAM_version = "v7.1") {
 #' get_primary_energy
 #'
 #' Retrieve primary energy consumption data by technology.
-#'@param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#'@param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `primary_energy_clean` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_primary_energy <- function(GCAM_version = "v7.1") {
+get_primary_energy <- function(GCAM_version = 'v8.2') {
   fuel <- Units <- year <- var <- value <- unit_conv <- scenario <- region <- NULL
 
   check_queries("primary_energy_clean", GCAM_version)
@@ -3586,12 +3629,12 @@ get_primary_energy <- function(GCAM_version = "v7.1") {
 #' get_pe_trade_prod
 #'
 #' Retrieve energy trade data.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `pe_trade_prod` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_pe_trade_prod <- function(GCAM_version = 'v7.1') {
+get_pe_trade_prod <- function(GCAM_version = 'v8.2') {
   Units <- resource <- scenario <- region <- year <- value <-
     pe_trade_prod <- NULL
 
@@ -3629,12 +3672,12 @@ get_pe_trade_prod <- function(GCAM_version = 'v7.1') {
 #' get_pe_trade_supply
 #'
 #' Retrieve energy trade supply data for calculating other variables.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy tmp
 #' @return `pe_trade_supply` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_pe_trade_supply <- function(GCAM_version = 'v7.1') {
+get_pe_trade_supply <- function(GCAM_version = 'v8.2') {
   market <- resource <- scenario <- region <- year <- value <-
     pe_trade_supply <- NULL
 
@@ -3660,12 +3703,12 @@ get_pe_trade_supply <- function(GCAM_version = 'v7.1') {
 #'
 #' Retrieve primary energy trade.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy tmp
 #' @return `pe_trade` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_pe_trade <- function(GCAM_version = 'v7.1') {
+get_pe_trade <- function(GCAM_version = 'v8.2') {
   production <- demand <- resource <- pe_trade <- NULL
 
   check_queries("pe_trade", GCAM_version)
@@ -3693,21 +3736,40 @@ get_pe_trade <- function(GCAM_version = 'v7.1') {
 #' get_elec_gen_tech
 #'
 #' Retrieve electricity generation.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal electricity
 #' @return `secondary_energy_clean` and `secondary_energy_raw` global variables
 #' @importFrom magrittr %>%
 #' @export
-get_elec_gen_tech <- function(GCAM_version = "v7.1") {
+get_elec_gen_tech <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
     secondary_energy_clean <- secondary_energy_raw <- NULL
 
   check_queries("secondary_energy_clean", GCAM_version)
   check_queries("secondary_energy_raw", GCAM_version)
 
+  # deal with grid regions:
+  # split the subsector "region_name load generation" and substitute the
+  # grid region for the market name
+  elec_gen_tmp <- check_inf(rgcam::getQuery(prj, "elec gen by gen tech"),
+                            dataset_name = "elec gen by gen tech")
+  if (any(grepl("generation", unique(elec_gen_tmp$subsector)))) {
+    elec_gen_grids <- elec_gen_tmp %>%
+      dplyr::filter(grepl('generation', subsector)) %>%
+      dplyr::mutate(load_type = stringr::str_extract(subsector, "base load generation|intermediate generation|peak generation|subpeak generation"),
+                    region = stringr::str_squish(stringr::str_remove(subsector, load_type))) %>%
+      dplyr::select(Units,scenario,region,subsector=load_type,technology=load_type,year,value)
+
+    elec_gen_tmp <- rbind(
+      elec_gen_tmp %>%
+        dplyr::filter(!grepl('generation', subsector)),
+      elec_gen_grids
+    )
+  }
+
   secondary_energy_raw1 <- rbind(
-    check_inf(rgcam::getQuery(prj, "elec gen by gen tech"),
-              dataset_name = "elec gen by gen tech"),
+    elec_gen_tmp %>%
+      dplyr::mutate(output = 'electricity'),
     dplyr::bind_rows(
       check_inf(rgcam::getQuery(prj, "gas production by tech"),
                 dataset_name = "gas production by tech"),
@@ -3753,12 +3815,12 @@ get_elec_gen_tech <- function(GCAM_version = "v7.1") {
 #' get_secondary_solids
 #'
 #' Retrieve secondary solids.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `secondary_solids` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_secondary_solids <- function(GCAM_version = 'v7.1') {
+get_secondary_solids <- function(GCAM_version = 'v8.2') {
   input <- scenario <- region <- year <- value <- secondary_solids <- NULL
 
   check_queries("secondary_solids", GCAM_version)
@@ -3796,12 +3858,12 @@ get_secondary_solids <- function(GCAM_version = 'v7.1') {
 #'
 #' Compute share of total energy household consumption my decile
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `consumption_hh_clean` global variables.
 #' @keywords internal deciles
 #' @importFrom magrittr %>%
 #' @export
-get_consumption_hh <- function(GCAM_version = "v7.1") {
+get_consumption_hh <- function(GCAM_version = 'v8.2') {
   consumption_hh_clean <- consumption_hh_w <- consumption_hh <-
     consumption_hh_tmp <- NULL
 
@@ -3859,12 +3921,12 @@ get_consumption_hh <- function(GCAM_version = "v7.1") {
 #' get_fe_sector_tmp
 #'
 #' Retrieve final energy demand by sector.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy tmp
 #' @return `fe_sector` and `fe_sector_raw` global variables
 #' @importFrom magrittr %>%
 #' @export
-get_fe_sector_tmp <- function(GCAM_version = "v7.1") {
+get_fe_sector_tmp <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <- tmp <-
     sector <- Units <- input <- fe_sector <- fe_sector_raw <- NULL
 
@@ -3909,12 +3971,12 @@ get_fe_sector_tmp <- function(GCAM_version = "v7.1") {
 #' get_fe_transportation_tmp
 #'
 #' Retrieve mode-specific transport final energy, including rail, ship, and domestic air.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy  tmp
 #' @return `fe_transportation` and `fe_transportation_raw` global variables
 #' @importFrom magrittr %>%
 #' @export
-get_fe_transportation_tmp <- function(GCAM_version = "v7.1") {
+get_fe_transportation_tmp <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
     fe_transportation <- fe_transportation_raw <- NULL
 
@@ -3954,12 +4016,12 @@ get_fe_transportation_tmp <- function(GCAM_version = "v7.1") {
 #' international from the sector-level and domestic from the subsector-level. This aggregation step prevents duplicate entries
 #' with inconsistent data for the same reporting categories.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy process
 #' @return `fe_sector_clean` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_fe_sector <- function(GCAM_version = 'v7.1') {
+get_fe_sector <- function(GCAM_version = 'v8.2') {
   scenario <- region <- var <- year <- value <- fe_sector_clean <- NULL
 
   check_queries("fe_sector_clean", GCAM_version)
@@ -3977,12 +4039,12 @@ get_fe_sector <- function(GCAM_version = 'v7.1') {
 #'
 #' Retrieve total trade.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy tmp
 #' @return `trade_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_total_trade <- function(GCAM_version = "v7.1") {
+get_total_trade <- function(GCAM_version = 'v8.2') {
   trade_clean <- NULL
 
   check_queries("trade_clean", GCAM_version)
@@ -4000,12 +4062,12 @@ get_total_trade <- function(GCAM_version = "v7.1") {
 #' get_energy_service_transportation
 #'
 #' Retrieve transport service.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `energy_service_transportation_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_energy_service_transportation <- function(GCAM_version = "v7.1") {
+get_energy_service_transportation <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
     energy_service_transportation_clean <- NULL
 
@@ -4083,12 +4145,12 @@ get_energy_service_transportation <- function(GCAM_version = "v7.1") {
 #' get_energy_service_buildings
 #'
 #' Get ES buildings.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `floor_space_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_floor_space <- function(GCAM_version = "v7.1") {
+get_floor_space <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <- building <-
     nodeinput <- Units <- floor_space_clean <- NULL
 
@@ -4125,12 +4187,12 @@ get_floor_space <- function(GCAM_version = "v7.1") {
 #' get_hdd_cdd
 #'
 #' Get HDD and CDD.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `hdd_cdd_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_hdd_cdd <- function(GCAM_version = "v7.1") {
+get_hdd_cdd <- function(GCAM_version = 'v8.2') {
   hdd_cdd_clean <- NULL
 
   check_queries("hdd_cdd_clean", GCAM_version)
@@ -4159,12 +4221,12 @@ get_hdd_cdd <- function(GCAM_version = "v7.1") {
 #' get_industry_production
 #'
 #' Retrieve industry production.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal energy
 #' @return `industry_production_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_industry_production <- function(GCAM_version = "v7.1") {
+get_industry_production <- function(GCAM_version = 'v8.2') {
   var <- scenario <- region <- year <- value <- industry_production_clean <- NULL
 
   check_queries("industry_production_clean", GCAM_version)
@@ -4189,11 +4251,11 @@ get_industry_production <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieve iron steel imports.
 #' @keywords internal industry tmp
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `iron_steel_imports` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_iron_steel_imports <- function(GCAM_version = "v7.1") {
+get_iron_steel_imports <- function(GCAM_version = 'v8.2') {
   var <- scenario <- region <- year <- value <- subsector <- iron_steel_imports <- NULL
 
   check_queries("iron_steel_imports", GCAM_version)
@@ -4216,11 +4278,11 @@ get_iron_steel_imports <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieve iron steel production.
 #' @keywords internal industry tmp
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `iron_steel_exports` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_iron_steel_exports <- function(GCAM_version = "v7.1") {
+get_iron_steel_exports <- function(GCAM_version = 'v8.2') {
   var <- scenario <- region <- year <- value <- iron_steel_exports <- NULL
 
   check_queries("iron_steel_exports", GCAM_version)
@@ -4244,12 +4306,12 @@ get_iron_steel_exports <- function(GCAM_version = "v7.1") {
 #' get_iron_steel_clean
 #'
 #' Retrieve iron steel imports & exports
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal industry
 #' @return `iron_steel_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_iron_steel_clean <- function(GCAM_version = 'v7.1') {
+get_iron_steel_clean <- function(GCAM_version = 'v8.2') {
   iron_steel_clean <- NULL
 
   check_queries("iron_steel_clean", GCAM_version)
@@ -4269,12 +4331,12 @@ get_iron_steel_clean <- function(GCAM_version = 'v7.1') {
 #' get_ag_price_wld_tmp
 #'
 #' Retrieve agricultural price index.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag tmp
 #' @return `ag_price_wld` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_ag_price_wld_tmp <- function(GCAM_version = "v7.1") {
+get_ag_price_wld_tmp <- function(GCAM_version = 'v8.2') {
   var <- scenario <- sector <- year <- value <- ag_price_map <-
     ag_demand_reg_sec_weights <- ag_price_variable <- ag_price_wld <-
     ag_demand_variable <- Units <- region <- unit_conv <- NULL
@@ -4331,12 +4393,12 @@ get_ag_price_wld_tmp <- function(GCAM_version = "v7.1") {
 #' get_ag_price
 #'
 #' Calculate average mean for agricultural global index.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal ag
 #' @return `ag_price_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_ag_price <- function(GCAM_version = "v7.1") {
+get_ag_price <- function(GCAM_version = 'v8.2') {
   var <- scenario <- region <- sector <- value <- unit_conv <- year <- Units <- NULL
 
   check_queries("ag_price_clean", GCAM_version)
@@ -4392,12 +4454,12 @@ get_ag_price <- function(GCAM_version = "v7.1") {
 #' get_price_var_tmp
 #'
 #' Retrieve price variables to compute carbon price.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal internal tmp process
 #' @return `price_var` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_price_var_tmp <- function(GCAM_version = "v7.1") {
+get_price_var_tmp <- function(GCAM_version = 'v8.2') {
   price_var <- NULL
 
   check_queries("price_var", GCAM_version)
@@ -4413,17 +4475,17 @@ get_price_var_tmp <- function(GCAM_version = "v7.1") {
 #' get_regions_tmp
 #'
 #' Retrieve regions for carbon price computation. This function fetches the regions necessary for calculating carbon prices.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal tmp process
 #' @return `regions.global` global variable.
 #' @importFrom magrittr %>%
 #' @export
-get_regions_tmp <- function(GCAM_version = "v7.1") {
+get_regions_tmp <- function(GCAM_version = 'v8.2') {
   regions.global <- NULL
 
   check_queries("regions.global", GCAM_version)
 
-  CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+  CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version) %>%
     dplyr::filter(region != 'NoReported')
   regions.global <-
     unique(CO2_market_filteredReg$region)
@@ -4436,12 +4498,12 @@ get_regions_tmp <- function(GCAM_version = "v7.1") {
 #' get_co2_price_global_tmp
 #'
 #' Retrieve global co2 price.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal co2 tmp
 #' @return `co2_price_global` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_co2_price_global_tmp <- function(GCAM_version = "v7.1") {
+get_co2_price_global_tmp <- function(GCAM_version = 'v8.2') {
   market <- value <- co2_price_global_pre <- regions <- co2_price_global <- NULL
 
   check_queries("co2_price_global", GCAM_version)
@@ -4476,12 +4538,12 @@ get_co2_price_global_tmp <- function(GCAM_version = "v7.1") {
 #'
 #' Retrieves the CO2 price share of each region or sector compared to the total CO2 price.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal co2 tmp
 #' @return Global variable `co2_price_share_bysec` containing CO2 price shares by sector.
 #' @importFrom magrittr %>%
 #' @export
-get_co2_price_share_bysec <- function(GCAM_version = "v7.1") {
+get_co2_price_share_bysec <- function(GCAM_version = 'v8.2') {
   var <- year <- region <- value <- . <- sector <- co2_price_share_bysec <-
     CO2 <- scenario <- share_CO2_ETS <- NULL
 
@@ -4551,12 +4613,12 @@ get_co2_price_share_bysec <- function(GCAM_version = "v7.1") {
 #' get_co2_price_fragmented_tmp
 #'
 #' Retrieve CO2 fragmented price.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal co2 tmp
 #' @return `co2_price_fragmented` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
+get_co2_price_fragmented_tmp <- function(GCAM_version = 'v8.2') {
   market <- Units <- regions <- year <- value <- market_adj <- scenario <-
     region <- CO2 <- sector <- var <- CO2_market_filteredReg <-
     co2_price_fragmented <- NULL
@@ -4574,7 +4636,7 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
 
 
   if (nrow(co2_price_fragmented_pre) > 1) {
-    CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+    CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version) %>%
       dplyr::filter(region != 'NoReported') %>%
       dplyr::filter(!grepl(paste(.myGlobals$ignore.global, collapse = "|"), market))
 
@@ -4638,12 +4700,12 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = "v7.1") {
 #' get_co2_price
 #'
 #' Retrieve co2 price.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal co2
 #' @return `co2_price_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_co2_price <- function(GCAM_version = "v7.1") {
+get_co2_price <- function(GCAM_version = 'v8.2') {
   co2_price_clean_pre <- region <- var <- year <- co2_price_clean <-
     co2_price_regional <- co2_price_world <- market <- sector <- value <-
     share_CO2 <- scenario <- weighted_value <- NULL
@@ -4651,7 +4713,8 @@ get_co2_price <- function(GCAM_version = "v7.1") {
   check_queries("co2_price_clean", GCAM_version)
 
   co2_price_clean_pre <-
-    dplyr::bind_rows(co2_price_global, co2_price_fragmented)
+    dplyr::bind_rows(co2_price_global, co2_price_fragmented) %>%
+    filter_data_regions(GCAM_version = GCAM_version)
 
   if (nrow(co2_price_clean_pre) < 1) {
     co2_price_clean <-
@@ -4692,12 +4755,12 @@ get_co2_price <- function(GCAM_version = "v7.1") {
 #' get_gov_revenue
 #'
 #' Retreive overall carbon revenue.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal revenue
 #' @return `gov_revenue_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_gov_revenue <- function(GCAM_version = 'v7.1') {
+get_gov_revenue <- function(GCAM_version = 'v8.2') {
   scenario <- region <- year <- value <- gov_revenue_clean <- NULL
 
   check_queries("gov_revenue_clean", GCAM_version)
@@ -4744,12 +4807,12 @@ get_gov_revenue <- function(GCAM_version = 'v7.1') {
 #'
 #' Get energy items weighted by demand. By region and global.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal prices
 #' @return `en_weights` and `en_wld_weights` global variables
 #' @importFrom magrittr %>%
 #' @export
-get_en_weights <- function(GCAM_version = "v7.1") {
+get_en_weights <- function(GCAM_version = 'v8.2') {
   sector <- input <- var <- value <- unit_conv <- scenario <- region <-
     year <- en_weights <- en_wld_weights <- NULL
 
@@ -4844,18 +4907,18 @@ get_en_weights <- function(GCAM_version = "v7.1") {
 #' get_energy_price_tmp
 #'
 #' Binds regional oil, gas, coal prices with other energy prices.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal prices process
 #' @return `energy_price` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_energy_price_tmp <- function(GCAM_version = "v7.1") {
+get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
   var <- market <- scenario <- region <- year <- energy_price <-
     value <- PrimaryFuelCO2Coef <- price_C <- unit_conv <- NULL
 
   check_queries("energy_price", GCAM_version)
 
-  CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+  CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version)
   for (ign in unique(.myGlobals$ignore.global)) {
     CO2_market_filteredReg <- rbind(
       CO2_market_filteredReg,
@@ -4974,11 +5037,11 @@ get_energy_price_tmp <- function(GCAM_version = "v7.1") {
 #'
 #' Compute total revenue: total production * global price.
 #' @keywords internal revenue
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `total_revenue` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_total_revenue <- function(GCAM_version = "v7.1") {
+get_total_revenue <- function(GCAM_version = 'v8.2') {
   resource <- scenario <- year <- value <- sector <- resource_price <-
     total_production <- NULL
 
@@ -5020,12 +5083,12 @@ get_total_revenue <- function(GCAM_version = "v7.1") {
 #' get_regional_emission
 #'
 #' Compute regional nonCO2 emission: regional production * nonCO2 coef.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal nonco2
 #' @return `regional_emission` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_regional_emission <- function(GCAM_version = "v7.1") {
+get_regional_emission <- function(GCAM_version = 'v8.2') {
   year <- Non.CO2 <- emiss.coef <- CH4 <- N2O <- CH4.coef <- N2O.coef <-
     region <- resource <- value <- regional_production <- NULL
 
@@ -5067,7 +5130,7 @@ get_regional_emission <- function(GCAM_version = "v7.1") {
 #' @return `energy_price_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_energy_price <- function(GCAM_version = "v7.1") {
+get_energy_price <- function(GCAM_version = 'v8.2') {
   var <- scenario <- region <- value <- year <- energy_price_clean <-
     energy_price_w <- weights_sec_reg <- sector <- NULL
 
@@ -5118,7 +5181,7 @@ get_energy_price <- function(GCAM_version = "v7.1") {
 #' @return `resource_extraction_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_resource_extraction <- function(GCAM_version = "v7.1") {
+get_resource_extraction <- function(GCAM_version = 'v8.2') {
   resource_extraction_clean <- NULL
 
   resource_extraction_clean <- check_inf(rgcam::getQuery(prj, "resource production"),
@@ -5143,7 +5206,7 @@ get_resource_extraction <- function(GCAM_version = "v7.1") {
 #' @return `production_price_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_production_price <- function(GCAM_version = "v7.1") {
+get_production_price <- function(GCAM_version = 'v8.2') {
   production_price_clean <- NULL
 
   check_queries("production_price_clean", GCAM_version)
@@ -5189,18 +5252,18 @@ get_production_price <- function(GCAM_version = "v7.1") {
 #' get_cf_iea_tmp
 #'
 #' Calculate cf for existing capacity checking global existing capacity from IEA.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process tmp
 #' @return `cf_iea` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
+get_cf_iea_tmp <- function(GCAM_version = 'v8.2') {
   year <- scenario <- var <- value <- period <- variable <- EJ <- cf <-
     cf_iea <- technology <- NULL
 
   check_queries("cf_iea", GCAM_version)
 
-  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version) %>%
     interpolateGCAMdata(valuecol = 'capacity.factor')
   ya = years_in_prj[years_in_prj%%5 != 0]
   if (length(ya) == 0) ya = 2020
@@ -5266,20 +5329,20 @@ get_cf_iea_tmp <- function(GCAM_version = "v7.1") {
 #' get_elec_cf_tmp
 #'
 #' Computes future capacity estimates using GCAM.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process tmp
 #' @return `elec_cf` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
+get_elec_cf_tmp <- function(GCAM_version = 'v8.2') {
   technology <- X2100 <- cf <- region <- stub.technology <- year <-
     capacity.factor <- cf.rgn <- vintage <- elec_cf <- NULL
 
   check_queries("elec_cf", GCAM_version)
 
-  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))) %>%
+  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version) %>%
     interpolateGCAMdata(valuecol = 'capacity.factor')
-  cf_iea_filteredReg <- filter_data_regions(cf_iea) %>%
+  cf_iea_filteredReg <- filter_data_regions(cf_iea, GCAM_version = GCAM_version) %>%
     interpolateGCAMdata(valuecol = 'cf', yearcol = 'vintage')
 
   tmp1 <- get(paste('cf_gcam',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
@@ -5314,7 +5377,7 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
     dplyr::ungroup() %>%
     dplyr::filter(!technology %in% c("existing coal", "add CCS retrofit"))
 
-  elec_cf <- filter_data_regions(elec_cf)
+  elec_cf <- filter_data_regions(elec_cf, GCAM_version = GCAM_version)
 
   elec_cf <<- elec_cf
 }
@@ -5322,16 +5385,17 @@ get_elec_cf_tmp <- function(GCAM_version = "v7.1") {
 #' get_elec_capacity_tot
 #'
 #' Calculate total electricity capacity.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process
 #' @return `elec_capacity_tot_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
+get_elec_capacity_tot <- function(GCAM_version = 'v8.2') {
   output <- technology <- vintage <- var <- unit_conv <-
     scenario <- region <- year <- value <- gw <- elec_capacity_tot_clean <- NULL
 
   check_queries("elec_capacity_tot_clean", GCAM_version)
+  grid_regions <- get('grid_regions', envir = asNamespace("gcamreport"))
 
   elec_capacity_tot_clean1 <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech and cooling tech and vintage"),
@@ -5353,6 +5417,18 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
                          dplyr::group_by(scenario, region, technology, vintage, year) %>%
                          dplyr::summarise(value = sum(value, na.rm = T)) %>%
                          dplyr::ungroup()) %>%
+      # simplify technology names
+      dplyr::mutate(technology = stringr::str_remove(technology,',depth=1')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_base')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_int')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_peak')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_subpeak')) %>%
+      dplyr::filter(technology != 'battery') %>%
+      dplyr::group_by(scenario,region,technology,vintage,year) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
+      # remove grid regions (GCAM-Europe issue)
+      dplyr::filter(!region %in% grid_regions) %>%
       left_join_strict(elec_cf %>%
                          dplyr::select(-cf.rgn), by = c("region", "technology", "vintage")) %>%
       dplyr::mutate(EJ = value) %>%
@@ -5393,16 +5469,17 @@ get_elec_capacity_tot <- function(GCAM_version = "v7.1") {
 #' get_elec_capacity_add_tmp
 #'
 #' Calculate added total electricity capacity.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process tmp
 #' @return `elec_capacity_add` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
+get_elec_capacity_add_tmp <- function(GCAM_version = 'v8.2') {
   output <- technology <- vintage <- scenario <- elec_capacity_add <-
     region <- year <- value <- gw <- EJ <- NULL
 
   check_queries("elec_capacity_add", GCAM_version)
+  grid_regions <- get('grid_regions', envir = asNamespace("gcamreport"))
 
   elec_capacity_add <- suppressWarnings(
     check_inf(rgcam::getQuery(prj, "elec gen by gen tech and cooling tech and vintage"),
@@ -5428,7 +5505,18 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
       dplyr::group_by(scenario, region, technology, year) %>%
       dplyr::summarise(value = sum(value, na.rm = T)) %>%
       dplyr::ungroup() %>%
+      # remove grid regions (GCAM-Europe issue)
+      dplyr::filter(!region %in% grid_regions) %>%
       # use GCAM cf for capacity additions
+      dplyr::mutate(technology = stringr::str_remove(technology,',depth=1')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_base')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_int')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_peak')) %>%
+      dplyr::mutate(technology = stringr::str_remove(technology,'_subpeak')) %>%
+      dplyr::filter(technology != 'battery') %>%
+      dplyr::group_by(scenario,region,technology,year) %>%
+      dplyr::summarise(value = sum(value)) %>%
+      dplyr::ungroup() %>%
       left_join_strict(elec_cf %>%
                          dplyr::select(-'cf.rgn') %>%
                          dplyr::rename(year = vintage),
@@ -5449,12 +5537,12 @@ get_elec_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
 #' get_refliq_capacity_add_tmp
 #'
 #' Calculate added total refined liquids electricity capacity.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process tmp
 #' @return `refliq_capacity_add` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_refliq_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
+get_refliq_capacity_add_tmp <- function(GCAM_version = 'v8.2') {
   # TOBEADDED
   # refliq_capacity_add;get_refliq_capacity_add_tmp;refliq_cf;;refined liquids production by cooling tech and vintage
 
@@ -5508,12 +5596,12 @@ get_refliq_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
 #' get_hydrogen_capacity_add_tmp
 #'
 #' Calculate added total hydrgoen capacity.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process tmp
 #' @return `hydrogen_capacity_add` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_hydrogen_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
+get_hydrogen_capacity_add_tmp <- function(GCAM_version = 'v8.2') {
   # TOBEADDED
   # hydrogen_capacity_add;get_hydrogen_capacity_add_tmp;hydrogen_cf;;hydrogen production by cooling tech and vintage
 
@@ -5566,12 +5654,12 @@ get_hydrogen_capacity_add_tmp <- function(GCAM_version = 'v7.1') {
 #' get_elec_capacity_add
 #'
 #' Calculate final total added capacity.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capacity process
 #' @return `elec_capacity_add_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_elec_capacity_add <- function(GCAM_version = "v7.1") {
+get_elec_capacity_add <- function(GCAM_version = 'v8.2') {
   output <- EJ <- value <- var <- GW <- unit_conv <- scenario <- vintage <-
     region <- year <- gw <- output <- technology <- scenario <-
     elec_capacity_add_clean <- NULL
@@ -5612,17 +5700,17 @@ get_elec_capacity_add <- function(GCAM_version = "v7.1") {
 #' get_elec_capital
 #'
 #' Calculate capital cost of a newly installed plants.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capital process
 #' @return `elec_capital_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_elec_capital <- function(GCAM_version = "v7.1") {
+get_elec_capital <- function(GCAM_version = 'v8.2') {
   year <- region <- var <- capital.overnight <- technology <-
     GW <- scenario <- output <- value <- unit_conv <- elec_capital_clean <- NULL
 
   check_queries("elec_capital_clean", GCAM_version)
-  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")))
+  cf_rgn_filteredReg <- filter_data_regions(get(paste('cf_rgn',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version)
 
 
   # Capital costs from GCAM in $1975/kw -> convert to $2010/kw
@@ -5669,12 +5757,12 @@ get_elec_capital <- function(GCAM_version = "v7.1") {
 #' get_elec_investment
 #'
 #' Calculate electricity investment = annual capacity additions * capital costs.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal capital process
 #' @return `elec_investment_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_elec_investment <- function(GCAM_version = "v7.1") {
+get_elec_investment <- function(GCAM_version = 'v8.2') {
   year <- region <- var <- capital.overnight <- technology <-
     GW <- scenario <- output <- value <- unit_conv <- elec_investment_clean <- NULL
 
@@ -5730,12 +5818,12 @@ get_elec_investment <- function(GCAM_version = "v7.1") {
 #'
 #' Calculate Investment in Electricity Transmission and Distribution. Scales 2020 numbers based on the average of other model results from Mcollion et al. 2018.
 #' Converts 2015 values to 2010 dollars.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal investment process
 #' @return `transmission_invest_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_transmission_invest <- function(GCAM_version = "v7.1") {
+get_transmission_invest <- function(GCAM_version = 'v8.2') {
   Region <- Variable <- year <- value <- var <- scenario <- share <-
     region <- invest <- rate <- NULL
 
@@ -5781,12 +5869,12 @@ get_transmission_invest <- function(GCAM_version = "v7.1") {
 #' get_resource_investment
 #'
 #' Calculate investment of resource production.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal investment process
 #' @return `resource_investment_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_resource_investment <- function(GCAM_version = "v7.1") {
+get_resource_investment <- function(GCAM_version = 'v8.2') {
   resource <- technology <- vintage <- year <- scenario <- region <- rate <-
     value <- Region <- Variable <- fuel <- production <- share <- invest <- NULL
 
@@ -5819,10 +5907,10 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                                                 production[region == 'USA'],
                                                 production)) %>%
       dplyr::ungroup() %>%
-      filter_data_regions()
+      filter_data_regions(GCAM_version = GCAM_version)
   } else {
     resource_addition <- resource_addition %>%
-      filter_data_regions()
+      filter_data_regions(GCAM_version = GCAM_version)
   }
 
   # scale 2015 number - average of other model results from Mcollion et al. 2018
@@ -5835,7 +5923,8 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
 
   extraction2020 <-
     get(paste('investment',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
-    dplyr::filter(Region == "World", Variable == "Extraction and Conversion - Fossil Fuels", year == 2020) %>%
+    # Use the nearest year to the final GCAM base year from the investment dataset
+    dplyr::filter(Region == "World", Variable == "Extraction and Conversion - Fossil Fuels", year == unique(year)[which.min(abs(unique(year) - base_year_p))] ) %>%
     dplyr::mutate(value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_15USD_10USD']]) %>%
     dplyr::summarise(value = mean(value, na.rm = T)) %>%
     unlist()
@@ -5856,7 +5945,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 # from 1975$/kg to 1975$/EJ; 1EJ = 0.08314kg
                 dplyr::mutate(value = value / 0.08314) %>%
                 tidyr::expand_grid(region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'])) %>%
-        filter_data_regions(),
+        filter_data_regions(GCAM_version = GCAM_version),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
     dplyr::mutate(value = production * value) %>%
@@ -5872,7 +5961,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
 
   resource_investment2020 <-
     resource_addition %>%
-    dplyr::filter(year == 2020) %>%
+    dplyr::filter(year == base_year_p) %>%
     left_join_strict(
       check_inf(rgcam::getQuery(prj, "regional primary energy prices"),
                 dataset_name = "regional primary energy prices") %>%
@@ -5886,7 +5975,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
                 # from 1975$/kg to 1975$/GJ; 1GJ = 83.14kg
                 dplyr::mutate(value = value / 83.14) %>%
                 tidyr::expand_grid(region = available_regions(print = F, GCAM_version)[available_regions(print = F, GCAM_version) != 'World'])) %>%
-        filter_data_regions(),
+        filter_data_regions(GCAM_version = GCAM_version),
       by = c("scenario", "region", "year", "fuel")
     ) %>%
     dplyr::mutate(value = production * value) %>%
@@ -5904,7 +5993,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
 
   resource_investment <-
     resource_addition %>%
-    dplyr::filter(year != 2020) %>%
+    dplyr::filter(year != base_year_p) %>%
     dplyr::rename(resource = fuel) %>%
     dplyr::group_by(scenario, resource) %>%
     dplyr::mutate(rate = production / production[year == 2015 & region == reg]) %>%
@@ -5916,7 +6005,7 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
       by = c("scenario", "resource")
     ) %>%
     dplyr::bind_rows(resource_addition %>%
-                       dplyr::filter(year == 2020) %>%
+                       dplyr::filter(year == base_year_p) %>%
                        dplyr::rename(resource = fuel) %>%
                        dplyr::group_by(scenario, resource) %>%
                        dplyr::mutate(rate = production / production[region == reg]) %>%
@@ -5965,12 +6054,12 @@ get_resource_investment <- function(GCAM_version = "v7.1") {
 #' get_total_investment
 #'
 #' Calculate investment of resource production + extraction.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal investment process
 #' @return `total_investment_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_total_investment <- function(GCAM_version = "v7.1") {
+get_total_investment <- function(GCAM_version = 'v8.2') {
   total_investment_clean <- NULL
 
   check_queries("total_investment_clean", GCAM_version)
@@ -6007,12 +6096,12 @@ get_total_investment <- function(GCAM_version = "v7.1") {
 #' refining/liquids, gas processing) using GCAM's native "Capital investment
 #' demands by tech" query. Values are converted from 1975$/timestep to
 #' billion 2010$/yr.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal investment process
 #' @return `nonelec_investment_clean` global variable
 #' @importFrom magrittr %>%
 #' @export
-get_nonelec_investment <- function(GCAM_version = "v7.1") {
+get_nonelec_investment <- function(GCAM_version = 'v8.2') {
   sector <- subsector <- technology <- var <- value <-
     nonelec_investment_clean <- NULL
 
@@ -6025,7 +6114,8 @@ get_nonelec_investment <- function(GCAM_version = "v7.1") {
     rgcam::getQuery(prj, "capital investment demands by tech"),
     dataset_name = "capital investment demands by tech"
   ) %>%
-    dplyr::filter(sector %in% unique(inv_map$sector))
+    dplyr::filter(sector %in% unique(inv_map$sector),
+                  year %in% years_in_prj)
 
   # timestep length: 5 years for all future periods
   # annualize and convert 1975$ -> billion 2010$
@@ -6054,12 +6144,12 @@ get_nonelec_investment <- function(GCAM_version = "v7.1") {
 #'
 #' Computes the regional transport vehicles sales.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `trn_sales_clean` global variable.
 #' @keywords internal transport
 #' @importFrom magrittr %>%
 #' @export
-get_transport_sales <- function(GCAM_version = "v7.1") {
+get_transport_sales <- function(GCAM_version = 'v8.2') {
   value <- trn_sales_clean <- NULL
 
   check_queries('trn_sales_clean', GCAM_version)
@@ -6171,12 +6261,12 @@ get_transport_sales <- function(GCAM_version = "v7.1") {
 #'
 #' Computes the regional transport vehicles stock.
 #'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return `trn_stock_clean` global variable.
 #' @keywords internal transport
 #' @importFrom magrittr %>%
 #' @export
-get_transport_stock <- function(GCAM_version = "v7.1") {
+get_transport_stock <- function(GCAM_version = 'v8.2') {
   value <- trn_stock_clean <- NULL
 
   check_queries('trn_stock_clean', GCAM_version)
@@ -6279,13 +6369,13 @@ get_transport_stock <- function(GCAM_version = "v7.1") {
 #' do_bind_results
 #'
 #' Binds results and saves them to an output file.#'
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @param all_tier1 If `TRUE` (not default), introduce all Tier 1 Variables (as 0) in the standardized report.
 #' @keywords internal process
 #' @return Saved results in an output file.
 #' @importFrom magrittr %>%
 #' @export
-do_bind_results <- function(GCAM_version = "v7.1", all_tier1 = F) {
+do_bind_results <- function(GCAM_version = 'v8.2', all_tier1 = F) {
   region <- var <- scenario <- year <- value <- . <- na.omit <- Region <- Variable <- NULL
 
   vars <- .myGlobals$variables.global[.myGlobals$variables.global$required == TRUE, "name"]
@@ -6296,7 +6386,7 @@ do_bind_results <- function(GCAM_version = "v7.1", all_tier1 = F) {
       region = gsub("global", "World", region)
     )
   GCAM_DATA <- GCAM_DATA %>%
-    filter_data_regions() %>%
+    filter_data_regions(GCAM_version = GCAM_version) %>%
     rbind(GCAM_DATA %>%
             dplyr::filter(region == 'World'))
 
@@ -6448,11 +6538,11 @@ do_bind_results <- function(GCAM_version = "v7.1", all_tier1 = F) {
 #'
 #' Verify standardized dataset does not contain Inf values
 #' @keywords internal check
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return A message confirming the success of the vetting process.
 #' @importFrom magrittr %>%
 #' @export
-do_check_inf <- function(GCAM_version = "v7.1") {
+do_check_inf <- function(GCAM_version = 'v8.2') {
   # Check vetting results from SM
   report_inf_summary <- report %>%
     dplyr::filter(dplyr::if_any(`2005`:dplyr::last_col(), ~ is.infinite(.)))
@@ -6478,11 +6568,11 @@ do_check_inf <- function(GCAM_version = "v7.1") {
 #'
 #' Verify standardized dataset does not contain NA values
 #' @keywords internal check
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return A message confirming the success of the vetting process.
 #' @importFrom magrittr %>%
 #' @export
-do_check_na <- function(GCAM_version = "v7.1") {
+do_check_na <- function(GCAM_version = 'v8.2') {
   # Check vetting results from SM
   report_na_summary <- report %>%
     dplyr::filter(dplyr::if_any(`2005`:last_col(), ~ is.na(.)))
@@ -6508,12 +6598,12 @@ do_check_na <- function(GCAM_version = "v7.1") {
 #'
 #' Verify vetting and produce plot.
 #' @keywords internal check
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @return A message confirming the success of the vetting process.
 #' @import ggplot2
 #' @importFrom magrittr %>%
 #' @export
-do_check_vetting <- function(GCAM_version = "v7.1") {
+do_check_vetting <- function(GCAM_version = 'v8.2') {
   year <- value <- Model <- Variable <- Unit <- Scenario <- Region <-
     adj_var <- adj_var2 <- region <- Range <- variable <- value_vet <-
     unit_vet <- check <- type <- NULL
@@ -6615,10 +6705,10 @@ do_check_vetting <- function(GCAM_version = "v7.1") {
 #' update_template
 #'
 #' Update the template file by incorporating new reported variables and removing unreported ones.
-#' @param GCAM_version Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
 #' @keywords internal template
 #' @return Updated template saved as both .rda and .csv files in the `inst/extdata` folder.
-update_template <- function(GCAM_version = "v7.1") {
+update_template <- function(GCAM_version = 'v8.2') {
   as_output <- Internal_variable <- Variable <- NULL
 
   data <- merge(get(paste('template',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),

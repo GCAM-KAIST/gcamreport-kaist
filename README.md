@@ -25,17 +25,16 @@
 
 <!-- ------------------------>
 
-- [gcamreport](#gcamreport)
-  - [Contents](#contents)
-  - [Introduction](#introduction)
-  - [Installation Guide](#installation-guide)
-    - [With R](#with-r)
-      - [Light mode installation](#light-mode-installation)
-      - [Full mode installation](#full-mode-installation)
-    - [With Docker](#with-docker)
-  - [Getting Started](#getting-started)
-  - [How to contribute?](#contribute)
-  - [Top common Warnings and Error Messages](#top-common-warnings-and-error-messages)
+- [Contents](#contents)
+- [Introduction](#introduction)
+- [Installation Guide](#installation-guide)
+  - [With R](#with-r)
+    - [Light mode installation](#light-mode-installation)
+    - [Full mode installation](#full-mode-installation)
+  - [With Docker](#with-docker)
+- [Getting Started](#getting-started)
+- [How to contribute?](#contribute)
+- [Top common Warnings and Error Messages](#top-common-warnings-and-error-messages)
 
 
 <br>
@@ -52,8 +51,9 @@
 
 [Back to Contents](#contents)
 
-`gcamreport` is a tool designed to generate consistent datasets from any scenario run by the Global Change Analysis Model ([GCAM](http://www.globalchange.umd.edu/gcam/)), ensuring they meet the reporting standards of the Integrated Assessment Modeling Consortium ([IAMC](https://www.iamconsortium.org/)) defined in the [Common Definitions](https://github.com/IAMconsortium/common-definitions) repository. In addition, `gcamreport` features an interactive user interface that allows users to create and download plots in real time and export reduced, formatted datasets in spreadsheet format. The tool is currently compatible with GCAM-core versions [6.0](https://zenodo.org/records/6619287), [7.0](https://zenodo.org/records/8010145), [7.1](https://zenodo.org/records/11481167), [7.2](https://zenodo.org/records/13946379), [8.2](https://zenodo.org/records/15581174), and the [ScenarioMIP project](https://wcrp-cmip.org/mips/scenariomip/)
-Moreover, we support the 2015 and 2021 GCAM base years. Check the [version guide](file:///C:/Users/claudia.rodes/Documents/IAM_COMPACT/gcamreport/docs/articles/Version_Guide.html) to see how to run your version! :rocket:
+`gcamreport` is a tool designed to generate consistent datasets from any scenario run by the Global Change Analysis Model ([GCAM](http://www.globalchange.umd.edu/gcam/)), ensuring they meet the reporting standards of the Integrated Assessment Modeling Consortium ([IAMC](https://www.iamconsortium.org/)) defined in the [Common Definitions](https://github.com/IAMconsortium/common-definitions) repository. In addition, `gcamreport` features an interactive user interface that allows users to create and download plots in real time and export reduced, formatted datasets in spreadsheet format. The tool is currently compatible with GCAM-core versions [6.0](https://zenodo.org/records/6619287), [7.0](https://zenodo.org/records/8010145), [7.1](https://zenodo.org/records/11481167), [7.2](https://zenodo.org/records/13946379), [8.2](https://zenodo.org/records/15581174), and the [ScenarioMIP project](https://wcrp-cmip.org/mips/scenariomip/); and GCAM-Europe versions [7.2](https://zenodo.org/records/15655568) and [8.7](https://github.com/bc3LC-GCAMEurope/gcam-core/releases/tag/gcam-europe-v8.7.0).
+Moreover, we support the 2015 and 2021 GCAM base years. Check the [version guide](https://bc3lc.github.io/gcamreport/articles/Version_Guide.html) to see how to run your version! :rocket:
+
 
 <br>
 

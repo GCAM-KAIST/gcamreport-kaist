@@ -4,14 +4,14 @@
 \alias{launch_gcamreport_ui}
 \title{launch_gcamreport_ui}
 \usage{
-launch_gcamreport_ui(data_path = NULL, data = NULL, GCAM_version = "v7.1")
+launch_gcamreport_ui(data_path = NULL, data = NULL, GCAM_version = "v8.2")
 }
 \arguments{
 \item{data_path}{Optional. Path to an RData file containing the standardized data. If provided, this file will be used to load the data into the Shiny application. You can obtain this dataset using `gcamreport::generate_report`.}
 
 \item{data}{Optional. An R dataframe or list containing the standardized data. If provided, this data will be used directly in the Shiny application. You can obtain this dataset using `gcamreport::generate_report`.}
 
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 Launches the Shiny interactive UI. This function does not return a value but starts the Shiny application for user interaction.

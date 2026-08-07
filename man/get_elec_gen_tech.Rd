@@ -4,10 +4,10 @@
 \alias{get_elec_gen_tech}
 \title{get_elec_gen_tech}
 \usage{
-get_elec_gen_tech(GCAM_version = "v7.1")
+get_elec_gen_tech(GCAM_version = "v8.2")
 }
 \arguments{
-\item{GCAM_version}{Main GCAM compatible version: 'v7.1' (default), 'v7.2', 'v7.0'.}
+\item{GCAM_version}{Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.}
 }
 \value{
 `secondary_energy_clean` and `secondary_energy_raw` global variables
