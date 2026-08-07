@@ -49,6 +49,14 @@ library(readxl)
 library(rgcam)
 ################################
 
+########## Load KAIST step2 modules ##########
+# One file per adjustment (a* = Part A all regions, b* = Part B Korea only).
+# Module files only define functions; sourcing them executes nothing.
+for (f in list.files(file.path(getwd(), "kaist/modules"), pattern = "\\.R$", full.names = TRUE)) {
+  source(f)
+}
+##############################################
+
 ########## Load Data ##########
 excel_file <- file.path(output_dir, paste0(run_name, ".xlsx"))
 data <- read_excel(excel_file)
@@ -64,169 +72,26 @@ write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.
 # PART A: All Regions Processing
 ################################################################################
 
-########## Update CO2 Prices ##########
-# Skip if the .dat does not have the "CO2 prices" query (e.g. step1 was run
-# with desired_variables restricted to Capacity / Emissions only).
-co2_prices <- tryCatch(getQuery(prj, "CO2 prices"), error = function(e) NULL)
+########## Shared Part A inputs ##########
+# cf tables were already patched by patch_gcam_data() above (South Korea
+# renewable CF overrides + Korea conventional CFs), so they are used as loaded.
+load(file.path(getwd(), "data/cf_rgn_v7.0.rda"))    # -> cf_rgn_v7.0
+load(file.path(getwd(), "data/cf_gcam_v7.0.rda"))   # -> cf_gcam_v7.0
 
-if (!is.null(co2_prices)) {
-  regions_list <- unique(getQuery(prj, "CO2 emissions by region")$region)
-  valid_markets <- paste0(regions_list, "CO2")
-
-  co2_price_all <- co2_prices %>%
-    filter(market %in% valid_markets) %>%
-    select(scenario, market, year, value) %>%
-    pivot_wider(names_from = year, values_from = value) %>%
-    mutate(
-      Model = model_name,
-      Region = sub("CO2$", "", market),
-      Variable = "Price|Carbon",
-      Unit = "1990$/tC"
-    ) %>%
-    rename(Scenario = scenario) %>%
-    select(Model, Scenario, Region, Variable, Unit, everything(), -market)
-
-  data <- data %>%
-    filter(Variable != "Price|Carbon") %>%
-    bind_rows(co2_price_all)
-} else {
-  message("Skipping CO2 Prices update -- query not present in .dat.")
-}
-#########################################
-
-########## Battery Storage Capacity ##########
-load(file.path(getwd(), "data/cf_rgn_v7.0.rda"))
-# cf_rgn_v7.0.rda was already patched by patch_gcam_data() above (South Korea
-# renewable CF overrides + Korea conventional CFs), so it is used as loaded.
-
+# Generation by technology, shared by a2 (battery storage) and a3 (Gen III).
 elec_gen <- getQuery(prj, "elec gen by gen tech")
+##########################################
 
-storage_gen <- elec_gen %>%
-  filter(technology %in% c("PV_storage", "wind_storage"))
+# a1: replace Price|Carbon rows from the "CO2 prices" query (skips if absent)
+data <- add_carbon_price(data, prj)
 
-cf_storage <- cf_rgn_v7.0 %>%
-  filter(stub.technology %in% c("PV_storage", "wind_storage")) %>%
-  select(region, technology = stub.technology, year, cf = capacity.factor)
+# a2: build Capacity|...|Battery Storage rows from PV_storage / wind_storage
+data <- add_battery_storage(data, elec_gen, cf_rgn_v7.0)
 
-battery_storage <- storage_gen %>%
-  left_join(cf_storage, by = c("region", "technology", "year")) %>%
-  mutate(battery_capacity_gw = (value / (cf * 8760)) * 1e9 / 3600) %>%
-  select(scenario, region, subsector, technology, year, battery_capacity_gw) %>%
-  pivot_wider(names_from = year, values_from = battery_capacity_gw) %>%
-  mutate(
-    Model = model_name,
-    Region = region,
-    Variable = case_when(
-      technology == "PV_storage" ~ "Capacity|Electricity|Solar|PV|Battery Storage",
-      technology == "wind_storage" ~ "Capacity|Electricity|Wind|Battery Storage"
-    ),
-    Unit = "GW"
-  ) %>%
-  rename(Scenario = scenario) %>%
-  select(Model, Scenario, Region, Variable, Unit, everything(), -region, -subsector, -technology)
-
-data <- data %>%
-  filter(!grepl("Battery Storage", Variable)) %>%
-  bind_rows(battery_storage)
-#########################################
-
-########## Gen_III_Korea and Renewable Primary Energy Fix ##########
-# 1. Add Gen_III_Korea generation to Primary Energy|Nuclear
-# 2. Apply 2.1x multiplier to renewable primary energy (all regions)
-# 3. Add changes to Primary Energy
-
-# Convert tibble to data.frame for easier row assignment
-data <- as.data.frame(data)
-
-gen3_korea_gen <- elec_gen %>%
-  filter(technology == "Gen_III_Korea") %>%
-  select(scenario, region, year, value)
-
-# Year columns in data
-year_cols_data <- names(data)[grepl("^[0-9]{4}$", names(data))]
-
-# Step 1: Add Gen_III_Korea to Primary Energy|Nuclear
-if (nrow(gen3_korea_gen) > 0) {
-  gen3_korea_primary <- gen3_korea_gen %>%
-    pivot_wider(names_from = year, values_from = value, values_fill = 0) %>%
-    rename(Scenario = scenario, Region = region)
-
-  year_cols <- setdiff(names(gen3_korea_primary), c("Scenario", "Region"))
-
-  for (i in 1:nrow(data)) {
-    if (data$Variable[i] == "Primary Energy|Nuclear") {
-      match_idx <- which(
-        gen3_korea_primary$Scenario == data$Scenario[i] &
-        gen3_korea_primary$Region == data$Region[i]
-      )
-      if (length(match_idx) > 0) {
-        for (year_col in year_cols) {
-          if (year_col %in% names(data)) {
-            data[i, year_col] <- as.numeric(data[i, year_col]) +
-                                  as.numeric(gen3_korea_primary[match_idx[1], year_col])
-          }
-        }
-      }
-    }
-  }
-}
-
-# Step 2 & 3: Apply 2.1x to renewable primary energy and update Primary Energy
-renewable_sources <- c("Solar", "Wind", "Hydro", "Nuclear", "Geothermal")
-
-# Get unique scenario-region combinations
-scenario_regions <- data %>%
-  select(Scenario, Region) %>%
-  distinct()
-
-for (sr_idx in 1:nrow(scenario_regions)) {
-  scen <- scenario_regions$Scenario[sr_idx]
-  reg <- scenario_regions$Region[sr_idx]
-
-  # Find Primary Energy row for this scenario-region
-  pe_row <- which(data$Variable == "Primary Energy" &
-                  data$Scenario == scen &
-                  data$Region == reg)
-
-  total_increase <- numeric(length(year_cols_data))
-
-  for (source in renewable_sources) {
-    # Find top-level variable row
-    top_var_name <- paste0("Primary Energy|", source)
-    top_row <- which(data$Variable == top_var_name &
-                     data$Scenario == scen &
-                     data$Region == reg)
-
-    # Find all rows including sub-variables
-    pattern_all <- paste0("^Primary Energy\\|", source, ".*")
-    all_rows <- which(grepl(pattern_all, data$Variable) &
-                      data$Scenario == scen &
-                      data$Region == reg)
-
-    if (length(all_rows) > 0) {
-      # Save original value of top-level variable
-      if (length(top_row) > 0) {
-        original_top <- as.numeric(data[top_row, year_cols_data])
-      }
-
-      # Apply 2.1x to all matching rows
-      data[all_rows, year_cols_data] <- data[all_rows, year_cols_data] * 2.1
-
-      # Calculate increase from top-level variable
-      if (length(top_row) > 0) {
-        new_top <- as.numeric(data[top_row, year_cols_data])
-        total_increase <- total_increase + (new_top - original_top)
-      }
-    }
-  }
-
-  # Add total increase to Primary Energy
-  total_increase[is.na(total_increase)] <- 0
-  if (length(pe_row) > 0 && sum(abs(total_increase), na.rm = TRUE) > 0) {
-    data[pe_row, year_cols_data] <- as.numeric(data[pe_row, year_cols_data]) + total_increase
-  }
-}
-#########################################
+# a3: add Gen_III_Korea to Primary Energy|Nuclear, then apply the 2.1x
+# renewable primary energy multiplier (order matters: nuclear add first)
+data <- add_gen3_nuclear(data, elec_gen)
+data <- scale_renewable_primary(data)
 
 ########## Recalculate Capacity|Electricity using vintage-based calculation ##########
 # gcamreport bug: cf_iea (from IEA world average) is used instead of cf_gcam/cf_rgn
