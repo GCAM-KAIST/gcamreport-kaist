@@ -280,6 +280,7 @@ images/
 /data/*
 
 # Local-only working notes (not shared in repo)
+/CLAUDE.md
 /claudecode_planmode.md
 /gcamreport_issues_for_developers.md
 /working_notes_builiding_vintage.md
