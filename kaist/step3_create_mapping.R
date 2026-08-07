@@ -77,12 +77,15 @@ gcam_vars_transformed <- gcam_vars %>%
   )
 
 # Match all template variables with auto-matching (exact + pattern)
+# After the join the template name stays in `Variable` and the matched GCAM
+# name arrives as `Variable.y` (dplyr suffixes the clashing column) -- an
+# unmatched row has Variable.y = NA.
 auto_matched <- template_vars %>%
   left_join(
     gcam_vars_transformed %>% select(Variable, Variable_transformed),
     by = c("Variable" = "Variable_transformed")
   ) %>%
-  mutate(gcam_variable = ifelse(!is.na(Variable), Variable, "")) %>%
+  mutate(gcam_variable = ifelse(!is.na(Variable.y), Variable.y, "")) %>%
   select(Region, template_variable = Variable, gcam_variable)
 
 # Find unmatched for best match suggestions
@@ -124,21 +127,26 @@ mapping_template <- auto_matched %>%
 
 # If previous mapping exists, use it as base; otherwise create new template
 if (!is.null(previous_mapping)) {
-  # Use previous mapping as base and update with new auto-matched gcam_variable
+  # Previous mapping wins where it has a value (manual review is preserved),
+  # but rows the previous mapping left BLANK are filled from the fresh
+  # auto-match -- so variables newly created in step2 get picked up on rerun.
   mapping_template <- mapping_template %>%
-    select(-gcam_variable) %>%
+    rename(auto_gcam_variable = gcam_variable) %>%
     left_join(
       previous_mapping %>%
         select(template_variable, gcam_variable, gcam_variable_add, gcam_variable_subtract, exact_match),
       by = "template_variable"
     ) %>%
     mutate(
-      # If not in previous mapping, fill with empty strings and calculate exact_match
-      gcam_variable = ifelse(is.na(gcam_variable), "", gcam_variable),
+      filled_from_auto = (is.na(gcam_variable) | gcam_variable == "") & auto_gcam_variable != "",
+      gcam_variable = ifelse(filled_from_auto, auto_gcam_variable,
+                             ifelse(is.na(gcam_variable), "", gcam_variable)),
       gcam_variable_add = ifelse(is.na(gcam_variable_add), "", gcam_variable_add),
       gcam_variable_subtract = ifelse(is.na(gcam_variable_subtract), "", gcam_variable_subtract),
-      exact_match = ifelse(is.na(exact_match), template_variable == gcam_variable, exact_match)
+      exact_match = ifelse(filled_from_auto | is.na(exact_match),
+                           template_variable == gcam_variable, exact_match)
     ) %>%
+    select(-auto_gcam_variable, -filled_from_auto) %>%
     arrange(original_order)
 } else {
   # No previous mapping, create fresh template
