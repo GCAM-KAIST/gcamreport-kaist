@@ -520,6 +520,7 @@ available_variables <- function(print = TRUE, GCAM_version = 'v8.2') {
 }
 
 
+
 #' generate_report
 #'
 #' Main function for generating a GCAM project report. This function handles:
