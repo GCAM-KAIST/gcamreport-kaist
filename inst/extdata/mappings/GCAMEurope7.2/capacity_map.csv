@@ -69,6 +69,10 @@ refining,gas to liquids,gas to liquids,Secondary Energy|Liquids,Secondary Energy
 refining,oil refining,oil refining,Secondary Energy|Liquids,Secondary Energy|Liquids|Oil,,,,,,1
 refining,biomass liquids,sugar cane ethanol,Secondary Energy|Liquids,Secondary Energy|Liquids|Biomass,,,,,,1
 electricity,rooftop_pv,rooftop_pv,Secondary Energy|Electricity,,,,,,,1
+electricity,base load generation,base load generation,Secondary Energy|Electricity,,,,,,,1
+electricity,intermediate generation,intermediate generation,Secondary Energy|Electricity,,,,,,,1
+electricity,peak generation,peak generation,Secondary Energy|Electricity,,,,,,,1
+electricity,subpeak generation,subpeak generation,Secondary Energy|Electricity,,,,,,,1
 electricity,Italy base load generation,Italy base load generation,Secondary Energy|Electricity,,,,,,,1
 electricity,Italy intermediate generation,Italy intermediate generation,Secondary Energy|Electricity,,,,,,,1
 electricity,Italy peak generation,Italy peak generation,Secondary Energy|Electricity,,,,,,,1

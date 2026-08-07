@@ -3057,8 +3057,8 @@ get_water_withdrawals <- function(GCAM_version = 'v8.2') {
     # if (grep('Europe',GCAM_version)) {
     water_withdrawals <- check_inf(rgcam::getQuery(prj, "water withdrawals by subsector - nested subsectors2"),
                                    dataset_name = "water withdrawals by subsector") %>%
-      rename(technology = 'subsector...6',
-             subsector = 'subsector...5') %>%
+      dplyr::rename(technology = 'subsector...6',
+                    subsector = 'subsector...5') %>%
       rbind(check_inf(rgcam::getQuery(prj, "water withdrawals by subsector - nested subsectors1"),
                       dataset_name = "water withdrawals by subsector"))
   } else {
@@ -3109,8 +3109,8 @@ get_water_consumption <- function(GCAM_version = 'v8.2') {
   # if (grep('Europe',GCAM_version)) {
     water_consumption <- check_inf(rgcam::getQuery(prj, "water consumption by subsector - nested subsectors2"),
                                    dataset_name = "water consumption by subsector") %>%
-      rename(technology = 'subsector...6',
-             subsector = 'subsector...5') %>%
+      dplyr::rename(technology = 'subsector...6',
+                    subsector = 'subsector...5') %>%
       rbind(check_inf(rgcam::getQuery(prj, "water consumption by subsector - nested subsectors1"),
                       dataset_name = "water consumption by subsector"))
   } else {
@@ -3748,9 +3748,27 @@ get_elec_gen_tech <- function(GCAM_version = 'v8.2') {
   check_queries("secondary_energy_clean", GCAM_version)
   check_queries("secondary_energy_raw", GCAM_version)
 
+  # deal with grid regions:
+  # split the subsector "region_name load generation" and substitute the
+  # grid region for the market name
+  elec_gen_tmp <- check_inf(rgcam::getQuery(prj, "elec gen by gen tech"),
+                            dataset_name = "elec gen by gen tech")
+  if (any(grepl("generation", unique(elec_gen_tmp$subsector)))) {
+    elec_gen_grids <- elec_gen_tmp %>%
+      dplyr::filter(grepl('generation', subsector)) %>%
+      dplyr::mutate(load_type = stringr::str_extract(subsector, "base load generation|intermediate generation|peak generation|subpeak generation"),
+                    region = stringr::str_squish(stringr::str_remove(subsector, load_type))) %>%
+      dplyr::select(Units,scenario,region,subsector=load_type,technology=load_type,year,value)
+
+    elec_gen_tmp <- rbind(
+      elec_gen_tmp %>%
+        dplyr::filter(!grepl('generation', subsector)),
+      elec_gen_grids
+    )
+  }
+
   secondary_energy_raw1 <- rbind(
-    check_inf(rgcam::getQuery(prj, "elec gen by gen tech"),
-              dataset_name = "elec gen by gen tech") %>%
+    elec_gen_tmp %>%
       dplyr::mutate(output = 'electricity'),
     dplyr::bind_rows(
       check_inf(rgcam::getQuery(prj, "gas production by tech"),
