@@ -29,7 +29,7 @@
 # same sectors under other fuel types (Coal/Electricity/Gases/Hydrogen).
 #
 # Hardcoded assumptions (KMIP sector correspondence table, DAC hard zero):
-# see kaist/docs/hardcoded_assumptions.md
+# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
 split_biomass_liquids <- function(data) {

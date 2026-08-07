@@ -11,6 +11,7 @@
 # must also scale the nuclear generation added in step 1.
 #
 # Hardcoded assumptions (2.1x factor): see kaist/docs/hardcoded_assumptions.md
+# (local-only note; kaist/docs/ is gitignored)
 ################################################################################
 
 add_gen3_nuclear <- function(data, elec_gen) {

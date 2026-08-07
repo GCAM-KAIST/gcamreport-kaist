@@ -20,7 +20,7 @@
 #   cf_gcam - global default CF table (data/cf_gcam_v*.rda)
 #
 # Hardcoded assumptions (tech_to_cap table, storage exclusion):
-# see kaist/docs/hardcoded_assumptions.md
+# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
 recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {

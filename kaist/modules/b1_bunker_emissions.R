@@ -20,7 +20,7 @@
 #   4. Demand, Energy -= original international (exclude bunkers from totals)
 #
 # Hardcoded assumptions (domestic ratios 0.093 / 0.032, min_year 2020):
-# see kaist/docs/hardcoded_assumptions.md
+# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
 reallocate_bunker_emissions <- function(data, gas, adj_cols,

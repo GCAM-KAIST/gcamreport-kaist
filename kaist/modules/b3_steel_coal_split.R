@@ -10,12 +10,12 @@
 # Data source: "industry final energy by tech and fuel" query from .prj file
 #
 # Skips with a message when the query is absent from the .dat.
-# (An older standalone version of this split that patched step4 output from
-# an MT xlsx lives in kaist/diagnostics/split_coal_fuel_feedstock.R -- this
-# module is the canonical one.)
+# (An older standalone version of this split applied MT-xlsx ratios to step4
+# output; it is superseded by this module and kept only as a local-only
+# reference in kaist/diagnostics/, which is gitignored.)
 #
 # Hardcoded assumptions (feedstock ratios per technology):
-# see kaist/docs/hardcoded_assumptions.md
+# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
 split_steel_coal <- function(data, prj, target_rgn = target_region) {

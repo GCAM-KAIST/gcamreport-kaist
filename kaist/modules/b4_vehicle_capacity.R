@@ -14,7 +14,7 @@
 #
 # Hardcoded assumptions (mt_ldv_2020 / mt_mhdv_2020 reference vehicle counts,
 # which must be refreshed when MT publishes new data):
-# see kaist/docs/hardcoded_assumptions.md
+# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
 add_vehicle_capacity <- function(data, ref_scenario = NULL) {

@@ -26,9 +26,7 @@ gcamreport-kaist/
 │   │   ├── a1_...R ~ a6_...R  # Part A: all regions
 │   │   └── b1_...R ~ b5_...R  # Part B: Korea only
 │   ├── tools/                 # compare_outputs.R (refactor verification)
-│   ├── data/                  # Coefficient files (L223, L225 CSVs)
-│   ├── diagnostics/           # Ad-hoc check scripts / old one-off scripts
-│   └── docs/                  # Bug analyses, hardcoded_assumptions.md, notes
+│   └── data/                  # Coefficient files (L223, L225 CSVs)
 └── kmip/                      # Local GCAM databases (gitignored)
     ├── DB25/, DB26/, ...      # One BaseX folder per scenario set
     └── DB26_output/           # Pipeline outputs land here
@@ -74,7 +72,8 @@ gcamreport-kaist/
      Korea-filtered data. The b1~b5 order among themselves is arbitrary.
    - Values that are not queried from GCAM (Korea statistics, literature
      ratios, MT vehicle counts, ...) are catalogued in
-     `kaist/docs/hardcoded_assumptions.md` -- update it when you change one.
+     `kaist/docs/hardcoded_assumptions.md` -- a local-only note (`kaist/docs/`
+     is gitignored); update it when you change one of those values.
    - To verify a refactor changed nothing:
      `source("kaist/tools/compare_outputs.R")` then
      `compare_csv(old_csv, new_csv)` (md5-based, prints first diffs).
