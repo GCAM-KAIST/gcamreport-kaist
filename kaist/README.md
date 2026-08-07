@@ -16,13 +16,19 @@ gcamreport-kaist/
 │   ├── config.R               # Shared configuration for all steps
 │   ├── functions.R            # KAIST helpers + data overrides (patch_gcam_data)
 │   ├── step1_generate_report.R
-│   ├── step2_process_data.R
+│   ├── step2_process_data.R   # Thin orchestrator -- calls kaist/modules/
 │   ├── step3_create_mapping.R
 │   ├── step4_fill_template.R
 │   ├── step5_verification.qmd
 │   ├── rgcam_patch.R          # BaseX 9.5+ compatibility fix
+│   ├── modules/               # step2 adjustments, one file per adjustment
+│   │   ├── 00_utils.R         # Shared utilities (year_cols, load_gcam_rda, ...)
+│   │   ├── a1_...R ~ a6_...R  # Part A: all regions
+│   │   └── b1_...R ~ b5_...R  # Part B: Korea only
+│   ├── tools/                 # compare_outputs.R (refactor verification)
 │   ├── data/                  # Coefficient files (L223, L225 CSVs)
-│   └── docs/                  # Bug analyses and other technical notes
+│   ├── diagnostics/           # Ad-hoc check scripts / old one-off scripts
+│   └── docs/                  # Bug analyses, hardcoded_assumptions.md, notes
 └── kmip/                      # Local GCAM databases (gitignored)
     ├── DB25/, DB26/, ...      # One BaseX folder per scenario set
     └── DB26_output/           # Pipeline outputs land here
@@ -56,6 +62,22 @@ gcamreport-kaist/
 3. **Per-database output folder**
    - Outputs are written under `kmip/{db_name}_output/`, so different
      databases (DB25, DB26, ...) do not mix.
+
+4. **step2 is a thin orchestrator over `kaist/modules/`**
+   - Each adjustment is one function in one file (`a1` ~ `a6` run on all
+     regions, `b1` ~ `b5` on Korea only). All functions are data in -> data out,
+     so step2 reads as a list of calls and you can inspect `data` between them.
+   - Module files only define functions; sourcing them executes nothing.
+   - Ordering constraints: capacity-changing modules (a2, a3, a4) must run
+     before a5 (parent-child consistency); inside a3 the nuclear addition must
+     come before the renewable multiplier; Part B modules require the
+     Korea-filtered data. The b1~b5 order among themselves is arbitrary.
+   - Values that are not queried from GCAM (Korea statistics, literature
+     ratios, MT vehicle counts, ...) are catalogued in
+     `kaist/docs/hardcoded_assumptions.md` -- update it when you change one.
+   - To verify a refactor changed nothing:
+     `source("kaist/tools/compare_outputs.R")` then
+     `compare_csv(old_csv, new_csv)` (md5-based, prints first diffs).
 
 ## Quick Start
 
