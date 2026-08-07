@@ -75,8 +75,9 @@ write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.
 ########## Shared Part A inputs ##########
 # cf tables were already patched by patch_gcam_data() above (South Korea
 # renewable CF overrides + Korea conventional CFs), so they are used as loaded.
-load(file.path(getwd(), "data/cf_rgn_v7.0.rda"))    # -> cf_rgn_v7.0
-load(file.path(getwd(), "data/cf_gcam_v7.0.rda"))   # -> cf_gcam_v7.0
+# load_gcam_rda (modules/00_utils.R) picks the file matching version_number.
+cf_rgn  <- load_gcam_rda("cf_rgn")
+cf_gcam <- load_gcam_rda("cf_gcam")
 
 # Generation by technology, shared by a2 (battery storage) and a3 (Gen III).
 elec_gen <- getQuery(prj, "elec gen by gen tech")
@@ -86,7 +87,7 @@ elec_gen <- getQuery(prj, "elec gen by gen tech")
 data <- add_carbon_price(data, prj)
 
 # a2: build Capacity|...|Battery Storage rows from PV_storage / wind_storage
-data <- add_battery_storage(data, elec_gen, cf_rgn_v7.0)
+data <- add_battery_storage(data, elec_gen, cf_rgn)
 
 # a3: add Gen_III_Korea to Primary Energy|Nuclear, then apply the 2.1x
 # renewable primary energy multiplier (order matters: nuclear add first)
@@ -95,7 +96,7 @@ data <- scale_renewable_primary(data)
 
 # a4: recalculate Capacity|Electricity from vintage generation and correct
 # CFs (gcamreport cf_iea bug fix; skips if the vintage query is absent)
-data <- recalc_vintage_capacity(data, prj, cf_rgn_v7.0, cf_gcam_v7.0)
+data <- recalc_vintage_capacity(data, prj, cf_rgn, cf_gcam)
 
 # a5: recompute parent capacity variables as the sum of their children
 # (gcamreport double-counting bug fix; must run after a2/a4)
@@ -116,15 +117,9 @@ cat("Saved all regions data:", csv_file, "\n")
 # PART B: Korea-Specific Processing
 ################################################################################
 
-########## Filter Region and Year ##########
-year_columns <- names(data)[grepl("^[0-9]{4}$", names(data))]
-years_to_remove <- year_columns[as.numeric(year_columns) < start_year | as.numeric(year_columns) > final_year]
-data_filtered <- data %>% select(-all_of(years_to_remove))
-
-data_korea <- data_filtered %>% filter(Region == target_region)
-data_korea <- as.data.frame(data_korea)  # Convert to data.frame for easier row assignment
-year_columns <- names(data_korea)[grepl("^[0-9]{4}$", names(data_korea))]
-#########################################
+# Keep only target_region and years within [start_year, final_year].
+# Every b* module below assumes this Korea-only, year-trimmed data.
+data_korea <- filter_region_years(data, target_region, start_year, final_year)
 
 # b1: redistribute aviation/shipping emissions by Korean domestic ratios and
 # take international bunkers out of the Demand / Energy totals
@@ -139,8 +134,9 @@ data_korea <- add_primary_from_secondary(data_korea)
 data_korea <- split_steel_coal(data_korea, prj)
 
 # b4: convert transportation Energy Service (billion pkm/tkm) into thousand
-# vehicles using MT 2020 reference vehicle counts
-data_korea <- add_vehicle_capacity(data_korea)
+# vehicles using MT 2020 reference vehicle counts; ref_scenario (config.R)
+# anchors the conversion ratio, NULL falls back to the first scenario
+data_korea <- add_vehicle_capacity(data_korea, ref_scenario)
 
 # b5: create Final Energy|...|Biomass|Liquids rows by allocating each
 # sector's Liquids by the national biomass blend share (exact decomposition;

@@ -18,6 +18,9 @@
 #   2. Transportation += domestic change (Domestic values changed)
 #   3. Bunkers += international change (International values changed)
 #   4. Demand, Energy -= original international (exclude bunkers from totals)
+#
+# Hardcoded assumptions (domestic ratios 0.093 / 0.032, min_year 2020):
+# see kaist/docs/hardcoded_assumptions.md
 ################################################################################
 
 reallocate_bunker_emissions <- function(data, gas, adj_cols,
@@ -87,7 +90,7 @@ reallocate_bunker_emissions <- function(data, gas, adj_cols,
 # Apply the reallocation to every gas, adjusting only years >= min_year.
 reallocate_all_bunker_emissions <- function(data, gases = c("CO2", "N2O", "CH4"),
                                             min_year = 2020) {
-  year_columns <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  year_columns <- year_cols(data)
   adj_year_cols <- year_columns[as.numeric(year_columns) >= min_year]
 
   for (gas in gases) {

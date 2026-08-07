@@ -9,6 +9,8 @@
 #
 # Run add_gen3_nuclear() BEFORE scale_renewable_primary(): the multiplier
 # must also scale the nuclear generation added in step 1.
+#
+# Hardcoded assumptions (2.1x factor): see kaist/docs/hardcoded_assumptions.md
 ################################################################################
 
 add_gen3_nuclear <- function(data, elec_gen) {
@@ -24,7 +26,7 @@ add_gen3_nuclear <- function(data, elec_gen) {
       pivot_wider(names_from = year, values_from = value, values_fill = 0) %>%
       rename(Scenario = scenario, Region = region)
 
-    year_cols <- setdiff(names(gen3_korea_primary), c("Scenario", "Region"))
+    gen3_year_cols <- setdiff(names(gen3_korea_primary), c("Scenario", "Region"))
 
     for (i in 1:nrow(data)) {
       if (data$Variable[i] == "Primary Energy|Nuclear") {
@@ -33,7 +35,7 @@ add_gen3_nuclear <- function(data, elec_gen) {
           gen3_korea_primary$Region == data$Region[i]
         )
         if (length(match_idx) > 0) {
-          for (year_col in year_cols) {
+          for (year_col in gen3_year_cols) {
             if (year_col %in% names(data)) {
               data[i, year_col] <- as.numeric(data[i, year_col]) +
                                     as.numeric(gen3_korea_primary[match_idx[1], year_col])
@@ -49,7 +51,7 @@ add_gen3_nuclear <- function(data, elec_gen) {
 
 scale_renewable_primary <- function(data, factor = 2.1) {
   data <- as.data.frame(data)
-  year_cols_data <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  year_cols_data <- year_cols(data)
 
   renewable_sources <- c("Solar", "Wind", "Hydro", "Nuclear", "Geothermal")
 

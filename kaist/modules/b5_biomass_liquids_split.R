@@ -27,10 +27,13 @@
 # correspondence below was verified against gcam_available_variables.csv
 # and the existing (human-reviewed) mapping_template.xlsx rows for the
 # same sectors under other fuel types (Coal/Electricity/Gases/Hydrogen).
+#
+# Hardcoded assumptions (KMIP sector correspondence table, DAC hard zero):
+# see kaist/docs/hardcoded_assumptions.md
 ################################################################################
 
 split_biomass_liquids <- function(data) {
-  year_columns <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  year_columns <- year_cols(data)
 
   cat("\n=== Biomass Origin Split for Final Energy Liquids (National Blend-Share) ===\n")
 
@@ -62,10 +65,12 @@ split_biomass_liquids <- function(data) {
                              se_liquids_bio / se_liquids, 0)
     )
 
-  cat("biomass_share = Secondary Energy|Liquids|Biomass / Secondary Energy|Liquids:\n")
-  print(biomass_share %>%
-    filter(year %in% as.character(seq(2020, 2050, 5))) %>%
-    select(Scenario, year, biomass_share))
+  if (debug_on()) {
+    cat("biomass_share = Secondary Energy|Liquids|Biomass / Secondary Energy|Liquids:\n")
+    print(biomass_share %>%
+      filter(year %in% as.character(seq(2020, 2050, 5))) %>%
+      select(Scenario, year, biomass_share))
+  }
 
   # Step 2: template_variable = exact KMIP name to create (including the KMIP
   # template's own "biomass" lowercase typo on the Other Sector row, so

@@ -11,10 +11,14 @@
 #
 # ref_scenario: scenario whose 2020 values anchor the ratio (used for ALL
 # scenarios). NULL (default) falls back to the first scenario in the data.
+#
+# Hardcoded assumptions (mt_ldv_2020 / mt_mhdv_2020 reference vehicle counts,
+# which must be refreshed when MT publishes new data):
+# see kaist/docs/hardcoded_assumptions.md
 ################################################################################
 
 add_vehicle_capacity <- function(data, ref_scenario = NULL) {
-  year_columns <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  year_columns <- year_cols(data)
 
   # MT 2020 reference vehicle counts (thousand vehicles, from MT nzM_Adv scenario)
   mt_ldv_2020 <- list(

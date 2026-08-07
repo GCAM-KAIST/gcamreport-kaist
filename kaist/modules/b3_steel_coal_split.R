@@ -13,10 +13,13 @@
 # (An older standalone version of this split that patched step4 output from
 # an MT xlsx lives in kaist/diagnostics/split_coal_fuel_feedstock.R -- this
 # module is the canonical one.)
+#
+# Hardcoded assumptions (feedstock ratios per technology):
+# see kaist/docs/hardcoded_assumptions.md
 ################################################################################
 
 split_steel_coal <- function(data, prj, target_rgn = target_region) {
-  year_columns <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  year_columns <- year_cols(data)
 
   cat("\n=== Coal Feedstock/Fuel Split for Iron and Steel (Query-based) ===\n")
 
@@ -72,10 +75,12 @@ split_steel_coal <- function(data, prj, target_rgn = target_region) {
       fuel_ratio = ifelse(total_coal > 0, fuel_total / total_coal, 0)
     )
 
-  cat("Feedstock/Fuel ratios by scenario and year:\n")
-  print(coal_ratios %>%
-    filter(year %in% seq(2020, 2050, 5)) %>%
-    select(scenario, year, feedstock_ratio, fuel_ratio))
+  if (debug_on()) {
+    cat("Feedstock/Fuel ratios by scenario and year:\n")
+    print(coal_ratios %>%
+      filter(year %in% seq(2020, 2050, 5)) %>%
+      select(scenario, year, feedstock_ratio, fuel_ratio))
+  }
 
   # Split Iron and Steel Coal into Fuel and Feedstock
   is_coal_var <- "Final Energy|Industry|Iron and Steel|Solids|Coal"

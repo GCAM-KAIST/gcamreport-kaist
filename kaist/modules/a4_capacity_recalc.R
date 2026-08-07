@@ -18,6 +18,9 @@
 #             vintage"; skips with a message when the query is absent)
 #   cf_rgn  - regional CF table (data/cf_rgn_v*.rda, patched by patch_gcam_data)
 #   cf_gcam - global default CF table (data/cf_gcam_v*.rda)
+#
+# Hardcoded assumptions (tech_to_cap table, storage exclusion):
+# see kaist/docs/hardcoded_assumptions.md
 ################################################################################
 
 recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
@@ -156,7 +159,7 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
     summarise(capacity_gw = sum(capacity_gw, na.rm = TRUE), .groups = "drop")
 
   # Update data with recalculated capacity
-  year_cols <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  data_year_cols <- year_cols(data)
 
   for (cap_var in unique(capacity_total$cap_var)) {
     cap_new <- capacity_total %>% filter(cap_var == !!cap_var)
@@ -167,7 +170,7 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
       yr <- as.character(cap_new$year[j])
       new_val <- cap_new$capacity_gw[j]
 
-      if (!yr %in% year_cols) next
+      if (!yr %in% data_year_cols) next
 
       # Find matching row in data
       idx <- which(data$Variable == cap_var & data$Scenario == scen & data$Region == rgn)
@@ -180,36 +183,39 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
 
   cat("Recalculated Capacity|Electricity using vintage-based calculation with correct CF\n")
 
-  # Debug output: show CF and verify generation back-calculation for first scenario
-  debug_scen <- capacity_by_vintage$scenario[1]
+  # Debug output (set verbose_debug <- TRUE in kaist/config.R to see it):
+  # CF table and generation back-calculation check for the first scenario
+  if (debug_on()) {
+    debug_scen <- capacity_by_vintage$scenario[1]
 
-  cat("\n=== CF values used for South Korea (scenario:", debug_scen, ") ===\n")
-  capacity_by_vintage %>%
-    filter(region == "South Korea", year == 2050, scenario == debug_scen) %>%
-    group_by(tech_base) %>%
-    summarise(cf = first(cf_final), .groups = "drop") %>%
-    filter(!is.na(cf)) %>%
-    arrange(tech_base) %>%
-    print()
+    cat("\n=== CF values used for South Korea (scenario:", debug_scen, ") ===\n")
+    capacity_by_vintage %>%
+      filter(region == "South Korea", year == 2050, scenario == debug_scen) %>%
+      group_by(tech_base) %>%
+      summarise(cf = first(cf_final), .groups = "drop") %>%
+      filter(!is.na(cf)) %>%
+      arrange(tech_base) %>%
+      print()
 
-  cat("\n=== Verification: Generation back-calculation (South Korea, 2050) ===\n")
-  capacity_by_vintage %>%
-    filter(region == "South Korea", year == 2050, scenario == debug_scen,
-           !is.na(cf_final), cf_final > 0) %>%
-    group_by(tech_base) %>%
-    summarise(
-      cf = first(cf_final),
-      gen_original_EJ = sum(generation_EJ, na.rm = TRUE),
-      capacity_GW = sum(capacity_gw, na.rm = TRUE),
-      gen_backcalc_EJ = sum(capacity_gw, na.rm = TRUE) * first(cf_final) * hr_per_yr * EJ_to_GWh,
-      .groups = "drop"
-    ) %>%
-    mutate(
-      diff_pct = round((gen_backcalc_EJ - gen_original_EJ) / gen_original_EJ * 100, 4),
-      match = ifelse(abs(diff_pct) < 0.01, "OK", "MISMATCH")
-    ) %>%
-    arrange(tech_base) %>%
-    print(n = 30)
+    cat("\n=== Verification: Generation back-calculation (South Korea, 2050) ===\n")
+    capacity_by_vintage %>%
+      filter(region == "South Korea", year == 2050, scenario == debug_scen,
+             !is.na(cf_final), cf_final > 0) %>%
+      group_by(tech_base) %>%
+      summarise(
+        cf = first(cf_final),
+        gen_original_EJ = sum(generation_EJ, na.rm = TRUE),
+        capacity_GW = sum(capacity_gw, na.rm = TRUE),
+        gen_backcalc_EJ = sum(capacity_gw, na.rm = TRUE) * first(cf_final) * hr_per_yr * EJ_to_GWh,
+        .groups = "drop"
+      ) %>%
+      mutate(
+        diff_pct = round((gen_backcalc_EJ - gen_original_EJ) / gen_original_EJ * 100, 4),
+        match = ifelse(abs(diff_pct) < 0.01, "OK", "MISMATCH")
+      ) %>%
+      arrange(tech_base) %>%
+      print(n = 30)
+  }
 
   data
 }

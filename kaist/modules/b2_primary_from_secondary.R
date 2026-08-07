@@ -54,7 +54,7 @@ calculate_primary_with_ccs_split <- function(total_data, ccs_data, new_variable_
 }
 
 add_primary_from_secondary <- function(data, coef_dir = kaist_data_dir) {
-  year_columns <- names(data)[grepl("^[0-9]{4}$", names(data))]
+  year_columns <- year_cols(data)
 
   h2_coef <- read.csv(file.path(coef_dir, "L225.GlobalTechCoef_h2.csv"),
                       skip = 1, stringsAsFactors = FALSE)
