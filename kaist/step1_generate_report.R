@@ -70,15 +70,16 @@ library(readxl)
 ###############################
 
 ########## Generate report ##########
+# scenarios / desired_variables / desired_regions come from kaist/config.R
 generate_report(
   db_path           = db_path,
   db_name           = db_name,
-  scenarios         = c("S08"),                       # e.g. c("S1", "S08")
+  scenarios         = scenarios,
   prj_name          = prj_name,
   final_year        = final_year,
   GCAM_version      = paste0("v", version_number),
-  desired_variables = c("Capacity*", "Emiss*"),
-  desired_regions   = c("South Korea", "Russia"),                          # or e.g. c("South Korea")
+  desired_variables = desired_variables,
+  desired_regions   = desired_regions,
   save_output       = TRUE,
   output_file       = file.path(output_dir, run_name),
   launch_ui         = FALSE

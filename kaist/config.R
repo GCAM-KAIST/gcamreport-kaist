@@ -25,6 +25,20 @@ start_year    <- 2005            # First year kept in step2 / step4
 final_year    <- 2035            # Last year kept in step2 / step4
 version_number <- "7.0"          # GCAM version (used for queries and rda lookups)
 
+# === Step1 query scope ========================================================
+# Which scenarios / variables / regions step1 asks generate_report() for.
+scenarios         <- c("S08")                     # e.g. c("S1", "S08")
+desired_variables <- c("Capacity*", "Emiss*")     # "All" for everything
+desired_regions   <- c("South Korea", "Russia")   # "All" or a character vector
+
+# === Step2 options ============================================================
+# Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
+# module b4. NULL = use the first scenario found in the data.
+ref_scenario <- NULL
+# TRUE prints the diagnostic tables from modules a4 / b3 / b5 (CF check,
+# steel coal ratios, biomass share). FALSE keeps the step2 console output short.
+verbose_debug <- FALSE
+
 # === Derived paths (no need to edit these usually) ============================
 # Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
 # runs against different databases do not mix. .dat project files from step1
