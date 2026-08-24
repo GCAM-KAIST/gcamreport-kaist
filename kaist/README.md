@@ -19,13 +19,16 @@ gcamreport-kaist/
 │   ├── step2_process_data.R   # Thin orchestrator -- calls kaist/modules/
 │   ├── step3_create_mapping.R
 │   ├── step4_fill_template.R
-│   ├── step5_verification.qmd
+│   ├── step5_validate.R       # Pipeline-wide validation (checkpoints A-D)
+│   ├── compare_manual_report.qmd  # Manual-vs-auto comparison (optional)
+│   ├── unit_table.R           # Unit conversions shared by step4 and step5
 │   ├── rgcam_patch.R          # BaseX 9.5+ compatibility fix
 │   ├── modules/               # step2 adjustments, one file per adjustment
 │   │   ├── 00_utils.R         # Shared utilities (year_cols, load_gcam_rda, ...)
 │   │   ├── a1_...R ~ a6_...R  # Part A: all regions
-│   │   └── b1_...R ~ b5_...R  # Part B: Korea only
-│   ├── tools/                 # compare_outputs.R (refactor verification)
+│   │   ├── b1_...R ~ b5_...R  # Part B: Korea only
+│   │   └── validate/          # step5 checkpoint functions + rule tables
+│   ├── tools/                 # compare_outputs.R, test_step5.R
 │   └── data/                  # Coefficient files (L223, L225 CSVs)
 └── kmip/                      # Local GCAM databases (gitignored)
     ├── DB25/, DB26/, ...      # One BaseX folder per scenario set
@@ -44,7 +47,31 @@ gcamreport-kaist/
 | 2 | `step2_process_data.R` | Post-process data (CO2 prices, battery storage, Korea adjustments) |
 | 3 | `step3_create_mapping.R` | Create variable mapping template |
 | 4 | `step4_fill_template.R` | Apply mappings and unit conversions |
-| 5 | `step5_verification.qmd` | Generate verification report (Manual vs Auto comparison) |
+| 5 | `step5_validate.R` | Validate totals across all stages (see below) |
+| - | `compare_manual_report.qmd` | Manual-vs-auto comparison report; only useful when a hand-made reference workbook exists (KMIP2025) |
+
+### Step 5: pipeline-wide validation
+
+`Rscript kaist/step5_validate.R [--strict] [--checkpoints=A,B,C,D]`
+
+Standalone; runnable after any stage (missing inputs are skipped). Checkpoints:
+
+- **A** raw query sums from the `.dat` vs the step1 report, plus a list of
+  query technologies/inputs absent from the mapping rdas (the silent-drop
+  risk for new GCAM versions, e.g. SMRs in kaist9).
+- **B** step1 vs step2 -- totals must be unchanged except the documented
+  module adjustments (encoded in `modules/validate/v_tables.R`), plus
+  conservation identities for b3 and b5.
+- **C** parent variable = sum of children in the IAMC tree (catches
+  double counting; known gaps are listed as SKIP with reasons).
+- **D** independent recompute of the filled KMIP template vs step4 output.
+
+Outputs: `step5_summary.csv`, `step5_mismatches.csv`, `step5_unmapped.csv`
+in `output_dir`. Tolerances: `config.R` "Step5 validation" section.
+Non-fatal by default; `--strict` errors when any check FAILs.
+Checkpoint A needs the built `data/*_v<version>.rda` files -- if missing, run
+`inst/extdata/saveDataFiles_GCAM<version>.R` then `patch_gcam_data()`.
+Self-test: `Rscript kaist/tools/test_step5.R` (fault injection).
 
 ## Key Improvements
 
@@ -89,7 +116,8 @@ gcamreport-kaist/
 4. Run the steps in order:
    `step1_generate_report.R` -> `step2_process_data.R` ->
    `step3_create_mapping.R` -> `step4_fill_template.R` ->
-   `step5_verification.qmd`.
+   `step5_validate.R`. (Optional: `compare_manual_report.qmd` when a
+   manual reference workbook exists.)
 
 ## Syncing with upstream gcamreport
 

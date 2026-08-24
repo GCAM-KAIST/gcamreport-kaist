@@ -181,6 +181,19 @@ kaist_overrides <- list(
       )
     ),
 
+    # Gathered mapping tables: copy all rows of one (sector, subsector) key to
+    # a new key. KAIST DBs report resid heating/others without the
+    # modern/TradBio split used upstream.
+    map_copy_rows = list(
+      nonco2_emis_sector_map = tibble::tribble(
+        ~from_sector,            ~from_subsector,       ~to_sector,      ~to_subsector,
+        "resid heating modern",  "biomass",             "resid heating", "biomass",
+        "resid heating TradBio", "traditional biomass", "resid heating", "traditional biomass",
+        "resid others modern",   "biomass",             "resid others",  "biomass",
+        "resid others TradBio",  "traditional biomass", "resid others",  "traditional biomass"
+      )
+    ),
+
     # ag_demand_map: upstream has no !is.na(input) filter, so drop NA-input rows
     # (they create NA sectors downstream) and add the bio-ceiling entries.
     ag_demand_drop_na_input = TRUE,
@@ -292,6 +305,21 @@ patch_gcam_data <- function(version = "v7.0") {
     if (is.null(obj)) next
     spec <- ov$map_rows[[short]]
     obj <- .bind_kaist_rows(obj, spec$rows, spec$key)
+    save_obj(short, obj)
+    patched <- c(patched, short)
+  }
+
+  # 1b. Gathered mapping tables: copy rows to a new (sector, subsector) key.
+  for (short in names(ov$map_copy_rows)) {
+    obj <- load_obj(short)
+    if (is.null(obj)) next
+    spec <- ov$map_copy_rows[[short]]
+    new <- dplyr::bind_rows(lapply(seq_len(nrow(spec)), function(i) {
+      dplyr::mutate(
+        dplyr::filter(obj, sector == spec$from_sector[i], subsector == spec$from_subsector[i]),
+        sector = spec$to_sector[i], subsector = spec$to_subsector[i])
+    }))
+    obj <- .bind_kaist_rows(obj, new, c("sector", "subsector", "ghg", "var"))
     save_obj(short, obj)
     patched <- c(patched, short)
   }

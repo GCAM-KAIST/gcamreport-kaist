@@ -11,25 +11,25 @@
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "kaist_report"
+run_name <- "kmip26_S1"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
 db_path <- "C:/GCAM/gcamreport/kmip"
 # Which database inside db_path to query.
-db_name <- "DB26"
+db_name <- "KMIP25_6Scenarios"
 
 # === Region & year range ======================================================
 target_region <- "South Korea"   # Region used in the Korea-only blocks
 start_year    <- 2005            # First year kept in step2 / step4
-final_year    <- 2035            # Last year kept in step2 / step4
+final_year    <- 2050            # Last year kept in step2 / step4
 version_number <- "7.0"          # GCAM version (used for queries and rda lookups)
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- c("S08")                     # e.g. c("S1", "S08")
-desired_variables <- c("Capacity*", "Emiss*")     # "All" for everything
-desired_regions   <- c("South Korea", "Russia")   # "All" or a character vector
+scenarios         <- c("S1")                      # e.g. c("S1", "S08")
+desired_variables <- "All"                        # "All" for everything
+desired_regions   <- "All"                        # "All" or a character vector
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
@@ -38,6 +38,17 @@ ref_scenario <- NULL
 # TRUE prints the diagnostic tables from modules a4 / b3 / b5 (CF check,
 # steel coal ratios, biomass share). FALSE keeps the step2 console output short.
 verbose_debug <- FALSE
+
+# === Step5 validation =========================================================
+# Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).
+step5_tol_rel_a <- 1e-2   # raw query sums vs step1 (CO2 bio corrections need slack)
+step5_tol_rel_b <- 1e-6   # step1-vs-step2 pass-through rows
+step5_tol_rel_c <- 1e-6   # parent = sum(children)
+step5_tol_rel_d <- 1e-6   # recomputed template vs step4 output
+# TRUE (or --strict on the command line) turns any FAIL into an error exit.
+step5_strict <- FALSE
+# Checkpoints to run by default; --checkpoints=A,C overrides.
+step5_checkpoints <- c("A", "B", "C", "D")
 
 # === Derived paths (no need to edit these usually) ============================
 # Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
