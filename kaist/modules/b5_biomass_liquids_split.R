@@ -1,35 +1,17 @@
 ################################################################################
 # b5: Biomass origin split for Final Energy Liquids (Korea only)
-#     -- national blend-share allocation
 #
-# GCAM blends all liquid fuel production (oil refining + biomass liquids +
-# coal-to-liquids + gas-to-liquids) into a single "refining" market before
-# any final-demand sector consumes it, so gcamreport has no
-# "Final Energy|<sector>|...|Biomass|Liquids" variable under any name --
-# final_energy_map.csv never gives "refined liquids" a biomass branch.
-# See kmip/oil/biomass_liquids_reporting_gap.md for the full trace.
-#
-# This is not just an approximation: every South Korea final-demand sector
-# draws 100% of its liquid fuel from this one domestic blended pool. The
-# global technology definitions for "refined liquids enduse" and
-# "refined liquids industrial" (en_distribution.xml) have exactly one
-# energy input, "refining", at efficiency = 1, in every modeled period,
-# with no market-name override -- there is no import path that bypasses
-# the domestic blend. Because the pool is homogeneous, the national
-# biomass share of total refining output equals the biomass share of ANY
-# sector's liquid fuel consumption -- an exact decomposition, not a
-# modeling assumption:
-#   Final Energy|<sector>|Biomass|Liquids =
-#     Final Energy|<sector>|Liquids * (Secondary Energy|Liquids|Biomass / Secondary Energy|Liquids)
-#
-# KMIP sector labels don't always match GCAM's own sector names 1:1 (e.g.
-# KMIP "Road" = GCAM "Bus", KMIP "Ship" = GCAM "Domestic Shipping"); the
-# correspondence below was verified against gcam_available_variables.csv
-# and the existing (human-reviewed) mapping_template.xlsx rows for the
-# same sectors under other fuel types (Coal/Electricity/Gases/Hydrogen).
-#
-# Hardcoded assumptions (KMIP sector correspondence table, DAC hard zero):
-# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
+# GCAM blends all liquid fuels into one national refining pool, so gcamreport
+# has no Final Energy|...|Biomass|Liquids variables. Because the pool is
+# homogeneous, the national share is exact for every sector:
+#   bio_share        = Secondary Energy|Liquids|Biomass / Secondary Energy|Liquids
+#   Biomass|Liquids  = Liquids * bio_share          (new rows)
+#   Liquids          = Liquids * (1 - bio_share)    (scaled in place)
+# The biomass part is MOVED, not duplicated (double-counting fix, 2026-08-24;
+# same logic as build_steel_template.py section 2b). Sector sources match the
+# mapping's "...|Oil" rows, so every sector total stays unchanged.
+# The mapping's parent "...|Biomass" rows add these Biomass|Liquids variables
+# (parent = Solids + Liquids). Details: kaist/docs/hardcoded_assumptions.md.
 ################################################################################
 
 split_biomass_liquids <- function(data) {
@@ -37,7 +19,6 @@ split_biomass_liquids <- function(data) {
 
   cat("\n=== Biomass Origin Split for Final Energy Liquids (National Blend-Share) ===\n")
 
-  # se = Secondary Energy (supply side, where GCAM still tracks biomass origin)
   se_liquids_total <- data %>% filter(Variable == "Secondary Energy|Liquids")
   se_liquids_bio   <- data %>% filter(Variable == "Secondary Energy|Liquids|Biomass")
 
@@ -47,10 +28,7 @@ split_biomass_liquids <- function(data) {
     return(data)
   }
 
-  # Step 1: biomass_share(scenario, year) =
-  #   Secondary Energy|Liquids|Biomass / Secondary Energy|Liquids
-  # One row per scenario x year, computed once here and reused for every
-  # sector in Step 3 below -- this table IS the "national blend share".
+  # bio_share per (scenario, year)
   biomass_share <- se_liquids_total %>%
     select(Scenario, all_of(year_columns)) %>%
     pivot_longer(all_of(year_columns), names_to = "year", values_to = "se_liquids") %>%
@@ -72,25 +50,19 @@ split_biomass_liquids <- function(data) {
       select(Scenario, year, biomass_share))
   }
 
-  # Step 2: template_variable = exact KMIP name to create (including the KMIP
-  # template's own "biomass" lowercase typo on the Other Sector row, so
-  # step3's exact-match join picks it up as-is)
-  # source_variable   = GCAM variable to allocate using biomass_share
-  #   - Non-Metallic Minerals uses the Cement variant: GCAM has no
-  #     separate non-Cement Non-Metallic Minerals liquids variable
-  #   - Direct Air Capture is deliberately absent here: GCAM has no
-  #     Final Energy|Direct Air Capture|Liquids variable at all (DAC only
-  #     consumes Electricity/Gases), so its correct value is a hard 0,
-  #     added separately below rather than allocated
+  # KMIP target <- GCAM source Liquids variables (";"-separated), same scope
+  # as the mapping's matching "...|Oil" row. Top-level Biomass|Liquids feeds
+  # the "Final Energy|Biomass" parent row. "biomass" lowercase = template typo.
   biomass_liquids_targets <- tribble(
-    ~template_variable,                                           ~source_variable,
-    "Final Energy|Industry|Biomass|Liquids",                      "Final Energy|Industry|Liquids",
+    ~template_variable,                                           ~source_variables,
+    "Final Energy|Biomass|Liquids",                                "Final Energy|Liquids",
+    "Final Energy|Industry|Biomass|Liquids",                       "Final Energy|Industry|Liquids; Final Energy|Non-Energy Use|Liquids",
     "Final Energy|Industry|Chemicals|Biomass|Liquids",             "Final Energy|Industry|Chemicals|Liquids",
     "Final Energy|Industry|Iron and Steel|Biomass|Liquids",        "Final Energy|Industry|Iron and Steel|Liquids",
     "Final Energy|Industry|Non-Metallic Minerals|Biomass|Liquids", "Final Energy|Industry|Non-Metallic Minerals|Cement|Liquids",
     "Final Energy|Industry|Other Sector|biomass|Liquids",          "Final Energy|Industry|Other Sector|Liquids",
     "Final Energy|Transportation|Biomass|Liquids",                 "Final Energy|Transportation|Liquids",
-    "Final Energy|Transportation|Road|Biomass|Liquids",            "Final Energy|Transportation|Bus|Liquids",
+    "Final Energy|Transportation|Road|Biomass|Liquids",            "Final Energy|Transportation|Bus|Liquids; Final Energy|Transportation|Light-Duty Vehicle|Liquids; Final Energy|Transportation|Truck|Liquids",
     "Final Energy|Transportation|Rail|Biomass|Liquids",            "Final Energy|Transportation|Rail|Liquids",
     "Final Energy|Transportation|Ship|Biomass|Liquids",            "Final Energy|Transportation|Domestic Shipping|Liquids",
     "Final Energy|Transportation|Air|Biomass|Liquids",             "Final Energy|Transportation|Domestic Aviation|Liquids",
@@ -100,33 +72,40 @@ split_biomass_liquids <- function(data) {
     "Final Energy|AFOFI|Biomass|Liquids",                          "Final Energy|Agriculture|Liquids"
   )
 
-  # Step 3: for every (target sector, scenario), pull the GCAM source row
-  # and multiply it, year by year, by that scenario's biomass_share from
-  # the table built in Step 1.
+  # Build Biomass|Liquids rows from the ORIGINAL (pre-scaling) Liquids values
   biomass_liquids_rows <- list()
+  original_liquids_sums <- list()   # for the consistency check below
 
   for (i in seq_len(nrow(biomass_liquids_targets))) {
-    tgt_var <- biomass_liquids_targets$template_variable[i]
-    src_var <- biomass_liquids_targets$source_variable[i]
+    tgt_var  <- biomass_liquids_targets$template_variable[i]
+    src_vars <- trimws(strsplit(biomass_liquids_targets$source_variables[i], ";")[[1]])
 
     for (scen in unique(data$Scenario)) {
-      src_row <- data %>% filter(Variable == src_var, Scenario == scen)
       scen_share <- biomass_share %>% filter(Scenario == scen)
-      if (nrow(src_row) == 0 || nrow(scen_share) == 0) next
+      if (nrow(scen_share) == 0) next
+      share <- setNames(scen_share$biomass_share, scen_share$year)
 
-      new_row <- src_row[1, ]
-      new_row$Variable <- tgt_var
-      for (yr in year_columns) {
-        share <- scen_share$biomass_share[scen_share$year == yr]
-        new_row[[yr]] <- as.numeric(src_row[[yr]][1]) * share
+      src_sum <- setNames(rep(0, length(year_columns)), year_columns)
+      meta_row <- NULL
+      for (src_var in src_vars) {
+        src_row <- data %>% filter(Variable == src_var, Scenario == scen)
+        if (nrow(src_row) == 0) next
+        if (is.null(meta_row)) meta_row <- src_row[1, ]
+        vals <- as.numeric(src_row[1, year_columns])
+        vals[is.na(vals)] <- 0
+        src_sum <- src_sum + vals
       }
+      if (is.null(meta_row)) next
+
+      new_row <- meta_row
+      new_row$Variable <- tgt_var
+      new_row[, year_columns] <- as.list(src_sum * share[year_columns])
       biomass_liquids_rows[[length(biomass_liquids_rows) + 1]] <- new_row
+      original_liquids_sums[[paste(tgt_var, scen, sep = "||")]] <- src_sum
     }
   }
 
-  # Direct Air Capture: GCAM has no Liquids final-energy variable for this
-  # sector at all, so its Biomass|Liquids value is a hard 0, not an
-  # allocation -- added directly instead of via biomass_liquids_targets
+  # DAC: GCAM has no DAC liquids variable at all -> hard 0
   for (scen in unique(data$Scenario)) {
     dac_row <- data %>% filter(Variable == "Final Energy|Industry|Liquids", Scenario == scen)
     if (nrow(dac_row) == 0) next
@@ -136,11 +115,67 @@ split_biomass_liquids <- function(data) {
     biomass_liquids_rows[[length(biomass_liquids_rows) + 1]] <- new_row
   }
 
+  # Scale every Final Energy|...|Liquids row by (1 - bio_share)
+  liquids_mask <- grepl("^Final Energy\\|", data$Variable) &
+    grepl("\\|Liquids$", data$Variable) &
+    !grepl("\\|[Bb]iomass\\|Liquids$", data$Variable)
+
+  n_scaled <- 0
+  for (scen in unique(data$Scenario)) {
+    scen_share <- biomass_share %>% filter(Scenario == scen)
+    if (nrow(scen_share) == 0) next
+    share <- setNames(scen_share$biomass_share, scen_share$year)
+
+    idx <- which(liquids_mask & data$Scenario == scen)
+    if (length(idx) == 0) next
+    for (yr in year_columns) {
+      data[idx, yr] <- data[idx, yr] * (1 - share[[yr]])
+    }
+    n_scaled <- n_scaled + length(idx)
+  }
+  cat("Scaled", n_scaled, "Final Energy|...|Liquids rows by (1 - biomass_share)\n")
+
   if (length(biomass_liquids_rows) > 0) {
     data <- rbind(data, bind_rows(biomass_liquids_rows))
     cat("Created", length(biomass_liquids_rows),
         "Final Energy|...|Biomass|Liquids rows via national blend-share allocation\n")
   }
+
+  # Consistency check: Liquids_new + Biomass|Liquids == Liquids_old per sector
+  max_resid <- 0
+  n_checked <- 0
+  for (key in names(original_liquids_sums)) {
+    parts   <- strsplit(key, "||", fixed = TRUE)[[1]]
+    tgt_var <- parts[1]
+    scen    <- parts[2]
+    src_vars <- trimws(strsplit(
+      biomass_liquids_targets$source_variables[
+        biomass_liquids_targets$template_variable == tgt_var], ";")[[1]])
+
+    new_sum <- setNames(rep(0, length(year_columns)), year_columns)
+    for (src_var in src_vars) {
+      src_row <- data %>% filter(Variable == src_var, Scenario == scen)
+      if (nrow(src_row) == 0) next
+      vals <- as.numeric(src_row[1, year_columns])
+      vals[is.na(vals)] <- 0
+      new_sum <- new_sum + vals
+    }
+    bio_row  <- data %>% filter(Variable == tgt_var, Scenario == scen)
+    bio_vals <- as.numeric(bio_row[1, year_columns])
+    bio_vals[is.na(bio_vals)] <- 0
+
+    resid <- max(abs(new_sum + bio_vals - original_liquids_sums[[key]]))
+    if (resid >= 1e-9) {
+      stop("b5 consistency check FAILED for ", tgt_var, " / ", scen,
+           ": max |Liquids_new + Biomass|Liquids - Liquids_old| = ",
+           format(resid, digits = 3))
+    }
+    max_resid <- max(max_resid, resid)
+    n_checked <- n_checked + 1
+  }
+  cat(sprintf(
+    "[b5 check] %d sector x scenario pairs OK: max |Liquids_new + Biomass|Liquids - Liquids_old| = %.2e (tolerance 1e-9)\n",
+    n_checked, max_resid))
 
   data
 }

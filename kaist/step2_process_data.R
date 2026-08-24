@@ -138,9 +138,9 @@ data_korea <- split_steel_coal(data_korea, prj)
 # anchors the conversion ratio, NULL falls back to the first scenario
 data_korea <- add_vehicle_capacity(data_korea, ref_scenario)
 
-# b5: create Final Energy|...|Biomass|Liquids rows by allocating each
-# sector's Liquids by the national biomass blend share (exact decomposition;
-# see the module header for the full justification)
+# b5: split each sector's Liquids by the national biomass blend share --
+# creates Final Energy|...|Biomass|Liquids rows AND scales the Liquids rows
+# by (1 - share) so the biomass part is moved, not double-counted
 data_korea <- split_biomass_liquids(data_korea)
 
 ########## Save Korea Data ##########
