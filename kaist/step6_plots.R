@@ -75,6 +75,9 @@ ghg$Scenario <- factor(ghg$Scenario, levels = c(scen_known, scen_extra))
 show_end_labels <- length(unique(ghg$Scenario)) <= 3
 
 # Plain style on purpose: white background, standard theme_bw look.
+# Same Arial-metric font on both OSes (server has Liberation Sans installed).
+plot_family <- if (.Platform$OS.type == "windows") "Arial" else "Liberation Sans"
+
 p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   geom_hline(yintercept = 0, color = "gray60", linewidth = 0.3) +
   geom_line(linewidth = 0.8) +
@@ -85,14 +88,15 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
                      breaks = seq(2010, final_year, 10)) +
   labs(title = "South Korea GHG Emissions",
        x = NULL, y = "Mt CO2eq/yr", color = NULL) +
-  theme_bw(base_size = 11) +
+  theme_bw(base_size = 11, base_family = plot_family) +
   theme(panel.grid.minor = element_blank(),
         legend.position = "bottom")
 
 if (show_end_labels) {
   end_labels <- ghg %>% group_by(Scenario, measure) %>% filter(year == max(year))
   p <- p + geom_text(data = end_labels, aes(label = Scenario),
-                     hjust = -0.15, size = 3.1, show.legend = FALSE)
+                     hjust = -0.15, size = 3.1, family = plot_family,
+                     show.legend = FALSE)
 }
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
