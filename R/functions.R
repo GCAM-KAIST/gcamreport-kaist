@@ -1195,10 +1195,11 @@ get_gdp_ppp <- function(GCAM_version = 'v8.2') {
     dplyr::arrange(year) %>%
     tibble::as_tibble() %>%
     dplyr::group_by(scenario, region) %>%
-    dplyr::mutate(rate = (value / dplyr::lag(value))^(1 / (year - dplyr::lag(year))) - 1) %>%
+    dplyr::mutate(value = 100*((value / dplyr::lag(value))^(1 / (year - dplyr::lag(year))) - 1)) %>%
     dplyr::ungroup() %>%
+    # Remove the first rate, which is NA
+    dplyr::filter(!is.na(value)) %>%
     dplyr::mutate(
-      value = value * get(paste('convert',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['conv_90USD_10USD']],
       var = "GDP|PPP [Growth Rate per capita]"
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
@@ -5361,16 +5362,27 @@ get_elec_cf_tmp <- function(GCAM_version = 'v8.2') {
     handle_warning(mapping_name1 = 'A23.globaltech_capacity_factor', mapping_name2 = 'L223.StubTechCapFactor_elec')
   }
 
-  elec_cf <-
+  elec_cf_tmp <-
     tmp1 %>%
     # first, replace regional cf for wind and solar
     dplyr::left_join( # left_join already checked
       tmp2,
       by = c("technology", "vintage", "region")
     ) %>%
-    dplyr::mutate(cf = replace(cf, !is.na(cf.rgn), cf.rgn[!is.na(cf.rgn)])) %>%
-    # second, use iea capacity consistent cf for existing vintage
-    dplyr::bind_rows(cf_iea_filteredReg) %>%
+    dplyr::mutate(cf = replace(cf, !is.na(cf.rgn), cf.rgn[!is.na(cf.rgn)]))
+
+  # second, use iea capacity consistent cf only for vintages that do not
+  # already have a cf_gcam / cf_rgn value. Without this `anti_join` the iea
+  # rows duplicate the (technology, region, vintage) keys above, so the
+  # `approx_fun` interpolation below averages the two values instead of
+  # keeping the intended cf_gcam / cf_rgn value (which over-estimates
+  # fossil capacity and shifts renewable capacity factors).
+  elec_cf <-
+    elec_cf_tmp %>%
+    dplyr::bind_rows(
+      cf_iea_filteredReg %>%
+        dplyr::anti_join(elec_cf_tmp, by = c("technology", "region", "vintage"))
+    ) %>%
     tidyr::complete(tidyr::nesting(technology, region), vintage = sort(years_in_prj[years_in_prj >= 1990])) %>%
     dplyr::group_by(technology, region) %>%
     dplyr::mutate(cf = approx_fun(vintage, cf, rule = 2)) %>%
@@ -6410,6 +6422,8 @@ do_bind_results <- function(GCAM_version = 'v8.2', all_tier1 = F) {
       !grepl("\\[Share\\]", var),
       # yield
       !grepl("Yield", var),
+      # growth rates
+      !grepl("Rate", var)
     ) %>%
     filter_variables() %>%
     dplyr::group_by(scenario, year, var) %>%
