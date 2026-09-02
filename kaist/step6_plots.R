@@ -90,7 +90,7 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
                      breaks = seq(2010, final_year, 10)) +
   labs(title = "South Korea GHG Emissions",
        x = NULL, y = "Mt CO2eq/yr", color = NULL) +
-  theme_bw(base_size = 16, base_family = plot_family) +
+  theme_bw(base_size = 13, base_family = plot_family) +
   theme(panel.grid.minor = element_blank(),
         legend.position = "right")
 
