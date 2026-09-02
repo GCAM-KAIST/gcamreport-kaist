@@ -65,8 +65,8 @@ library(rgcam)
 library(tidyr)
 library(readxl)
 
-# Apply rgcam patch for BaseX 9.5+ if needed.
-# source(file.path(getwd(), "kaist/rgcam_patch.R"))
+# Apply rgcam patch for BaseX 9.5+ (needed on this machine; harmless otherwise).
+source(file.path(getwd(), "kaist/rgcam_patch.R"))
 ###############################
 
 ########## Generate report ##########

@@ -2,8 +2,8 @@
 
 ## Overview
 
-This folder contains the KAIST 5-step pipeline that turns GCAM output into
-KMIP report tables. The rest of
+This folder contains the KAIST 6-step pipeline that turns GCAM output into
+KMIP report tables and figures. The rest of
 the repository is the original [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport)
 R package, used as-is.
 
@@ -20,6 +20,7 @@ gcamreport-kaist/
 │   ├── step3_create_mapping.R
 │   ├── step4_fill_template.R
 │   ├── step5_validate.R       # Pipeline-wide validation (checkpoints A-D)
+│   ├── step6_plots.R          # Report figures (GHG pathway per scenario)
 │   ├── compare_manual_report.qmd  # Manual-vs-auto comparison (optional)
 │   ├── unit_table.R           # Unit conversions shared by step4 and step5
 │   ├── rgcam_patch.R          # BaseX 9.5+ compatibility fix
@@ -48,6 +49,7 @@ gcamreport-kaist/
 | 3 | `step3_create_mapping.R` | Create variable mapping template |
 | 4 | `step4_fill_template.R` | Apply mappings and unit conversions |
 | 5 | `step5_validate.R` | Validate totals across all stages (see below) |
+| 6 | `step6_plots.R` | Report figures from the step2 Korea csv (national GHG pathway in Mt CO2eq/yr, one line per scenario, gross/net LULUCF panels) |
 | - | `compare_manual_report.qmd` | Manual-vs-auto comparison report; only useful when a hand-made reference workbook exists (KMIP2025) |
 
 ### Step 5: pipeline-wide validation
@@ -116,8 +118,8 @@ Self-test: `Rscript kaist/tools/test_step5.R` (fault injection).
 4. Run the steps in order:
    `step1_generate_report.R` -> `step2_process_data.R` ->
    `step3_create_mapping.R` -> `step4_fill_template.R` ->
-   `step5_validate.R`. (Optional: `compare_manual_report.qmd` when a
-   manual reference workbook exists.)
+   `step5_validate.R` -> `step6_plots.R`. (Optional:
+   `compare_manual_report.qmd` when a manual reference workbook exists.)
 
 ## Syncing with upstream gcamreport
 

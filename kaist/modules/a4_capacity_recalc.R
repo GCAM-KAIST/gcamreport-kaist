@@ -4,7 +4,9 @@
 # gcamreport bug: cf_iea (from IEA world average) is used instead of cf_gcam/cf_rgn
 #   - Renewables: cf_iea duplicates cf_rgn entries, causing averaging
 #   - Fossil fuels: cf_iea (~50-60%) used instead of cf_gcam (80-85%)
-# (Candidate for an upstream gcamreport issue/PR.)
+# Upstream status: the duplicate-averaging part was fixed by bc3LC PR 85
+# (merged 2026-08-19). Pre-2025 vintages still use cf_iea upstream and Korea
+# CFs still differ, so this module is still required.
 #
 # Fix: Recalculate Capacity using vintage-based generation data and correct CF values
 #   - cf_rgn: Regional CF for renewables (wind, PV, CSP)

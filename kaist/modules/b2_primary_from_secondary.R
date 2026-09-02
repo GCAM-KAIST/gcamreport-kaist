@@ -31,26 +31,29 @@ apply_coefficient_to_secondary <- function(source_data, new_variable_name, coeff
   bind_rows(result_list)
 }
 
-# Split total into CCS / non-CCS parts, apply separate coefficients, sum back
+# Split total into CCS / non-CCS parts, apply separate coefficients, sum back.
+# Per scenario; a scenario without a CCS row counts as CCS = 0 (all non-CCS).
 calculate_primary_with_ccs_split <- function(total_data, ccs_data, new_variable_name,
                                               coef_ccs, coef_no_ccs, year_cols) {
-  if (nrow(total_data) == 0 || nrow(ccs_data) == 0) return(NULL)
-  no_ccs_data <- total_data
+  if (nrow(total_data) == 0) return(NULL)
+  result_list <- list()
   for (scen in unique(total_data$Scenario)) {
     total_row <- total_data %>% filter(Scenario == scen)
     ccs_row <- ccs_data %>% filter(Scenario == scen)
-    no_ccs_row_idx <- which(no_ccs_data$Scenario == scen)
-    no_ccs_data[no_ccs_row_idx, year_cols] <- total_row[, year_cols] - ccs_row[, year_cols]
+    if (nrow(ccs_row) == 0) {
+      ccs_row <- total_row
+      ccs_row[, year_cols] <- 0
+    }
+    no_ccs_row <- total_row
+    no_ccs_row[, year_cols] <- total_row[, year_cols] - ccs_row[, year_cols]
+
+    p_ccs <- apply_coefficient_to_secondary(ccs_row, new_variable_name, coef_ccs, year_cols)
+    p_no  <- apply_coefficient_to_secondary(no_ccs_row, new_variable_name, coef_no_ccs, year_cols)
+    p <- p_ccs
+    p[, year_cols] <- p_ccs[, year_cols] + p_no[, year_cols]
+    result_list[[length(result_list) + 1]] <- p
   }
-  primary_ccs <- apply_coefficient_to_secondary(ccs_data, new_variable_name, coef_ccs, year_cols)
-  primary_no_ccs <- apply_coefficient_to_secondary(no_ccs_data, new_variable_name, coef_no_ccs, year_cols)
-  result <- primary_ccs
-  for (scen in unique(result$Scenario)) {
-    ccs_idx <- which(result$Scenario == scen)
-    no_ccs_row <- primary_no_ccs %>% filter(Scenario == scen)
-    result[ccs_idx, year_cols] <- result[ccs_idx, year_cols] + no_ccs_row[, year_cols]
-  }
-  result
+  bind_rows(result_list)
 }
 
 add_primary_from_secondary <- function(data, coef_dir = kaist_data_dir) {
@@ -119,10 +122,13 @@ add_primary_from_secondary <- function(data, coef_dir = kaist_data_dir) {
            minicam.energy.input == "regional biomass") %>%
     select(year, efficiency)
 
-  for (scen in unique(elec_biomass_ccs$Scenario)) {
+  # Per scenario; a missing CCS or non-CCS row counts as 0.
+  bio_scens <- union(unique(elec_biomass_ccs$Scenario),
+                     unique(elec_biomass_no_ccs$Scenario))
+  for (scen in bio_scens) {
     ccs_row <- elec_biomass_ccs %>% filter(Scenario == scen)
     no_ccs_row <- elec_biomass_no_ccs %>% filter(Scenario == scen)
-    new_row <- ccs_row
+    new_row <- if (nrow(ccs_row) > 0) ccs_row else no_ccs_row
 
     for (year_col in year_columns) {
       year_val <- as.numeric(year_col)
@@ -130,7 +136,9 @@ add_primary_from_secondary <- function(data, coef_dir = kaist_data_dir) {
         summarise(avg = mean(efficiency, na.rm = TRUE)) %>% pull(avg)
       eff_no_ccs <- biomass_eff_no_ccs %>% filter(year == year_val) %>%
         summarise(avg = mean(efficiency, na.rm = TRUE)) %>% pull(avg)
-      new_row[[year_col]] <- ccs_row[[year_col]] / eff_ccs + no_ccs_row[[year_col]] / eff_no_ccs
+      ccs_val <- if (nrow(ccs_row) > 0) ccs_row[[year_col]] else 0
+      no_ccs_val <- if (nrow(no_ccs_row) > 0) no_ccs_row[[year_col]] else 0
+      new_row[[year_col]] <- ccs_val / eff_ccs + no_ccs_val / eff_no_ccs
     }
 
     new_row$Variable <- "Primary Energy|Biomass|Electricity"

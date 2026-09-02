@@ -122,8 +122,10 @@ cat("Saved all regions data:", csv_file, "\n")
 data_korea <- filter_region_years(data, target_region, start_year, final_year)
 
 # b1: redistribute aviation/shipping emissions by Korean domestic ratios and
-# take international bunkers out of the Demand / Energy totals
-data_korea <- reallocate_all_bunker_emissions(data_korea, gases = c("CO2", "N2O", "CH4"))
+# take international bunkers out of every total up to Emissions|{gas},
+# including the Kyoto Gases (CO2eq) tree
+data_korea <- reallocate_all_bunker_emissions(
+  data_korea, gases = c("CO2", "N2O", "CH4", "Kyoto Gases"))
 
 # b2: derive Primary Energy|...|Hydrogen and Primary Energy|Biomass|Electricity
 # rows from Secondary Energy using GCAM coefficient files in kaist/data/

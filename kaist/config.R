@@ -11,7 +11,7 @@
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "kmip26_S1"
+run_name <- "kmip26_S1ref"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
@@ -27,7 +27,7 @@ version_number <- "7.0"          # GCAM version (used for queries and rda lookup
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- c("S1")                      # e.g. c("S1", "S08")
+scenarios         <- c("ref", "S1")               # e.g. c("S1", "S08")
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
 
