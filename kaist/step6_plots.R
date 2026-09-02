@@ -4,7 +4,7 @@
 # PURPOSE:
 #   Draw report figures from the step2 Korea output.
 #   Figure 1: national GHG pathway (Mt CO2eq/yr), one colored line per
-#   scenario, two panels: Gross (excl. LULUCF) and Net (incl. LULUCF).
+#   scenario, two panels: Net (incl. LULUCF) and Gross (excl. LULUCF).
 #   Uses Emissions|Kyoto Gases, which excludes international bunkers after
 #   the b1 reallocation (years >= 2020; earlier years keep raw GCAM values).
 #
@@ -57,8 +57,8 @@ ghg <- data_korea %>%
   ) %>%
   pivot_longer(-c(Scenario, year),
                names_to = "measure", values_to = "value") %>%
-  mutate(measure = factor(measure, levels = c("Gross (excl. LULUCF)",
-                                              "Net (incl. LULUCF)")))
+  mutate(measure = factor(measure, levels = c("Net (incl. LULUCF)",
+                                              "Gross (excl. LULUCF)")))
 
 # unknown scenario names get the unused palette slots, in order
 scen_known <- intersect(scenario_order, unique(ghg$Scenario))
@@ -88,6 +88,7 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   scale_x_continuous(limits = c(start_year,
                                 final_year + ifelse(show_end_labels, 5, 1)),
                      breaks = seq(2010, final_year, 10)) +
+  scale_y_continuous(breaks = scales::breaks_width(100)) +
   labs(title = "South Korea GHG Emissions",
        x = NULL, y = "Mt CO2eq/yr", color = NULL) +
   theme_bw(base_size = 13, base_family = plot_family) +
