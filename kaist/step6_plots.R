@@ -37,10 +37,11 @@ scenario_colors <- setNames(palette_hex, scenario_order)
 korea_csv <- file.path(output_dir, paste0(run_name, "_korea.csv"))
 data_korea <- read_csv(korea_csv, show_col_types = FALSE)
 
-# Korean inventory convention: gross total keeps agriculture and excludes
-# only the land (LULUCF) part of AFOLU; net total includes everything.
+# Gross = total minus LULUCF (land-use CO2 + land fires); agriculture stays
+# in, as in the Korean inventory. Net = total as reported.
 ghg <- data_korea %>%
   filter(Variable %in% c("Emissions|Kyoto Gases",
+                         "Emissions|CO2|AFOLU",
                          "Emissions|Kyoto Gases|AFOLU|Land")) %>%
   pivot_longer(cols = matches("^[0-9]{4}$"),
                names_to = "year", values_to = "value") %>%
@@ -50,7 +51,8 @@ ghg <- data_korea %>%
   transmute(
     Scenario, year,
     `Gross (excl. LULUCF)` =
-      `Emissions|Kyoto Gases` - `Emissions|Kyoto Gases|AFOLU|Land`,
+      `Emissions|Kyoto Gases` - `Emissions|CO2|AFOLU` -
+      `Emissions|Kyoto Gases|AFOLU|Land`,
     `Net (incl. LULUCF)`   = `Emissions|Kyoto Gases`
   ) %>%
   pivot_longer(-c(Scenario, year),
@@ -90,7 +92,7 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
        x = NULL, y = "Mt CO2eq/yr", color = NULL) +
   theme_bw(base_size = 11, base_family = plot_family) +
   theme(panel.grid.minor = element_blank(),
-        legend.position = "bottom")
+        legend.position = "right")
 
 if (show_end_labels) {
   end_labels <- ghg %>% group_by(Scenario, measure) %>% filter(year == max(year))
@@ -100,7 +102,7 @@ if (show_end_labels) {
 }
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
-ggsave(png_file, p, width = 9, height = 4.8, dpi = 150, bg = "white")
+ggsave(png_file, p, width = 10, height = 3.8, dpi = 150, bg = "white")
 
 series_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.csv"))
 write_csv(ghg %>% arrange(measure, Scenario, year), series_file)
