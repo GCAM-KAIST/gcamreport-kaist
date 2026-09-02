@@ -29,7 +29,7 @@ gcamreport-kaist/
 │   │   ├── a1_...R ~ a6_...R  # Part A: all regions
 │   │   ├── b1_...R ~ b6_...R  # Part B: Korea only
 │   │   └── validate/          # step5 checkpoint functions + rule tables
-│   ├── tools/                 # compare_outputs.R, test_step5.R
+│   ├── tools/                 # step1_parallel.R (+ worker/merge), compare_outputs.R, test_step5.R
 │   ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
 │   └── data/                  # Coefficient files (L223, L225 CSVs)
 └── kmip/                      # Local GCAM databases (gitignored)
@@ -122,6 +122,21 @@ Self-test: `Rscript kaist/tools/test_step5.R` (fault injection).
    `step3_create_mapping.R` -> `step4_fill_template.R` ->
    `step5_validate.R` -> `step6_plots.R`. (Optional:
    `compare_manual_report.qmd` when a manual reference workbook exists.)
+
+### Parallel step1 (many scenarios)
+
+Each BaseX query uses one CPU, so with several scenarios run one worker per
+scenario instead of `step1_generate_report.R`:
+
+```
+Rscript kaist/tools/step1_parallel.R            # all scenarios in config.R
+Rscript kaist/tools/step1_parallel.R --jobs=4   # at most 4 at a time
+```
+
+It patches the data once, starts `kaist/tools/step1_worker.R <scenario>`
+per scenario (logs in `{output_dir}/logs/`), waits, then runs
+`kaist/tools/step1_merge.R` to build the single `{run_name}.xlsx` and
+`{run_name}_project_merged.dat` that step2 expects.
 
 ## Syncing with upstream gcamreport
 
