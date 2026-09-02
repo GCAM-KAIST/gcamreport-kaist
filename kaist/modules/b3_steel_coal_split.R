@@ -1,29 +1,19 @@
 ################################################################################
-# b3: Coal feedstock/fuel split for Iron and Steel (Korea only, query-based)
+# b3: Iron and Steel coal -> Coal|Fuel + Coal|Feedstock (Korea only)
 #
-# GCAM doesn't distinguish coal feedstock vs fuel at subsector level.
-# Use technology-specific ratios based on steel industry literature:
-#   - BF (Blast Furnace): 75% feedstock (coke for reduction), 25% fuel (PCI)
-#   - BF with H2: 50% feedstock (H2 partially replaces coke), 50% fuel
-#   - BF CCS: 75% feedstock, 25% fuel (same as BF)
-#   - EAF: 0% feedstock (coal only for heating)
-# Data source: "industry final energy by tech and fuel" query from .prj file
-#
-# Skips with a message when the query is absent from the .dat.
-# (An older standalone version of this split applied MT-xlsx ratios to step4
-# output; it is superseded by this module and kept only as a local-only
-# reference in kaist/diagnostics/, which is gitignored.)
-#
-# Hardcoded assumptions (feedstock ratios per technology):
-# see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
+#   Coal|Feedstock = sector coal x BF-family share (by year) x 0.5832
+#   Coal|Fuel      = the rest
+# 0.5832 = MT 2020 Coal|Feedstock / Coal total (read from mt_reference_path).
+# BF family = BLASTFUR* techs. EAF-DRI coal is all Fuel.
+# Method: kaist/steel/README.md section 3. Skips if the query is missing.
 ################################################################################
 
 split_steel_coal <- function(data, prj, target_rgn = target_region) {
   year_columns <- year_cols(data)
 
-  cat("\n=== Coal Feedstock/Fuel Split for Iron and Steel (Query-based) ===\n")
+  cat("\n=== Coal Fuel/Feedstock Split for Iron and Steel (MT 2020 ratio) ===\n")
 
-  is_energy <- tryCatch({
+  is_coal <- tryCatch({
     getQuery(prj, "industry final energy by tech and fuel") %>%
       filter(grepl("iron", sector, ignore.case = TRUE),
              region == target_rgn,
@@ -33,53 +23,39 @@ split_steel_coal <- function(data, prj, target_rgn = target_region) {
     NULL
   })
 
-  if (is.null(is_energy) || nrow(is_energy) == 0) {
+  if (is.null(is_coal) || nrow(is_coal) == 0) {
     cat("Skipped Iron and Steel coal feedstock split (query not available)\n")
     return(data)
   }
 
-  # Technology-specific feedstock ratios (literature-based)
-  tech_fs_ratio <- c(
-    "BLASTFUR" = 0.75,
-    "BLASTFUR CCS" = 0.75,
-    "BLASTFUR with hydrogen" = 0.50,
-    "EAF with DRI" = 0,
-    "EAF with DRI CCS" = 0
-  )
+  ref <- mt_steel_reference_2020()
+  fs_share <- ref$coal_feedstock / (ref$coal_fuel + ref$coal_feedstock)
+  cat(sprintf("MT 2020 feedstock share = %.4f (source: %s)\n", fs_share, ref$source))
 
-  # Calculate coal use by technology and scenario
-  coal_by_tech <- is_energy %>%
-    group_by(scenario, technology, year) %>%
-    summarise(value = sum(value, na.rm = TRUE), .groups = "drop")
+  bf_pattern <- "^BLASTFUR"
+  techs <- unique(is_coal$technology)
+  cat("Coal-using technologies:", paste(techs, collapse = ", "), "\n")
+  cat("BF family:", paste(grep(bf_pattern, techs, value = TRUE), collapse = ", "), "\n")
 
-  # Log technologies found (for debugging)
-  cat("Technologies found:", paste(unique(coal_by_tech$technology), collapse = ", "), "\n")
-
-  # Calculate weighted feedstock/fuel ratios per scenario and year
-  coal_ratios <- coal_by_tech %>%
-    mutate(
-      fs_ratio = tech_fs_ratio[technology],
-      fs_ratio = ifelse(is.na(fs_ratio), 0, fs_ratio),
-      feedstock = value * fs_ratio,
-      fuel = value * (1 - fs_ratio)
-    ) %>%
+  # BF-family share of sector coal, per scenario and year
+  coal_ratios <- is_coal %>%
     group_by(scenario, year) %>%
     summarise(
       total_coal = sum(value, na.rm = TRUE),
-      feedstock_total = sum(feedstock, na.rm = TRUE),
-      fuel_total = sum(fuel, na.rm = TRUE),
+      bf_coal    = sum(value[grepl(bf_pattern, technology)], na.rm = TRUE),
       .groups = "drop"
     ) %>%
     mutate(
-      feedstock_ratio = ifelse(total_coal > 0, feedstock_total / total_coal, 0),
-      fuel_ratio = ifelse(total_coal > 0, fuel_total / total_coal, 0)
+      bf_share        = ifelse(total_coal > 0, bf_coal / total_coal, 0),
+      feedstock_ratio = bf_share * fs_share,
+      fuel_ratio      = 1 - feedstock_ratio
     )
 
   if (debug_on()) {
-    cat("Feedstock/Fuel ratios by scenario and year:\n")
+    cat("BF-family share and Feedstock/Fuel ratios by scenario and year:\n")
     print(coal_ratios %>%
       filter(year %in% seq(2020, 2050, 5)) %>%
-      select(scenario, year, feedstock_ratio, fuel_ratio))
+      select(scenario, year, bf_share, feedstock_ratio, fuel_ratio))
   }
 
   # Split Iron and Steel Coal into Fuel and Feedstock

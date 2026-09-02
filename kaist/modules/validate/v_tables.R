@@ -46,6 +46,8 @@ step5_exceptions <- tribble(
   "^Energy Service\\|Transportation\\|(Passenger\\|Road\\|Light-Duty Vehicle|Freight\\|Truck)", "korea", "scaled", "b4", "exists", "pkm/tkm -> thousand vehicles",
   "^Final Energy(\\|.*)?\\|Liquids$",                                        "korea", "scaled",      "b5",    "exists", "x (1 - bio_share); identity checked separately",
   "\\|[Bb]iomass\\|Liquids$",                                                "korea", "added",       "b5",    "exists", "identity checked separately (identity_b5)",
+  "^Emissions\\|GHGs\\|Non-Energy\\|Industrial Process\\|Iron and Steel$", "korea", "added",     "b6",    "exists", "identity checked separately (identity_b6)",
+  "^Emissions\\|CO2\\|Energy\\|Demand\\|Industry\\|Iron and Steel$",     "korea", "scaled",    "b6",    "none",   "process emissions moved to the Industrial Process row",
 )
 
 # --- Checkpoint B: b5 source <-> Biomass|Liquids pairs (mirror of b5 targets) -

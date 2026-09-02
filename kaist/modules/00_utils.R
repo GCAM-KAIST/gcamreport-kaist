@@ -67,3 +67,26 @@ sum_children_into_parents <- function(data, parent_children) {
 
   data
 }
+
+# MT 2020 steel values used by b3 and b6 (ktoe, ktoe, Mt CO2eq).
+# Read from the reference workbook if it exists, else use the constants.
+mt_steel_reference_2020 <- function(path = get0("mt_reference_path", ifnotfound = "")) {
+  ref <- list(coal_fuel = 11008.16016, coal_feedstock = 15400.84953,
+              process_co2 = 29.64761356,
+              source = "built-in constants (MT S1 2020, KMIP2025 reference workbook)")
+  if (!nzchar(path) || !file.exists(path)) return(ref)
+
+  pre  <- "Final Energy|Industry|Manufacturing|Iron and Steel|Coal|"
+  vars <- c(coal_fuel      = paste0(pre, "Fuel"),
+            coal_feedstock = paste0(pre, "Feedstock"),
+            process_co2    = "Emissions|GHGs|Non-Energy|Industrial Process|Manufacturing|Iron and Steel")
+  mt <- readxl::read_excel(path, sheet = "data") %>%
+    filter(Model == "MT", trimws(Scenario) == "S1", Variable %in% vars)
+  for (nm in names(vars)) {
+    v <- mt %>% filter(Variable == vars[[nm]])
+    if (nrow(v) != 1) stop("MT reference: expected 1 MT/S1 row for ", vars[[nm]], ", got ", nrow(v))
+    ref[[nm]] <- as.numeric(v[["2020"]])
+  }
+  ref$source <- basename(path)
+  ref
+}

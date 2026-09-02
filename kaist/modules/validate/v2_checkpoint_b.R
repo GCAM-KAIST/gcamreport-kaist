@@ -86,3 +86,36 @@ identity_b5 <- function(pre_long, korea_long, pairs, tol) {
   list(results = bind_rows(results),
        mismatches = if (length(mm) > 0) bind_rows(mm) else NULL)
 }
+
+# b6 identity: korea[steel energy CO2] + korea[steel process] == pre-PartB[steel CO2]
+identity_b6 <- function(pre_long, korea_long, tol) {
+  co2_var  <- "Emissions|CO2|Energy|Demand|Industry|Iron and Steel"
+  proc_var <- "Emissions|GHGs|Non-Energy|Industrial Process|Iron and Steel"
+  pre <- pre_long %>% filter(Variable == co2_var) %>%
+    group_by(Scenario, year) %>% summarise(pre_val = sum(value), .groups = "drop")
+  energy <- korea_long %>% filter(Variable == co2_var) %>%
+    group_by(Scenario, year) %>% summarise(energy_val = sum(value), .groups = "drop")
+  process <- korea_long %>% filter(Variable == proc_var) %>%
+    group_by(Scenario, year) %>% summarise(proc_val = sum(value), .groups = "drop")
+  if (nrow(pre) == 0 || nrow(process) == 0) {
+    return(list(results = v_result("B", "identity_b6", "korea", "SKIP",
+                                   detail = "b6 variables not present"),
+                mismatches = NULL))
+  }
+  j <- pre %>%
+    inner_join(energy, by = c("Scenario", "year")) %>%
+    inner_join(process, by = c("Scenario", "year")) %>%
+    mutate(rd = rel_diff(pre_val, energy_val + proc_val))
+  bad <- j %>% filter(rd > tol)
+  mm <- NULL
+  if (nrow(bad) > 0) {
+    mm <- v_mismatch("B", "identity_b6", "korea", bad$Scenario, "",
+                     co2_var, "", bad$year, bad$pre_val, bad$energy_val + bad$proc_val, tol,
+                     "steel energy CO2 + process != pre-split steel CO2")
+  }
+  list(results = v_result("B", "identity_b6", "korea",
+                          ifelse(nrow(bad) == 0, "PASS", "FAIL"),
+                          n_checked = nrow(j), n_failed = nrow(bad),
+                          max_rel_diff = max(j$rd)),
+       mismatches = mm)
+}

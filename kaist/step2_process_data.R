@@ -131,8 +131,7 @@ data_korea <- reallocate_all_bunker_emissions(
 # rows from Secondary Energy using GCAM coefficient files in kaist/data/
 data_korea <- add_primary_from_secondary(data_korea)
 
-# b3: split Iron and Steel coal into Fuel / Feedstock using technology-share
-# weighted literature ratios (skips if the industry query is absent)
+# b3: split Iron and Steel coal into Fuel / Feedstock (MT 2020 ratio)
 data_korea <- split_steel_coal(data_korea, prj)
 
 # b4: convert transportation Energy Service (billion pkm/tkm) into thousand
@@ -144,6 +143,9 @@ data_korea <- add_vehicle_capacity(data_korea, ref_scenario)
 # creates Final Energy|...|Biomass|Liquids rows AND scales the Liquids rows
 # by (1 - share) so the biomass part is moved, not double-counted
 data_korea <- split_biomass_liquids(data_korea)
+
+# b6: split steel process emissions out of the steel CO2 row (needs b3)
+data_korea <- add_steel_process_emissions(data_korea)
 
 ########## Save Korea Data ##########
 korea_output <- file.path(output_dir, paste0(run_name, "_korea.csv"))

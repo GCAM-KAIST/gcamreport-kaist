@@ -27,9 +27,10 @@ gcamreport-kaist/
 │   ├── modules/               # step2 adjustments, one file per adjustment
 │   │   ├── 00_utils.R         # Shared utilities (year_cols, load_gcam_rda, ...)
 │   │   ├── a1_...R ~ a6_...R  # Part A: all regions
-│   │   ├── b1_...R ~ b5_...R  # Part B: Korea only
+│   │   ├── b1_...R ~ b6_...R  # Part B: Korea only
 │   │   └── validate/          # step5 checkpoint functions + rule tables
 │   ├── tools/                 # compare_outputs.R, test_step5.R
+│   ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
 │   └── data/                  # Coefficient files (L223, L225 CSVs)
 └── kmip/                      # Local GCAM databases (gitignored)
     ├── DB25/, DB26/, ...      # One BaseX folder per scenario set
@@ -92,13 +93,14 @@ Self-test: `Rscript kaist/tools/test_step5.R` (fault injection).
 
 4. **step2 is a thin orchestrator over `kaist/modules/`**
    - Each adjustment is one function in one file (`a1` ~ `a6` run on all
-     regions, `b1` ~ `b5` on Korea only). All functions are data in -> data out,
+     regions, `b1` ~ `b6` on Korea only). All functions are data in -> data out,
      so step2 reads as a list of calls and you can inspect `data` between them.
    - Module files only define functions; sourcing them executes nothing.
    - Ordering constraints: capacity-changing modules (a2, a3, a4) must run
      before a5 (parent-child consistency); inside a3 the nuclear addition must
      come before the renewable multiplier; Part B modules require the
-     Korea-filtered data. The b1~b5 order among themselves is arbitrary.
+     Korea-filtered data; b6 (steel process emissions) needs b3's Coal|Feedstock
+     rows. Otherwise the b* order is arbitrary.
    - Values that are not queried from GCAM (Korea statistics, literature
      ratios, MT vehicle counts, ...) are catalogued in
      `kaist/docs/hardcoded_assumptions.md` -- a local-only note (`kaist/docs/`

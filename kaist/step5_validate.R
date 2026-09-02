@@ -136,6 +136,7 @@ if ("B" %in% checkpoints) {
       add(checkpoint_b2(pre, korea, step5_exceptions, step5_tol_rel_b))
       add(identity_b3(korea, step5_tol_rel_b))
       add(identity_b5(pre, korea, step5_b5_pairs, step5_tol_rel_b))
+      add(identity_b6(pre, korea, step5_tol_rel_b))
     })
   } else skip("B", "B2 needs step2 csv and korea csv")
 }

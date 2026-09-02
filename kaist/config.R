@@ -11,11 +11,11 @@
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "kmip26_S1ref"
+run_name <- "kmip26_all8"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
-db_path <- "C:/GCAM/gcamreport/kmip"
+db_path <- "/home/jiheun/reporting/kmip"
 # Which database inside db_path to query.
 db_name <- "KMIP25_6Scenarios"
 
@@ -27,17 +27,21 @@ version_number <- "7.0"          # GCAM version (used for queries and rda lookup
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- c("ref", "S1")               # e.g. c("S1", "S08")
+scenarios         <- c("ref", "S1", "S1.1", "S0.9", "S0.7_ESM", "S0.8_ESM", "S08_61", "S1_53")
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
 # module b4. NULL = use the first scenario found in the data.
-ref_scenario <- NULL
+ref_scenario <- "ref"
 # TRUE prints the diagnostic tables from modules a4 / b3 / b5 (CF check,
 # steel coal ratios, biomass share). FALSE keeps the step2 console output short.
 verbose_debug <- FALSE
+# KMIP2025 MT reference workbook (steel coal split + process factor for b3/b6).
+# If missing, built-in constants are used.
+mt_reference_path <- file.path(db_path, "KMIP25_6Scenarios_output", "iron_report",
+  "(붙임 2-1) KMIP2025 상향식 모형 분석 결과_장기감축경로_MT+GC+MS (참고용).xlsx")
 
 # === Step5 validation =========================================================
 # Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).
