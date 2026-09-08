@@ -148,7 +148,7 @@ kaist_overrides <- list(
           market = c("SolGeneration-Floor", "WindOff_Generation-Ceiling",
                      "WindOn_Generation-Ceiling", "bio-ceiling", "coal-ceiling",
                      "dac-ceiling", "imported H2", "irnstl-ceiling",
-                     "irnstl_ceiling_EAF", "CO2_Kor", "rowbio-ceiling",
+                     "irnstl_ceiling_EAF", "CO2_Kor", "GHG_Kor", "rowbio-ceiling",
                      "rowCO2", "rowCO2_LUC"),
           unit_conv = 1,
           var = "NoReported"

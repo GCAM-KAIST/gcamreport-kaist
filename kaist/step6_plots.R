@@ -74,7 +74,8 @@ ghg$Scenario <- factor(ghg$Scenario, levels = c(scen_known, scen_extra))
 ########## Plot ##########
 # Line-end labels only for a few scenarios; with many they overlap, so the
 # legend alone carries identity.
-show_end_labels <- length(unique(ghg$Scenario)) <= 3
+show_end_labels <- length(unique(ghg$Scenario)) <= 3 &&
+  max(nchar(as.character(unique(ghg$Scenario)))) <= 8
 
 # Plain style on purpose: white background, standard theme_bw look.
 # Same Arial-metric font on both OSes (server has Liberation Sans installed).
@@ -100,6 +101,18 @@ if (show_end_labels) {
   p <- p + geom_text(data = end_labels, aes(label = Scenario),
                      hjust = -0.15, size = 3.1, family = plot_family,
                      show.legend = FALSE)
+}
+
+# Optional target points (from config: pathway_targets) on the Net panel.
+targets <- get0("pathway_targets", ifnotfound = NULL)
+if (!is.null(targets)) {
+  targets <- targets %>%
+    filter(Scenario %in% levels(ghg$Scenario)) %>%
+    mutate(Scenario = factor(Scenario, levels = levels(ghg$Scenario)),
+           measure = factor("Net (incl. LULUCF)", levels = levels(ghg$measure)))
+  p <- p + geom_point(data = targets, aes(year, value, color = Scenario),
+                      shape = 1, size = 2.2, stroke = 0.8, show.legend = FALSE) +
+    labs(caption = "Circles: statutory targets (national net GHG)")
 }
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
