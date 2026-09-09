@@ -119,16 +119,17 @@ net_panel <- function(d, kind) d %>%
          kind = kind)
 pts <- bind_rows(
   if (!is.null(get0("pathway_targets", ifnotfound = NULL)))
-    net_panel(pathway_targets, "statutory target (net GHG, bunkers excluded)"),
+    net_panel(pathway_targets, "statutory target\n(net GHG, bunkers excluded)"),
   if (!is.null(get0("pathway_caps", ifnotfound = NULL)))
-    net_panel(pathway_caps, "cap in the GCAM XML (target + intl. aviation/shipping)"))
+    net_panel(pathway_caps, "cap in the GCAM XML\n(target + intl. aviation/shipping)"))
 if (nrow(pts) > 0 && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
   shapes <- c(16, 4)[seq_along(unique(pts$kind))]
   p <- p + geom_point(data = pts, aes(year, value, color = Scenario, shape = kind),
                       size = 1.8, stroke = 0.7) +
     scale_shape_manual(values = setNames(shapes, unique(pts$kind)), name = NULL) +
     guides(color = guide_legend(order = 1), shape = guide_legend(order = 2)) +
-    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt"))
+    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt"),
+          legend.key.height = unit(26, "pt"), legend.text = element_text(size = 10))
 }
 if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
   p <- p + labs(caption = paste0("pa = CO2_LUC price-adjust (share of the carbon price that land receives); ",
