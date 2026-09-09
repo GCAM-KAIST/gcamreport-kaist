@@ -110,32 +110,33 @@ if (show_end_labels) {
                      show.legend = FALSE)
 }
 
-# Optional points on the Net panel (from config): statutory targets as
-# small filled dots, cap values written in the GCAM XML as crosses.
-net_panel <- function(d) d %>%
+# Optional points on the Net panel (from config): statutory targets and the
+# cap values written in the GCAM XML. Their shapes get their own legend.
+net_panel <- function(d, kind) d %>%
   filter(Scenario %in% levels(ghg$Scenario)) %>%
   mutate(Scenario = factor(Scenario, levels = levels(ghg$Scenario)),
-         measure = factor("Net (incl. LULUCF)", levels = levels(ghg$measure)))
-targets <- get0("pathway_targets", ifnotfound = NULL)
-caps    <- get0("pathway_caps", ifnotfound = NULL)
-notes <- character(0)
-if (!is.null(targets) && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
-  p <- p + geom_point(data = net_panel(targets), aes(year, value, color = Scenario),
-                      shape = 16, size = 1.6, show.legend = FALSE)
-  notes <- c(notes, "dots = statutory targets (national net GHG, bunkers excluded)")
-}
-if (!is.null(caps) && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
-  p <- p + geom_point(data = net_panel(caps), aes(year, value, color = Scenario),
-                      shape = 4, size = 1.8, stroke = 0.7, show.legend = FALSE)
-  notes <- c(notes, "crosses = cap in the GCAM XML (target + international aviation/shipping share)")
+         measure = factor("Net (incl. LULUCF)", levels = levels(ghg$measure)),
+         kind = kind)
+pts <- bind_rows(
+  if (!is.null(get0("pathway_targets", ifnotfound = NULL)))
+    net_panel(pathway_targets, "statutory target (net GHG, bunkers excluded)"),
+  if (!is.null(get0("pathway_caps", ifnotfound = NULL)))
+    net_panel(pathway_caps, "cap in the GCAM XML (target + intl. aviation/shipping)"))
+if (nrow(pts) > 0 && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
+  shapes <- c(16, 4)[seq_along(unique(pts$kind))]
+  p <- p + geom_point(data = pts, aes(year, value, color = Scenario, shape = kind),
+                      size = 1.8, stroke = 0.7) +
+    scale_shape_manual(values = setNames(shapes, unique(pts$kind)), name = NULL) +
+    guides(color = guide_legend(order = 1), shape = guide_legend(order = 2)) +
+    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt"))
 }
 if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
-  notes <- c(notes, "pa = CO2_LUC price-adjust (share of the carbon price that land receives); da = demand-adjust (3.667 = land-use CO2 counted in the cap)")
+  p <- p + labs(caption = paste0("pa = CO2_LUC price-adjust (share of the carbon price that land receives); ",
+                                 "da = demand-adjust (3.667 = land-use CO2 counted in the cap)."))
 }
-if (length(notes) > 0) p <- p + labs(caption = paste(notes, collapse = "\n"))
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
-ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 7.5,
+ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 8.5,
        height = 4.2, dpi = 150, bg = "white")
 
 series_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.csv"))
