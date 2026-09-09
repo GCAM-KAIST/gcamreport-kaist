@@ -102,8 +102,10 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   theme_bw(base_size = 13, base_family = plot_family) +
   theme(panel.grid.minor = element_blank(),
         legend.position = "right",
+        axis.text = element_text(size = 11),
+        legend.text = element_text(size = 11),
         plot.subtitle = element_text(size = 12),
-        plot.caption = element_text(size = 8, hjust = 0))
+        plot.caption = element_text(size = 9, hjust = 0))
 
 if (show_end_labels) {
   end_labels <- ghg %>% group_by(Scenario, measure) %>% filter(year == max(year))
@@ -121,17 +123,21 @@ net_panel <- function(d, kind) d %>%
          kind = kind)
 pts <- bind_rows(
   if (!is.null(get0("pathway_targets", ifnotfound = NULL)))
-    net_panel(pathway_targets, "statutory target\n(net GHG, bunkers excluded)"),
+    net_panel(pathway_targets, "statutory target (bunkers excluded)"),
   if (!is.null(get0("pathway_caps", ifnotfound = NULL)))
-    net_panel(pathway_caps, "cap in the GCAM XML\n(target + intl. aviation/shipping)"))
+    net_panel(pathway_caps, "cap in GCAM XML (target + bunkers)"))
 if (nrow(pts) > 0 && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
   shapes <- c(16, 4)[seq_along(unique(pts$kind))]
   p <- p + geom_point(data = pts, aes(year, value, color = Scenario, shape = kind),
                       size = 1.8, stroke = 0.7) +
     scale_shape_manual(values = setNames(shapes, unique(pts$kind)), name = NULL) +
     guides(color = guide_legend(order = 1), shape = guide_legend(order = 2)) +
-    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt"),
-          legend.key.height = unit(26, "pt"), legend.text = element_text(size = 10))
+    theme(legend.position = "inside", legend.position.inside = c(0.98, 0.98),
+          legend.justification = c(1, 1), legend.box = "vertical",
+          legend.box.just = "left", legend.spacing.y = unit(0, "pt"),
+          legend.key.height = unit(16, "pt"), legend.margin = margin(2, 6, 2, 6),
+          legend.background = element_rect(fill = "white", color = "gray70", linewidth = 0.3),
+          legend.box.background = element_blank())
 }
 if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
   p <- p + labs(caption = paste0(
@@ -141,8 +147,8 @@ if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
 }
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
-ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 8.5,
-       height = 4.2, dpi = 150, bg = "white")
+ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 7,
+       height = 4.6, dpi = 150, bg = "white")
 
 series_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.csv"))
 write_csv(ghg %>% arrange(measure, Scenario, year), series_file)
