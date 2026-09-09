@@ -92,7 +92,7 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   scale_color_manual(values = scenario_colors) +
   scale_x_continuous(limits = c(start_year,
                                 final_year + ifelse(show_end_labels, 5, 1)),
-                     breaks = seq(2010, final_year, 10)) +
+                     breaks = seq(2015, final_year, 5)) +
   scale_y_continuous(breaks = scales::breaks_width(100)) +
   labs(title = if (nlevels(ghg$measure) == 1) paste("South Korea GHG Emissions,", levels(ghg$measure)) else "South Korea GHG Emissions",
        subtitle = get0("plot_subtitle", ifnotfound = NULL),
