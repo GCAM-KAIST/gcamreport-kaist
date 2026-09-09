@@ -111,8 +111,8 @@ if (!is.null(targets)) {
     mutate(Scenario = factor(Scenario, levels = levels(ghg$Scenario)),
            measure = factor("Net (incl. LULUCF)", levels = levels(ghg$measure)))
   p <- p + geom_point(data = targets, aes(year, value, color = Scenario),
-                      shape = 1, size = 2.2, stroke = 0.8, show.legend = FALSE) +
-    labs(caption = "Circles: statutory targets (national net GHG)")
+                      shape = 16, size = 2.4, show.legend = FALSE) +
+    labs(caption = "Dots: statutory targets (national net GHG)")
 }
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
