@@ -102,7 +102,7 @@ p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   theme_bw(base_size = 13, base_family = plot_family) +
   theme(panel.grid.minor = element_blank(),
         legend.position = "right",
-        plot.subtitle = element_text(size = 9),
+        plot.subtitle = element_text(size = 12),
         plot.caption = element_text(size = 8, hjust = 0))
 
 if (show_end_labels) {
@@ -134,8 +134,10 @@ if (nrow(pts) > 0 && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
           legend.key.height = unit(26, "pt"), legend.text = element_text(size = 10))
 }
 if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
-  p <- p + labs(caption = paste0("pa = CO2_LUC price-adjust (share of the carbon price that land receives); ",
-                                 "da = demand-adjust (3.667 = land-use CO2 counted in the cap)."))
+  p <- p + labs(caption = paste0(
+    "Cap on all 23 GHGs in one South Korea market (MtCO2eq, GWP AR5).\n",
+    "pa = CO2_LUC price-adjust (share of the carbon price that land receives); ",
+    "da = demand-adjust (3.667 = land-use CO2 counted in the cap); cap = 2050 constraint, MtCO2eq."))
 }
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
