@@ -85,14 +85,16 @@ show_end_labels <- length(unique(ghg$Scenario)) <= 3 &&
 # Same Arial-metric font on both OSes (server has Liberation Sans installed).
 plot_family <- if (.Platform$OS.type == "windows") "Arial" else "Liberation Sans"
 
+plot_start <- get0("plot_start_year", ifnotfound = start_year)
+ghg <- ghg %>% filter(year >= plot_start)
+
 p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   geom_hline(yintercept = 0, color = "gray60", linewidth = 0.3) +
   geom_line(linewidth = 0.8) +
   {if (nlevels(ghg$measure) > 1) facet_wrap(~measure)} +
   scale_color_manual(values = scenario_colors) +
-  scale_x_continuous(limits = c(start_year,
-                                final_year + ifelse(show_end_labels, 5, 1)),
-                     breaks = seq(2015, final_year, 5)) +
+  scale_x_continuous(limits = c(plot_start, final_year + ifelse(show_end_labels, 5, 1)),
+                     breaks = seq(plot_start, final_year, 5)) +
   scale_y_continuous(breaks = scales::breaks_width(100)) +
   labs(title = if (nlevels(ghg$measure) == 1) paste("South Korea GHG Emissions,", levels(ghg$measure)) else "South Korea GHG Emissions",
        subtitle = get0("plot_subtitle", ifnotfound = NULL),

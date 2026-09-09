@@ -46,8 +46,10 @@ mt_reference_path <- file.path(db_path, "KMIP25_6Scenarios_output", "iron_report
 # === Step6 options ============================================================
 # Panels to draw: c("Gross", "Net") or just "Net".
 plot_measures <- "Net"
+# First year on the x axis of the figure.
+plot_start_year <- 2015
 # Text under the title (NULL = none). Used here for the cap settings.
-plot_subtitle <- "cap on all 23 gases; CO2_LUC pa = 0.01, da = 3.667; 2050 cap = 10 MtCO2eq; no fixedTax"
+plot_subtitle <- "cap on all 23 gases; CO2_LUC pa = 0.01, da = 3.667; 2050 cap = 10 MtCO2eq"
 # Optional target points drawn on the Net panel of the GHG pathway figure.
 # NULL = none. A data frame with columns Scenario, year, value (Mt CO2eq/yr).
 pathway_targets <- data.frame(
