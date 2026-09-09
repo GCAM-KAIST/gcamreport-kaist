@@ -44,6 +44,10 @@ mt_reference_path <- file.path(db_path, "KMIP25_6Scenarios_output", "iron_report
   "(붙임 2-1) KMIP2025 상향식 모형 분석 결과_장기감축경로_MT+GC+MS (참고용).xlsx")
 
 # === Step6 options ============================================================
+# Panels to draw: c("Gross", "Net") or just "Net".
+plot_measures <- "Net"
+# Text under the title (NULL = none). Used here for the cap settings.
+plot_subtitle <- "cap on all 23 gases; CO2_LUC pa = 0.01, da = 3.667; 2050 cap = 10 MtCO2eq; no fixedTax"
 # Optional target points drawn on the Net panel of the GHG pathway figure.
 # NULL = none. A data frame with columns Scenario, year, value (Mt CO2eq/yr).
 pathway_targets <- data.frame(
@@ -51,6 +55,13 @@ pathway_targets <- data.frame(
   year     = rep(c(2030, 2035, 2040, 2045, 2050), 2),
   value    = c(470.3, 348.9, 230.1, 118.8, 0,     # statutory lower bound (linear)
                470.3, 289.5, 148.5, 74.2, 0))     # statutory upper bound (early cuts)
+# Optional cap values as written in the GCAM XML (target + bunker share).
+# NULL = none. Same columns as pathway_targets.
+pathway_caps <- data.frame(
+  Scenario = rep(c("NMSF2_concave", "NMSF2_convex"), each = 5),
+  year     = rep(c(2030, 2035, 2040, 2045, 2050), 2),
+  value    = c(496.06, 371.23, 248.75, 131.12, 10.09,
+               496.06, 308.33, 161.95, 77.44, 10.34))
 
 # === Step5 validation =========================================================
 # Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).

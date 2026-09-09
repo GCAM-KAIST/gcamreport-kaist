@@ -60,6 +60,10 @@ ghg <- data_korea %>%
   mutate(measure = factor(measure, levels = c("Gross (excl. LULUCF)",
                                               "Net (incl. LULUCF)")))
 
+# Keep only the panels asked for in config (plot_measures: "Gross", "Net").
+keep <- get0("plot_measures", ifnotfound = c("Gross", "Net"))
+ghg <- ghg %>% filter(sub(" .*", "", measure) %in% keep) %>% droplevels()
+
 # unknown scenario names get the unused palette slots, in order
 scen_known <- intersect(scenario_order, unique(ghg$Scenario))
 scen_extra <- setdiff(unique(ghg$Scenario), scenario_order)
@@ -84,17 +88,20 @@ plot_family <- if (.Platform$OS.type == "windows") "Arial" else "Liberation Sans
 p <- ggplot(ghg, aes(year, value, color = Scenario)) +
   geom_hline(yintercept = 0, color = "gray60", linewidth = 0.3) +
   geom_line(linewidth = 0.8) +
-  facet_wrap(~measure) +
+  {if (nlevels(ghg$measure) > 1) facet_wrap(~measure)} +
   scale_color_manual(values = scenario_colors) +
   scale_x_continuous(limits = c(start_year,
                                 final_year + ifelse(show_end_labels, 5, 1)),
                      breaks = seq(2010, final_year, 10)) +
   scale_y_continuous(breaks = scales::breaks_width(100)) +
-  labs(title = "South Korea GHG Emissions",
+  labs(title = if (nlevels(ghg$measure) == 1) paste("South Korea GHG Emissions,", levels(ghg$measure)) else "South Korea GHG Emissions",
+       subtitle = get0("plot_subtitle", ifnotfound = NULL),
        x = NULL, y = "Mt CO2eq/yr", color = NULL) +
   theme_bw(base_size = 13, base_family = plot_family) +
   theme(panel.grid.minor = element_blank(),
-        legend.position = "right")
+        legend.position = "right",
+        plot.subtitle = element_text(size = 9),
+        plot.caption = element_text(size = 8, hjust = 0))
 
 if (show_end_labels) {
   end_labels <- ghg %>% group_by(Scenario, measure) %>% filter(year == max(year))
@@ -103,20 +110,33 @@ if (show_end_labels) {
                      show.legend = FALSE)
 }
 
-# Optional target points (from config: pathway_targets) on the Net panel.
+# Optional points on the Net panel (from config): statutory targets as
+# small filled dots, cap values written in the GCAM XML as crosses.
+net_panel <- function(d) d %>%
+  filter(Scenario %in% levels(ghg$Scenario)) %>%
+  mutate(Scenario = factor(Scenario, levels = levels(ghg$Scenario)),
+         measure = factor("Net (incl. LULUCF)", levels = levels(ghg$measure)))
 targets <- get0("pathway_targets", ifnotfound = NULL)
-if (!is.null(targets)) {
-  targets <- targets %>%
-    filter(Scenario %in% levels(ghg$Scenario)) %>%
-    mutate(Scenario = factor(Scenario, levels = levels(ghg$Scenario)),
-           measure = factor("Net (incl. LULUCF)", levels = levels(ghg$measure)))
-  p <- p + geom_point(data = targets, aes(year, value, color = Scenario),
-                      shape = 16, size = 2.4, show.legend = FALSE) +
-    labs(caption = "Dots: statutory targets (national net GHG)")
+caps    <- get0("pathway_caps", ifnotfound = NULL)
+notes <- character(0)
+if (!is.null(targets) && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
+  p <- p + geom_point(data = net_panel(targets), aes(year, value, color = Scenario),
+                      shape = 16, size = 1.6, show.legend = FALSE)
+  notes <- c(notes, "dots = statutory targets (national net GHG, bunkers excluded)")
 }
+if (!is.null(caps) && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
+  p <- p + geom_point(data = net_panel(caps), aes(year, value, color = Scenario),
+                      shape = 4, size = 1.8, stroke = 0.7, show.legend = FALSE)
+  notes <- c(notes, "crosses = cap in the GCAM XML (target + international aviation/shipping share)")
+}
+if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
+  notes <- c(notes, "pa = CO2_LUC price-adjust (share of the carbon price that land receives); da = demand-adjust (3.667 = land-use CO2 counted in the cap)")
+}
+if (length(notes) > 0) p <- p + labs(caption = paste(notes, collapse = "\n"))
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
-ggsave(png_file, p, width = 10, height = 3.8, dpi = 150, bg = "white")
+ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 7.5,
+       height = 4.2, dpi = 150, bg = "white")
 
 series_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.csv"))
 write_csv(ghg %>% arrange(measure, Scenario, year), series_file)
