@@ -4,8 +4,8 @@
 # Creates Primary Energy|<fuel>|Hydrogen, Primary Energy|Electricity|Hydrogen
 # and Primary Energy|Biomass|Electricity rows by dividing / multiplying
 # Secondary Energy rows with GCAM technology coefficients:
-#   - kaist/data/L225.GlobalTechCoef_h2.csv   (hydrogen production coefficients)
-#   - kaist/data/L223.GlobalTechEff_elec.csv  (electricity generation efficiency)
+#   - kaist/kmip/data/L225.GlobalTechCoef_h2.csv   (hydrogen production coefficients)
+#   - kaist/kmip/data/L223.GlobalTechEff_elec.csv  (electricity generation efficiency)
 #
 # Rows whose source Secondary Energy variables are absent from the run are
 # silently skipped (the loops simply produce nothing).

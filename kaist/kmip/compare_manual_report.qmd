@@ -52,7 +52,7 @@ library(kableExtra)
 
 ```{r parameters}
 # ========== LOAD CONFIGURATION ==========
-source(file.path(here(), "kaist/config.R"))
+source(file.path(here(), "kaist/core/config.R"))
 template_path <- file.path(output_dir, "KMIP2025_DB_template V_S1S08_SAME(HighGas).xlsx")
 
 # ========== SCENARIO SELECTION ==========

@@ -5,7 +5,7 @@ production by tech) from the data folder and writes PNGs to charts/ (Korean
 titles) or charts/en/ (--en, IAMC variable names).
 
 Usage (from the repo root):
-  python -X utf8 kaist/steel/plot_steel_compare.py \
+  python -X utf8 kaist/kmip/steel/plot_steel_compare.py \
       --dir kmip/KMIP25_6Scenarios_output/iron_report [--en]
 Running inside the data folder without --dir still works."""
 import argparse

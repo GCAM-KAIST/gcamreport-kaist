@@ -5,8 +5,8 @@
 # R/ or inst/) so the package source stays byte-identical to upstream gcamreport
 # and `git merge upstream/gcam-core` never conflicts.
 #
-# Sourced automatically from kaist/config.R, so every step file has these
-# available after `source(".../kaist/config.R")`.
+# Sourced automatically from kaist/core/config.R, so every step file has these
+# available after `source(".../kaist/core/config.R")`.
 #
 # --- Why patch_gcam_data() exists --------------------------------------------
 # KAIST runs GCAM with extra policy markets (bio-ceiling, irnstl-ceiling, ...)
@@ -273,7 +273,7 @@ patch_gcam_data <- function(version = "v7.0") {
   ov <- kaist_overrides[[version]]
   if (is.null(ov)) {
     warning(sprintf(
-      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist/functions.R.",
+      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist/core/functions.R.",
       version, version))
     return(invisible(FALSE))
   }

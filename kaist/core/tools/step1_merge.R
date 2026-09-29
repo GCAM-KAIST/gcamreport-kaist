@@ -2,10 +2,10 @@
 # step1_merge: combine per-scenario step1_worker outputs into the single
 # {run_name}.xlsx and {run_name}_project_merged.dat that step2 expects.
 #
-# Usage: Rscript kaist/tools/step1_merge.R   (scenarios come from config.R)
+# Usage: Rscript kaist/core/tools/step1_merge.R   (scenarios come from config.R)
 ################################################################################
 
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 suppressMessages({
   library(dplyr)
   library(readxl)

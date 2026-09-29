@@ -24,12 +24,12 @@
 #
 # NEXT STEP:
 #   1. Manually review and edit mapping_template.xlsx
-#   2. kaist/step4_fill_template.R
+#   2. kaist/kmip/step4_fill_template.R
 #
 ################################################################################
 
 ########## Load Configuration ##########
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 ########################################
 
 ########## Libraries ##########
@@ -172,5 +172,5 @@ saveWorkbook(wb, mapping_output_path, overwrite = TRUE)
 
 cat("\n=== Step 3 Complete ===\n")
 cat("Mapping template:", mapping_output_path, "\n")
-cat("Next: Manually review mapping, then run kaist/step4_fill_template.R\n")
+cat("Next: Manually review mapping, then run kaist/kmip/step4_fill_template.R\n")
 

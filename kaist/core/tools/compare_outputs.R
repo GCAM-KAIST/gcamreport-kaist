@@ -2,7 +2,7 @@
 # compare_outputs.R -- verify that a refactored step produces identical output
 #
 # Usage (from the repo root):
-#   source("kaist/tools/compare_outputs.R")
+#   source("kaist/core/tools/compare_outputs.R")
 #   compare_csv("path/to/baseline.csv", "path/to/new.csv")
 #
 # Returns TRUE when the files are identical (md5 match), otherwise prints a

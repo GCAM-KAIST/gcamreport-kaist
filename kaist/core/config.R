@@ -2,7 +2,7 @@
 # KAIST GCAM Report Configuration
 #
 # Shared settings for step1 ~ step5. Source this at the top of each step file:
-#   source(file.path(getwd(), "kaist/config.R"))
+#   source(file.path(getwd(), "kaist/core/config.R"))
 #
 # Most runs only need to change `run_name`, `db_name`, and the year range.
 ################################################################################
@@ -84,7 +84,7 @@ output_dir <- file.path(db_path, paste0(db_name, "_output"))
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # Coefficient files used by step2.
-kaist_data_dir <- file.path(getwd(), "kaist/data")
+kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
 
 # Display name for the report Model column.
 model_name <- paste("GCAM", version_number)
@@ -100,4 +100,4 @@ cat("Config loaded: run_name =", run_name,
 # === KAIST helper functions ===================================================
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
-source(file.path(getwd(), "kaist/functions.R"))
+source(file.path(getwd(), "kaist/core/functions.R"))

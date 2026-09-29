@@ -5,7 +5,7 @@
 #   Emissions|CO2|Energy|Demand|Industry|Iron and Steel -= process
 #   new row: Emissions|GHGs|Non-Energy|Industrial Process|Iron and Steel
 # energy + process = original steel CO2. Parent CO2 rows are not changed.
-# Needs b3. Method: kaist/steel/README.md section 4.
+# Needs b3. Method: kaist/kmip/steel/README.md section 4.
 ################################################################################
 
 add_steel_process_emissions <- function(data) {
@@ -27,8 +27,8 @@ add_steel_process_emissions <- function(data) {
   cat(sprintf("factor = MT 2020 process %.3f Mt / Coal|Feedstock %.1f ktoe = %.5f Mt CO2/ktoe (source: %s)\n",
               ref$process_co2, ref$coal_feedstock, proc_factor, ref$source))
 
-  # EJ -> ktoe factor from kaist/unit_table.R
-  if (!exists("unit_table")) source(file.path(getwd(), "kaist/unit_table.R"))
+  # EJ -> ktoe factor from kaist/kmip/unit_table.R
+  if (!exists("unit_table")) source(file.path(getwd(), "kaist/kmip/unit_table.R"))
   ej_to_ktoe <- unit_table$factor[unit_table$from == "EJ/yr" & unit_table$to == "ktoe/yr"][1]
 
   new_rows <- list()

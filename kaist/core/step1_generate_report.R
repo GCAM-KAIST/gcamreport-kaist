@@ -17,13 +17,13 @@
 #   - Mapping error: fix the mapping CSV, then rerun this script with
 #     prj_name pointed at the existing .dat file (Option 2 below) so the
 #     queries are not redone.
-#   - "Database does not exist" error: see kaist/rgcam_patch.R.
+#   - "Database does not exist" error: see kaist/core/rgcam_patch.R.
 #
-# NEXT STEP: kaist/step2_process_data.R
+# NEXT STEP: kaist/kmip/step2_process_data.R
 ################################################################################
 
 ########## Load configuration ##########
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 ########################################
 
 ########## Project file (.dat) ##########
@@ -54,7 +54,7 @@ prj_name     <- prj_basename
 ########## Apply KAIST data overrides ##########
 # Re-apply KAIST customizations to data/*.rda so the upstream
 # inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist/functions.R::patch_gcam_data. Must run before load_all.
+# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
 patch_gcam_data(paste0("v", version_number))
 ################################################
 
@@ -66,11 +66,11 @@ library(tidyr)
 library(readxl)
 
 # Apply rgcam patch for BaseX 9.5+ (needed on this machine; harmless otherwise).
-source(file.path(getwd(), "kaist/rgcam_patch.R"))
+source(file.path(getwd(), "kaist/core/rgcam_patch.R"))
 ###############################
 
 ########## Generate report ##########
-# scenarios / desired_variables / desired_regions come from kaist/config.R
+# scenarios / desired_variables / desired_regions come from kaist/core/config.R
 generate_report(
   db_path           = db_path,
   db_name           = db_name,
@@ -104,5 +104,5 @@ if (exists("prj_basename") && identical(prj_name, prj_basename)) {
 cat("\n=== Step 1 Complete ===\n")
 cat("Project file:", prj_name, "\n")
 cat("Output:", file.path(output_dir, paste0(run_name, ".xlsx")), "\n")
-cat("Next: kaist/step2_process_data.R\n")
+cat("Next: kaist/kmip/step2_process_data.R\n")
 ######################################

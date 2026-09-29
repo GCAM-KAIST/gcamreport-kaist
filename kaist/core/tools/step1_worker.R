@@ -1,9 +1,9 @@
 ################################################################################
 # step1_worker: query ONE scenario into {run_name}_{scenario}.* outputs.
 #
-# Usage:  Rscript kaist/tools/step1_worker.R <scenario>
+# Usage:  Rscript kaist/core/tools/step1_worker.R <scenario>
 # Run one worker per scenario in parallel (each BaseX query is single-
-# threaded), then combine with kaist/tools/step1_merge.R.
+# threaded), then combine with kaist/core/tools/step1_merge.R.
 #
 # NOTE: run patch_gcam_data() ONCE before launching workers (the parallel
 # driver does this); workers skip it so 8 processes do not rewrite the same
@@ -11,10 +11,10 @@
 ################################################################################
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) < 1) stop("usage: Rscript kaist/tools/step1_worker.R <scenario>")
+if (length(args) < 1) stop("usage: Rscript kaist/core/tools/step1_worker.R <scenario>")
 scen <- args[1]
 
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 run_name  <- paste0(run_name, "_", scen)
 scenarios <- scen
 prj_basename <- paste0(run_name, "_project.dat")
@@ -25,7 +25,7 @@ library(dplyr)
 library(rgcam)
 library(tidyr)
 
-source(file.path(getwd(), "kaist/rgcam_patch.R"))
+source(file.path(getwd(), "kaist/core/rgcam_patch.R"))
 
 generate_report(
   db_path           = db_path,

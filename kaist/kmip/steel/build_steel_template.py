@@ -6,12 +6,12 @@ Fill the KMIP2026 steel-sector DB template from GCAM ModelInterface query
 results (South Korea).
 
 Usage (from the repo root; --dir is the data folder):
-  python -X utf8 kaist/steel/build_steel_template.py \
+  python -X utf8 kaist/kmip/steel/build_steel_template.py \
       --dir kmip/KMIP25_6Scenarios_output/iron_report              # S1
-  python -X utf8 kaist/steel/build_steel_template.py \
+  python -X utf8 kaist/kmip/steel/build_steel_template.py \
       --dir kmip/KMIP25_6Scenarios_output/iron_report \
       --tag kaist9_nz --input query_results_kaist9.xlsx \
-      --xml kaist/input/Korea/iron_steel_no_h2.xml --base-year 2021
+      --xml kaist/core/input/Korea/iron_steel_no_h2.xml --base-year 2021
   Running inside the data folder without --dir still works.
 
 Inputs  (in --dir unless a path is given):
@@ -110,7 +110,7 @@ YEARS = sorted(set(args.extra_years)) + TEMPLATE_YEARS   # all computed years
 EJ_TO_KTOE = 23884.6
 # GCAM reports carbon mass (MTC). CO2 = C x 44/12
 MTC_TO_MTCO2 = 44.0 / 12.0
-# GWP100 AR6 -- same factors as kaist/step4_fill_template.R unit table
+# GWP100 AR6 -- same factors as kaist/kmip/step4_fill_template.R unit table
 GWP_CH4 = 27.2
 GWP_N2O = 273.0
 

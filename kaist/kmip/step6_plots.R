@@ -13,7 +13,7 @@
 ################################################################################
 
 ########## Load configuration ##########
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 ########################################
 
 suppressMessages({

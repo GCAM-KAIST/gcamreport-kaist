@@ -25,7 +25,7 @@
 ################################################################################
 
 ########## Load Configuration ##########
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 ########################################
 
 ########## Libraries ##########
@@ -51,7 +51,7 @@ year_cols <- year_cols[as.numeric(year_cols) >= 2020]  # Usually start from 2020
 
 ########## Unit Conversion Table ##########
 # Shared with step5 validation -- single source of truth
-source(file.path(getwd(), "kaist/unit_table.R"))
+source(file.path(getwd(), "kaist/kmip/unit_table.R"))
 ###########################################
 
 ########## Load Data ##########
@@ -369,6 +369,6 @@ for (i in seq_len(nrow(missing_report))) {
   cat(sprintf("    Optional: %d / %d covered (%.1f%%)\n",
               covered_opt, total_opt, covered_opt / total_opt * 100))
 }
-cat("\nNext: Run kaist/step5_validate.R to validate results\n")
+cat("\nNext: Run kaist/kmip/step5_validate.R to validate results\n")
 ######################################
 

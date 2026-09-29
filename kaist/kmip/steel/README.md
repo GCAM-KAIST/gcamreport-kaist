@@ -27,16 +27,16 @@ Python 3 with `pandas`, `openpyxl`, `matplotlib`.
 From the repo root, `--dir` points at the data folder:
 
 ```
-python -X utf8 kaist/steel/build_steel_template.py \
+python -X utf8 kaist/kmip/steel/build_steel_template.py \
     --dir kmip/KMIP25_6Scenarios_output/iron_report                # S1 (tag S1)
-python -X utf8 kaist/steel/build_steel_template.py \
+python -X utf8 kaist/kmip/steel/build_steel_template.py \
     --dir kmip/KMIP25_6Scenarios_output/iron_report \
     --tag ref_con --input query_results_ref.xlsx                   # ref scenario
-python -X utf8 kaist/steel/build_steel_template.py \
+python -X utf8 kaist/kmip/steel/build_steel_template.py \
     --dir kmip/KMIP25_6Scenarios_output/iron_report \
     --tag kaist9_nz --input query_results_kaist9.xlsx \
-    --xml kaist/input/Korea/iron_steel_no_h2.xml --base-year 2021  # GCAM 9.1 run
-python -X utf8 kaist/steel/plot_steel_compare.py \
+    --xml kaist/core/input/Korea/iron_steel_no_h2.xml --base-year 2021  # GCAM 9.1 run
+python -X utf8 kaist/kmip/steel/plot_steel_compare.py \
     --dir kmip/KMIP25_6Scenarios_output/iron_report [--en]
 ```
 

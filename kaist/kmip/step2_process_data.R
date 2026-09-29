@@ -7,20 +7,20 @@
 #   - Part B: Korea Only (emissions reallocation, primary energy calculations)
 #
 # PREREQUISITES:
-#   1. Run kaist/step1_generate_report.R successfully
-#   2. Coefficient files in kaist/data/
+#   1. Run kaist/core/step1_generate_report.R successfully
+#   2. Coefficient files in kaist/kmip/data/
 #
 # OUTPUT:
 #   - {run_name}.csv: Updated data for all regions
 #   - {run_name}_korea.csv: Korea data with additional calculations
 #
 # NEXT STEP:
-#   - kaist/step3_create_mapping.R
+#   - kaist/kmip/step3_create_mapping.R
 #
 ################################################################################
 
 ########## Load Configuration ##########
-source(file.path(getwd(), "kaist/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 ########################################
 
 ########## Project File (.prj) ##########
@@ -37,7 +37,7 @@ if (length(prj_files) > 0) {
 ########## Apply KAIST data overrides ##########
 # Re-apply KAIST customizations to data/*.rda so the upstream
 # inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist/functions.R::patch_gcam_data. Must run before load_all.
+# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
 patch_gcam_data(paste0("v", version_number))
 ################################################
 
@@ -52,7 +52,7 @@ library(rgcam)
 ########## Load KAIST step2 modules ##########
 # One file per adjustment (a* = Part A all regions, b* = Part B Korea only).
 # Module files only define functions; sourcing them executes nothing.
-for (f in list.files(file.path(getwd(), "kaist/modules"), pattern = "\\.R$", full.names = TRUE)) {
+for (f in list.files(file.path(getwd(), "kaist/kmip/modules"), pattern = "\\.R$", full.names = TRUE)) {
   source(f)
 }
 ##############################################
@@ -128,7 +128,7 @@ data_korea <- reallocate_all_bunker_emissions(
   data_korea, gases = c("CO2", "N2O", "CH4", "Kyoto Gases"))
 
 # b2: derive Primary Energy|...|Hydrogen and Primary Energy|Biomass|Electricity
-# rows from Secondary Energy using GCAM coefficient files in kaist/data/
+# rows from Secondary Energy using GCAM coefficient files in kaist/kmip/data/
 data_korea <- add_primary_from_secondary(data_korea)
 
 # b3: split Iron and Steel coal into Fuel / Feedstock (MT 2020 ratio)
@@ -155,5 +155,5 @@ write.csv(data_korea, korea_output, row.names = FALSE, fileEncoding = "UTF-8")
 cat("\n=== Step 2 Complete ===\n")
 cat("All regions:", csv_file, "\n")
 cat("Korea only:", korea_output, "\n")
-cat("Next: Run kaist/step3_create_mapping.R\n")
+cat("Next: Run kaist/kmip/step3_create_mapping.R\n")
 #########################################
