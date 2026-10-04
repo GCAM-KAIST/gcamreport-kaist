@@ -1,3 +1,4 @@
+# [2026-10-04: Claude code] added patch_gcam_data() before load_all and gcamreport_patch.R after it.
 ################################################################################
 # Run every scenario declared in kaist-pj/scenario/config.R.
 #
@@ -6,8 +7,15 @@
 ################################################################################
 
 source(file.path(getwd(), "kaist-pj", "scenario", "config.R"))
+source(file.path(getwd(), "kaist-pj", "core", "functions.R"))
+
+# KAIST data overrides (v9.1 mapping rows) -- must run before load_all.
+patch_gcam_data(scenario_gcam_version)
+
 devtools::load_all(".", reset = TRUE)
 source(file.path(getwd(), "kaist-pj", "core", "rgcam_patch.R"))
+# gcamreport fixes applied inside the loaded namespace (empty-ignore CO2 price bug).
+source(file.path(getwd(), "kaist-pj", "core", "gcamreport_patch.R"))
 
 GCAM_version <- scenario_gcam_version
 stopifnot(GCAM_version %in% gcamreport::available_GCAM_versions)

@@ -1,11 +1,18 @@
+# [2026-10-04: Claude code] per-run names from step1_run_names(), newest .dat per run, also writes {run_name}.csv; paths kaist/ -> kaist-pj/.
 ################################################################################
-# step1_merge: combine per-scenario step1_worker outputs into the single
-# {run_name}.xlsx and {run_name}_project_merged.dat that step2 expects.
+# step1_merge: combine per-job step1 outputs into the single {run_name}.xlsx,
+# {run_name}.csv and {run_name}_project_merged.dat that step2 expects.
 #
-# Usage: Rscript kaist/core/tools/step1_merge.R   (scenarios come from config.R)
+# Per-job names come from config.R::step1_run_names():
+#   {run_name}_{label}    with a scenario manifest (step1_generate_report.R)
+#   {run_name}_{scenario} for the single-database step1_worker.R runs
+# For each name the newest {name}_project*.dat in output_dir is merged.
+#
+# Usage: Rscript kaist-pj/core/tools/step1_merge.R
+#        (also sourced by step1_generate_report.R when it ran several jobs)
 ################################################################################
 
-source(file.path(getwd(), "kaist/core/config.R"))
+if (!exists("step1_run_names")) source(file.path(getwd(), "kaist-pj/core/config.R"))
 suppressMessages({
   library(dplyr)
   library(readxl)
@@ -13,18 +20,24 @@ suppressMessages({
   library(rgcam)
 })
 
-per_run <- paste0(run_name, "_", scenarios)
+per_run <- step1_run_names()
 
-# xlsx: row-bind the per-scenario reports (same columns)
+# xlsx / csv: row-bind the per-job reports (same columns)
 xlsx_paths <- file.path(output_dir, paste0(per_run, ".xlsx"))
 missing <- xlsx_paths[!file.exists(xlsx_paths)]
-if (length(missing) > 0) stop("missing worker outputs: ", paste(missing, collapse = ", "))
+if (length(missing) > 0) stop("missing step1 outputs: ", paste(missing, collapse = ", "))
 data <- bind_rows(lapply(xlsx_paths, read_excel))
 write_xlsx(data, file.path(output_dir, paste0(run_name, ".xlsx")))
-cat("Merged xlsx:", nrow(data), "rows,", length(unique(data$Scenario)), "scenarios\n")
+write.csv(data, file.path(output_dir, paste0(run_name, ".csv")), row.names = FALSE)
+cat("Merged report:", nrow(data), "rows,", length(unique(data$Scenario)), "scenario(s)\n")
 
 # .dat: merge the rgcam projects (step2 matches ^{run_name}_project_.*\.dat$)
-prjs <- lapply(file.path(output_dir, paste0(per_run, "_project.dat")), loadProject)
+latest_dat <- function(rn) {
+  cands <- list.files(output_dir, pattern = paste0("^", rn, "_project.*\\.dat$"), full.names = TRUE)
+  if (length(cands) == 0) stop("no project .dat found for ", rn, " in ", output_dir)
+  cands[order(file.mtime(cands), decreasing = TRUE)[1]]
+}
+prjs <- lapply(vapply(per_run, latest_dat, character(1)), loadProject)
 merged_path <- file.path(output_dir, paste0(run_name, "_project_merged.dat"))
 if (file.exists(merged_path)) file.remove(merged_path)
 merged <- mergeProjects(merged_path, prjs, clobber = TRUE, saveProj = TRUE)

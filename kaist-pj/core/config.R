@@ -1,8 +1,9 @@
+# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/; new ignore_markets option; new step1_jobs() / step1_run_names() helpers for the scenario manifest.
 ################################################################################
 # KAIST GCAM Report Configuration
 #
 # Shared settings for step1 ~ step5. Source this at the top of each step file:
-#   source(file.path(getwd(), "kaist/core/config.R"))
+#   source(file.path(getwd(), "kaist-pj/core/config.R"))
 #
 # Most runs only need to change `run_name`, `db_name`, and the year range.
 ################################################################################
@@ -36,6 +37,12 @@ version_number <- sub("^v", "", scenario_gcam_version)
 scenarios         <- scenario_jobs$scenario
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
+# Market-name patterns passed to generate_report(ignore = ...). NULL = none.
+# The manifest declares scenario_ignore = "^bio-ceiling$", but it is no longer
+# needed: the v9.1 kaist_overrides map bio-ceiling to NoReported (fix 7) and
+# gcamreport_patch.R makes an empty ignore safe (fix 8). Set
+# ignore_markets <- scenario_ignore to pass it anyway (harmless either way).
+ignore_markets <- NULL
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
@@ -82,7 +89,7 @@ output_dir <- scenario_output_dir
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # Coefficient files used by step2.
-kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
+kaist_data_dir <- file.path(getwd(), "kaist-pj/kmip/data")
 
 # Display name for the report Model column.
 model_name <- paste("GCAM", version_number)
@@ -98,4 +105,23 @@ cat("Config loaded: run_name =", run_name,
 # === KAIST helper functions ===================================================
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
-source(file.path(getwd(), "kaist/core/functions.R"))
+source(file.path(getwd(), "kaist-pj/core/functions.R"))
+
+# === Step1 job list ===========================================================
+# One row per generate_report() call. With a scenario manifest
+# (kaist-pj/scenario/config.R -> scenario_jobs) every job has its own BaseX
+# database; otherwise the classic single-database run with all `scenarios`.
+step1_jobs <- function() {
+  if (exists("scenario_jobs")) {
+    return(data.frame(db = scenario_jobs$db, scenario = I(as.list(scenario_jobs$scenario)),
+                      label = scenario_jobs$label, stringsAsFactors = FALSE))
+  }
+  data.frame(db = db_name, scenario = I(list(scenarios)), label = run_name,
+             stringsAsFactors = FALSE)
+}
+# Per-run output names used by the step1 worker/merge tools:
+# {run_name}_{label} (manifest) or {run_name}_{scenario} (single database).
+step1_run_names <- function() {
+  if (exists("scenario_jobs")) return(paste0(run_name, "_", scenario_jobs$label))
+  paste0(run_name, "_", scenarios)
+}
