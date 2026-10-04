@@ -3,7 +3,8 @@ population_clean;get_population;;population by region
 pop_weights;get_population_weights;population_clean;
 income_raw;get_income;;subregional income
 energy_expenditure_per_clean;get_en_expenditure;pop_weights,income_raw;building service costs,building service output by service,population by region
-food_expenditure_per_clean;get_food_expenditure;pop_weights,income_raw;food demand prices by income group|food demand prices,food demand by income group|food demand,population by region
+food_expenditure_per_clean;get_food_expenditure;food_weights,pop_weights,income_raw;food demand prices by income group|food demand prices|prices by sector,food demand by income group|food demand|food demand v2,population by region
+food_weights;get_food_weights;;food demand|food demand v2
 expenditure_per_clean;get_expenditure;food_expenditure_per_clean,energy_expenditure_per_clean;
 poverty_clean;get_poverty;income_raw,population_clean;
 inequality_clean;get_inequality;income_raw,population_clean;
@@ -31,7 +32,7 @@ ag_demand_clean;get_ag_demand;biomass_shares;demand balances by crop commodity,d
 ag_production_clean;get_ag_production;;ag production by crop type,meat and dairy production by type
 land_clean;get_land;;land allocation by crop and water source
 land_yield;get_land;;land allocation by crop and water source
-primary_energy_clean;get_primary_energy;;primary energy consumption with CCS by region (direct equivalent)
+primary_energy_clean;get_primary_energy;;primary energy consumption by region (direct equivalent),primary energy consumption with CCS by region (direct equivalent)
 pe_trade_prod;get_pe_trade_prod;;resource production,purpose-grown biomass production,residue biomass production,MSW production
 pe_trade_supply;get_pe_trade_supply;;supply of all markets
 pe_trade;get_pe_trade;pe_trade_prod,pe_trade_supply;
