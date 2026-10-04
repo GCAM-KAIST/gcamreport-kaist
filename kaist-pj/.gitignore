@@ -1,0 +1,4 @@
+/.quarto/
+**/*.quarto_ipynb
+TODO.md
+ROADMAP.md
