@@ -1,5 +1,9 @@
 # GCAM 9.1 Development Error Log
 
+> Copy of `gcamreport-temp/debug/ERROR_LOG.md` (session of 2026-09-08), kept
+> here for reference. The v9.1 mappings it describes are now upstream; the
+> KAIST-specific follow-up fixes are in `case1_chemical_feedback_Sector/`.
+
 This document records errors found while adapting `gcamreport` to GCAM 9.1.
 Each entry separates the observed error from its likely cause and the next
 diagnostic step. The warnings below are retained as raw output because they
@@ -18,7 +22,7 @@ may help reproduce the failure.
 To rebuild the package data from the source mappings:
 
 ```r
-setwd("C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport_temp")
+setwd("C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-temp")
 source("inst/extdata/saveDataFiles_constants.R")
 source("inst/extdata/saveDataFiles_GCAM9.1.R")
 devtools::load_all(".", reset = TRUE)

@@ -1,5 +1,11 @@
 # Case 1 — `chemical feedstocks` coal/gas technologies break `get_co2_sequestration()` (GCAM v9.1)
 
+> Copy of the record kept in `gcamreport-temp/debug/case1_chemical_feedback_Sector/Error_Log/`.
+> In `gcamreport-kaist/forked` the same fixes are applied at runtime instead of by editing the
+> package: fixes 1-7 as `kaist_overrides$v9.1` in `kaist-pj/core/functions.R` (`patch_gcam_data()`),
+> fix 8 by `kaist-pj/core/gcamreport_patch.R`. See the table in `kaist-pj/README.md`,
+> section "GCAM v9.1: KAIST u0909 scenarios".
+
 Debugging record for the two KAIST GCAM v9.1 scenarios `KAIST_9_ref_u0909` (database `u0909r`)
 and `KAIST_9_NZ_u0909` (database `u0909n`) processed with `gcamreport-temp`.
 

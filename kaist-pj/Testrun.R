@@ -127,13 +127,13 @@ testrun_status <- function() {
 
 ##################### TEST ####################################
 ## Each call runs ONE step in a fresh Rscript; logs in {output_dir}/logs/. Uncomment to run.
-run_step(1)                                   # query both u0909 databases (~30 min), merge for step2
+# run_step(1)                                   # query both u0909 databases (~30 min), merge for step2
 # run_step(2)                                   # post-processing (needs step1 outputs)
 # run_step(3)                                   # mapping template (needs the KMIP template xlsx)
 # run_step(4)                                   # fill template (needs the reviewed mapping xlsx)
 # run_step(5, args = "--checkpoints=A,B,C,D")   # validation; add "--strict" to fail on any FAIL
 # run_step(6)                                   # GHG pathway figure
 # run_steps(1:6)                                # whole chain, stop at first failure
-# run_steps(2:6, stop_on_error = FALSE)         # everything after step1, report all results
+run_steps(2:6, stop_on_error = FALSE)         # everything after step1, report all results
 # run_step(2, fresh = FALSE)                    # debug step2 inside this session instead
 testrun_status()
