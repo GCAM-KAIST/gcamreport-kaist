@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+	<Files>
+		<Value name="xmlInputFileName">../input/gcamdata/xml/modeltime.xml</Value>
+		<Value name="BatchFileName">batch_ag.xml</Value>
+		<Value name="policy-target-file">../input/policy/forcing_target_4p5.xml</Value>
+		<Value name="GHGInputFileName">../input/magicc/inputs/input_gases.emk</Value>
+		<Value write-output="1" append-scenario-name="0" name="xmldb-location">../output/u0909n</Value>
+		<Value write-output="1" append-scenario-name="0" name="restart">./restart/restart</Value>
+		<Value write-output="0" append-scenario-name="1" name="xmlDebugFileName">debug.xml</Value>
+		<Value write-output="1" append-scenario-name="0" name="hector-output">../output/gcam-hector-outputstream.csv</Value>
+		<Value write-output="1" append-scenario-name="1" name="costCurvesOutputFileName">cost_curves.xml</Value>
+		<Value write-output="0" append-scenario-name="0" name="supplyDemandOutputFileName">SDCurves.csv</Value>
+		<Value write-output="0" append-scenario-name="0" name="flow-graph">gcam-flow-graph.dot</Value>
+		<Value write-output="0" append-scenario-name="0" name="dependencyGraphName">DependencyGraph.dot</Value>
+		<Value write-output="0" append-scenario-name="0" name="landAllocatorGraphName">LandAllocatorGraph.dot</Value>
+	</Files>
+	<ScenarioComponents>
+        <Value name = "climate">../input/gcamdata/xml/hector.xml</Value>
+		<Value name = "socioeconomics">../input/gcamdata/xml/socioeconomics_CORE.xml</Value>
+		<Value name = "socioeconomics_income_elas">../input/gcamdata/xml/socioeconomics_incelas_ssp2.xml</Value> 
+		<Value name = "resources">../input/gcamdata/xml/resources.xml</Value>
+		<Value name = "energy_supply">../input/gcamdata/xml/en_supply.xml</Value>
+		<Value name = "energy_transformation">../input/gcamdata/xml/en_transformation.xml</Value>
+		<Value name = "elec_water_base">../input/gcamdata/xml/electricity_water.xml</Value>
+		<Value name = "heat">../input/gcamdata/xml/heat.xml</Value>
+		<Value name = "hydrogen">../input/gcamdata/xml/hydrogen.xml</Value>
+		<Value name = "energy_distribution">../input/gcamdata/xml/en_distribution.xml</Value>
+		<Value name = "other_industry">../input/gcamdata/xml/other_industry.xml</Value>
+ 		<Value name = "iron_steel">../input/gcamdata/xml/iron_steel.xml</Value>
+        <Value name = "iron_steel trade">../input/gcamdata/xml/iron_steel_trade.xml</Value>
+ 		<Value name = "Off_road">../input/gcamdata/xml/Off_road.xml</Value>
+ 		<Value name = "chemical">../input/gcamdata/xml/chemical.xml</Value>
+ 		<Value name = "aluminum">../input/gcamdata/xml/aluminum.xml</Value>
+ 		<Value name = "paper">../input/gcamdata/xml/paper.xml</Value>
+		<Value name = "food_processing">../input/gcamdata/xml/food_processing.xml</Value>
+		<Value name = "cement">../input/gcamdata/xml/cement.xml</Value>
+		<Value name = "fertilizer_energy">../input/gcamdata/xml/en_Fert.xml</Value>
+		<Value name = "hddcdd">../input/gcamdata/xml/HDDCDD_constdd_no_GCM.xml</Value>
+		<Value name = "building">../input/gcamdata/xml/building_det.xml</Value>
+		<Value name = "transportation">../input/gcamdata/xml/transportation_UCD_CORE.xml</Value>
+		<Value name = "carbon_content">../input/gcamdata/xml/Ccoef.xml</Value>
+		<Value name = "carbon_storage">../input/gcamdata/xml/Cstorage.xml</Value>
+		<Value name = "wind_update">../input/gcamdata/xml/onshore_wind.xml</Value>
+
+		<Value name = "ag_base">../input/gcamdata/xml/ag_For_Past_bio_base_IRR_MGMT.xml</Value>
+		<Value name = "ag_cost">../input/gcamdata/xml/ag_cost_IRR_MGMT.xml</Value>
+		<Value name = "ag_prodchange">../input/gcamdata/xml/ag_land_prodchange_ref_IRR_MGMT.xml</Value>
+		<Value name = "residue_bio">../input/gcamdata/xml/resbio_input_IRR_MGMT.xml</Value>
+		<Value name = "animal_input">../input/gcamdata/xml/an_input.xml</Value>
+		<Value name = "aginput_VA">../input/gcamdata/xml/ag_input_laborcapital_IRR_MGMT.xml</Value>
+		<Value name = "aginput_fert">../input/gcamdata/xml/ag_input_fert_MGMT.xml</Value>
+		<Value name = "aginput_water">../input/gcamdata/xml/ag_input_water_IRR_MGMT.xml</Value>
+		<Value name = "land1">../input/gcamdata/xml/land_input_1.xml</Value>
+		<Value name = "land2">../input/gcamdata/xml/land_input_2.xml</Value>
+		<Value name = "land3">../input/gcamdata/xml/land_input_3_IRR.xml</Value>
+		<Value name = "land4">../input/gcamdata/xml/land_input_4_IRR_MGMT.xml</Value>
+		<Value name = "land5">../input/gcamdata/xml/land_input_5_IRR_MGMT.xml</Value>
+		<Value name = "protected_land2">../input/gcamdata/xml/protected_land_input_2.xml</Value>
+		<Value name = "protected_land3">../input/gcamdata/xml/protected_land_input_3.xml</Value>
+		<Value name = "demand">../input/gcamdata/xml/ag_an_demand_input.xml</Value>
+		<Value name = "bio_trade">../input/gcamdata/xml/bio_trade.xml</Value>
+		<Value name = "ag_trade">../input/gcamdata/xml/ag_trade.xml</Value>
+		<Value name = "ag_storage">../input/gcamdata/xml/ag_storage.xml</Value>
+
+		<Value name = "unlim_supply_water">../input/gcamdata/xml/unlimited_water_supply.xml</Value>
+		<Value name = "water_supply">../input/gcamdata/xml/water_supply_constrained.xml</Value>
+		<Value name = "water_desal">../input/gcamdata/xml/desalination.xml</Value>
+		<Value name = "water_td">../input/gcamdata/xml/water_td.xml</Value>
+		<Value name = "efw_coefs">../input/gcamdata/xml/EFW_input_coefs.xml</Value>
+		<Value name = "efw_irr">../input/gcamdata/xml/EFW_irrigation.xml</Value>
+		<Value name = "efw_mfg">../input/gcamdata/xml/EFW_manufacturing.xml</Value>
+		<Value name = "efw_muni">../input/gcamdata/xml/EFW_municipal.xml</Value>
+		<Value name = "elec_water_coef">../input/gcamdata/xml/electricity_water_coefs.xml</Value>
+		<Value name = "ind_water">../input/gcamdata/xml/water_demand_industry.xml</Value>
+		<Value name = "an_water">../input/gcamdata/xml/water_demand_livestock.xml</Value>
+		<Value name = "municipal_water">../input/gcamdata/xml/water_demand_municipal.xml</Value>
+		<Value name = "primary_ene_water">../input/gcamdata/xml/water_demand_primary.xml</Value>
+
+		<Value name = "ind_urb_proc">../input/gcamdata/xml/ind_urb_processing_sectors.xml</Value>
+		<Value name = "nonco2_energy">../input/gcamdata/xml/all_energy_emissions.xml</Value>
+		<Value name = "nonco2_fgas">../input/gcamdata/xml/all_fgas_emissions.xml</Value>
+		<Value name = "nonco2_unmgd">../input/gcamdata/xml/all_unmgd_emissions.xml</Value>
+		<Value name = "nonco2_aglu">../input/gcamdata/xml/all_aglu_emissions_IRR_MGMT.xml</Value>
+		<Value name = "nonco2_aglu_prot">../input/gcamdata/xml/all_protected_unmgd_emissions.xml</Value>
+		<Value name = "nonco2_em_controls">../input/gcamdata/xml/emission_factor_controls.xml</Value>
+		<Value name = "nonco2_TradBio">../input/gcamdata/xml/ssp2_emissions_factors_tradBio.xml</Value> 
+		
+		<Value name = "nonco2_energy">../input/gcamdata/xml/all_energy_emissions_MAC.xml</Value>
+		<Value name = "nonco2_fgas">../input/gcamdata/xml/all_fgas_emissions_MAC.xml</Value>
+		<Value name = "nonco2_aglu">../input/gcamdata/xml/all_aglu_emissions_IRR_MGMT_MAC.xml</Value> 
+		<Value name = "nonco2_proc">../input/gcamdata/xml/ind_urb_processing_sectors_MAC.xml</Value> 
+
+		<Value name = "macro">../input/gcamdata/xml/socioeconomics_macro.xml</Value>
+		<Value name = "capital_Ag">../input/gcamdata/xml/ag_capital_tracking.xml</Value>
+		
+		<Value name = "bio_feedstock_limit">../input/gcamdata/xml/liquids_limits.xml</Value>
+		<Value name = "bio_elec_w_feed_limit">../input/gcamdata/xml/water_elec_liquids_limits.xml</Value>
+		<Value name = "bio_externality">../input/gcamdata/xml/bio_externality.xml</Value>
+        <Value name = "gas_trade">../input/gcamdata/xml/gas_trade.xml</Value>
+
+        <Value name = "prune_ag">../input/gcamdata/xml/prune_empty_ag.xml</Value>
+
+		<Value name = "solver">../input/solution/cal_broyden_config_10000.xml</Value>
+
+        <Value name="socioeconomics_kaist7">../input/Korea/socioeconomics_CORE_kaist.xml</Value>
+        <Value name="other_industry_kaist7">../input/Korea/other_industry_kaist7.xml</Value>
+        <Value name="other_industry_incelas_kaist7">../input/Korea/other_industry_incelas_kaist7.xml</Value>
+        <Value name="iron_steel_incelas_kaist7">../input/Korea/iron_steel_incelas_kaist7.xml</Value>
+        <Value name="iron_steel_trade_regional">../input/Korea/iron_steel_trade_regional.xml</Value>
+        <Value name="chemical_feedstocks_coal">../input/Korea/chemical_feedstocks_coal.xml</Value>
+        <Value name="chemical_feedstocks_gas">../input/Korea/chemical_feedstocks_gas.xml</Value>
+        <Value name="chemical_feedstocks_refined_liquids">../input/Korea/chemical_feedstocks_refined_liquids.xml</Value>
+        <Value name="chemical_incelas_kaist7">../input/Korea/chemical_incelas_kaist7.xml</Value>
+        <Value name="cement_kaist7">../input/Korea/cement_kaist7.xml</Value>
+        <Value name="cement_incelas_kaist7">../input/Korea/cement_incelas_kaist7.xml</Value>
+        <Value name="LNG_price">../input/Korea/GL226_LNG_kaist9_260630.xml</Value>
+        <Value name="oil_price">../input/Korea/oil_price.xml</Value>
+        <Value name="bio_constraint_value">../input/Korea/bio_constraint_value.xml</Value>
+        <Value name="bio_constraint_techs">../input/Korea/bio_constraint_techs.xml</Value>
+        <Value name="cement_constraint_value">../input/Korea/cement_constraint_value.xml</Value>
+        <Value name="cement_constraint_techs">../input/Korea/cement_constraint_techs.xml</Value>
+
+        <Value name="elec_water_coal">../input/Korea/elec_water_coal_final.xml</Value>
+        <Value name="elec_water_gas">../input/Korea/elec_water_gas_final.xml</Value>
+        <Value name="elec_water_biomass">../input/Korea/elec_water_biomass_final.xml</Value>
+        <Value name="elec_water_nuclear">../input/Korea/elec_water_nuclear_final.xml</Value>
+        <Value name="elec_water_wind">../input/Korea/elec_water_wind_one_offshorefix.xml</Value>
+        <Value name="elec_water_solar">../input/Korea/elec_water_solar_X002_2100.xml</Value>
+        <Value name="elec_water_refined_liquids">../input/Korea/elec_water_refined_liquids_final.xml</Value>
+        <Value name="elec_water_rooftop_pv">../input/Korea/elec_water_rooftop_pv_final.xml</Value>
+        <Value name="hydrogen_kaist7">../input/Korea/hydrogen_kaist7_final.xml</Value>
+
+        <Value name="off_road_cost">../input/Korea/off_road_cost_input_final.xml</Value>
+        <Value name="off_road_incelas_construction">../input/Korea/off_road_incelas_construction.xml</Value>
+        <Value name="off_road_incelas_agricultural">../input/Korea/off_road_incelas_agricultural.xml</Value>
+        <Value name="off_road_incelas_mining">../input/Korea/off_road_incelas_mining.xml</Value>
+
+        <Value name="transportation_kaist7">../input/Korea/transportation_kaist7.xml</Value>
+
+<Value name="carbon_storage_kaist7">../input/Korea/carbon_storage_kaist7.xml</Value>
+<Value name="onshore_wind_kaist7">../input/Korea/onshore_wind_kaist7.xml</Value>
+
+        <Value name="coal_constraint_value">../input/Korea/coal_constraint_value.xml</Value>
+        <Value name="coal_constraint_techs">../input/Korea/coal_constraint_techs.xml</Value>
+
+        <Value name="nuclear_FT">../input/Korea/nuclear_FT_plan11c.xml</Value>
+
+		<Value name = "dac_kaist9">../input/Korea/dac_ssp2_kaist9.xml</Value>
+		<Value name = "dac_Tax_Value">../input/Korea/DAC_constraint_value_KEMF_24_ADV_2_6.xml</Value>
+		<Value name = "dac_Tax_Tech">../input/Korea/DAC_constraint_techs_KEMF_24_noairco2.xml</Value>
+
+		<Value name = "CO2_Kor">../input/Korea/kor_CO2_emiss_constraint_mtco2.xml</Value>
+		<Value name = "CO2_link_kor">../input/Korea/kor_CO2_link_emiss_kemf.xml</Value>
+		<Value name = "world_deeper_decarbonization_2050">../input/Korea/FFI_const_row_deeper_decarb_2050_1p5_6000L_no2021_no2025.xml</Value>
+		<Value name = "GHG_link_row">../input/Korea/PCT_CO2_LUC_link_p10_row.xml</Value>
+
+		<Value name = "h2_shipping_trade">../input/Korea/H2_shipping_trade.xml</Value>
+		<Value name = "h2_truck_trade">../input/Korea/H2_truck_trade.xml</Value>
+
+        <Value name="iron_steel_trade_traded2">../input/Korea/iron_steel_trade_traded2.xml</Value>
+        <Value name="transport_aeei25">../input/Korea/transport_aeei25.xml</Value>
+        <Value name="building_h2_off">../input/Korea/building_h2_off2.xml</Value>
+        <Value name="refining_ccs_off">../input/Korea/refining_ccs_off_ctl_low2.xml</Value>
+
+        <Value name="iron_steel_eaf_dri_ccs_off">../input/Korea/iron_steel_eaf_dri_ccs_off.xml</Value>
+        <Value name="iron_steel_h2bf_bio_off">../input/Korea/iron_steel_h2bf_bio_off.xml</Value>
+        <Value name="bio_ccs_off">../input/Korea/bio_ccs_off_meeting.xml</Value>
+
+	</ScenarioComponents>
+	<Strings>
+		<Value name="scenarioName">KAIST_9_NZ_u0909</Value>
+		<Value name="debug-region">USA</Value>
+		<Value name="AbatedGasForCostCurves">CO2</Value>
+	</Strings>
+	<Bools>
+		<Value name="CalibrationActive">1</Value>
+		<Value name="FixedGDP-Path">1</Value>
+		<Value name="BatchMode">0</Value>
+		<Value name="find-path">0</Value>
+		<Value name="createCostCurve">0</Value>
+		<Value name="debugChecking">0</Value>
+		<Value name="verbose-parse-warnings">0</Value>
+		<Value name="simulActive">1</Value>
+		<Value name="PrintValuesOnGraphs">1</Value>
+		<Value name="ShowNullPaths">0</Value>
+		<Value name="PrintPrices">1</Value>
+		<Value name="QuitFirstFailure">0</Value>
+	</Bools>
+	<Ints>
+		<Value name="numMarketsToFindSD">10</Value>
+		<Value name="numPointsForSD">21</Value>
+		<Value name="numPointsForCO2CostCurve">5</Value>
+		<Value name="carbon-output-start-year">1705</Value>
+		<Value name="stop-period">-1</Value>
+		<Value name="stop-year">2050</Value>
+		<Value name="restart-period">-1</Value>
+		<Value name="restart-year">-1</Value>
+		<Value name="xmldb-buffer-size">100</Value>
+		<Value name="max-parallelism">-1</Value>
+	</Ints>
+	<Doubles>
+	</Doubles>
+</Configuration>
+

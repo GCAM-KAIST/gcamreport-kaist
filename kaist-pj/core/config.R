@@ -7,27 +7,36 @@
 # Most runs only need to change `run_name`, `db_name`, and the year range.
 ################################################################################
 
+# Scenario-specific databases and names live in scenario/config.R.
+scenario_config_path <- file.path(getwd(), "kaist-pj", "scenario", "config.R")
+if (file.exists(scenario_config_path)) {
+  source(scenario_config_path)
+}
+
 # === Run name (output prefix) =================================================
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "gcam_v9.1_report"
+run_name <- if (exists("scenario_jobs")) "reports_u0909" else "gcam_v9.1_report"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
-db_path <- "C:/Users/pjhan/Desktop/GCAM/gcam-v9.1-Windows-Release-Package/output"
+db_path <- if (exists("scenario_dir")) scenario_dir else
+  "C:/Users/pjhan/Desktop/GCAM/gcam-v9.1-Windows-Release-Package/output"
 # Which database inside db_path to query.
-db_name <- "database_basexdb"
+db_name <- if (exists("scenario_jobs")) scenario_jobs$db[[1]] else "database_basexdb"
 
 # === Region & year range ======================================================
 target_region <- "All"           # Region used in the Korea-only blocks
 start_year    <- 2005            # First year kept in step2 / step4
 final_year    <- 2050            # Last year kept in step2 / step4
-version_number <- "9.1"          # GCAM version (used for queries and rda lookups)
+version_number <- sub("^v", "", if (exists("scenario_gcam_version"))
+  scenario_gcam_version else "v9.1")
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- "Reference"
+scenarios         <- if (exists("scenario_jobs"))
+  scenario_jobs$scenario[[1]] else "Reference"
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
 

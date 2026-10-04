@@ -142,6 +142,18 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 `kaist/core/tools/step1_merge.R` to build the single `{run_name}.xlsx` and
 `{run_name}_project_merged.dat` that step2 expects.
 
+### Scenario manifest
+
+The checked-in scenario names and database locations are declared in
+`kaist-pj/scenario/config.R`. Run every declared scenario with:
+
+```
+Rscript kaist-pj/core/run_scenarios.R
+```
+
+Reports are written under `kaist-pj/scenario/reports_u0909/`. Add or change a
+job in the manifest rather than editing the core runner.
+
 ## Syncing with upstream gcamreport
 
 `R/`, `inst/`, and `data/` are kept byte-identical to upstream, so pulling the
