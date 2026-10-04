@@ -14,7 +14,7 @@
 #   |-- Supply
 #
 # What we do:
-#   1. Redistribute Aviation/Shipping by Korean domestic ratios (9.3%, 3.2%)
+#   1. Redistribute Aviation/Shipping by Korean domestic ratios (9.9%, 3.9%)
 #   2. Transportation += domestic change (Domestic values changed)
 #   3. Bunkers += international change (International values changed)
 #   4. Demand, Energy, Energy and Industrial Processes and the Emissions|{gas}
@@ -22,15 +22,16 @@
 # Applied to CO2 / N2O / CH4 and to the Kyoto Gases (CO2eq) tree, one
 # scenario at a time; a missing leaf row (e.g. CH4 aviation) counts as 0.
 #
-# Hardcoded assumptions (domestic ratios 0.093 / 0.032, min_year 2020):
+# Hardcoded assumptions (domestic ratios 0.099 / 0.039, min_year 2020):
+# Source: GIR 2025 national GHG inventory, 2023 (domestic / (domestic + intl)).
 # see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
 # One gas, one scenario at a time so multi-scenario data cannot misalign and
 # a leaf missing for one scenario (e.g. no CH4 aviation rows) is treated as 0.
 reallocate_bunker_emissions <- function(data, gas, adj_cols,
-                                        aviation_dom_ratio = 0.093,
-                                        shipping_dom_ratio = 0.032) {
+                                        aviation_dom_ratio = 0.099,
+                                        shipping_dom_ratio = 0.039) {
   n <- length(adj_cols)
   dom_change_all <- 0
   intl_removed_all <- 0
