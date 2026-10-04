@@ -17,33 +17,30 @@ if (file.exists(scenario_config_path)) {
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- if (exists("scenario_jobs")) "reports_u0909" else "gcam_v9.1_report"
+run_name <- "reports_u0909"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
-db_path <- if (exists("scenario_dir")) scenario_dir else
-  "C:/Users/pjhan/Desktop/GCAM/gcam-v9.1-Windows-Release-Package/output"
+db_path <- scenario_dir
 # Which database inside db_path to query.
-db_name <- if (exists("scenario_jobs")) scenario_jobs$db[[1]] else "database_basexdb"
+db_name <- scenario_jobs$db[[1]]
 
 # === Region & year range ======================================================
 target_region <- "All"           # Region used in the Korea-only blocks
 start_year    <- 2005            # First year kept in step2 / step4
 final_year    <- 2050            # Last year kept in step2 / step4
-version_number <- sub("^v", "", if (exists("scenario_gcam_version"))
-  scenario_gcam_version else "v9.1")
+version_number <- sub("^v", "", scenario_gcam_version)
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- if (exists("scenario_jobs"))
-  scenario_jobs$scenario[[1]] else "Reference"
+scenarios         <- scenario_jobs$scenario
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
 # module b4. NULL = use the first scenario found in the data.
-ref_scenario <- "Reference"
+ref_scenario <- scenario_jobs$scenario[[1]]
 # TRUE prints the diagnostic tables from modules a4 / b3 / b5 (CF check,
 # steel coal ratios, biomass share). FALSE keeps the step2 console output short.
 verbose_debug <- FALSE
@@ -81,7 +78,7 @@ step5_checkpoints <- c("A", "B", "C", "D")
 # Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
 # runs against different databases do not mix. .dat project files from step1
 # also land here so they sit next to their .xlsx / .csv siblings.
-output_dir <- file.path(db_path, paste0(db_name, "_output"))
+output_dir <- scenario_output_dir
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # Coefficient files used by step2.
