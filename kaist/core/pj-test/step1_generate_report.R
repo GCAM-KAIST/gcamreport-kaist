@@ -1,61 +1,70 @@
 ################################################################################
-# Step 1: Generate GCAM Report (Query Database)
+# Step 1 (pj-test): Generate GCAM Report (Query Database)
 #
 # PURPOSE:
 #   Query the GCAM BaseX database and write the base report files.
 #   Outputs (set in config.R):
-#     {output_dir}/{run_name}.xlsx       - GCAM report (all regions)
+#     {output_dir}/{run_name}.xlsx          - GCAM report (all regions)
 #     {output_dir}/{run_name}_project_*.dat - rgcam project file (used by step2)
 #
+# HOW TO RUN (either):
+#   a) source("kaist/core/pj-test/run_pjtest.R"); pjtest_run("report")
+#   b) from the repo root:  Rscript kaist/core/pj-test/step1_generate_report.R
+#
 # PREREQUISITES:
-#   1. Mappings in inst/extdata/mappings/GCAM7.0/ and the rda files generated
-#      by inst/extdata/saveDataFiles_GCAM7.0.R must be up to date.
-#   2. If you changed any mapping CSV, re-run saveDataFiles_GCAM7.0.R first.
-#   3. Open a fresh R session before running this script.
+#   1. data/*_v<version>.rda built (step0_build_data.R; automatic when
+#      build_data_if_missing = TRUE in config.R).
+#   2. Open a fresh R session before running this script.
 #
 # TROUBLESHOOTING:
-#   - Mapping error: fix the mapping CSV, then rerun this script with
-#     prj_name pointed at the existing .dat file (Option 2 below) so the
-#     queries are not redone.
-#   - "Database does not exist" error: see kaist/core/rgcam_patch.R.
+#   - "Database does not exist or is invalid": set apply_rgcam_patch <- TRUE
+#     in config.R (see rgcam_patch.R).
+#   - Mapping error mid-run: point prj_name at the .dat already written
+#     (Option 2 below) so the queries are not redone.
 #
-# NEXT STEP: kaist/kmip/step2_process_data.R
+# NEXT STEP: kaist/kmip/step2_process_data.R (edit it to source this config)
 ################################################################################
 
 ########## Load configuration ##########
-source(file.path(getwd(), "kaist/core/config.R"))
+source(file.path(getwd(), "kaist/core/pj-test/config.R"))
 ########################################
 
+########## Build data/*.rda if missing ##########
+# data/ is gitignored; a fresh clone has nothing there.
+rda_needed <- file.path("data", c("available_GCAM_versions.rda",
+                                  paste0("template_v", version_number, ".rda")))
+if (!all(file.exists(rda_needed))) {
+  if (isTRUE(build_data_if_missing)) {
+    cat("data/*.rda missing -> running step0_build_data.R\n")
+    source(file.path(getwd(), pjtest_dir, "step0_build_data.R"))
+  } else {
+    stop("Missing built data: ", paste(rda_needed[!file.exists(rda_needed)], collapse = ", "),
+         "\nRun kaist/core/pj-test/step0_build_data.R first.")
+  }
+}
+#################################################
+
 ########## Project file (.dat) ##########
-# generate_report() always writes a new .dat to
-#   {db_path}/{db_name}_{prj_name}
-# (see R/main.R::create_project line ~350). So for a new run we pass a
-# basename only, and move the file to output_dir afterwards so DB25 / DB26
-# outputs don't pile up in the kmip/ root.
+# generate_report() always writes a new .dat to {db_path}/{db_name}_{prj_name}
+# (R/main.R::create_project). We pass a basename, then move the file to
+# output_dir afterwards.
 
 # Option 1 (default): create a new .dat from fresh queries.
-# We assign both prj_basename (used by the move block at the end) and
-# prj_name (passed into generate_report).
 prj_basename <- paste0(run_name, "_project_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".dat")
 prj_name     <- prj_basename
 
-# Option 2: reuse an existing .dat (skips the queries).
-# Use after a mid-run error (e.g. mapping issue, missing rda) so you do not
-# have to re-query the DB. Pass an absolute path; generate_report detects
-# the file exists and just loads it.
-# The .dat gcamreport just wrote (before the run errored out) lives at
-#   {db_path}/{db_name}_{basename}
-# Comment out Option 1 above and uncomment the line below when you want to
-# reuse a .dat. Do not set prj_basename in this branch -- the move block at
-# the end uses exists("prj_basename") to decide whether to move the file.
-# prj_name <- "C:/GCAM/gcamreport/kmip/DB26_merge_test_project_20260513_150847.dat"
+# Option 2: reuse an existing .dat (skips the queries). Comment out Option 1
+# and give an absolute path. Do not set prj_basename in this branch.
+# prj_name <- file.path(output_dir, "pjtest_v8.2_project_YYYYMMDD_HHMMSS.dat")
 #########################################
 
 ########## Apply KAIST data overrides ##########
-# Re-apply KAIST customizations to data/*.rda so the upstream
-# inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
-patch_gcam_data(paste0("v", version_number))
+# Off for the stock release DB (see apply_kaist_patch in config.R).
+if (isTRUE(apply_kaist_patch)) {
+  patch_gcam_data(paste0("v", version_number))
+} else {
+  cat("apply_kaist_patch = FALSE -> data/*.rda left as built from upstream mappings\n")
+}
 ################################################
 
 ########## Libraries ##########
@@ -65,12 +74,13 @@ library(rgcam)
 library(tidyr)
 library(readxl)
 
-# Apply rgcam patch for BaseX 9.5+ (needed on this machine; harmless otherwise).
-source(file.path(getwd(), "kaist/core/rgcam_patch.R"))
+if (isTRUE(apply_rgcam_patch)) {
+  source(file.path(getwd(), pjtest_dir, "rgcam_patch.R"))
+}
 ###############################
 
 ########## Generate report ##########
-# scenarios / desired_variables / desired_regions come from kaist/core/config.R
+t0 <- Sys.time()
 generate_report(
   db_path           = db_path,
   db_name           = db_name,
@@ -84,10 +94,10 @@ generate_report(
   output_file       = file.path(output_dir, run_name),
   launch_ui         = FALSE
 )
+cat(sprintf("generate_report finished in %.1f min\n",
+            as.numeric(difftime(Sys.time(), t0, units = "mins"))))
 
 ########## Move .dat into output_dir ##########
-# Only when we created a new project (Option 1). 
-# Skip the move if the user pointed prj_name at an existing absolute path (Option 2).
 if (exists("prj_basename") && identical(prj_name, prj_basename)) {
   created_dat <- file.path(db_path, paste(db_name, prj_basename, sep = "_"))
   moved_dat   <- file.path(output_dir, prj_basename)
@@ -95,8 +105,7 @@ if (exists("prj_basename") && identical(prj_name, prj_basename)) {
     file.rename(created_dat, moved_dat)
     prj_name <- moved_dat
   } else {
-    warning("Expected .dat not found at ", created_dat,
-            " -- skipped the move.")
+    warning("Expected .dat not found at ", created_dat, " -- skipped the move.")
   }
 }
 ##############################################
