@@ -1,0 +1,70 @@
+ℹ Loading gcamreport
+Loading project...
+Loading data, performing checks, and saving output...
+[1] "biomass_shares"
+[1] "ag_demand_clean"
+[1] "ag_weights"
+[1] "ag_price_wld"
+[1] "ag_price_clean"
+Joining with `by = join_by(scenario, region, sector, var, year)`
+[1] "ag_production_clean"
+[1] "capital_stock_clean"
+[1] "capital_formation_clean"
+[1] "nonbio_diff"
+[1] "co2_emiss"
+[1] "LUC_emiss"
+[1] "co2_emissions_clean"
+[1] "price_var"
+[1] "regions.global"
+[1] "co2_ets_bysec"
+[1] "co2_price_share_bysec"
+[1] "co2_price_fragmented"
+[1] "co2_price_global"
+[1] "co2_price_clean"
+[1] "refliq_bioshare"
+[1] "co2_sequestration_clean"
+[1] "consumption_hh_clean"
+[1] "secondary_solids"
+[1] "secondary_energy_clean"
+[1] "cf_iea"
+[1] "elec_cf"
+[1] "elec_capacity_add"
+[1] "elec_capacity_add_clean"
+[1] "elec_capacity_tot_clean"
+[1] "elec_capital_clean"
+[1] "elec_investment_clean"
+[1] "population_clean"
+[1] "pop_weights"
+[1] "income_raw"
+[1] "energy_expenditure_per_clean"
+[1] "energy_price"
+[1] "fe_sector"
+[1] "fe_transportation"
+[1] "fe_sector_clean"
+[1] "primary_energy_clean"
+Error in left_join_strict(., get(paste("primary_energy_map", GCAM_version,  : 
+  Error: Some rows in the left dataset do not have matching keys in the right dataset. Type `left_join_strict_details` to see the full log. Some of the rows that the mapping primary_energy_map_v9.1 miss are:
+# A tibble: 2 × 1
+  fuel        
+  <chr>       
+1 coal-ceiling
+2 uranium     
+Calls: generate_report ... filter_variables -> <Anonymous> -> left_join_strict
+In addition: Warning messages:
+1: There was 1 warning in `dplyr::mutate()`.
+ℹ In argument: `cf = approx_fun(vintage, cf, rule = 2)`.
+ℹ In group 831: `technology = "rooftop_pv"`, `region = "USA"`.
+Caused by warning in `regularize.values()`:
+! collapsing to unique 'x' values 
+2: In get(var$fun)(GCAM_version) :
+  ATTENTION: At least one scenario does not contain CO2 price
+
+=== ERROR HOOK ===
+ignore.global at error:  "^bio-ceiling$" 
+# A tibble: 2 × 1
+  fuel        
+  <chr>       
+1 coal-ceiling
+2 uranium     
+call stack (last 12):
+list()

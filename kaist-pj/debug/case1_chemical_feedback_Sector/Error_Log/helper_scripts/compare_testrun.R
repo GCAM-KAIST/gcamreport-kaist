@@ -1,0 +1,30 @@
+# Compare the Testrun.R v9.1 Reference output against the pre-debugging baseline copy.
+suppressMessages(library(dplyr))
+base_dir <- "C:/Users/pjhan/AppData/Local/Temp/claude/c--Users-pjhan-Desktop-git/96158667-f862-496a-a5bf-afb808a83a36/scratchpad/baseline_v9.1"
+new_dir  <- "C:/Users/pjhan/Desktop/GCAM/gcam-v9.1-Windows-Release-Package/output"
+old <- readr::read_csv(file.path(base_dir, "gcam_v9.1_report_standardized.csv"), show_col_types = FALSE)
+new <- readr::read_csv(file.path(new_dir,  "gcam_v9.1_report_standardized.csv"), show_col_types = FALSE)
+keys <- c("Model","Scenario","Region","Variable","Unit")
+yrs <- setdiff(names(old), keys)
+cat("baseline rows:", nrow(old), " new rows:", nrow(new), "\n")
+cat("same columns:", identical(names(old), names(new)), "\n")
+only_old <- anti_join(old, new, by = keys); only_new <- anti_join(new, old, by = keys)
+cat("key rows only in baseline:", nrow(only_old), " only in new:", nrow(only_new), "\n")
+if (nrow(only_old)) print(as.data.frame(distinct(only_old, Variable) %>% head(20)))
+if (nrow(only_new)) print(as.data.frame(distinct(only_new, Variable) %>% head(20)))
+j <- inner_join(old, new, by = keys, suffix = c(".old", ".new"))
+diffs <- sapply(yrs, function(y) { a <- j[[paste0(y,".old")]]; b <- j[[paste0(y,".new")]]; d <- abs(a - b); d[is.na(a) & is.na(b)] <- 0; d })
+if (is.null(dim(diffs))) diffs <- matrix(diffs, ncol = length(yrs))
+rowmax <- apply(diffs, 1, max, na.rm = TRUE)
+scale  <- apply(sapply(yrs, function(y) abs(j[[paste0(y,".old")]])), 1, max, na.rm = TRUE)
+rel <- ifelse(scale > 0, rowmax / scale, rowmax)
+cat("matched rows:", nrow(j), "\n")
+cat("rows with any absolute difference > 1e-9:", sum(rowmax > 1e-9, na.rm = TRUE), "\n")
+cat("max absolute difference:", max(rowmax, na.rm = TRUE), "  max relative difference:", max(rel, na.rm = TRUE), "\n")
+if (any(rowmax > 1e-9, na.rm = TRUE)) {
+  cat("--- variables with differences ---\n")
+  print(as.data.frame(j[rowmax > 1e-9, keys] %>% count(Variable, sort = TRUE) %>% head(30)))
+}
+cat("RData comparison: "); e1 <- new.env(); e2 <- new.env()
+load(file.path(base_dir, "gcam_v9.1_report_standardized.RData"), envir = e1); load(file.path(new_dir, "gcam_v9.1_report_standardized.RData"), envir = e2)
+cat("objects old:", paste(ls(e1), collapse=","), " new:", paste(ls(e2), collapse=","), "\n")

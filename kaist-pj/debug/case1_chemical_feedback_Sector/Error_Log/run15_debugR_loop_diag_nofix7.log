@@ -1,0 +1,39 @@
+ℹ Loading gcamreport
+JIT level: 3 
+replacing ag_demand_map_v9.1 in package:gcamreport 
+ag_demand_map rows in use: 328 (expect 328)
+처리 시작: KAIST_9_ref_u0909
+Loading project...
+Loading data, performing checks, and saving output...
+[1] "biomass_shares"
+[1] "ag_demand_clean"
+
+=== DIAG: unmatched rows remain for mapping ag_demand_map_v9.1 ===
+ignore arg: NULL  | .myGlobals$ignore.global: NULL  | exists: TRUE 
+class(left_df): tbl_df,tbl,data.frame  class(result): tbl_df,tbl,data.frame 
+--- str(unmatched) ---
+tibble [224 × 10] (S3: tbl_df/tbl/data.frame)
+ $ Units    : chr [1:224] "EJ" "EJ" "EJ" "EJ" ...
+ $ scenario : chr [1:224] "KAIST_9_ref_u0909" "KAIST_9_ref_u0909" "KAIST_9_ref_u0909" "KAIST_9_ref_u0909" ...
+ $ region   : chr [1:224] "Africa_Eastern" "Africa_Eastern" "Africa_Eastern" "Africa_Eastern" ...
+ $ sector   : chr [1:224] "regional biomass" "regional biomass" "regional biomass" "regional biomass" ...
+ $ input    : chr [1:224] "bio-ceiling" "bio-ceiling" "bio-ceiling" "bio-ceiling" ...
+ $ year     : num [1:224] 2021 2025 2030 2035 2040 ...
+ $ value    : num [1:224] 0 0 13.6 13.9 22.5 ...
+ $ share    : num [1:224] 0 0 0.0887 0.0714 0.0923 ...
+ $ unit_conv: num [1:224] NA NA NA NA NA NA NA NA NA NA ...
+ $ var      : chr [1:224] NA NA NA NA ...
+--- head(unmatched) ---
+  Units          scenario         region           sector       input year
+1    EJ KAIST_9_ref_u0909 Africa_Eastern regional biomass bio-ceiling 2021
+2    EJ KAIST_9_ref_u0909 Africa_Eastern regional biomass bio-ceiling 2025
+3    EJ KAIST_9_ref_u0909 Africa_Eastern regional biomass bio-ceiling 2030
+     value      share unit_conv  var
+1  0.00000 0.00000000        NA <NA>
+2  0.00000 0.00000000        NA <NA>
+3 13.59077 0.08872449        NA <NA>
+=== END DIAG ===
+Error in left_join_strict(., get(paste("ag_demand_map", GCAM_version,  : 
+  DIAG STOP: unmatched rows remain for mapping ag_demand_map_v9.1
+Calls: generate_report ... filter_variables -> <Anonymous> -> left_join_strict
+Execution halted

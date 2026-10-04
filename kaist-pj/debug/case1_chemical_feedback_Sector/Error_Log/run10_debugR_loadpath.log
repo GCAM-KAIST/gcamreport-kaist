@@ -1,0 +1,14 @@
+ℹ Loading gcamreport
+처리 시작: KAIST_9_ref_u0909
+Loading project...
+Loading data, performing checks, and saving output...
+[1] "biomass_shares"
+[1] "ag_demand_clean"
+Error in left_join_strict(., get(paste("ag_demand_map", GCAM_version,  : 
+  Error: Some rows in the left dataset do not have matching keys in the right dataset. Type `left_join_strict_details` to see the full log. Some of the rows that the mapping ag_demand_map_v9.1 miss are:
+# A tibble: 1 × 2
+  input       sector          
+  <chr>       <chr>           
+1 bio-ceiling regional biomass
+Calls: generate_report ... filter_variables -> <Anonymous> -> left_join_strict
+Execution halted

@@ -1,0 +1,10 @@
+suppressMessages(library(dplyr))
+sp <- "C:/Users/pjhan/AppData/Local/Temp/claude/c--Users-pjhan-Desktop-git/96158667-f862-496a-a5bf-afb808a83a36/scratchpad"
+a <- readr::read_csv(file.path(sp, "softscan/NZ_softscan.csv"), show_col_types = FALSE)
+b <- readr::read_csv(file.path(sp, "verify/NZ_verify.csv"), show_col_types = FALSE)
+keys <- c("Model","Scenario","Region","Variable","Unit"); yrs <- setdiff(names(a), keys)
+j <- inner_join(a, b, by = keys, suffix = c(".a",".b"))
+rowmax <- apply(sapply(yrs, function(y) { d <- abs(j[[paste0(y,".a")]] - j[[paste0(y,".b")]]); d[is.na(d)] <- 0; d }), 1, max)
+d <- j[rowmax > 1e-9, ] %>% filter(!Variable %in% c("Price|Carbon","Revenue|Government"))
+print(as.data.frame(d %>% select(Region, Variable, `2030.a`, `2030.b`) %>% head(12)))
+cat("regions among those rows:", paste(unique(d$Region), collapse=", "), "\n")

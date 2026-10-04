@@ -1,0 +1,11 @@
+suppressMessages(library(dplyr))
+sp <- "C:/Users/pjhan/AppData/Local/Temp/claude/c--Users-pjhan-Desktop-git/96158667-f862-496a-a5bf-afb808a83a36/scratchpad"
+a <- readr::read_csv(file.path(sp, "softscan/NZ_softscan.csv"), show_col_types = FALSE)
+b <- readr::read_csv(file.path(sp, "verify/NZ_verify.csv"), show_col_types = FALSE)
+keys <- c("Model","Scenario","Region","Variable","Unit"); yrs <- setdiff(names(a), keys)
+cat("softscan rows:", nrow(a), " verify rows:", nrow(b), " only-in-softscan:", nrow(anti_join(a,b,by=keys)), " only-in-verify:", nrow(anti_join(b,a,by=keys)), "\n")
+j <- inner_join(a, b, by = keys, suffix = c(".a",".b"))
+rowmax <- apply(sapply(yrs, function(y) { d <- abs(j[[paste0(y,".a")]] - j[[paste0(y,".b")]]); d[is.na(d)] <- 0; d }), 1, max)
+cat("rows differing:", sum(rowmax > 1e-9), "\n"); print(as.data.frame(j[rowmax > 1e-9, keys] %>% count(Variable, sort = TRUE) %>% head(15)))
+pc <- b %>% filter(Variable == "Price|Carbon") %>% select(Region, `2030`, `2050`)
+cat("Price|Carbon (verify) nonzero regions:", sum(pc$`2050` != 0), "of", nrow(pc), "\n"); print(as.data.frame(pc %>% filter(Region %in% c("USA","China","South Korea","EU-15"))))

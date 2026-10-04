@@ -1,0 +1,12 @@
+suppressMessages(devtools::load_all(".", quiet=TRUE))
+prj <- rgcam::loadProject("debug/case1_chemical_feedback_Sector/Input/u0909r_Ref_u0909.dat")
+regs <- as.character(reg_cont_v9.1$region)
+q <- rgcam::getQuery(prj, "prices of all markets")
+mk <- unique(q$market)
+stripped <- unique(stringr::str_replace(mk, paste(regs, collapse="|"), ""))
+miss <- setdiff(stripped, unique(energy_price_map_v9.1$market))
+cat("stripped markets missing from energy_price_map_v9.1:\n"); print(miss)
+cat("\nraw market names containing ceiling/imported/H2 (first 40):\n")
+print(head(grep("ceiling|imported|constraint", mk, value=TRUE), 40))
+cat("\nqueries with a market column:\n")
+for (qn in rgcam::listQueries(prj)) { d <- rgcam::getQuery(prj, qn); if ("market" %in% names(d)) cat(" -", qn, ":", length(unique(d$market)), "markets\n") }

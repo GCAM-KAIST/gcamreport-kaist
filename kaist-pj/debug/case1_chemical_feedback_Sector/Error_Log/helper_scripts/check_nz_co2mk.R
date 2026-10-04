@@ -1,0 +1,5 @@
+suppressMessages(library(dplyr))
+prj <- rgcam::loadProject("debug/case1_chemical_feedback_Sector/Input/u0909n_NZ_u0909.dat")
+q <- rgcam::getQuery(prj, "CO2 prices") %>% filter(Units == "1990$/tC")
+cat("markets (1990$/tC) with max value:\n")
+print(as.data.frame(q %>% group_by(market) %>% summarise(maxv = max(value), .groups="drop") %>% arrange(desc(maxv))))

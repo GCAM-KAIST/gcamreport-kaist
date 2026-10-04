@@ -1,0 +1,12 @@
+suppressMessages(library(dplyr))
+sp <- "C:/Users/pjhan/AppData/Local/Temp/claude/c--Users-pjhan-Desktop-git/96158667-f862-496a-a5bf-afb808a83a36/scratchpad/softscan"
+nz <- readr::read_csv(file.path(sp, "NZ_softscan.csv"), show_col_types = FALSE)
+pc <- nz %>% filter(startsWith(Variable, "Price|Carbon")) %>% select(Region, Variable, `2030`, `2050`)
+cat("n Price|Carbon rows:", nrow(pc), " nonzero rows:", sum(pc$`2050` != 0 | pc$`2030` != 0), "\n")
+print(as.data.frame(pc %>% filter(`2050` != 0 | `2030` != 0) %>% head(12)))
+cat("--- South Korea selected vars ---\n")
+vars <- c("Emissions|CO2","Emissions|CO2|Energy and Industrial Processes","Carbon Capture|Utilization|Gases","Carbon Capture|Utilization|Other","Carbon Capture|Utilization|Liquids","Primary Energy|Nuclear","Carbon Removal","Price|Carbon")
+print(as.data.frame(nz %>% filter(Region == "South Korea", Variable %in% vars) %>% select(Variable, `2021`, `2030`, `2050`)))
+prj <- rgcam::loadProject("debug/case1_chemical_feedback_Sector/Input/u0909n_NZ_u0909.dat")
+q <- rgcam::getQuery(prj, "CO2 prices"); cat("--- NZ CO2 prices query ---\n")
+print(as.data.frame(q %>% filter(year %in% c(2025,2030,2040,2050)) %>% select(market, Units, year, value) %>% arrange(market, year)))
