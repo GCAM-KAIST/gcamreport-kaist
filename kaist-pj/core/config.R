@@ -18,11 +18,11 @@ if (file.exists(scenario_config_path)) {
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "reports_u0909"
+run_name <- "ssp2_ndc"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
-db_path <- scenario_dir
+db_path <- if (exists("scenario_db_path")) scenario_db_path else scenario_dir
 # Which database inside db_path to query.
 db_name <- scenario_jobs$db[[1]]
 
