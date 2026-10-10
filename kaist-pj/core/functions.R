@@ -302,7 +302,7 @@ kaist_overrides <- list(
         rows = tibble::tibble(
           market = c("bio-ceiling", "rowbio-ceiling", "cement-ceiling",
                      "coal-ceiling", "imported H2", "dac-ceiling",
-                     "CO2_Kor", "rowCO2", "rowCO2_LUC"),
+                     "CO2_Kor", "GHG_Kor", "rowCO2", "rowCO2_LUC"),  # GHG_Kor: economy-wide GHG cap market (2026-10-08)
           unit_conv = 1,
           var = "NoReported"
         ),

@@ -97,3 +97,44 @@ patch_gcamreport_functions <- function(verbose = TRUE) {
 }
 
 patch_gcamreport_functions()
+
+# [2026-10-08] PATCH 2 -- keep regional energy prices in get_energy_price()
+#   Upstream keeps regional rows with
+#     energy_price %>% dplyr::filter(var %in% unique(weights_sec_reg$var))
+#   but energy_price$var holds PRICE variable names ("Price|Final Energy|...") while
+#   weights_sec_reg$var holds CONSUMPTION names ("Final Energy|..."), so no regional
+#   row survives and only the consumption-weighted World rows are reported (South
+#   Korea had no Price|Final Energy variable at all). The patch keeps the regional
+#   price variables whose consumption variable has weights, i.e. the names are
+#   matched through en_demand_price_map. World rows are unchanged.
+patch_gcamreport_energy_price <- function(verbose = TRUE) {
+  ns <- asNamespace("gcamreport")
+  fn_name <- "get_energy_price"
+  old_expr <- "dplyr::filter(var %in% unique(weights_sec_reg$var))"
+  new_expr <- paste0("dplyr::filter(var %in% unique(en_demand_price_map$en_price_var[",
+                     "en_demand_price_map$en_consumption_var %in% weights_sec_reg$var]))")
+  if (!exists(fn_name, envir = ns, inherits = FALSE)) {
+    warning("gcamreport_patch: ", fn_name, "() not found -- patch 2 skipped."); return(invisible(FALSE))
+  }
+  f <- get(fn_name, envir = ns)
+  txt <- paste(deparse(f, width.cutoff = 500L), collapse = "\n")
+  if (!grepl(old_expr, txt, fixed = TRUE)) {
+    if (verbose) cat("gcamreport_patch: regional-price filter not found in get_energy_price() -- patch 2 skipped.\n")
+    return(invisible(FALSE))
+  }
+  new_f <- eval(parse(text = gsub(old_expr, new_expr, txt, fixed = TRUE)))
+  environment(new_f) <- environment(f)
+  targets <- list(ns)
+  if ("package:gcamreport" %in% search()) targets <- c(targets, list(as.environment("package:gcamreport")))
+  for (e in targets) {
+    if (!exists(fn_name, envir = e, inherits = FALSE)) next
+    was_locked <- bindingIsLocked(fn_name, e)
+    if (was_locked) unlockBinding(fn_name, e)
+    assign(fn_name, new_f, envir = e)
+    if (was_locked) lockBinding(fn_name, e)
+  }
+  if (verbose) cat("gcamreport_patch: get_energy_price() patched (regional prices kept).\n")
+  invisible(TRUE)
+}
+
+patch_gcamreport_energy_price()
