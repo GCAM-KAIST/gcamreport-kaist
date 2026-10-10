@@ -349,6 +349,46 @@ kaist_overrides <- list(
       )
     ),
 
+    # [2026-10-09: K-TRACES] Service output of the energy-service industry sectors.
+    # "industry primary output by sector" already returns them (EJ of energy service);
+    # upstream maps them to NoReported. Reported here so energy intensity can be
+    # computed as final energy / service output (professor's definition).
+    service_output_rows = tibble::tibble(
+      sector = c("construction energy use", "construction feedstocks", "mining energy use",
+                 "agricultural energy use", "other industrial energy use", "other industrial feedstocks"),
+      `GCAM output unit` = "EJ",
+      var = c("Service Output|Industry|Construction", "Service Output|Industry|Construction",
+              "Service Output|Industry|Mining", "Service Output|Agriculture",
+              "Service Output|Industry|Other Sector", "Service Output|Industry|Other Sector")),
+    template_rows = tibble::tibble(
+      Variable = c("Service Output|Industry|Construction", "Service Output|Industry|Mining",
+                   "Service Output|Agriculture", "Service Output|Industry|Other Sector"),
+      Unit = "EJ/yr", Tier = 3, Internal_variable = "industry_production_clean", Model = "GCAM 9.1"),
+
+    # [2026-10-08: K-TRACES] Industry sectors beyond the IAMC tag list
+    # (common-definitions tag_industry_sectors.yaml). Construction and mining energy
+    # use are reported by upstream inside Industry|Other Sector; they are moved to
+    # their own Industry|Construction / Industry|Mining branches (final energy and
+    # energy CO2), so Other Sector keeps the remaining industry. The fuel-combustion
+    # CO2 of `process heat cement` goes to Non-Metallic Minerals (upstream: Other
+    # Sector), matching where its final energy is already reported.
+    # `template = TRUE` copies the Other Sector template rows to the new branch.
+    map_relabel = list(
+      list(object = "final_energy_map", sectors = c("construction energy use", "construction feedstocks"),
+           from = "Final Energy|Industry|Other Sector", to = "Final Energy|Industry|Construction", template = TRUE),
+      list(object = "final_energy_map", sectors = "mining energy use",
+           from = "Final Energy|Industry|Other Sector", to = "Final Energy|Industry|Mining", template = TRUE),
+      list(object = "co2_tech_map", sectors = c("construction energy use", "construction feedstocks"),
+           from = "Emissions|CO2|Energy|Demand|Industry|Other Sector",
+           to = "Emissions|CO2|Energy|Demand|Industry|Construction", template = TRUE),
+      list(object = "co2_tech_map", sectors = "mining energy use",
+           from = "Emissions|CO2|Energy|Demand|Industry|Other Sector",
+           to = "Emissions|CO2|Energy|Demand|Industry|Mining", template = TRUE),
+      list(object = "co2_tech_map", sectors = "process heat cement",
+           from = "Emissions|CO2|Energy|Demand|Industry|Other Sector",
+           to = "Emissions|CO2|Energy|Demand|Industry|Non-Metallic Minerals", template = FALSE)
+    ),
+
     # Fix 7: the bio-ceiling constraint shows up as an input of `regional
     # biomass` in the ag demand query. Mapping it NoReported is what the
     # `ignore` pattern for bio-ceiling used to do, so `ignore` is not needed.
@@ -458,6 +498,47 @@ patch_gcam_data <- function(version = "v7.0") {
     obj <- .bind_kaist_rows(obj, spec$rows, spec$key)
     save_obj(short, obj)
     patched <- c(patched, short)
+  }
+
+  # 1d. [2026-10-08: K-TRACES] Gathered mapping tables: move the rows of the given
+  # GCAM sectors from one IAMC branch to another (prefix rename of `var`), and copy
+  # the matching template rows to the new branch. Idempotent: renamed rows no
+  # longer match `from`, and template rows are keyed on Variable.
+  tpl_new <- NULL
+  for (spec in ov$map_relabel) {
+    obj <- load_obj(spec$object)
+    if (is.null(obj)) next
+    hit <- obj$sector %in% spec$sectors &
+      (obj$var == spec$from | startsWith(obj$var, paste0(spec$from, "|")))
+    obj$var[hit] <- paste0(spec$to, substring(obj$var[hit], nchar(spec$from) + 1))
+    save_obj(spec$object, obj)
+    patched <- c(patched, spec$object)
+    if (isTRUE(spec$template)) {
+      tpl0 <- load_obj("template")
+      rows <- dplyr::filter(tpl0, Variable == spec$from | startsWith(Variable, paste0(spec$from, "|")))
+      rows$Variable <- paste0(spec$to, substring(rows$Variable, nchar(spec$from) + 1))
+      tpl_new <- dplyr::bind_rows(tpl_new, rows)
+    }
+  }
+  if (!is.null(tpl_new)) {
+    tpl0 <- load_obj("template")
+    save_obj("template", .bind_kaist_rows(tpl0, dplyr::distinct(tpl_new), "Variable"))
+    patched <- c(patched, "template")
+  }
+
+  # 1e. [2026-10-09: K-TRACES] production_map rows (replace the NoReported rows of the
+  # same sector) and extra template rows. Idempotent (keyed on sector / Variable).
+  if (!is.null(ov$service_output_rows)) {
+    pm <- load_obj("production_map")
+    if (!is.null(pm)) {
+      pm <- dplyr::filter(pm, !(sector %in% ov$service_output_rows$sector & var == "NoReported"))
+      pm <- .bind_kaist_rows(pm, ov$service_output_rows, c("sector", "var"))
+      save_obj("production_map", pm); patched <- c(patched, "production_map")
+    }
+  }
+  if (!is.null(ov$template_rows)) {
+    tpl0 <- load_obj("template")
+    save_obj("template", .bind_kaist_rows(tpl0, ov$template_rows, "Variable")); patched <- c(patched, "template")
   }
 
   # Steps 2-6 run only when the version block defines the matching spec.
