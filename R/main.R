@@ -220,6 +220,7 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
       )
     }
     required_queries <- unique(required_queries[!is.na(required_queries)])
+    required_queries <- unlist(strsplit(required_queries, split = "|", fixed = TRUE))
 
     # save the read-to-use queries in a vector
     queries_touse_short <- queries_short[names(queries_short) %in% unlist(strsplit(required_queries, "\\|"))]
@@ -335,7 +336,7 @@ create_project <- function(db_path, db_name, prj_name, scenarios = NULL,
       value = rep(NA, l)
     )
     prj_tmp <- rgcam::addQueryTable(
-      project = prj_name, qdata = dt,
+      project = prj_name, qdata = dt, saveProj = F,
       queryname = "CO2 prices", clobber = TRUE
     )
     if (!is.null(prj)) {
@@ -374,6 +375,7 @@ load_variable <- function(var, GCAM_version = 'v8.2', GWP_version = 'AR5') {
 
   # base case: if variable already loaded, return
   if (exists(as.character(var$name))) {
+    loaded_internal_variables.global <<- c(loaded_internal_variables.global, as.character(var$name))
     return()
   }
 
@@ -929,6 +931,10 @@ launch_gcamreport_ui <- function(data_path = NULL, data = NULL, GCAM_version = '
   if (!is.null(data_path)) {
     data <- assign("data", get(load(data_path)))
   }
+
+  # make the requested GCAM version visible to the Shiny server/UI code, which
+  # looks up the bare global `GCAM_version` (e.g. reset_first_load(), server.R)
+  GCAM_version <<- GCAM_version
 
   # define the dataset for launching the ui
   sdata <<- suppressWarnings(

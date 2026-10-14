@@ -51,7 +51,7 @@
 
 [Back to Contents](#contents)
 
-`gcamreport` is a tool designed to generate consistent datasets from any scenario run by the Global Change Analysis Model ([GCAM](http://www.globalchange.umd.edu/gcam/)), ensuring they meet the reporting standards of the Integrated Assessment Modeling Consortium ([IAMC](https://www.iamconsortium.org/)) defined in the [Common Definitions](https://github.com/IAMconsortium/common-definitions) repository. In addition, `gcamreport` features an interactive user interface that allows users to create and download plots in real time and export reduced, formatted datasets in spreadsheet format. The tool is currently compatible with GCAM-core versions [6.0](https://zenodo.org/records/6619287), [7.0](https://zenodo.org/records/8010145), [7.1](https://zenodo.org/records/11481167), [7.2](https://zenodo.org/records/13946379), [8.2](https://zenodo.org/records/15581174), and the [ScenarioMIP project](https://wcrp-cmip.org/mips/scenariomip/); and GCAM-Europe versions [7.2](https://zenodo.org/records/15655568) and [8.7](https://github.com/bc3LC-GCAMEurope/gcam-core/releases/tag/gcam-europe-v8.7.0).
+`gcamreport` is a tool designed to generate consistent datasets from any scenario run by the Global Change Analysis Model ([GCAM](http://www.globalchange.umd.edu/gcam/)), ensuring they meet the reporting standards of the Integrated Assessment Modeling Consortium ([IAMC](https://www.iamconsortium.org/)) defined in the [Common Definitions](https://github.com/IAMconsortium/common-definitions) repository. In addition, `gcamreport` features an interactive user interface that allows users to create and download plots in real time and export reduced, formatted datasets in spreadsheet format. The tool is currently compatible with GCAM-core versions [6.0](https://zenodo.org/records/6619287), [7.0](https://zenodo.org/records/8010145), [7.1](https://zenodo.org/records/11481167), [7.2](https://zenodo.org/records/13946379), [8.2](https://zenodo.org/records/15581174), [9.1](https://github.com/JGCRI/gcam-core/releases/tag/gcam-v9.1), and the [ScenarioMIP project](https://wcrp-cmip.org/mips/scenariomip/); and GCAM-Europe versions [7.2](https://zenodo.org/records/15655568) and [8.7](https://github.com/bc3LC-GCAMEurope/gcam-core/releases/tag/gcam-europe-v8.7.0).
 Moreover, we support the 2015 and 2021 GCAM base years. Check the [version guide](https://bc3lc.github.io/gcamreport/articles/Version_Guide.html) to see how to run your version! :rocket:
 
 
@@ -144,7 +144,7 @@ git clone https://github.com/bc3LC/gcamreport.git
 4.  Inside a terminal (bash or cmd) pull the docker image:
 
 ``` bash
-docker pull claudiarodes/gcamreport_docker:gcam-v7.0-v2
+docker pull claudiarodes/gcamreport_docker:v4
 ```
 
 **Note**:exclamation:: This step requires 13.5GB of free space in your computer.
@@ -152,7 +152,7 @@ docker pull claudiarodes/gcamreport_docker:gcam-v7.0-v2
 5.  Run the Docker container using your full path to the `gcamreport` folder:
 
 ``` bash
-docker run -v /path/to/gcamreport:/app -p 4000:3838 -it claudiarodes/gcamreport_docker:gcam-v7.0-v2
+docker run -v /path/to/gcamreport:/app -p 4000:3838 -it claudiarodes/gcamreport_docker:v4
 ```
 
 This should prompt an R console in your terminal.
@@ -219,9 +219,11 @@ You are welcome to contribute to this project! Follow the steps below to facilit
 
 1. Fork this repository.
 2. Commit your modifications.
-3. Open a [Pull Request (PR)](https://github.com/bc3LC/gcamreport/pulls) into this repository. Make sure you detail the goal of the modification and the changes performed.
+3. Open a [Pull Request (PR)](https://github.com/bc3LC/gcamreport/pulls) against the [gcam-core](https://github.com/bc3LC/gcamreport/tree/gcam-core) (main) target branch. Clearly describe the purpose of your modifications and outline the specific changes made. Ensure there are no merge conflicts and that all automated tests pass successfully.
 4. Set [@klau506](https://github.com/klau506) as reviewers (or include this mention in the PR requested text).
 5. Once everything is tested, we will merge the PR for you.
+
+**Note**: in case of integrating a new GCAM version into `gcamreport`, ensure you place a small/dummy project file under `tests/testthat/testInputs/[GCAM_VERSION]/` folder. This allows to test and validate the new compatibility.
 
 
 <br>
