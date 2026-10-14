@@ -69,6 +69,12 @@ gcam_data <- read_csv(gcam_data_path, show_col_types = FALSE)
 # Remove 'X' prefix from year columns if present (X2020 -> 2020)
 names(gcam_data) <- gsub("^X(\\d{4})$", "\\1", names(gcam_data))
 
+# GCAM 9.1 has no 2020 period (base year 2021): fill the template 2020 column with 2021
+if (!"2020" %in% names(gcam_data) && "2021" %in% names(gcam_data)) {
+  names(gcam_data)[names(gcam_data) == "2021"] <- "2020"
+  message("No 2020 column: using 2021 values for the template 2020 column")
+}
+
 # Load mapping and template (normalize all column names to lowercase)
 mapping <- read_excel(mapping_path) %>%
   rename_with(tolower)

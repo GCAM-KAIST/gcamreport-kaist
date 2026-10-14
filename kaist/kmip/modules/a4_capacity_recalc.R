@@ -69,6 +69,8 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
     "Gen_III",        "Capacity|Electricity|Nuclear",
     "Gen_III_Korea",  "Capacity|Electricity|Nuclear",
     "Gen_II_LWR",     "Capacity|Electricity|Nuclear",
+    "large reactor",  "Capacity|Electricity|Nuclear",  # GCAM 9.1
+    "SMR",            "Capacity|Electricity|Nuclear",  # GCAM 9.1
     # Hydro & Geothermal
     "hydro",          "Capacity|Electricity|Hydro",
     "geothermal",     "Capacity|Electricity|Geothermal",
