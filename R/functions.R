@@ -5547,9 +5547,11 @@ get_energy_price <- function(GCAM_version = 'v8.2') {
     dplyr::mutate(region = "World")
 
 
+  # keep the regional prices that have a consumption (weight) variable
+  # (weights_sec_reg$var holds consumption names, energy_price$var price names)
   energy_price_clean <-
     rbind(energy_price %>%
-            dplyr::filter(var %in% unique(weights_sec_reg$var)),
+            dplyr::filter(var %in% en_demand_price_map$en_price_var),
           energy_price_w)
 
   energy_price_clean <<- energy_price_clean
