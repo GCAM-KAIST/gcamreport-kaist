@@ -277,7 +277,6 @@ variables_7.1.csv
 gitguideline/
 images/
 .claude/
-/data/*
 
 # Local-only working notes (not shared in repo)
 /CLAUDE.md

@@ -5284,6 +5284,8 @@ get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
     dplyr::left_join(check_inf(rgcam::getQuery(prj, "CO2 prices"),
                                dataset_name = "CO2 prices") %>% # left_join already checked
                        dplyr::filter(!grepl("LUC", market)) %>%
+                       # an empty CO2 prices table (no CO2 price, one region) has a logical market column
+                       dplyr::mutate(market = as.character(market)) %>%
                        dplyr::left_join(CO2_market_filteredReg, by = c("market"), relationship = "many-to-many") %>%
                        dplyr::filter(region != 'NoReported') %>%
                        dplyr::select(scenario, region, year, price_C = value), by = c("scenario", "region", "year"),
@@ -5298,23 +5300,134 @@ get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
     ) %>%
     dplyr::select(dplyr::all_of(gcamreport::long_columns), market)
 
-  energy_price <-
+  energy_price_pre <-
     rbind(prices_subsector_pre %>%
             dplyr::filter(!grepl("biomass", market)),
           energy_price_fragmented_biomass) %>%
-    filter_variables() %>%
-    # consider the nº of items for each variable to do the average
-    dplyr::group_by(scenario, year, region, var) %>%
-    dplyr::mutate(n_count = dplyr::n()) %>%
-    dplyr::ungroup() %>%
-    dplyr::group_by(scenario, year, region, var) %>%
-    dplyr::reframe(value = sum(value) / n_count) %>%
-    dplyr::ungroup() %>%
-    dplyr::distinct() %>%
+    filter_variables()
+
+  # a variable fed by several markets is averaged over them: a
+  # consumption-weighted mean with the market demand of get_en_price_weights(),
+  # or the simple mean for GCAM versions without weights
+  en_price_weights <- get_en_price_weights(GCAM_version)
+  if (is.null(en_price_weights)) {
+    energy_price <- energy_price_pre %>%
+      dplyr::group_by(scenario, year, region, var) %>%
+      dplyr::summarise(value = sum(value) / dplyr::n(), .groups = "drop")
+  } else {
+    # (a) every price variable needs a consumption variable (its weight)
+    energy_price_pre %>%
+      dplyr::distinct(en_price_var = var) %>%
+      left_join_strict(get(paste('en_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                       mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
+                       by = 'en_price_var')
+    energy_price <- energy_price_pre %>%
+      dplyr::left_join(en_price_weights,
+                       by = c("scenario", "region", "year", "var", "market")) %>%
+      # (b) a market without demand in a region-year weighs 0
+      dplyr::mutate(weight = dplyr::coalesce(weight, 0)) %>%
+      # (c) a variable fed by several markets with no demand at all in a
+      #     region-year gets no price (row dropped); a single-market variable
+      #     keeps its market price
+      dplyr::group_by(scenario, year, region, var) %>%
+      dplyr::summarise(value = if (sum(weight) > 0) {
+        sum(value * weight) / sum(weight)
+      } else if (dplyr::n() == 1) {
+        value
+      } else {
+        NA_real_
+      }, .groups = "drop") %>%
+      dplyr::filter(!is.na(value))
+  }
+  energy_price <- energy_price %>%
     # rearrange dataset
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
   energy_price <<- energy_price
+}
+
+
+# GCAM versions whose multi-market price variables are consumption-weighted.
+# Other versions keep the simple mean over markets.
+weighted_price_GCAM_versions <- c("v9.1")
+
+#' get_en_price_weights
+#'
+#' Market demand used to weight a price variable that is fed by several GCAM
+#' markets (e.g. `Price|Final Energy|Electricity` from `elect_td_bld`,
+#' `elect_td_ind` and `elect_td_trn`). The weight of a market is its demand
+#' (`inputs by sector` query) by the sectors of the consumption variable paired
+#' with the price variable in `en_demand_price_map` (sectors taken from
+#' `final_energy_map` and `transport_final_en_map`). A price variable without
+#' final energy sectors (primary, secondary energy) uses the total demand of
+#' the market.
+#' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
+#' @keywords internal prices
+#' @return dataset with scenario, region, year, var, market, weight; or NULL
+#' when the version is not in `weighted_price_GCAM_versions` or the
+#' `inputs by sector` query is not in the project (then the simple mean is kept).
+#' @importFrom magrittr %>%
+#' @export
+get_en_price_weights <- function(GCAM_version = 'v8.2') {
+  scenario <- region <- sector <- market <- year <- value <- var <-
+    en_price_var <- en_consumption_var <- weight <- weight_all <- NULL
+
+  if (!GCAM_version %in% weighted_price_GCAM_versions) return(NULL)
+  if (!"inputs by sector" %in% rgcam::listQueries(prj)) return(NULL)
+
+  energy_price_map <- get(paste('energy_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+  en_demand_price_map <- get(paste('en_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
+
+  # demand of each reported market by consuming sector
+  demand <- check_inf(rgcam::getQuery(prj, "inputs by sector"),
+                      dataset_name = "inputs by sector") %>%
+    dplyr::rename(market = input) %>%
+    dplyr::filter(market %in% energy_price_map$market[energy_price_map$var != 'NoReported'])
+  if (GCAM_version %in% get('deciles_GCAM_versions', envir = asNamespace("gcamreport"))) {
+    demand <- demand %>%
+      tidyr::separate(sector, into = c("sector", "decile"), sep = "_d", extra = "merge", fill = "right")
+  }
+  demand <- demand %>%
+    dplyr::group_by(scenario, region, sector, market, year) %>%
+    dplyr::summarise(value = sum(value), .groups = "drop")
+
+  # sectors of each final energy consumption variable
+  fe_sectors <- dplyr::bind_rows(
+    get(paste('final_energy_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+      dplyr::select(sector, en_consumption_var = var),
+    get(paste('transport_final_en_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")) %>%
+      dplyr::select(sector, en_consumption_var = var)
+  ) %>%
+    dplyr::filter(en_consumption_var != 'NoReported', !is.na(en_consumption_var)) %>%
+    dplyr::distinct()
+
+  price_cons <- en_demand_price_map %>%
+    dplyr::filter(en_price_var != 'NoReported', en_price_var != "") %>%
+    dplyr::select(var = en_price_var, en_consumption_var) %>%
+    dplyr::distinct()
+
+  # weight by the demand of the sectors of the consumption variable
+  weights_fe <- demand %>%
+    dplyr::inner_join(fe_sectors, by = "sector", relationship = "many-to-many") %>%
+    dplyr::inner_join(price_cons, by = "en_consumption_var", relationship = "many-to-many") %>%
+    dplyr::group_by(scenario, region, year, var, market) %>%
+    dplyr::summarise(weight = sum(value), .groups = "drop")
+
+  # weight by the total demand of the market, for price variables without
+  # final energy sectors (primary and secondary energy)
+  weights_all <- demand %>%
+    dplyr::group_by(scenario, region, year, market) %>%
+    dplyr::summarise(weight_all = sum(value), .groups = "drop") %>%
+    tidyr::expand_grid(var = setdiff(unique(price_cons$var), unique(weights_fe$var))) %>%
+    dplyr::rename(weight = weight_all)
+
+  # keep only the market-variable pairs of the price map
+  dplyr::bind_rows(weights_fe, weights_all) %>%
+    dplyr::inner_join(energy_price_map %>%
+                        dplyr::select(market, var) %>%
+                        dplyr::distinct(),
+                      by = c("market", "var")) %>%
+    dplyr::select(scenario, region, year, var, market, weight)
 }
 
 
@@ -5450,9 +5563,11 @@ get_energy_price <- function(GCAM_version = 'v8.2') {
     dplyr::mutate(region = "World")
 
 
+  # keep the regional prices that have a consumption (weight) variable
+  # (weights_sec_reg$var holds consumption names, energy_price$var price names)
   energy_price_clean <-
     rbind(energy_price %>%
-            dplyr::filter(var %in% unique(weights_sec_reg$var)),
+            dplyr::filter(var %in% en_demand_price_map$en_price_var),
           energy_price_w)
 
   energy_price_clean <<- energy_price_clean
