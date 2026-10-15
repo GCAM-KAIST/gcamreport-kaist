@@ -5304,26 +5304,40 @@ get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
           energy_price_fragmented_biomass) %>%
     filter_variables()
 
-  # a variable fed by several markets is averaged over them. With weights
-  # (market demand, see get_en_price_weights) it is a consumption-weighted
-  # mean; without weights (other GCAM versions, or no demand) a simple mean.
+  # a variable fed by several markets is averaged over them: a
+  # consumption-weighted mean with the market demand of get_en_price_weights(),
+  # or the simple mean for GCAM versions without weights
   en_price_weights <- get_en_price_weights(GCAM_version)
   if (is.null(en_price_weights)) {
-    energy_price_pre <- energy_price_pre %>%
-      dplyr::mutate(weight = NA_real_)
+    energy_price <- energy_price_pre %>%
+      dplyr::group_by(scenario, year, region, var) %>%
+      dplyr::summarise(value = sum(value) / dplyr::n(), .groups = "drop")
   } else {
-    energy_price_pre <- energy_price_pre %>%
+    # (a) every price variable needs a consumption variable (its weight)
+    energy_price_pre %>%
+      dplyr::distinct(en_price_var = var) %>%
+      left_join_strict(get(paste('en_demand_price_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport")),
+                       mapping = paste('en_demand_price_map',GCAM_version,sep='_'),
+                       by = 'en_price_var')
+    energy_price <- energy_price_pre %>%
       dplyr::left_join(en_price_weights,
-                       by = c("scenario", "region", "year", "var", "market"))
+                       by = c("scenario", "region", "year", "var", "market")) %>%
+      # (b) a market without demand in a region-year weighs 0
+      dplyr::mutate(weight = dplyr::coalesce(weight, 0)) %>%
+      # (c) a variable fed by several markets with no demand at all in a
+      #     region-year gets no price (row dropped); a single-market variable
+      #     keeps its market price
+      dplyr::group_by(scenario, year, region, var) %>%
+      dplyr::summarise(value = if (sum(weight) > 0) {
+        sum(value * weight) / sum(weight)
+      } else if (dplyr::n() == 1) {
+        value
+      } else {
+        NA_real_
+      }, .groups = "drop") %>%
+      dplyr::filter(!is.na(value))
   }
-
-  energy_price <- energy_price_pre %>%
-    dplyr::group_by(scenario, year, region, var) %>%
-    dplyr::summarise(value = if (sum(weight, na.rm = TRUE) > 0) {
-      sum(value * weight, na.rm = TRUE) / sum(weight, na.rm = TRUE)
-    } else {
-      sum(value) / dplyr::n()
-    }, .groups = "drop") %>%
+  energy_price <- energy_price %>%
     # rearrange dataset
     dplyr::select(dplyr::all_of(gcamreport::long_columns))
 
