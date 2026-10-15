@@ -259,7 +259,7 @@ inst/extdata/template/GCAMScenarioMIPCMIP7/common-definitions-template_old.csv
 
 # GCAM data folders
 gcam_input/
-kmip/
+/kmip/
 output_kmip/
 
 # IDE / editor
@@ -274,7 +274,7 @@ variables_7.1.csv
 *.dat
 *.pdf
 # but DO track guideline PDFs that live inside gitguideline/
-!gitguideline/*.pdf
+gitguideline/
 images/
 .claude/
 /data/*

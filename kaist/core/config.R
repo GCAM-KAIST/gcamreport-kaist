@@ -90,8 +90,8 @@ kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
 model_name <- paste("GCAM", version_number)
 
 # === Template & mapping (used by step3 / step4) ===============================
-template_path <- file.path(output_dir, "KMIP2025_DB_final.xlsx")
-mapping_path  <- file.path(output_dir, "kmip_gcam_mapping_template.xlsx")
+template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_final.xlsx")
+mapping_path  <- file.path(getwd(), "kaist/kmip/template/kmip_gcam_mapping_template.xlsx")
 
 cat("Config loaded: run_name =", run_name,
     ", db =", db_name,
