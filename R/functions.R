@@ -5284,6 +5284,8 @@ get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
     dplyr::left_join(check_inf(rgcam::getQuery(prj, "CO2 prices"),
                                dataset_name = "CO2 prices") %>% # left_join already checked
                        dplyr::filter(!grepl("LUC", market)) %>%
+                       # an empty CO2 prices table (no CO2 price, one region) has a logical market column
+                       dplyr::mutate(market = as.character(market)) %>%
                        dplyr::left_join(CO2_market_filteredReg, by = c("market"), relationship = "many-to-many") %>%
                        dplyr::filter(region != 'NoReported') %>%
                        dplyr::select(scenario, region, year, price_C = value), by = c("scenario", "region", "year"),
