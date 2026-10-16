@@ -51,7 +51,7 @@ Paths are under `kaist/`. Run every script from the repo root.
 | 1 | `core/step1_generate_report.R` | Query GCAM database, generate base report |
 | 2 | `kmip/step2_process_data.R` | Post-process data (CO2 prices, battery storage, Korea adjustments) |
 | 3 | `kmip/step3_create_mapping.R` | Create variable mapping template |
-| 4 | `kmip/step4_fill_template.R` | Apply mappings and unit conversions |
+| 4 | `kmip/step4_fill_template.R` | Apply mappings and unit conversions; write `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (Python + openpyxl, `KAIST_PYTHON`) |
 | 5 | `kmip/step5_validate.R` | Validate totals across all stages (see below) |
 | 6 | `kmip/step6_plots.R` | Report figures from the step2 Korea csv (national GHG pathway in Mt CO2eq/yr, one line per scenario, gross/net LULUCF panels) |
 | - | `kmip/compare_manual_report.qmd` | Manual-vs-auto comparison report; only useful when a hand-made reference workbook exists (KMIP2025) |

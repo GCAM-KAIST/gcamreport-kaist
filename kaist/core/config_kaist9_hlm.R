@@ -84,6 +84,8 @@ model_name <- paste("GCAM", version_number)
 # KMIP2025 template (variable names and units only) + reviewed mapping, in the repo
 template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_final.xlsx")
 mapping_path  <- file.path(getwd(), "kaist/kmip/template/kmip_gcam_mapping_template.xlsx")
+# Submitted KMIP layout (sheet "Template(제출용)", values removed) for the step4 workbook
+submission_template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_template_submission.xlsx")
 
 cat("Config loaded: run_name =", run_name,
     ", db =", db_name,

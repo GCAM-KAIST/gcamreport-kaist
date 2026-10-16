@@ -21,6 +21,8 @@
 # OUTPUT FILES:
 #   - variables_before_unit_conversion.csv: Data before unit conversion
 #   - variables_after_unit_conversion.csv: Final data (COMPLETE!)
+#   - {run_name}_KMIP_submission.xlsx: the same data in the submitted KMIP layout
+#     (needs Python with pandas + openpyxl; set KAIST_PYTHON if python3 lacks them)
 #
 ################################################################################
 
@@ -375,6 +377,17 @@ for (i in seq_len(nrow(missing_report))) {
   cat(sprintf("    Optional: %d / %d covered (%.1f%%)\n",
               covered_opt, total_opt, covered_opt / total_opt * 100))
 }
+########## Submission workbook ##########
+# Same data in the submitted KMIP layout; missing values are written as 0
+submission_path <- file.path(output_dir, paste0(run_name, "_KMIP_submission.xlsx"))
+status <- system2(Sys.getenv("KAIST_PYTHON", "python3"),
+                  shQuote(c(file.path(getwd(), "kaist/kmip/write_submission.py"),
+                            submission_template_path,
+                            file.path(output_dir, "variables_after_unit_conversion.csv"),
+                            submission_path)))
+if (status != 0) warning("Submission workbook not written: needs Python with pandas and openpyxl (set KAIST_PYTHON)")
+#########################################
+
 cat("\nNext: Run kaist/kmip/step5_validate.R to validate results\n")
 ######################################
 
