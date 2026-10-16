@@ -165,15 +165,18 @@ harmonize_trn_service_units <- function(dataset) {
 #'
 #' @param var Variable name
 #' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
+#' @param optional Names of queries that may be missing (empty query results).
 #' @return boolean indicating if all the required queries to compute the desired variable are available.
 #' @export
-check_queries <- function(var, GCAM_version = 'v8.2') {
+check_queries <- function(var, GCAM_version = 'v8.2', optional = NULL) {
   var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
   queryItems <- var_fun_map[var_fun_map$name == var, "queries"][[1]]
+  # queries that can be empty (e.g. no district heat in the selected regions)
+  queryItems <- queryItems[!queryItems %in% optional]
 
   it = 1; allOk = TRUE
   while (sum(is.na(queryItems)) == 0 & it <= as.numeric(length(queryItems)) & allOk) {
-    qi <- var_fun_map[var_fun_map$name == var, "queries"][[1]][it]
+    qi <- queryItems[it]
     qi <- unlist(strsplit(qi, split = "|", fixed = TRUE))
     allOk <- any(qi %in% rgcam::listQueries(prj))
     it <- it + 1
@@ -4032,8 +4035,10 @@ get_elec_gen_tech <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
     secondary_energy_clean <- secondary_energy_raw <- NULL
 
-  check_queries("secondary_energy_clean", GCAM_version)
-  check_queries("secondary_energy_raw", GCAM_version)
+  # the district heat query is empty when no selected region has district heat
+  dh_query <- "district heat production by subsector (fuel)"
+  check_queries("secondary_energy_clean", GCAM_version, optional = dh_query)
+  check_queries("secondary_energy_raw", GCAM_version, optional = dh_query)
 
   # deal with grid regions:
   # split the subsector "region_name load generation" and substitute the
@@ -4084,10 +4089,11 @@ get_elec_gen_tech <- function(GCAM_version = 'v8.2') {
                 dataset_name = "gas production by tech"),
       check_inf(rgcam::getQuery(prj, "hydrogen production by tech"),
                 dataset_name = "hydrogen production by tech"),
-      check_inf(rgcam::getQuery(prj, "district heat production by subsector (fuel)"),
-                dataset_name = "district heat production by subsector (fuel)") %>%
-        dplyr::mutate(technology = subsector) %>%
-        dplyr::select(-output),
+      if (dh_query %in% rgcam::listQueries(prj)) {
+        check_inf(rgcam::getQuery(prj, dh_query), dataset_name = dh_query) %>%
+          dplyr::mutate(technology = subsector) %>%
+          dplyr::select(-output)
+      },
       check_inf(rgcam::getQuery(prj, "refined liquids production by tech"),
                 dataset_name = "refined liquids production by tech") %>%
         dplyr::select(-output)
