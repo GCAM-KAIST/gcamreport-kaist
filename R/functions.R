@@ -5801,7 +5801,9 @@ get_elec_cf_tmp <- function(GCAM_version = 'v8.2') {
     tidyr::complete(tidyr::nesting(technology, cf),
                     vintage = seq(2025, 2100, by = 5),
                     region = unique(cf_rgn_filteredReg$region)
-    )
+    ) %>%
+    # drop the "USA" seed row when USA is not a selected region
+    dplyr::filter(region %in% unique(cf_rgn_filteredReg$region))
 
   tmp2 <- cf_rgn_filteredReg %>%
     dplyr::select(region, technology = stub.technology, vintage = year, cf.rgn = capacity.factor)
