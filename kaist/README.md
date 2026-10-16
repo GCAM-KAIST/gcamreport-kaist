@@ -2,16 +2,19 @@
 
 ## Overview
 
-This folder contains the KAIST 6-step pipeline that turns GCAM output into
-KMIP report tables and figures. The rest of
-the repository is the original [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport)
-R package, used as-is.
+This folder contains the KAIST 6-step pipeline that turns GCAM output into KMIP report tables and figures. The rest of the repository is the [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, taken from the branch `kaist/v9.1-korea` (upstream `gcam-core` plus our package fixes).
+
+Branches:
+
+- `main`: package code from `kaist/v9.1-korea` plus this `kaist/` folder. Use this one. `data/` is tracked, so a fresh clone runs without building data.
+- `kaist/v9.1-korea`: package only (no `kaist/` folder). Fixes to `R/`, `inst/`, `data/` go here, one topic per commit, through a PR to this branch. It is then merged into `main`, and single commits can be sent upstream to bc3LC.
+- `fix/...`: branches of open upstream PRs (for example PR #94).
 
 ## Folder Structure
 
 ```
 gcamreport-kaist/
-├── R/, inst/, data/           # Original gcamreport R package (untouched)
+├── R/, inst/, data/           # gcamreport package, from branch kaist/v9.1-korea (do not edit on main)
 ├── kaist/                     # KAIST custom scripts (this folder)
 │   ├── README.md, ROADMAP.md  # This file; plan with phases, owners, dates
 │   ├── docs/                  # Notes and bug analyses (local only, gitignored)
@@ -20,7 +23,9 @@ gcamreport-kaist/
 │   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data)
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
+│   │   ├── config_kaist9_hlm.R # Config for the gcam-kaist9 high/medium/low x ref/nz run
 │   │   ├── tools/             # step1_parallel.R (+ worker/merge), compare_outputs.R
+│   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R, runtime_patch_v9.1.R)
 │   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
 │   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
 │   └── kmip/                  # KMIP submissions only
@@ -29,7 +34,10 @@ gcamreport-kaist/
 │       ├── step4_fill_template.R
 │       ├── step5_validate.R       # Pipeline-wide validation (checkpoints A-D)
 │       ├── step6_plots.R          # Report figures (GHG pathway per scenario)
+│       ├── write_submission.py    # Called by step4: KMIP submission workbook (Python + openpyxl)
 │       ├── compare_manual_report.qmd  # Manual-vs-auto comparison (optional)
+│       ├── compare_kaist9_kmip25.qmd  # Two-scenario comparison: KMIP2025 GC vs kaist9
+│       ├── template/              # KMIP template, submission layout and mapping (variable names only, no values)
 │       ├── unit_table.R           # Unit conversions shared by step4 and step5
 │       ├── modules/               # step2 adjustments, one file per adjustment
 │       │   ├── 00_utils.R         # Shared utilities (year_cols, load_gcam_rda, ...)
@@ -39,7 +47,7 @@ gcamreport-kaist/
 │       ├── tools/test_step5.R     # step5 self-test (fault injection)
 │       ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
 │       └── data/                  # Coefficient files (L223, L225 CSVs)
-└── (databases and outputs live outside the repo, see config.R db_path)
+└── (databases and outputs live outside the repo, see config.R db_path; never commit result files)
 ```
 
 ## Workflow Scripts
@@ -81,10 +89,9 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 ## Key Improvements
 
-1. **Separated KAIST code from the original package**
-   - Original gcamreport code in `R/`, `inst/`, and `data/` is untouched.
-   - KAIST customizations live only in `kaist/`, so syncing with bc3LC
-     upstream is conflict-free (see "Syncing with upstream" below).
+1. **Separated KAIST code from the package**
+   - On `main`, `R/`, `inst/` and `data/` are never edited by hand; they come from the branch `kaist/v9.1-korea`.
+   - KAIST customizations live only in `kaist/` (see "Syncing with upstream" below).
 
 2. **Shared configuration (`config.R`)**
    - One file for run name, database, region, and year range.
@@ -117,7 +124,8 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 1. Open R in the repo root and run `devtools::load_all(".")` once to
    build the gcamreport package locally.
 2. Edit `kaist/core/config.R`: set `run_name`, `db_name`, `target_region`,
-   and the year range.
+   and the year range. For the gcam-kaist9 runs use `kaist/core/config_kaist9_hlm.R` and the tools in `kaist/core/tools/kaist9/` (one DB per scenario).
+   Step4 also writes `{run_name}_KMIP_submission.xlsx`; it needs Python with pandas and openpyxl (set `KAIST_PYTHON` if `python3` lacks them).
 3. If BaseX 9.5+ is installed, source `kaist/core/rgcam_patch.R` once per
    session before step 1 (see the comment block in step1).
 4. Run the steps in order from the repo root:
@@ -144,14 +152,18 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 
 ## Syncing with upstream gcamreport
 
-`R/`, `inst/`, and `data/` are kept byte-identical to upstream, so pulling the
-latest gcamreport is conflict-free:
+Upstream changes come in through `kaist/v9.1-korea`, never directly into `main`:
 
 ```
 git fetch upstream
-git merge upstream/gcam-core      # no conflicts -- all KAIST code is in kaist/
-git push origin main
+git checkout kaist/v9.1-korea
+git merge upstream/gcam-core      # merge, not rebase: main already contains this branch
+git checkout main
+git merge kaist/v9.1-korea        # main's R/, inst/, data/ stay identical to kaist/v9.1-korea
+git push origin kaist/v9.1-korea main
 ```
+
+To send one of our package fixes upstream, cherry-pick its commit onto a new branch from `upstream/gcam-core` and open the PR from there.
 
 All KAIST customizations live in `kaist/`:
 
@@ -161,8 +173,7 @@ All KAIST customizations live in `kaist/`:
   `Gen_III_Korea`, Korea capacity factors, ...) are re-applied at runtime by
   `patch_gcam_data()` in `kaist/core/functions.R`. It is called at the top of step1
   and step2 (before `devtools::load_all`) and rewrites the built `data/*.rda`
-  objects in place. The upstream `inst/extdata/saveDataFiles_*.R` is **never
-  edited**, which is why merges never conflict.
+  files in place. Since `data/` is tracked, a v7.0 run leaves modified `data/*.rda` files in `git status`: do not commit them (`git checkout -- data/` restores them). For v9.1 there is no `kaist_overrides` entry yet; the kaist9 tools patch in memory instead (`kaist/core/tools/kaist9/runtime_patch_v9.1.R`).
 
 ## Moving to a new GCAM version (v8.2, v9, ...)
 
