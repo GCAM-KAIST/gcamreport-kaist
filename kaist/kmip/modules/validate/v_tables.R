@@ -46,11 +46,13 @@ step5_exceptions <- tribble(
   "^Primary Energy\\|(Biomass|Coal|Gas|Electricity)\\|Hydrogen$",            "korea", "added",       "b2",    "exists", "derived from Secondary Energy + coefs",
   "^Primary Energy\\|Biomass\\|Electricity$",                                "korea", "added",       "b2",    "exists", "",
   "^Final Energy\\|Industry\\|Iron and Steel\\|Coal\\|(Fuel|Feedstock)$",    "korea", "added",       "b3",    "exists", "identity checked separately (identity_b3)",
+  "^Energy Service\\|Transportation\\|(Passenger\\|Road\\|Light-Duty Vehicle|Freight\\|Truck)\\|Hybrid$", "korea", "added", "b7", "exists", "GCAM Hybrid Liquids (inside Internal Combustion); converted by b4",
   "^Energy Service\\|Transportation\\|(Passenger\\|Road\\|Light-Duty Vehicle|Freight\\|Truck)", "korea", "scaled", "b4", "exists", "pkm/tkm -> thousand vehicles",
   "^Final Energy(\\|.*)?\\|Liquids$",                                        "korea", "scaled",      "b5",    "exists", "x (1 - bio_share); identity checked separately",
   "\\|[Bb]iomass\\|Liquids$",                                                "korea", "added",       "b5",    "exists", "identity checked separately (identity_b5)",
   "^Emissions\\|GHGs\\|Non-Energy\\|Industrial Process\\|Iron and Steel$", "korea", "added",     "b6",    "exists", "identity checked separately (identity_b6)",
   "^Emissions\\|CO2\\|Energy\\|Demand\\|Industry\\|Iron and Steel$",     "korea", "scaled",    "b6",    "none",   "process emissions moved to the Industrial Process row",
+  "^Carbon Capture\\|Geological Storage\\|Energy\\|Demand",                 "korea", "added",     "b8",    "exists", "CCS without feedstock carbon",
 )
 
 # --- Checkpoint B: b5 source <-> Biomass|Liquids pairs (mirror of b5 targets) -
