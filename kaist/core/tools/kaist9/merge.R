@@ -2,7 +2,8 @@
 # Scenario names become the DB folder names (high_ref, medium_nz, ...).
 # Usage (from the repo root): Rscript kaist/core/tools/kaist9/merge.R
 suppressMessages({ library(dplyr); library(readxl); library(writexl); library(rgcam) })
-source("kaist/core/config_kaist9_hlm.R")
+if (Sys.getenv("KAIST_CONFIG") == "") Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")
+source("kaist/core/config.R")
 dbs <- scenarios
 ok <- dbs[file.exists(file.path(output_dir, paste0(dbs, ".xlsx"))) &
           file.exists(file.path(output_dir, paste0(dbs, "_project.dat")))]

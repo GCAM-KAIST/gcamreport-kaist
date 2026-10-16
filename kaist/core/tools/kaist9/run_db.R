@@ -1,7 +1,7 @@
 # Step1 for GCAM-KAIST 9.1: one BaseX DB (one scenario) -> {db}.xlsx + {db}_project.dat
 #
 # DB layout: {db_path}/{db_name}/{db}/ (e.g. kmip/KAIST9_HLM/medium_nz/), one scenario per DB.
-# Usage (from the repo root, after setting kaist/core/config_kaist9_hlm.R):
+# Usage (from the repo root; settings from KAIST_CONFIG, default kaist/kmip/config/kaist9_hlm.R):
 #   Rscript kaist/core/tools/kaist9/run_db.R medium_nz        # run
 #   Rscript kaist/core/tools/kaist9/run_db.R medium_nz list   # only list scenarios
 # Then: Rscript kaist/core/tools/kaist9/merge.R
@@ -13,7 +13,8 @@ suppressPackageStartupMessages({
   devtools::load_all(".", quiet = TRUE)
   library(rgcam); library(dplyr); library(tidyr)
 })
-source("kaist/core/config_kaist9_hlm.R")
+if (Sys.getenv("KAIST_CONFIG") == "") Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")
+source("kaist/core/config.R")
 source("kaist/core/rgcam_patch.R")
 dbs_dir <- file.path(db_path, db_name)
 stopifnot(dir.exists(file.path(dbs_dir, db)))

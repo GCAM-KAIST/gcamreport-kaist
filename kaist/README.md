@@ -19,16 +19,16 @@ gcamreport-kaist/
 │   ├── README.md, ROADMAP.md  # This file; plan with phases, owners, dates
 │   ├── docs/                  # Notes and bug analyses (local only, gitignored)
 │   ├── core/                  # General use: make gcamreport run on any KAIST database
-│   │   ├── config.R           # Shared configuration for all steps
+│   │   ├── config.R           # Loader: reads the settings file named by KAIST_CONFIG, sets derived paths
 │   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data)
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
-│   │   ├── config_kaist9_hlm.R # Config for the gcam-kaist9 high/medium/low x ref/nz run
 │   │   ├── tools/             # step1_parallel.R (+ worker/merge), compare_outputs.R
 │   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R, runtime_patch_v9.1.R)
 │   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
 │   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
 │   └── kmip/                  # KMIP submissions only
+│       ├── config/                # Run settings, one file per run (kaist9_hlm.R, nmsf2.R)
 │       ├── step2_process_data.R   # Thin orchestrator -- calls modules/
 │       ├── step3_create_mapping.R
 │       ├── step4_fill_template.R
@@ -47,7 +47,7 @@ gcamreport-kaist/
 │       ├── tools/test_step5.R     # step5 self-test (fault injection)
 │       ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
 │       └── data/                  # Coefficient files (L223, L225 CSVs)
-└── (databases and outputs live outside the repo, see config.R db_path; never commit result files)
+└── (databases and outputs live outside the repo, see db_path in the settings file; never commit result files)
 ```
 
 ## Workflow Scripts
@@ -81,7 +81,7 @@ Standalone; runnable after any stage (missing inputs are skipped). Checkpoints:
 - **D** independent recompute of the filled KMIP template vs step4 output.
 
 Outputs: `step5_summary.csv`, `step5_mismatches.csv`, `step5_unmapped.csv`
-in `output_dir`. Tolerances: `config.R` "Step5 validation" section.
+in `output_dir`. Tolerances: "Step5 validation" section of the settings file.
 Non-fatal by default; `--strict` errors when any check FAILs.
 Checkpoint A needs the built `data/*_v<version>.rda` files -- if missing, run
 `inst/extdata/saveDataFiles_GCAM<version>.R` then `patch_gcam_data()`.
@@ -93,9 +93,9 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
    - On `main`, `R/`, `inst/` and `data/` are never edited by hand; they come from the branch `kaist/v9.1-korea`.
    - KAIST customizations live only in `kaist/` (see "Syncing with upstream" below).
 
-2. **Shared configuration (`config.R`)**
-   - One file for run name, database, region, and year range.
-   - No need to edit multiple step scripts when changing the run.
+2. **Run settings per project (`KAIST_CONFIG`)**
+   - Each run has one settings file (run name, database, region, years, scenarios) in its project folder, e.g. `kaist/kmip/config/kaist9_hlm.R`. Projects never edit each other's settings.
+   - `kaist/core/config.R` is only a loader: every step sources it, it reads the file named by the `KAIST_CONFIG` environment variable and stops with a list of available files if it is not set.
 
 3. **Per-database output folder**
    - Outputs are written under `kmip/{db_name}_output/`, so different
@@ -123,8 +123,7 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 1. Open R in the repo root and run `devtools::load_all(".")` once to
    build the gcamreport package locally.
-2. Edit `kaist/core/config.R`: set `run_name`, `db_name`, `target_region`,
-   and the year range. For the gcam-kaist9 runs use `kaist/core/config_kaist9_hlm.R` and the tools in `kaist/core/tools/kaist9/` (one DB per scenario).
+2. Pick or create a settings file in your project folder (copy `kaist/kmip/config/kaist9_hlm.R`, set `run_name`, `db_name`, `target_region`, years, scenarios) and point `KAIST_CONFIG` to it: `KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript kaist/kmip/step4_fill_template.R`, or `Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")` in RStudio. For the gcam-kaist9 DBs (one DB per scenario) use the tools in `kaist/core/tools/kaist9/`.
    Step4 also writes `{run_name}_KMIP_submission.xlsx`; it needs Python with pandas and openpyxl (set `KAIST_PYTHON` if `python3` lacks them).
 3. If BaseX 9.5+ is installed, source `kaist/core/rgcam_patch.R` once per
    session before step 1 (see the comment block in step1).
@@ -141,7 +140,7 @@ Each BaseX query uses one CPU, so with several scenarios run one worker per
 scenario instead of `step1_generate_report.R`:
 
 ```
-Rscript kaist/core/tools/step1_parallel.R            # all scenarios in config.R
+Rscript kaist/core/tools/step1_parallel.R            # all scenarios in the KAIST_CONFIG settings file
 Rscript kaist/core/tools/step1_parallel.R --jobs=4   # at most 4 at a time
 ```
 
@@ -180,7 +179,7 @@ All KAIST customizations live in `kaist/`:
 The applier (`patch_gcam_data`) stays the same; only the per-version values
 change. To support a new version:
 
-1. Set `version_number` in `kaist/core/config.R` (e.g. `"8.2"`).
+1. Set `version_number` in your settings file (e.g. `"8.2"`).
 2. Open `kaist/core/functions.R` and find the `kaist_overrides` list. It currently
    holds a single entry, `"v7.0" = list(...)`. **Add a sibling entry** keyed by
    the new GCAM_version string, right next to it:

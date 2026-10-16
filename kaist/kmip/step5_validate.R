@@ -10,7 +10,7 @@
 # Standalone, runnable after any stage; missing inputs are skipped.
 # Usage: Rscript kaist/kmip/step5_validate.R [--strict] [--checkpoints=A,C]
 # Output: step5_summary.csv, step5_mismatches.csv, step5_unmapped.csv
-# Tolerances / defaults: kaist/core/config.R "Step5 validation" section.
+# Tolerances / defaults: "Step5 validation" section of the KAIST_CONFIG settings file.
 ################################################################################
 
 ########## Load Configuration ##########

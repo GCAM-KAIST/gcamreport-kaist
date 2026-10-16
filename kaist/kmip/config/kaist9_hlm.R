@@ -1,15 +1,13 @@
 ################################################################################
-# KAIST GCAM Report Configuration
-#
-# Shared settings for step1 ~ step5. Source this at the top of each step file:
-#   source(file.path(getwd(), "kaist/core/config.R"))
-#
-# Most runs only need to change `run_name`, `db_name`, and the year range.
+# KMIP run settings: kaist9_hlm
+# gcam-kaist9 (GCAM 9.1) high/medium/low nuclear x ref/nz runs from Ahmed (one DB per scenario).
+# Used through the loader: KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript <step script>
+# Derived paths, template paths and kaist/core/functions.R are set by kaist/core/config.R.
 ################################################################################
 
 # === Run name (output prefix) =================================================
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
-# will start with this prefix, and they are written under output_dir below.
+# will start with this prefix, and they are written under output_dir ({db_path}/{db_name}_output).
 # Example: "merge_test", "kaist_report", "kmip_v3"
 run_name <- "kaist9_hlm"
 
@@ -66,32 +64,3 @@ step5_tol_rel_d <- 1e-6   # recomputed template vs step4 output
 step5_strict <- FALSE
 # Checkpoints to run by default; --checkpoints=A,C overrides.
 step5_checkpoints <- c("A", "B", "C", "D")
-
-# === Derived paths (no need to edit these usually) ============================
-# Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
-# runs against different databases do not mix. .dat project files from step1
-# also land here so they sit next to their .xlsx / .csv siblings.
-output_dir <- file.path(db_path, paste0(db_name, "_output"))
-if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
-
-# Coefficient files used by step2.
-kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
-
-# Display name for the report Model column.
-model_name <- paste("GCAM", version_number)
-
-# === Template & mapping (used by step3 / step4) ===============================
-# KMIP2025 template (variable names and units only) + reviewed mapping, in the repo
-template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_final.xlsx")
-mapping_path  <- file.path(getwd(), "kaist/kmip/template/kmip_gcam_mapping_template.xlsx")
-# Submitted KMIP layout (sheet "Template(제출용)", values removed) for the step4 workbook
-submission_template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_template_submission.xlsx")
-
-cat("Config loaded: run_name =", run_name,
-    ", db =", db_name,
-    ", output_dir =", output_dir, "\n")
-
-# === KAIST helper functions ===================================================
-# Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
-# kaist/ so the package source under R/ stays identical to upstream.
-source(file.path(getwd(), "kaist/core/functions.R"))

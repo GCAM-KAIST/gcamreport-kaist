@@ -3,7 +3,7 @@
 #
 # Usage (from the repo root):
 #   Rscript kaist/core/tools/step1_parallel.R [--jobs=N] [--dry-run]
-# Scenarios come from kaist/core/config.R. --jobs caps how many workers run at
+# Scenarios come from the run settings file (KAIST_CONFIG, see kaist/core/config.R). --jobs caps how many workers run at
 # once (default: all). Logs: {output_dir}/logs/step1_{scenario}.log
 # Replaces: Rscript kaist/core/step1_generate_report.R (single process).
 ################################################################################

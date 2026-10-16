@@ -70,7 +70,7 @@ source(file.path(getwd(), "kaist/core/rgcam_patch.R"))
 ###############################
 
 ########## Generate report ##########
-# scenarios / desired_variables / desired_regions come from kaist/core/config.R
+# scenarios / desired_variables / desired_regions come from the KAIST_CONFIG settings file
 generate_report(
   db_path           = db_path,
   db_name           = db_name,
