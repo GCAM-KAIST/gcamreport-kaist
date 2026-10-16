@@ -563,7 +563,7 @@ start_with_pattern <- function(vector, pattern) {
 #' @keywords internal
 #' @export
 filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM_version = 'v8.2') {
-  market <- region <- NULL
+  market <- region <- subsector <- NULL
 
   if (!(identical(desired_regions, "All"))) {
     desired_regions <- c(desired_regions, "global")
@@ -600,6 +600,12 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         dplyr::mutate(region = stringr::str_extract(market, region_pattern)) %>%
         dplyr::filter(region %in% desired_regions_tmp) %>%
         dplyr::select(-region)
+
+    } else if (variable %in% "ag export to the world center (USA) (Intl. Armington competition)") {
+      # all rows sit in the USA region (the world center); the exporting region
+      # is in the subsector name ("<region> traded <crop>"), as in get_ag_trade()
+      data <- data %>%
+        dplyr::filter(sub(" traded.*", "", subsector) %in% desired_regions)
 
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
