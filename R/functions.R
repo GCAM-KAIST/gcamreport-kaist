@@ -4911,6 +4911,10 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = 'v8.2') {
 
   check_queries("co2_price_fragmented", GCAM_version)
 
+  # markets named in `ignore` are dropped; with no `ignore` the pattern is "",
+  # which grepl() matches everywhere, so skip the filter in that case
+  ignore_pattern <- paste(.myGlobals$ignore.global, collapse = "|")
+
   co2_price_fragmented_pre <-
     check_inf(rgcam::getQuery(prj, "CO2 prices"),
               dataset_name = "CO2 prices") %>%
@@ -4918,13 +4922,13 @@ get_co2_price_fragmented_tmp <- function(GCAM_version = 'v8.2') {
     dplyr::filter(!grepl("global|Global|world|World", market)) %>%
     dplyr::filter(Units == "1990$/tC") %>%
     tibble::as_tibble() %>%
-    dplyr::filter(!grepl(paste(.myGlobals$ignore.global, collapse = "|"), market))
+    dplyr::filter(ignore_pattern == "" | !grepl(ignore_pattern, market))
 
 
   if (nrow(co2_price_fragmented_pre) > 1) {
     CO2_market_filteredReg <- filter_data_regions(get(paste('co2_market',GCAM_version,sep='_'), envir = asNamespace("gcamreport")), GCAM_version = GCAM_version) %>%
       dplyr::filter(region != 'NoReported') %>%
-      dplyr::filter(!grepl(paste(.myGlobals$ignore.global, collapse = "|"), market))
+      dplyr::filter(ignore_pattern == "" | !grepl(ignore_pattern, market))
 
     co2_price_fragmented <-
       co2_price_fragmented_pre %>%
