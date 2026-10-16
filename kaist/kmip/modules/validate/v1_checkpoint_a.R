@@ -36,6 +36,8 @@ checkpoint_a <- function(prj, report_long, registry, tol_default,
   unmapped_out <- list()
 
   available <- rgcam::listQueries(prj)
+  # same split as upstream: tidyr::separate(sector, sep = "_d")
+  deciles_versions <- load_gcam_rda_plain("deciles_GCAM_versions")
   report_scens <- unique(report_long$Scenario)
   report_regions <- unique(report_long$Region)
 
@@ -76,6 +78,9 @@ checkpoint_a <- function(prj, report_long, registry, tol_default,
       q <- rgcam::getQuery(prj, qnames[k]) %>%
         filter(region %in% report_regions)
       if (identical(row$prep, "elec_output")) q <- q %>% mutate(output = "electricity")
+      if (identical(row$prep, "deciles") && paste0("v", version) %in% deciles_versions) {
+        q <- q %>% mutate(sector = sub("_d.*$", "", sector))
+      }
       if (nzchar(trimws(fexprs[k]))) {
         q <- q %>% filter(!!rlang::parse_expr(fexprs[k]))
       }

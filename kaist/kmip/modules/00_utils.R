@@ -32,6 +32,13 @@ load_gcam_rda <- function(prefix, version = version_number) {
   get(obj_name, envir = env)
 }
 
+# Same for data objects without a version suffix (e.g. deciles_GCAM_versions).
+load_gcam_rda_plain <- function(obj_name) {
+  env <- new.env()
+  load(file.path(getwd(), "data", paste0(obj_name, ".rda")), envir = env)
+  get(obj_name, envir = env)
+}
+
 # TRUE when verbose debug output is enabled (verbose_debug in the KAIST_CONFIG settings file).
 # Modules wrap their diagnostic tables in `if (debug_on()) { ... }`.
 debug_on <- function() {
