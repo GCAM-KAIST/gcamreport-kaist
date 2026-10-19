@@ -68,8 +68,11 @@ add_vehicle_capacity <- function(data, ref_scenario = NULL) {
   ldv_ref_idx <- which(data$Variable == ldv_vars[1] & data$Scenario == ref_scen)
   mhdv_ref_idx <- which(data$Variable == mhdv_vars[1] & data$Scenario == ref_scen)
 
-  ldv_ratio <- mt_ldv_total / as.numeric(data[ldv_ref_idx[1], "2020"])
-  mhdv_ratio <- mt_mhdv_total / as.numeric(data[mhdv_ref_idx[1], "2020"])
+  # Anchor year: 2020, or the first year after it (GCAM 9.1 base year is 2021)
+  anchor <- year_columns[as.numeric(year_columns) >= 2020][1]
+  if (anchor != "2020") cat(sprintf("  No 2020 column; MT 2020 counts anchored to %s\n", anchor))
+  ldv_ratio <- mt_ldv_total / as.numeric(data[ldv_ref_idx[1], anchor])
+  mhdv_ratio <- mt_mhdv_total / as.numeric(data[mhdv_ref_idx[1], anchor])
 
   cat(sprintf("  LDV ratio (from %s): %.4f (thousand vehicles / billion pkm)\n", ref_scen, ldv_ratio))
   cat(sprintf("  MHDV ratio (from %s): %.4f (thousand vehicles / billion tkm)\n", ref_scen, mhdv_ratio))

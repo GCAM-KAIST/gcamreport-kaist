@@ -34,6 +34,16 @@ enforce_capacity_consistency <- function(data) {
   )
   data <- sum_children_into_parents(data, aggregate_parents)
 
+  # GCAM 9.1: upstream step1 capacity totals are ~50x too high for Korea,
+  # so rebuild the total from the fixed level-2 rows
+  if (identical(get0("version_number"), "9.1")) {
+    data <- sum_children_into_parents(data, list(
+      "Capacity|Electricity" = c("Capacity|Electricity|Biomass", "Capacity|Electricity|Fossil",
+                                 "Capacity|Electricity|Nuclear", "Capacity|Electricity|Non-Biomass Renewables"),
+      "Capacity|Electricity|Fossil|w/o CCS" = c("Capacity|Electricity|Coal|w/o CCS", "Capacity|Electricity|Gas|w/o CCS",
+                                                "Capacity|Electricity|Oil|w/o CCS")))
+  }
+
   cat("Fixed parent capacity variables (Coal, Gas, Oil, Biomass, Solar, Wind, Fossil, Non-Biomass Renewables)\n")
 
   data

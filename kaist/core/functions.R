@@ -85,6 +85,8 @@ add_korea_cf <- function(cf_rgn) {
       "nuclear",          "Gen_III",                     0.8144,
       "nuclear",          "Gen_III_Korea",               0.8144,
       "nuclear",          "Gen_II_LWR",                  0.8144,
+      "nuclear",          "large reactor",               0.8144,  # GCAM 9.1
+      "nuclear",          "SMR",                         0.8144,  # GCAM 9.1
       # Refined liquids (oil-fired)
       "refined liquids",  "refined liquids (CC)",        0.76,
       "refined liquids",  "refined liquids (CC CCS)",    0.76,

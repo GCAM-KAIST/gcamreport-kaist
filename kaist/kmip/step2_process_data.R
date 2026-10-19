@@ -78,6 +78,17 @@ write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.
 # load_gcam_rda (modules/00_utils.R) picks the file matching version_number.
 cf_rgn  <- load_gcam_rda("cf_rgn")
 cf_gcam <- load_gcam_rda("cf_gcam")
+# No kaist_overrides entry for this version (e.g. v9.1): add the Korea CFs
+# in memory only, reusing the v7.0 South Korea renewable values.
+if (is.null(kaist_overrides[[paste0("v", version_number)]])) {
+  sk_cf <- kaist_overrides[["v7.0"]]$cf_rgn_sk_renewable
+  for (tech in names(sk_cf)) {
+    sel <- cf_rgn$region == "South Korea" & cf_rgn$stub.technology == tech
+    cf_rgn$capacity.factor[sel] <- sk_cf[[tech]]
+  }
+  cf_rgn <- add_korea_cf(cf_rgn)
+  message("cf_rgn: Korea CFs added in memory (no overrides for v", version_number, ")")
+}
 
 # Generation by technology, shared by a2 (battery storage) and a3 (Gen III).
 elec_gen <- getQuery(prj, "elec gen by gen tech")
