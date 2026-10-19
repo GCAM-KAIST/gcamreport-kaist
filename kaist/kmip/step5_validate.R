@@ -1,4 +1,3 @@
-# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments and source() calls only).
 ################################################################################
 # Step 5: Pipeline-wide validation
 #
@@ -9,13 +8,13 @@
 #   D: step2 korea csv -> independently recomputed KMIP template vs step4
 #
 # Standalone, runnable after any stage; missing inputs are skipped.
-# Usage: Rscript kaist-pj/kmip/step5_validate.R [--strict] [--checkpoints=A,C]
+# Usage: Rscript kaist/kmip/step5_validate.R [--strict] [--checkpoints=A,C]
 # Output: step5_summary.csv, step5_mismatches.csv, step5_unmapped.csv
-# Tolerances / defaults: kaist-pj/core/config.R "Step5 validation" section.
+# Tolerances / defaults: kaist/core/config.R "Step5 validation" section.
 ################################################################################
 
 ########## Load Configuration ##########
-source(file.path(getwd(), "kaist-pj/core/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 ########################################
 
 ########## Libraries ##########
@@ -30,9 +29,9 @@ suppressMessages({
 ################################
 
 ########## Load helpers ##########
-source(file.path(getwd(), "kaist-pj/kmip/modules/00_utils.R"))
-source(file.path(getwd(), "kaist-pj/kmip/unit_table.R"))
-for (f in list.files(file.path(getwd(), "kaist-pj/kmip/modules/validate"),
+source(file.path(getwd(), "kaist/kmip/modules/00_utils.R"))
+source(file.path(getwd(), "kaist/kmip/unit_table.R"))
+for (f in list.files(file.path(getwd(), "kaist/kmip/modules/validate"),
                      pattern = "\\.R$", full.names = TRUE)) {
   source(f)
 }

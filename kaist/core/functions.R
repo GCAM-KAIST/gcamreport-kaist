@@ -1,4 +1,4 @@
-# [2026-10-04: Claude code] added the "v9.1" kaist_overrides block (gcamreport-temp fixes 1-7: carbon_seq_tech_map, energy_price_map, primary_energy_map, co2_market, ag_demand_map rows); applier gained a plain-table step and skips steps a version block does not define; comment paths kaist/ -> kaist-pj/.
+# [2026-10-04: Claude code] added the "v9.1" kaist_overrides block (gcamreport-temp fixes 1-7: carbon_seq_tech_map, energy_price_map, primary_energy_map, co2_market, ag_demand_map rows); applier gained a plain-table step and skips steps a version block does not define; comment paths kaist/ -> kaist/.
 ################################################################################
 # KAIST helper functions
 #
@@ -6,8 +6,8 @@
 # R/ or inst/) so the package source stays byte-identical to upstream gcamreport
 # and `git merge upstream/gcam-core` never conflicts.
 #
-# Sourced automatically from kaist-pj/core/config.R, so every step file has these
-# available after `source(".../kaist-pj/core/config.R")`.
+# Sourced automatically from kaist/core/config.R, so every step file has these
+# available after `source(".../kaist/core/config.R")`.
 #
 # --- Why patch_gcam_data() exists --------------------------------------------
 # KAIST runs GCAM with extra policy markets (bio-ceiling, irnstl-ceiling, ...)
@@ -23,10 +23,10 @@
 # of step1 / step2 (before devtools::load_all), so generate_report() and the
 # step2 calculations see the KAIST-modified data.
 #
-# --- Companion: kaist-pj/core/gcamreport_patch.R ------------------------------
-# Data fixes live here (patch_gcam_data). Fixes to upstream R code are applied
-# the same way at runtime, by replacing functions inside the loaded gcamreport
-# namespace; see gcamreport_patch.R (sourced after devtools::load_all).
+# --- Upstream R code fixes ----------------------------------------------------
+# Only data fixes live here (patch_gcam_data). The former runtime namespace patch
+# (gcamreport_patch.R, fix 8: empty `ignore` dropped every CO2 price market) was
+# removed to match main; instead config.R always passes a non-empty ignore_markets.
 #
 # --- Moving to a new GCAM version (v8.2, v9, ...) -----------------------------
 # Add a new entry to kaist_overrides keyed by the GCAM_version string, e.g.
@@ -254,8 +254,8 @@ kaist_overrides <- list(
   # There the rows were added to inst/extdata/mappings/GCAM9.1/*.csv and the
   # rdas rebuilt; here upstream inst/ and R/ stay byte-identical and the same
   # rows are appended to the built data/*_v9.1.rda at runtime.
-  # Fix 8 (R code: an empty `ignore` dropped every CO2 price market) is applied
-  # to the loaded namespace by kaist-pj/core/gcamreport_patch.R.
+  # Fix 8 (R code: an empty `ignore` dropped every CO2 price market) is avoided
+  # by always passing a non-empty ignore_markets (kaist/core/config.R).
   #
   # No capacity-factor / capital / template overrides for v9.1: none were part
   # of the temp changes, so those applier steps are skipped for this version.
@@ -399,7 +399,7 @@ patch_gcam_data <- function(version = "v7.0") {
   ov <- kaist_overrides[[version]]
   if (is.null(ov)) {
     warning(sprintf(
-      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist-pj/core/functions.R.",
+      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist/core/functions.R.",
       version, version))
     return(invisible(FALSE))
   }

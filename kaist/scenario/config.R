@@ -1,9 +1,9 @@
 ################################################################################
-# Scenario manifest used by kaist-pj/core and scenario/process_u0909.R.
+# Scenario manifest used by kaist/core and scenario/process_u0909.R.
 ################################################################################
 
 scenario_dir <- normalizePath(
-  file.path(getwd(), "kaist-pj", "scenario"),
+  file.path(getwd(), "kaist", "scenario"),
   winslash = "/",
   mustWork = FALSE
 )

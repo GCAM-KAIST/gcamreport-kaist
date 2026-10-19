@@ -1,19 +1,20 @@
 # [2026-10-04: Claude code] scenario list from the manifest; paths kaist/ -> kaist-pj/.
+# [2026-10-19: Claude code] folder renamed back to kaist/; workers launched with the running R's Rscript (not PATH).
 ################################################################################
 # step1_parallel: run step1 with one worker process per scenario, then merge.
 #
 # Usage (from the repo root):
-#   Rscript kaist-pj/core/tools/step1_parallel.R [--jobs=N] [--dry-run]
-# Scenarios come from kaist-pj/core/config.R. --jobs caps how many workers run at
+#   Rscript kaist/core/tools/step1_parallel.R [--jobs=N] [--dry-run]
+# Scenarios come from kaist/core/config.R. --jobs caps how many workers run at
 # once (default: all). Logs: {output_dir}/logs/step1_{scenario}.log
-# Replaces: Rscript kaist-pj/core/step1_generate_report.R (single process).
+# Replaces: Rscript kaist/core/step1_generate_report.R (single process).
 ################################################################################
 
 args <- commandArgs(trailingOnly = TRUE)
 dry_run <- "--dry-run" %in% args
 jobs_arg <- grep("^--jobs=", args, value = TRUE)
 
-source(file.path(getwd(), "kaist-pj/core/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 if (exists("scenario_jobs")) scenarios <- scenario_jobs$scenario   # one worker per manifest job
 jobs <- if (length(jobs_arg) > 0) as.integer(sub("^--jobs=", "", jobs_arg[1])) else length(scenarios)
 jobs <- max(1L, min(jobs, length(scenarios)))
@@ -25,13 +26,16 @@ cat(sprintf("step1_parallel: %d scenario(s), %d at a time\n", length(scenarios),
 cat("  scenarios:", paste(scenarios, collapse = ", "), "\n")
 
 if (dry_run) {
-  for (s in scenarios) cat("  would run: Rscript kaist-pj/core/tools/step1_worker.R", shQuote(s), "\n")
-  cat("  then: Rscript kaist-pj/core/tools/step1_merge.R\n")
+  for (s in scenarios) cat("  would run: Rscript kaist/core/tools/step1_worker.R", shQuote(s), "\n")
+  cat("  then: Rscript kaist/core/tools/step1_merge.R\n")
   quit(status = 0)
 }
 
 # patch data/*.rda once here; workers skip it
 patch_gcam_data(paste0("v", version_number))
+
+# Rscript of the running R installation (Rscript is often not on PATH on Windows).
+rscript_bin <- file.path(R.home("bin"), if (.Platform$OS.type == "windows") "Rscript.exe" else "Rscript")
 
 # launch workers, at most `jobs` at a time
 running <- list()
@@ -41,7 +45,7 @@ t0 <- Sys.time()
 launch <- function(s) {
   log <- file.path(log_dir, paste0("step1_", s, ".log"))
   cat(sprintf("  [%s] start %s -> %s\n", format(Sys.time(), "%H:%M:%S"), s, basename(log)))
-  p <- processx::process$new("Rscript", c("kaist-pj/core/tools/step1_worker.R", s),
+  p <- processx::process$new(rscript_bin, c("kaist/core/tools/step1_worker.R", s),
                              stdout = log, stderr = "2>&1")
   list(scenario = s, proc = p)
 }
@@ -70,6 +74,6 @@ if (length(failed) > 0) {
 }
 
 cat("merging ...\n")
-st <- system2("Rscript", "kaist-pj/core/tools/step1_merge.R")
+st <- system2(rscript_bin, "kaist/core/tools/step1_merge.R")
 if (st != 0) stop("step1_merge.R failed (exit ", st, ")")
-cat("\n=== step1_parallel complete ===\nNext: Rscript kaist-pj/kmip/step2_process_data.R\n")
+cat("\n=== step1_parallel complete ===\nNext: Rscript kaist/kmip/step2_process_data.R\n")

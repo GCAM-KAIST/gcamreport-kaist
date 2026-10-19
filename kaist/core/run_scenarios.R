@@ -1,21 +1,20 @@
-# [2026-10-04: Claude code] added patch_gcam_data() before load_all and gcamreport_patch.R after it.
+# [2026-10-04: Claude code] added patch_gcam_data() before load_all.
+# [2026-10-19: Claude code] gcamreport_patch.R removed (as on main); the non-empty `ignore` keeps the upstream CO2 price filter safe.
 ################################################################################
-# Run every scenario declared in kaist-pj/scenario/config.R.
+# Run every scenario declared in kaist/scenario/config.R.
 #
 # Usage from the gcamreport package root:
-#   Rscript kaist-pj/core/run_scenarios.R
+#   Rscript kaist/core/run_scenarios.R
 ################################################################################
 
-source(file.path(getwd(), "kaist-pj", "scenario", "config.R"))
-source(file.path(getwd(), "kaist-pj", "core", "functions.R"))
+source(file.path(getwd(), "kaist", "scenario", "config.R"))
+source(file.path(getwd(), "kaist", "core", "functions.R"))
 
 # KAIST data overrides (v9.1 mapping rows) -- must run before load_all.
 patch_gcam_data(scenario_gcam_version)
 
 devtools::load_all(".", reset = TRUE)
-source(file.path(getwd(), "kaist-pj", "core", "rgcam_patch.R"))
-# gcamreport fixes applied inside the loaded namespace (empty-ignore CO2 price bug).
-source(file.path(getwd(), "kaist-pj", "core", "gcamreport_patch.R"))
+source(file.path(getwd(), "kaist", "core", "rgcam_patch.R"))
 
 GCAM_version <- scenario_gcam_version
 stopifnot(GCAM_version %in% gcamreport::available_GCAM_versions)
@@ -34,7 +33,7 @@ for (i in seq_len(nrow(scenario_jobs))) {
     prj_name = paste0(job$label, ".dat"),
     scenarios = job$scenario,
     GCAM_version = GCAM_version,
-    ignore = scenario_ignore,
+    ignore = scenario_ignore,   # must be non-empty: see ignore_markets in core/config.R
     final_year = scenario_final_year,
     desired_regions = "All",
     desired_variables = "All",

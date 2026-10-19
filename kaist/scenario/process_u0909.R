@@ -1,4 +1,4 @@
-source(file.path(getwd(), "kaist-pj", "scenario", "config.R"))
+source(file.path(getwd(), "kaist", "scenario", "config.R"))
 devtools::load_all(".", reset = TRUE)
 
 GCAM_version <- scenario_gcam_version

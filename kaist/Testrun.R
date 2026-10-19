@@ -1,8 +1,8 @@
-# [2026-10-04: Claude code] new file: individual test runs of the kaist-pj pipeline steps 1~6 (fresh Rscript per step with a log, or in-session).
+# [2026-10-04: Claude code] new file: individual test runs of the kaist pipeline steps 1~6 (fresh Rscript per step with a log, or in-session).
 ################################################################################
-# Testrun.R - individual test runs of the kaist-pj pipeline (step1 ~ step6)
+# Testrun.R - individual test runs of the kaist pipeline (step1 ~ step6)
 #
-# source("C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/Testrun.R")
+# source("C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist/Testrun.R")
 #   run_step(1)                    # one step in a fresh Rscript process, log in {output_dir}/logs/
 #   run_step(5, args = "--checkpoints=A,B")
 #   run_steps(2:6)                 # several steps in order, stops at the first failure
@@ -11,7 +11,7 @@
 #
 # A fresh process per step: step1/step2 call patch_gcam_data() + devtools::load_all() and the
 # steps leave globals behind, so a clean R process is the reliable way to test one step at a
-# time. Settings come from kaist-pj/core/config.R and kaist-pj/scenario/config.R as usual.
+# time. Settings come from kaist/core/config.R and kaist/scenario/config.R as usual.
 ################################################################################
 
 # --- package root (the folder with DESCRIPTION). Edit this line if the repo moves. ------
@@ -23,9 +23,9 @@ cat("Testrun: working directory set to", getwd(), "\n")
 # --- the six steps --------------------------------------------------------------------
 testrun_steps <- data.frame(
   step   = 1:6,
-  script = c("kaist-pj/core/step1_generate_report.R", "kaist-pj/kmip/step2_process_data.R",
-             "kaist-pj/kmip/step3_create_mapping.R",  "kaist-pj/kmip/step4_fill_template.R",
-             "kaist-pj/kmip/step5_validate.R",        "kaist-pj/kmip/step6_plots.R"),
+  script = c("kaist/core/step1_generate_report.R", "kaist/kmip/step2_process_data.R",
+             "kaist/kmip/step3_create_mapping.R",  "kaist/kmip/step4_fill_template.R",
+             "kaist/kmip/step5_validate.R",        "kaist/kmip/step6_plots.R"),
   needs  = c("BaseX database(s) from the scenario manifest + built data/*_v{version}.rda",
              "{run_name}.xlsx + newest {run_name}_project_*.dat (step1)",
              "{run_name}_korea.csv (step2) + KMIP template xlsx at template_path",
@@ -38,7 +38,7 @@ testrun_steps <- data.frame(
 # config.R read into a private environment (run_name, output_dir, paths) without touching globals.
 testrun_config <- function() {
   cfg <- new.env()
-  suppressMessages(capture.output(source(file.path(getwd(), "kaist-pj/core/config.R"), local = cfg), type = "output"))
+  suppressMessages(capture.output(source(file.path(getwd(), "kaist/core/config.R"), local = cfg), type = "output"))
   cfg
 }
 
@@ -119,7 +119,7 @@ testrun_status <- function() {
   }
   print(tab, row.names = FALSE)
   if (identical(cfg$target_region, "All")) {
-    cat("\nNOTE: target_region is \"All\" in kaist-pj/core/config.R; step2 Part B keeps only Region == target_region,",
+    cat("\nNOTE: target_region is \"All\" in kaist/core/config.R; step2 Part B keeps only Region == target_region,",
         "so b1-b6, step3, step4 and step6 would work on an empty table. Set target_region <- \"South Korea\".\n")
   }
   invisible(tab)

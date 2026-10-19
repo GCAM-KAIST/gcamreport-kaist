@@ -1,4 +1,4 @@
-# [2026-10-04: Claude code] per-run names from step1_run_names(), newest .dat per run, also writes {run_name}.csv; paths kaist/ -> kaist-pj/.
+# [2026-10-04: Claude code] per-run names from step1_run_names(), newest .dat per run, also writes {run_name}.csv; paths kaist/ -> kaist/.
 ################################################################################
 # step1_merge: combine per-job step1 outputs into the single {run_name}.xlsx,
 # {run_name}.csv and {run_name}_project_merged.dat that step2 expects.
@@ -8,11 +8,11 @@
 #   {run_name}_{scenario} for the single-database step1_worker.R runs
 # For each name the newest {name}_project*.dat in output_dir is merged.
 #
-# Usage: Rscript kaist-pj/core/tools/step1_merge.R
+# Usage: Rscript kaist/core/tools/step1_merge.R
 #        (also sourced by step1_generate_report.R when it ran several jobs)
 ################################################################################
 
-if (!exists("step1_run_names")) source(file.path(getwd(), "kaist-pj/core/config.R"))
+if (!exists("step1_run_names")) source(file.path(getwd(), "kaist/core/config.R"))
 suppressMessages({
   library(dplyr)
   library(readxl)

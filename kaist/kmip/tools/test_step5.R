@@ -1,19 +1,18 @@
-# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments and source() calls only).
 ################################################################################
 # Fault-injection self-test for step5 validation.
 # Perturbs in-memory copies of the DB26 outputs and asserts each checkpoint
 # detects the fault. Never touches data/ or the real pipeline outputs.
-# Run from the repo root: Rscript kaist-pj/kmip/tools/test_step5.R
+# Run from the repo root: Rscript kaist/kmip/tools/test_step5.R
 ################################################################################
 
-source(file.path(getwd(), "kaist-pj/core/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 suppressMessages({
   library(dplyr); library(tidyr); library(tibble)
   library(readxl); library(stringr); library(rlang)
 })
-source(file.path(getwd(), "kaist-pj/kmip/modules/00_utils.R"))
-source(file.path(getwd(), "kaist-pj/kmip/unit_table.R"))
-for (f in list.files(file.path(getwd(), "kaist-pj/kmip/modules/validate"),
+source(file.path(getwd(), "kaist/kmip/modules/00_utils.R"))
+source(file.path(getwd(), "kaist/kmip/unit_table.R"))
+for (f in list.files(file.path(getwd(), "kaist/kmip/modules/validate"),
                      pattern = "\\.R$", full.names = TRUE)) source(f)
 
 pass <- function(name) cat("PASS:", name, "\n")

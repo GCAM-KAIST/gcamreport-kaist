@@ -1,4 +1,5 @@
-# [2026-10-04: Claude code] rewritten: one generate_report() per manifest job, gcamreport_patch.R sourced after load_all, per-job .dat moved and merged for step2; paths kaist/ -> kaist-pj/.
+# [2026-10-04: Claude code] rewritten: one generate_report() per manifest job, per-job .dat moved and merged for step2; paths kaist/ -> kaist-pj/.
+# [2026-10-19: Claude code] folder renamed back to kaist/; gcamreport_patch.R removed (as on main), ignore_markets must stay non-empty instead.
 ################################################################################
 # Step 1: Generate GCAM Report (Query Database)
 #
@@ -7,7 +8,7 @@
 #   Outputs (paths set in config.R):
 #     {output_dir}/{run_name}.xlsx / .csv        - GCAM report (all regions)
 #     {output_dir}/{run_name}_project_*.dat       - rgcam project (used by step2)
-#   With a scenario manifest (kaist-pj/scenario/config.R) each job also keeps
+#   With a scenario manifest (kaist/scenario/config.R) each job also keeps
 #   its own {run_name}_{label}.* report and .dat; the merged files above are
 #   built from them at the end so step2 sees one report and one project.
 #
@@ -20,17 +21,18 @@
 # TROUBLESHOOTING:
 #   - Mapping error ("Some rows in the left dataset do not have matching
 #     keys"): add the missing rows to kaist_overrides in
-#     kaist-pj/core/functions.R, then rerun with reuse_dat (below) so the
+#     kaist/core/functions.R, then rerun with reuse_dat (below) so the
 #     queries are not redone.
-#   - "Database does not exist" error: see kaist-pj/core/rgcam_patch.R.
-#   - Price|Carbon all zero: make sure kaist-pj/core/gcamreport_patch.R printed
-#     "patched" after load_all (see the comment block in that file).
+#   - "Database does not exist" error: see kaist/core/rgcam_patch.R.
+#   - Price|Carbon all zero: ignore_markets in kaist/core/config.R is empty.
+#     Upstream get_co2_price_fragmented_tmp() drops every CO2 price market when
+#     `ignore` is NULL (grepl("", market) is TRUE), so it must stay non-empty.
 #
-# NEXT STEP: kaist-pj/kmip/step2_process_data.R
+# NEXT STEP: kaist/kmip/step2_process_data.R
 ################################################################################
 
 ########## Load configuration ##########
-source(file.path(getwd(), "kaist-pj/core/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 jobs <- step1_jobs()
 ########################################
 
@@ -50,7 +52,7 @@ run_stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
 ########## Apply KAIST data overrides ##########
 # Re-apply KAIST customizations to data/*.rda so the upstream
 # inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist-pj/core/functions.R::patch_gcam_data. Must run before load_all.
+# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
 patch_gcam_data(paste0("v", version_number))
 ################################################
 
@@ -62,9 +64,7 @@ library(tidyr)
 library(readxl)
 
 # rgcam fix for BaseX 9.5+ (needed on this machine; harmless otherwise).
-source(file.path(getwd(), "kaist-pj/core/rgcam_patch.R"))
-# gcamreport fixes applied inside the loaded namespace (R/ stays upstream).
-source(file.path(getwd(), "kaist-pj/core/gcamreport_patch.R"))
+source(file.path(getwd(), "kaist/core/rgcam_patch.R"))
 ###############################
 
 ########## Generate report, one generate_report() call per job ##########
@@ -119,7 +119,7 @@ for (i in seq_len(nrow(jobs))) {
 
 ########## Merge per-job outputs into the files step2 expects ##########
 if (multi) {
-  source(file.path(getwd(), "kaist-pj/core/tools/step1_merge.R"))
+  source(file.path(getwd(), "kaist/core/tools/step1_merge.R"))
 }
 ########################################################################
 
@@ -129,5 +129,5 @@ for (lb in names(job_results)) {
               lb, job_results[[lb]]$report, "", job_results[[lb]]$dat))
 }
 cat("Merged report:", file.path(output_dir, paste0(run_name, ".xlsx")), "\n")
-cat("Next: kaist-pj/kmip/step2_process_data.R\n")
+cat("Next: kaist/kmip/step2_process_data.R\n")
 ########################################

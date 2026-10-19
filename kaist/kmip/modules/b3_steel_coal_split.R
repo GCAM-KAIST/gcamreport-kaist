@@ -1,4 +1,3 @@
-# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments only).
 ################################################################################
 # b3: Iron and Steel coal -> Coal|Fuel + Coal|Feedstock (Korea only)
 #
@@ -6,7 +5,7 @@
 #   Coal|Fuel      = the rest
 # 0.5832 = MT 2020 Coal|Feedstock / Coal total (read from mt_reference_path).
 # BF family = BLASTFUR* techs. EAF-DRI coal is all Fuel.
-# Method: kaist-pj/kmip/steel/README.md section 3. Skips if the query is missing.
+# Method: kaist/kmip/steel/README.md section 3. Skips if the query is missing.
 ################################################################################
 
 split_steel_coal <- function(data, prj, target_rgn = target_region) {

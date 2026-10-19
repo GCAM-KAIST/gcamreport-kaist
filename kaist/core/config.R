@@ -3,13 +3,13 @@
 # KAIST GCAM Report Configuration
 #
 # Shared settings for step1 ~ step5. Source this at the top of each step file:
-#   source(file.path(getwd(), "kaist-pj/core/config.R"))
+#   source(file.path(getwd(), "kaist/core/config.R"))
 #
 # Most runs only need to change `run_name`, `db_name`, and the year range.
 ################################################################################
 
 # Scenario-specific databases and names live in scenario/config.R.
-scenario_config_path <- file.path(getwd(), "kaist-pj", "scenario", "config.R")
+scenario_config_path <- file.path(getwd(), "kaist", "scenario", "config.R")
 if (file.exists(scenario_config_path)) {
   source(scenario_config_path)
 }
@@ -27,7 +27,7 @@ db_path <- scenario_dir
 db_name <- scenario_jobs$db[[1]]
 
 # === Region & year range ======================================================
-target_region <- "All"           # Region used in the Korea-only blocks
+target_region <- "South Korea"   # Region kept by step2 Part B / steps 3-6 ("All" leaves them an empty table)
 start_year    <- 2005            # First year kept in step2 / step4
 final_year    <- 2050            # Last year kept in step2 / step4
 version_number <- sub("^v", "", scenario_gcam_version)
@@ -37,12 +37,18 @@ version_number <- sub("^v", "", scenario_gcam_version)
 scenarios         <- scenario_jobs$scenario
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
-# Market-name patterns passed to generate_report(ignore = ...). NULL = none.
-# The manifest declares scenario_ignore = "^bio-ceiling$", but it is no longer
-# needed: the v9.1 kaist_overrides map bio-ceiling to NoReported (fix 7) and
-# gcamreport_patch.R makes an empty ignore safe (fix 8). Set
-# ignore_markets <- scenario_ignore to pass it anyway (harmless either way).
-ignore_markets <- NULL
+# Market-name patterns passed to generate_report(ignore = ...).
+# [2026-10-19] MUST be non-empty. Upstream R/functions.R::get_co2_price_fragmented_tmp()
+# filters CO2 price markets with grepl(paste(ignore, collapse = "|"), market); with
+# ignore = NULL the pattern is "" which matches every market, so ALL CO2 price
+# markets are dropped and Price|Carbon / Revenue|Government come out as 0 (seen on
+# the NZ scenario). gcamreport_patch.R used to guard this; it was removed to match
+# main, so a real pattern is passed instead. The v9.1 kaist_overrides already map
+# bio-ceiling to NoReported (fix 7), so the pattern itself changes nothing else.
+ignore_markets <- if (exists("scenario_ignore")) scenario_ignore else "^bio-ceiling$"
+if (length(ignore_markets) == 0 || !any(nzchar(ignore_markets))) {
+  stop("config.R: ignore_markets must be a non-empty pattern (upstream drops every CO2 price market otherwise).")
+}
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
@@ -89,7 +95,7 @@ output_dir <- scenario_output_dir
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # Coefficient files used by step2.
-kaist_data_dir <- file.path(getwd(), "kaist-pj/kmip/data")
+kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
 
 # Display name for the report Model column.
 model_name <- paste("GCAM", version_number)
@@ -105,11 +111,11 @@ cat("Config loaded: run_name =", run_name,
 # === KAIST helper functions ===================================================
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
-source(file.path(getwd(), "kaist-pj/core/functions.R"))
+source(file.path(getwd(), "kaist/core/functions.R"))
 
 # === Step1 job list ===========================================================
 # One row per generate_report() call. With a scenario manifest
-# (kaist-pj/scenario/config.R -> scenario_jobs) every job has its own BaseX
+# (kaist/scenario/config.R -> scenario_jobs) every job has its own BaseX
 # database; otherwise the classic single-database run with all `scenarios`.
 step1_jobs <- function() {
   if (exists("scenario_jobs")) {

@@ -1,10 +1,11 @@
-# [2026-10-04: Claude code] manifest-aware (db/label lookup), ignore_markets, gcamreport_patch.R; paths kaist/ -> kaist-pj/.
+# [2026-10-04: Claude code] manifest-aware (db/label lookup), ignore_markets; paths kaist/ -> kaist-pj/.
+# [2026-10-19: Claude code] folder renamed back to kaist/; gcamreport_patch.R removed (as on main).
 ################################################################################
 # step1_worker: query ONE scenario into {run_name}_{label}.* outputs.
 #
-# Usage:  Rscript kaist-pj/core/tools/step1_worker.R <scenario>
+# Usage:  Rscript kaist/core/tools/step1_worker.R <scenario>
 # Run one worker per scenario in parallel (each BaseX query is single-
-# threaded), then combine with kaist-pj/core/tools/step1_merge.R.
+# threaded), then combine with kaist/core/tools/step1_merge.R.
 # With a scenario manifest the database and label are looked up from
 # scenario_jobs; otherwise db_name from config.R and label = scenario.
 #
@@ -14,14 +15,14 @@
 ################################################################################
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) < 1) stop("usage: Rscript kaist-pj/core/tools/step1_worker.R <scenario>")
+if (length(args) < 1) stop("usage: Rscript kaist/core/tools/step1_worker.R <scenario>")
 scen <- args[1]
 
-source(file.path(getwd(), "kaist-pj/core/config.R"))
+source(file.path(getwd(), "kaist/core/config.R"))
 label <- scen
 if (exists("scenario_jobs")) {
   job <- scenario_jobs[scenario_jobs$scenario == scen | scenario_jobs$label == scen, ]
-  if (nrow(job) != 1) stop("scenario '", scen, "' is not (uniquely) declared in kaist-pj/scenario/config.R")
+  if (nrow(job) != 1) stop("scenario '", scen, "' is not (uniquely) declared in kaist/scenario/config.R")
   db_name <- job$db
   scen    <- job$scenario
   label   <- job$label
@@ -36,8 +37,7 @@ library(dplyr)
 library(rgcam)
 library(tidyr)
 
-source(file.path(getwd(), "kaist-pj/core/rgcam_patch.R"))
-source(file.path(getwd(), "kaist-pj/core/gcamreport_patch.R"))
+source(file.path(getwd(), "kaist/core/rgcam_patch.R"))
 
 generate_report(
   db_path           = db_path,
