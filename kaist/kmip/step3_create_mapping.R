@@ -1,3 +1,4 @@
+# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments and source() calls only).
 ################################################################################
 # Step 3: Create Variable Mapping
 #
@@ -24,20 +25,21 @@
 #
 # NEXT STEP:
 #   1. Manually review and edit mapping_template.xlsx
-#   2. kaist/kmip/step4_fill_template.R
+#   2. kaist-pj/kmip/step4_fill_template.R
 #
 ################################################################################
 
 ########## Load Configuration ##########
-source(file.path(getwd(), "kaist/core/config.R"))
+source(file.path(getwd(), "kaist-pj/core/config.R"))
 ########################################
 
 ########## Libraries ##########
 library(readxl)
 library(dplyr)
 library(writexl)
-library(openxlsx)
 library(stringr)
+# [2026-10-04: Claude code] openxlsx is optional (only used for column widths); fall back to writexl if absent.
+.has_openxlsx <- requireNamespace("openxlsx", quietly = TRUE)
 ################################
 
 ########## Input Files ##########
@@ -162,15 +164,22 @@ if (!is.null(previous_mapping)) {
 mapping_template <- mapping_template %>%
   select(Region, exact_match, template_variable, gcam_variable, gcam_variable_add, gcam_variable_subtract)
 
-# Save with column widths
-wb <- createWorkbook()
-addWorksheet(wb, "mapping")
-writeData(wb, "mapping", mapping_template)
-setColWidths(wb, "mapping", cols = 1:6, widths = c(8.5, 8.5, 48, 48, 48, 48))
-saveWorkbook(wb, mapping_output_path, overwrite = TRUE)
+# Save with column widths (openxlsx) or plain xlsx (writexl fallback)
+# [2026-10-04: Claude code] was a hard library(openxlsx) dependency -> optional
+if (.has_openxlsx) {
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb, "mapping")
+  openxlsx::writeData(wb, "mapping", mapping_template)
+  openxlsx::setColWidths(wb, "mapping", cols = 1:6, widths = c(8.5, 8.5, 48, 48, 48, 48))
+  openxlsx::saveWorkbook(wb, mapping_output_path, overwrite = TRUE)
+} else {
+  message("openxlsx not installed: writing mapping xlsx with writexl (no column widths). ",
+          "install.packages('openxlsx') to get column widths.")
+  writexl::write_xlsx(list(mapping = mapping_template), mapping_output_path)
+}
 #####################################################
 
 cat("\n=== Step 3 Complete ===\n")
 cat("Mapping template:", mapping_output_path, "\n")
-cat("Next: Manually review mapping, then run kaist/kmip/step4_fill_template.R\n")
+cat("Next: Manually review mapping, then run kaist-pj/kmip/step4_fill_template.R\n")
 

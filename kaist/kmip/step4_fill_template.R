@@ -1,3 +1,4 @@
+# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments and source() calls only).
 ################################################################################
 # Step 4: Fill Template (Final Step)
 #
@@ -25,7 +26,7 @@
 ################################################################################
 
 ########## Load Configuration ##########
-source(file.path(getwd(), "kaist/core/config.R"))
+source(file.path(getwd(), "kaist-pj/core/config.R"))
 ########################################
 
 ########## Libraries ##########
@@ -34,7 +35,7 @@ library(dplyr)
 library(tibble)
 library(readxl)
 library(writexl)
-library(tidyverse)
+library(tidyr)      # [2026-10-04: Claude code] was library(tidyverse) (not installed); only pivot_longer() is used
 ################################
 
 
@@ -51,7 +52,7 @@ year_cols <- year_cols[as.numeric(year_cols) >= 2020]  # Usually start from 2020
 
 ########## Unit Conversion Table ##########
 # Shared with step5 validation -- single source of truth
-source(file.path(getwd(), "kaist/kmip/unit_table.R"))
+source(file.path(getwd(), "kaist-pj/kmip/unit_table.R"))
 ###########################################
 
 ########## Load Data ##########
@@ -369,6 +370,6 @@ for (i in seq_len(nrow(missing_report))) {
   cat(sprintf("    Optional: %d / %d covered (%.1f%%)\n",
               covered_opt, total_opt, covered_opt / total_opt * 100))
 }
-cat("\nNext: Run kaist/kmip/step5_validate.R to validate results\n")
+cat("\nNext: Run kaist-pj/kmip/step5_validate.R to validate results\n")
 ######################################
 

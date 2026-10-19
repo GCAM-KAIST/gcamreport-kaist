@@ -1,3 +1,5 @@
+<!-- [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ in the example commands; data folder examples point at the current output_dir (scenario/reports_u0909). -->
+
 # Iron and steel reporting (KMIP2026 steel template)
 
 Standalone tools that fill the KMIP2026 **steel-sector** template from GCAM
@@ -9,9 +11,12 @@ use are also applied inside the main pipeline by the step2 modules
 same steel numbers.
 
 Data (query dumps, templates, reference workbooks, outputs) stays in the
-per-DB output folder `{output_dir}/iron_report/` (gitignored). The Korean
-method memo `steel_report_memo.md` lives there too; this README is the
-short English version.
+per-run output folder `{output_dir}/iron_report/` (gitignored; with the
+current manifest `output_dir` is `kaist-pj/scenario/reports_u0909/`). The
+KMIP2025 runs used `kmip/KMIP25_6Scenarios_output/iron_report/`, which is
+also where `core/config.R` still looks for the MT reference workbook
+(`mt_reference_path`). The Korean method memo `steel_report_memo.md` lives in
+the data folder too; this README is the short English version.
 
 ## Files
 
@@ -24,26 +29,30 @@ Python 3 with `pandas`, `openpyxl`, `matplotlib`.
 
 ## How to run
 
-From the repo root, `--dir` points at the data folder:
+From the repo root, `--dir` points at the data folder (examples use the
+current `output_dir`; substitute `kmip/KMIP25_6Scenarios_output/iron_report`
+for the KMIP2025 data):
 
 ```
-python -X utf8 kaist/kmip/steel/build_steel_template.py \
-    --dir kmip/KMIP25_6Scenarios_output/iron_report                # S1 (tag S1)
-python -X utf8 kaist/kmip/steel/build_steel_template.py \
-    --dir kmip/KMIP25_6Scenarios_output/iron_report \
+python -X utf8 kaist-pj/kmip/steel/build_steel_template.py \
+    --dir kaist-pj/scenario/reports_u0909/iron_report              # S1 (tag S1)
+python -X utf8 kaist-pj/kmip/steel/build_steel_template.py \
+    --dir kaist-pj/scenario/reports_u0909/iron_report \
     --tag ref_con --input query_results_ref.xlsx                   # ref scenario
-python -X utf8 kaist/kmip/steel/build_steel_template.py \
-    --dir kmip/KMIP25_6Scenarios_output/iron_report \
+python -X utf8 kaist-pj/kmip/steel/build_steel_template.py \
+    --dir kaist-pj/scenario/reports_u0909/iron_report \
     --tag kaist9_nz --input query_results_kaist9.xlsx \
-    --xml kaist/core/input/Korea/iron_steel_no_h2.xml --base-year 2021  # GCAM 9.1 run
-python -X utf8 kaist/kmip/steel/plot_steel_compare.py \
-    --dir kmip/KMIP25_6Scenarios_output/iron_report [--en]
+    --xml <path to>/iron_steel_no_h2.xml --base-year 2021           # GCAM 9.1 run
+python -X utf8 kaist-pj/kmip/steel/plot_steel_compare.py \
+    --dir kaist-pj/scenario/reports_u0909/iron_report [--en]
 ```
 
 - `--input` defaults to `query_results_{tag}.xlsx` (then `query_results.xlsx`).
 - `--xml` is the `iron_steel.xml` of the GCAM run (coal coefficients by
-  technology). Default: `gcam_input/gcamdata/xml/iron_steel.xml` in the repo.
-  On the lab server the GCAM 7.0 core file is
+  technology). The default, `gcam_input/gcamdata/xml/iron_steel.xml` relative
+  to the repo root, is not part of this checkout, so pass `--xml` explicitly.
+  The Korea file `iron_steel_no_h2.xml` used for the kaist9 runs sat in the
+  gitignored `core/input/Korea/`; on the lab server the GCAM 7.0 core file is
   `/data/shared/gcam-7.0/xml/iron_steel.xml`.
 - Running inside the data folder without `--dir` also works (old behaviour).
 - If `KMIP2026_steel_GC_{tag}.xlsx` already exists, its note column (M) is
@@ -70,8 +79,9 @@ One sheet per ModelInterface query (row 1 = query title or header):
 
 Not in the stock `Main_queries.xml`. It gives the national refining mix that
 the biomass-liquids split needs. Add it under
-*energy transformation > refining* in ModelInterface (both variants are in
-`gcam_input/output/queries/Main_queries.xml` of this repo).
+*energy transformation > refining* in ModelInterface (both variants are
+reproduced below; the `gcam_input/` copy mentioned earlier is not in this
+checkout).
 
 GCAM 7 (one `refining` sector):
 

@@ -1,3 +1,4 @@
+# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments and source() calls only).
 ################################################################################
 # Step 6: Report plots
 #
@@ -13,7 +14,7 @@
 ################################################################################
 
 ########## Load configuration ##########
-source(file.path(getwd(), "kaist/core/config.R"))
+source(file.path(getwd(), "kaist-pj/core/config.R"))
 ########################################
 
 suppressMessages({

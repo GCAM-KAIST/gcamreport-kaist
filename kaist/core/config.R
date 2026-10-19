@@ -1,40 +1,53 @@
+# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/; new ignore_markets option; new step1_jobs() / step1_run_names() helpers for the scenario manifest.
 ################################################################################
 # KAIST GCAM Report Configuration
 #
 # Shared settings for step1 ~ step5. Source this at the top of each step file:
-#   source(file.path(getwd(), "kaist/core/config.R"))
+#   source(file.path(getwd(), "kaist-pj/core/config.R"))
 #
 # Most runs only need to change `run_name`, `db_name`, and the year range.
 ################################################################################
+
+# Scenario-specific databases and names live in scenario/config.R.
+scenario_config_path <- file.path(getwd(), "kaist-pj", "scenario", "config.R")
+if (file.exists(scenario_config_path)) {
+  source(scenario_config_path)
+}
 
 # === Run name (output prefix) =================================================
 # Change this to label a run. Every output file (xlsx, csv, .dat project file)
 # will start with this prefix, and they are written under output_dir below.
 # Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "nmsf2"
+run_name <- "reports_u0909"
 
 # === GCAM database ============================================================
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
-db_path <- "/home/jiheun/reporting/kmip"
+db_path <- scenario_dir
 # Which database inside db_path to query.
-db_name <- "NMSF2"
+db_name <- scenario_jobs$db[[1]]
 
 # === Region & year range ======================================================
-target_region <- "South Korea"   # Region used in the Korea-only blocks
+target_region <- "All"           # Region used in the Korea-only blocks
 start_year    <- 2005            # First year kept in step2 / step4
 final_year    <- 2050            # Last year kept in step2 / step4
-version_number <- "7.0"          # GCAM version (used for queries and rda lookups)
+version_number <- sub("^v", "", scenario_gcam_version)
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- c("NMSF2_concave", "NMSF2_convex")
+scenarios         <- scenario_jobs$scenario
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
+# Market-name patterns passed to generate_report(ignore = ...). NULL = none.
+# The manifest declares scenario_ignore = "^bio-ceiling$", but it is no longer
+# needed: the v9.1 kaist_overrides map bio-ceiling to NoReported (fix 7) and
+# gcamreport_patch.R makes an empty ignore safe (fix 8). Set
+# ignore_markets <- scenario_ignore to pass it anyway (harmless either way).
+ignore_markets <- NULL
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
 # module b4. NULL = use the first scenario found in the data.
-ref_scenario <- "NMSF2_concave"   # no "ref" in the NMSF2 DB; 2020 is the same in all scenarios
+ref_scenario <- scenario_jobs$scenario[[1]]
 # TRUE prints the diagnostic tables from modules a4 / b3 / b5 (CF check,
 # steel coal ratios, biomass share). FALSE keeps the step2 console output short.
 verbose_debug <- FALSE
@@ -52,18 +65,10 @@ plot_start_year <- 2015
 plot_subtitle <- "pa = 0.01, da = 3.667, 2050 cap = 10"
 # Optional target points drawn on the Net panel of the GHG pathway figure.
 # NULL = none. A data frame with columns Scenario, year, value (Mt CO2eq/yr).
-pathway_targets <- data.frame(
-  Scenario = rep(c("NMSF2_concave", "NMSF2_convex"), each = 5),
-  year     = rep(c(2030, 2035, 2040, 2045, 2050), 2),
-  value    = c(470.3, 348.9, 230.1, 118.8, 0,     # statutory lower bound (linear)
-               470.3, 289.5, 148.5, 74.2, 0))     # statutory upper bound (early cuts)
+pathway_targets <- NULL
 # Optional cap values as written in the GCAM XML (target + bunker share).
 # NULL = none. Same columns as pathway_targets.
-pathway_caps <- data.frame(
-  Scenario = rep(c("NMSF2_concave", "NMSF2_convex"), each = 5),
-  year     = rep(c(2030, 2035, 2040, 2045, 2050), 2),
-  value    = c(496.06, 371.23, 248.75, 131.12, 10.09,
-               496.06, 308.33, 161.95, 77.44, 10.34))
+pathway_caps <- NULL
 
 # === Step5 validation =========================================================
 # Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).
@@ -80,11 +85,11 @@ step5_checkpoints <- c("A", "B", "C", "D")
 # Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
 # runs against different databases do not mix. .dat project files from step1
 # also land here so they sit next to their .xlsx / .csv siblings.
-output_dir <- file.path(db_path, paste0(db_name, "_output"))
+output_dir <- scenario_output_dir
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # Coefficient files used by step2.
-kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
+kaist_data_dir <- file.path(getwd(), "kaist-pj/kmip/data")
 
 # Display name for the report Model column.
 model_name <- paste("GCAM", version_number)
@@ -100,4 +105,23 @@ cat("Config loaded: run_name =", run_name,
 # === KAIST helper functions ===================================================
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
-source(file.path(getwd(), "kaist/core/functions.R"))
+source(file.path(getwd(), "kaist-pj/core/functions.R"))
+
+# === Step1 job list ===========================================================
+# One row per generate_report() call. With a scenario manifest
+# (kaist-pj/scenario/config.R -> scenario_jobs) every job has its own BaseX
+# database; otherwise the classic single-database run with all `scenarios`.
+step1_jobs <- function() {
+  if (exists("scenario_jobs")) {
+    return(data.frame(db = scenario_jobs$db, scenario = I(as.list(scenario_jobs$scenario)),
+                      label = scenario_jobs$label, stringsAsFactors = FALSE))
+  }
+  data.frame(db = db_name, scenario = I(list(scenarios)), label = run_name,
+             stringsAsFactors = FALSE)
+}
+# Per-run output names used by the step1 worker/merge tools:
+# {run_name}_{label} (manifest) or {run_name}_{scenario} (single database).
+step1_run_names <- function() {
+  if (exists("scenario_jobs")) return(paste0(run_name, "_", scenario_jobs$label))
+  paste0(run_name, "_", scenarios)
+}

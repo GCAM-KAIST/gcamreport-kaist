@@ -33,6 +33,8 @@ format:
 editor: visual
 ---
 
+<!-- [2026-10-04: Claude code] path kaist/ -> kaist-pj/ in the config source() call. -->
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
@@ -52,7 +54,7 @@ library(kableExtra)
 
 ```{r parameters}
 # ========== LOAD CONFIGURATION ==========
-source(file.path(here(), "kaist/core/config.R"))
+source(file.path(here(), "kaist-pj/core/config.R"))
 template_path <- file.path(output_dir, "KMIP2025_DB_template V_S1S08_SAME(HighGas).xlsx")
 
 # ========== SCENARIO SELECTION ==========

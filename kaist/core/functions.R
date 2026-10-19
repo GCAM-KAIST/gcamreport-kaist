@@ -1,3 +1,4 @@
+# [2026-10-04: Claude code] added the "v9.1" kaist_overrides block (gcamreport-temp fixes 1-7: carbon_seq_tech_map, energy_price_map, primary_energy_map, co2_market, ag_demand_map rows); applier gained a plain-table step and skips steps a version block does not define; comment paths kaist/ -> kaist-pj/.
 ################################################################################
 # KAIST helper functions
 #
@@ -5,8 +6,8 @@
 # R/ or inst/) so the package source stays byte-identical to upstream gcamreport
 # and `git merge upstream/gcam-core` never conflicts.
 #
-# Sourced automatically from kaist/core/config.R, so every step file has these
-# available after `source(".../kaist/core/config.R")`.
+# Sourced automatically from kaist-pj/core/config.R, so every step file has these
+# available after `source(".../kaist-pj/core/config.R")`.
 #
 # --- Why patch_gcam_data() exists --------------------------------------------
 # KAIST runs GCAM with extra policy markets (bio-ceiling, irnstl-ceiling, ...)
@@ -21,6 +22,11 @@
 # rewriting the built data/*.rda objects. patch_gcam_data() is called at the top
 # of step1 / step2 (before devtools::load_all), so generate_report() and the
 # step2 calculations see the KAIST-modified data.
+#
+# --- Companion: kaist-pj/core/gcamreport_patch.R ------------------------------
+# Data fixes live here (patch_gcam_data). Fixes to upstream R code are applied
+# the same way at runtime, by replacing functions inside the loaded gcamreport
+# namespace; see gcamreport_patch.R (sourced after devtools::load_all).
 #
 # --- Moving to a new GCAM version (v8.2, v9, ...) -----------------------------
 # Add a new entry to kaist_overrides keyed by the GCAM_version string, e.g.
@@ -217,6 +223,10 @@ kaist_overrides <- list(
     ),
     cf_gcam_key = c("supplysector", "subsector", "technology"),
 
+    # cf_rgn (NOT gathered): also append the Korea conventional-tech CFs
+    # (add_korea_cf) -- needed by the step2 vintage capacity recalculation.
+    cf_rgn_add_korea = TRUE,
+
     # cf_rgn (NOT gathered): South Korea renewable CF overrides (technology ->
     # capacity.factor). Korea conventional-tech CFs are added by add_korea_cf().
     cf_rgn_sk_renewable = c(
@@ -234,6 +244,122 @@ kaist_overrides <- list(
     # template (NOT gathered): drop these Internal_variable groups.
     template_drop = c("income_clean", "consumption_hh_clean",
                       "iron_steel_map", "ag_trade", "trade_clean")
+  ),
+
+  # ---------------------------------------------------------------------------
+  # GCAM v9.1 -- KAIST u0909 scenarios (KAIST_9_Ref_u0909 / KAIST_9_NZ_u0909).
+  #
+  # Replicates the mapping fixes worked out in gcamreport-temp (fixes 1-7 in
+  # gcamreport-temp/debug/case1_chemical_feedback_Sector/Error_Log/README.md).
+  # There the rows were added to inst/extdata/mappings/GCAM9.1/*.csv and the
+  # rdas rebuilt; here upstream inst/ and R/ stay byte-identical and the same
+  # rows are appended to the built data/*_v9.1.rda at runtime.
+  # Fix 8 (R code: an empty `ignore` dropped every CO2 price market) is applied
+  # to the loaded namespace by kaist-pj/core/gcamreport_patch.R.
+  #
+  # No capacity-factor / capital / template overrides for v9.1: none were part
+  # of the temp changes, so those applier steps are skipped for this version.
+  "v9.1" = list(
+
+    map_rows = list(
+      # Fix 1: KAIST adds coal and gas chemical-feedstock technologies
+      # (input/Korea/chemical_feedstocks_{coal,gas}.xml). They report feedstock
+      # carbon as "sequestration"; core v9.1 only maps the refined-liquids tech,
+      # so get_co2_sequestration() stopped on the strict join. Same hierarchy as
+      # the refined-liquids row; the utilization sub-category follows the fuel
+      # (gas -> Gases, coal -> Other because the template has no Solids).
+      carbon_seq_tech_map = list(
+        rows = dplyr::bind_rows(
+          tidyr::crossing(
+            tibble::tibble(sector = "chemical feedstocks",
+                           technology = c("gas", "coal"),
+                           unit_conv = 3.666667),
+            var = c("Carbon Capture",
+                    "Carbon Capture|Utilization",
+                    "Carbon Capture|Energy",
+                    "Carbon Capture|Energy|Fossil",
+                    "Carbon Capture|Energy|Demand",
+                    "Carbon Capture|Energy|Demand|Fossil",
+                    "Carbon Capture|Energy|Demand|Industry",
+                    "Carbon Capture|Energy|Demand|Industry|Fossil",
+                    "Carbon Capture|Energy|Demand|Industry|Chemicals",
+                    "Carbon Capture|Energy|Demand|Industry|Chemicals|Fossil")
+          ),
+          tibble::tibble(sector = "chemical feedstocks",
+                         technology = c("gas", "coal"),
+                         unit_conv = 3.666667,
+                         var = c("Carbon Capture|Utilization|Gases",
+                                 "Carbon Capture|Utilization|Other"))
+        ),
+        key = c("sector", "technology", "var")
+      ),
+      # Fixes 2 + 4: KAIST-only markets in "prices of all markets". Constraint
+      # ("ceiling") markets are policy shadow prices, imported H2 is an
+      # intermediate trade market, and the CO2 markets are reported through the
+      # dedicated CO2 price functions -- all NoReported, like the upstream
+      # globalbio-ceiling / CO2 / ROWCO2 rows.
+      energy_price_map = list(
+        rows = tibble::tibble(
+          market = c("bio-ceiling", "rowbio-ceiling", "cement-ceiling",
+                     "coal-ceiling", "imported H2", "dac-ceiling",
+                     "CO2_Kor", "rowCO2", "rowCO2_LUC"),
+          unit_conv = 1,
+          var = "NoReported"
+        ),
+        key = c("market", "var")
+      ),
+      # Fixes 3 + 5: fuels in "primary energy consumption with CCS" that core
+      # v9.1 never produces. `uranium` is the extra nuclear fuel flow of the
+      # KAIST nuclear plan (not inside `e nuclear`), mapped like e nuclear; the
+      # hyphenated ceiling policies follow the upstream bio_ceiling rows.
+      primary_energy_map = list(
+        rows = tibble::tibble(
+          fuel = c("uranium", "uranium",
+                   "bio-ceiling", "bio-ceiling CCS", "coal-ceiling", "cement-ceiling"),
+          unit_conv = 1,
+          var = c("Primary Energy", "Primary Energy|Nuclear",
+                  "NoReported", "NoReported", "NoReported", "NoReported")
+        ),
+        key = c("fuel", "var")
+      )
+    ),
+
+    # Plain (not gathered) tables: rows to add, same `rows` / `key` shape.
+    # Fix 6: the KAIST rest-of-world carbon market is spelled `rowCO2`; upstream
+    # only knows `ROWCO2`, so 31 regions silently got Price|Carbon = 0. Mapped to
+    # every ROWCO2 region except South Korea, which has its own regional market
+    # (`South KoreaCO2`). `CO2_Kor` is deliberately NOT mapped (it duplicates
+    # South KoreaCO2 and the function sums markets per region); `rowCO2_LUC`
+    # needs nothing because the function drops every *LUC* market.
+    table_rows = list(
+      co2_market = list(
+        rows = tibble::tibble(
+          market = "rowCO2",
+          region = c("Africa_Eastern", "Africa_Northern", "Africa_Southern",
+                     "Africa_Western", "Argentina", "Australia_NZ", "Brazil",
+                     "Canada", "Central America and Caribbean", "Central Asia",
+                     "China", "Colombia", "European Free Trade Association",
+                     "EU-12", "EU-15", "Ukraine", "Europe_Non_EU", "India",
+                     "Indonesia", "Pakistan", "Japan", "Mexico", "Middle East",
+                     "Russia", "South Africa", "South America_Southern",
+                     "South America_Northern", "South Asia", "Southeast Asia",
+                     "Taiwan", "USA")
+        ),
+        key = c("market", "region")
+      )
+    ),
+
+    # Fix 7: the bio-ceiling constraint shows up as an input of `regional
+    # biomass` in the ag demand query. Mapping it NoReported is what the
+    # `ignore` pattern for bio-ceiling used to do, so `ignore` is not needed.
+    ag_demand_drop_na_input = FALSE,
+    ag_demand_rows = tibble::tibble(
+      input  = "bio-ceiling",
+      sector = "regional biomass",
+      unit_conv = 1,
+      var = "NoReported"
+    ),
+    ag_demand_key = c("input", "sector", "var")
   )
 )
 
@@ -273,7 +399,7 @@ patch_gcam_data <- function(version = "v7.0") {
   ov <- kaist_overrides[[version]]
   if (is.null(ov)) {
     warning(sprintf(
-      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist/core/functions.R.",
+      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist-pj/core/functions.R.",
       version, version))
     return(invisible(FALSE))
   }
@@ -324,19 +450,32 @@ patch_gcam_data <- function(version = "v7.0") {
     patched <- c(patched, short)
   }
 
+  # 1c. Plain (not gathered) tables: add rows (e.g. co2_market).
+  for (short in names(ov$table_rows)) {
+    obj <- load_obj(short)
+    if (is.null(obj)) next
+    spec <- ov$table_rows[[short]]
+    obj <- .bind_kaist_rows(obj, spec$rows, spec$key)
+    save_obj(short, obj)
+    patched <- c(patched, short)
+  }
+
+  # Steps 2-6 run only when the version block defines the matching spec.
   # 2. ag_demand_map: drop NA-input rows + add bio-ceiling rows.
-  ag <- load_obj("ag_demand_map")
+  ag <- if (isTRUE(ov$ag_demand_drop_na_input) || !is.null(ov$ag_demand_rows)) load_obj("ag_demand_map") else NULL
   if (!is.null(ag)) {
     if (isTRUE(ov$ag_demand_drop_na_input)) {
       ag <- dplyr::filter(ag, !is.na(input))
     }
-    ag <- .bind_kaist_rows(ag, ov$ag_demand_rows, ov$ag_demand_key)
+    if (!is.null(ov$ag_demand_rows)) {
+      ag <- .bind_kaist_rows(ag, ov$ag_demand_rows, ov$ag_demand_key)
+    }
     save_obj("ag_demand_map", ag)
     patched <- c(patched, "ag_demand_map")
   }
 
   # 3. cf_gcam: add Gen_III_Korea / wind_offshore default CFs.
-  cg <- load_obj("cf_gcam")
+  cg <- if (!is.null(ov$cf_gcam_rows)) load_obj("cf_gcam") else NULL
   if (!is.null(cg)) {
     cg <- .bind_kaist_rows(cg, ov$cf_gcam_rows, ov$cf_gcam_key)
     save_obj("cf_gcam", cg)
@@ -344,19 +483,19 @@ patch_gcam_data <- function(version = "v7.0") {
   }
 
   # 4. cf_rgn: South Korea renewable overrides + Korea conventional CFs.
-  cr <- load_obj("cf_rgn")
+  cr <- if (!is.null(ov$cf_rgn_sk_renewable) || isTRUE(ov$cf_rgn_add_korea)) load_obj("cf_rgn") else NULL
   if (!is.null(cr)) {
     for (tech in names(ov$cf_rgn_sk_renewable)) {
       sel <- cr$region == "South Korea" & cr$stub.technology == tech
       cr$capacity.factor[sel] <- ov$cf_rgn_sk_renewable[[tech]]
     }
-    cr <- add_korea_cf(cr)
+    if (isTRUE(ov$cf_rgn_add_korea)) cr <- add_korea_cf(cr)
     save_obj("cf_rgn", cr)
     patched <- c(patched, "cf_rgn")
   }
 
   # 5. capital_gcam: copy Gen_III capital rows to Gen_III_Korea.
-  cap <- load_obj("capital_gcam")
+  cap <- if (!is.null(ov$capital_copy_tech)) load_obj("capital_gcam") else NULL
   if (!is.null(cap) && !is.null(ov$capital_copy_tech)) {
     from <- ov$capital_copy_tech[["from"]]
     to   <- ov$capital_copy_tech[["to"]]
@@ -368,7 +507,7 @@ patch_gcam_data <- function(version = "v7.0") {
   }
 
   # 6. template: drop KAIST-excluded variable groups.
-  tpl <- load_obj("template")
+  tpl <- if (!is.null(ov$template_drop)) load_obj("template") else NULL
   if (!is.null(tpl)) {
     tpl <- dplyr::filter(tpl, !Internal_variable %in% ov$template_drop)
     save_obj("template", tpl)

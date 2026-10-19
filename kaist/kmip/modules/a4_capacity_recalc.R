@@ -1,3 +1,4 @@
+# [2026-10-04: Claude code] paths kaist/ -> kaist-pj/ (comments only).
 ################################################################################
 # a4: Recalculate Capacity|Electricity using vintage-based calculation
 #
@@ -102,10 +103,10 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
 
   # NOTE: Korea-specific CF overrides for conventional techs (coal, gas, oil,
   # hydro, nuclear, biomass, CSP) are NOT hard-coded here. They are applied at
-  # runtime by kaist/core/functions.R::patch_gcam_data() (kaist_overrides), which
+  # runtime by kaist-pj/core/functions.R::patch_gcam_data() (kaist_overrides), which
   # adds South Korea rows to cf_rgn, so they are picked up automatically by
   # cf_rgn_lookup above. To change a Korea CF value, edit kaist_overrides in
-  # kaist/core/functions.R.
+  # kaist-pj/core/functions.R.
 
   # Process vintage data
   # Technology column format: "tech_name,year=vintage"
@@ -185,7 +186,7 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
 
   cat("Recalculated Capacity|Electricity using vintage-based calculation with correct CF\n")
 
-  # Debug output (set verbose_debug <- TRUE in kaist/core/config.R to see it):
+  # Debug output (set verbose_debug <- TRUE in kaist-pj/core/config.R to see it):
   # CF table and generation back-calculation check for the first scenario
   if (debug_on()) {
     debug_scen <- capacity_by_vintage$scenario[1]
