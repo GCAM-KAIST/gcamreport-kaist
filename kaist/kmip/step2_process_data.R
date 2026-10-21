@@ -34,15 +34,11 @@ if (length(prj_files) > 0) {
 }
 #########################################
 
-########## Apply KAIST data overrides ##########
-# Re-apply KAIST customizations to data/*.rda so the upstream
-# inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
-patch_gcam_data(paste0("v", version_number))
-################################################
-
 ########## Libraries ##########
 devtools::load_all(".", reset = TRUE)
+# KAIST data overrides, in memory only (kaist/core/functions.R::patch_gcam_data).
+# Must run after load_all.
+patch_gcam_data(paste0("v", version_number))
 library(dplyr)
 library(tidyr)
 library(readxl)
@@ -73,14 +69,15 @@ write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.
 ################################################################################
 
 ########## Shared Part A inputs ##########
-# cf tables were already patched by patch_gcam_data() above (South Korea
+# cf tables come patched from patch_gcam_data() above (South Korea
 # renewable CF overrides + Korea conventional CFs), so they are used as loaded.
 # load_gcam_rda (modules/00_utils.R) picks the file matching version_number.
 cf_rgn  <- load_gcam_rda("cf_rgn")
 cf_gcam <- load_gcam_rda("cf_gcam")
-# No kaist_overrides entry for this version (e.g. v9.1): add the Korea CFs
-# in memory only, reusing the v7.0 South Korea renewable values.
-if (is.null(kaist_overrides[[paste0("v", version_number)]])) {
+# No cf_rgn overrides for this version (e.g. v9.1): add the Korea CFs here,
+# reusing the v7.0 South Korea renewable values.
+ov_cf <- kaist_overrides[[paste0("v", version_number)]]
+if (is.null(ov_cf$cf_rgn_sk_renewable) && !isTRUE(ov_cf$cf_rgn_add_korea)) {
   sk_cf <- kaist_overrides[["v7.0"]]$cf_rgn_sk_renewable
   for (tech in names(sk_cf)) {
     sel <- cf_rgn$region == "South Korea" & cf_rgn$stub.technology == tech

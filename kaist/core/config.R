@@ -54,3 +54,22 @@ cat("Config loaded:", Sys.getenv("KAIST_CONFIG"), "| run_name =", run_name,
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
 source(file.path(getwd(), "kaist/core/functions.R"))
+
+# === Step1 job list ===========================================================
+# One row per generate_report() call. If the settings file defines
+# scenario_jobs (data frame with db, scenario, label), every job has its own
+# BaseX database inside db_path; otherwise one job: db_name with all `scenarios`.
+step1_jobs <- function() {
+  if (exists("scenario_jobs")) {
+    return(data.frame(db = scenario_jobs$db, scenario = I(as.list(scenario_jobs$scenario)),
+                      label = scenario_jobs$label, stringsAsFactors = FALSE))
+  }
+  data.frame(db = db_name, scenario = I(list(scenarios)), label = run_name,
+             stringsAsFactors = FALSE)
+}
+# Per-run output names used by the step1 worker/merge tools:
+# {run_name}_{label} (scenario_jobs) or {run_name}_{scenario} (single database).
+step1_run_names <- function() {
+  if (exists("scenario_jobs")) return(paste0(run_name, "_", scenario_jobs$label))
+  paste0(run_name, "_", scenarios)
+}

@@ -24,7 +24,7 @@ gcamreport-kaist/
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
 │   │   ├── tools/             # step1_parallel.R (+ worker/merge), compare_outputs.R
-│   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R, runtime_patch_v9.1.R)
+│   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R)
 │   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
 │   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
 │   └── kmip/                  # KMIP submissions only
@@ -84,7 +84,7 @@ Outputs: `step5_summary.csv`, `step5_mismatches.csv`, `step5_unmapped.csv`
 in `output_dir`. Tolerances: "Step5 validation" section of the settings file.
 Non-fatal by default; `--strict` errors when any check FAILs.
 Checkpoint A needs the built `data/*_v<version>.rda` files -- if missing, run
-`inst/extdata/saveDataFiles_GCAM<version>.R` then `patch_gcam_data()`.
+`inst/extdata/saveDataFiles_GCAM<version>.R` (KAIST rows are added in memory by `load_gcam_rda()`).
 Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 ## Key Improvements
@@ -170,9 +170,10 @@ All KAIST customizations live in `kaist/`:
 - **Data customizations** (the extra mapping rows and capacity-factor overrides
   that gcamreport needs for KAIST's GCAM runs -- `bio-ceiling`, `irnstl-ceiling`,
   `Gen_III_Korea`, Korea capacity factors, ...) are re-applied at runtime by
-  `patch_gcam_data()` in `kaist/core/functions.R`. It is called at the top of step1
-  and step2 (before `devtools::load_all`) and rewrites the built `data/*.rda`
-  files in place. Since `data/` is tracked, a v7.0 run leaves modified `data/*.rda` files in `git status`: do not commit them (`git checkout -- data/` restores them). For v9.1 there is no `kaist_overrides` entry yet; the kaist9 tools patch in memory instead (`kaist/core/tools/kaist9/runtime_patch_v9.1.R`).
+  `patch_gcam_data()` in `kaist/core/functions.R`. It is called in step1 and step2
+  right after `devtools::load_all` and changes the loaded data objects in memory
+  only; the tracked `data/*.rda` files are never written. Step2/step5 helpers get
+  the patched objects through `load_gcam_rda()`.
 
 ## Moving to a new GCAM version (v8.2, v9, ...)
 
