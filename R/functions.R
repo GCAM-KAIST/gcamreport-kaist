@@ -3144,8 +3144,9 @@ get_co2_sequestration <- function(GCAM_version = 'v8.2') {
       ) %>%
       dplyr::filter(!is.na(var), year %in% gcam_years, year <= final_year.global) %>%
       # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
+      # all model years: a region may store CO2 before it makes any biomass liquids
       left_join_strict(refliq_bioshare %>%
-                         tidyr::complete(tidyr::nesting(scenario, year),
+                         tidyr::complete(scenario, year = unique(c(year, gcam_years)),
                                          region = unique(na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])),
                                          fill = list(share = 0)
                          ),
@@ -3203,8 +3204,9 @@ get_co2_sequestration <- function(GCAM_version = 'v8.2') {
       dplyr::filter(var != 'NoReported', !is.na(var)) %>%
       dplyr::filter(var == 'Carbon Removal', year %in% gcam_years, year <= final_year.global) %>%
       # add refliq_bioshare (share of biomass of refined liquids production. Only used in Carbon Removal)
+      # all model years: a region may store CO2 before it makes any biomass liquids
       left_join_strict(refliq_bioshare %>%
-                         tidyr::complete(tidyr::nesting(scenario, year),
+                         tidyr::complete(scenario, year = unique(c(year, gcam_years)),
                                          region = unique(na.omit(get(paste('reg_cont',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))[['region']])),
                                          fill = list(share = 0)
                          ),
