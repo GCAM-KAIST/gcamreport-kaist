@@ -25,6 +25,13 @@ filter_region_years <- function(data, region, start_year, final_year) {
 # just the `version_number` line in the run settings file (KAIST_CONFIG).
 load_gcam_rda <- function(prefix, version = version_number) {
   obj_name <- paste0(prefix, "_v", version)
+  # KAIST-patched object (kaist/core/functions.R::patch_gcam_data), if any
+  if (exists(".kaist_data") && length(ls(.kaist_data)) == 0) {
+    suppressWarnings(suppressMessages(patch_gcam_data(paste0("v", version))))
+  }
+  if (exists(".kaist_data") && exists(obj_name, envir = .kaist_data, inherits = FALSE)) {
+    return(get(obj_name, envir = .kaist_data))
+  }
   path <- file.path(getwd(), "data", paste0(obj_name, ".rda"))
   if (!file.exists(path)) stop("Data file not found: ", path)
   env <- new.env()

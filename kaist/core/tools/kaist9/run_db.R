@@ -32,8 +32,8 @@ prj_arg <- if (file.exists(existing_dat)) existing_dat else prj_basename
 kaist_ignore <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling", "irnstl_ceiling_EAF",
                   "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
                   "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
-# Missing v9.1 mapping rows, added in memory only
-source("kaist/core/tools/kaist9/runtime_patch_v9.1.R")
+# KAIST v9.1 mapping rows (kaist_overrides), added in memory only
+patch_gcam_data(paste0("v", version_number))
 t0 <- Sys.time()
 
 # Empty queries for South Korea break check_queries() or joins:

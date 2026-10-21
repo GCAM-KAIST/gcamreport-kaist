@@ -44,15 +44,11 @@ reuse_dat <- NULL
 run_stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
 ##########################################
 
-########## Apply KAIST data overrides ##########
-# Re-apply KAIST customizations to data/*.rda so the upstream
-# inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
-patch_gcam_data(paste0("v", version_number))
-################################################
-
 ########## Libraries ##########
 devtools::load_all(".", reset = TRUE)
+# KAIST data overrides, in memory only (kaist/core/functions.R::patch_gcam_data).
+# Must run after load_all.
+patch_gcam_data(paste0("v", version_number))
 library(dplyr)
 library(rgcam)
 library(tidyr)

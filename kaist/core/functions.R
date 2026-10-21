@@ -363,13 +363,31 @@ kaist_overrides <- list(
 
 
 # patch_gcam_data ------------------------------------------------------------
-# Re-apply the KAIST data overrides to the built package data objects on disk
-# (data/<name>_<version>.rda). Call this BEFORE devtools::load_all() so the
-# patched objects are what gets loaded into the gcamreport namespace.
+# Apply the KAIST data overrides to the built package data objects
+# (data/<name>_<version>.rda) IN MEMORY ONLY; the files in data/ are never
+# written (they are tracked by git). Call it AFTER devtools::load_all(): the
+# patched objects replace the loaded ones in the gcamreport package. They are
+# also kept in .kaist_data, where load_gcam_rda() (kaist/kmip/modules/00_utils.R)
+# finds them.
 #
-# `version` is the GCAM_version string, e.g. "v7.0". Idempotent: safe to call on
-# already-patched data, and on either upstream-fresh or previously-customized
-# .rda files.
+# `version` is the GCAM_version string, e.g. "v7.0". Idempotent: always starts
+# from the files in data/.
+.kaist_data <- new.env()
+
+# Put the objects of .kaist_data into the loaded gcamreport package (no-op if
+# the package is not loaded yet).
+inject_kaist_data <- function() {
+  if (!"gcamreport" %in% loadedNamespaces()) return(invisible(FALSE))
+  for (nm in ls(.kaist_data)) {
+    e <- asNamespace("gcamreport")
+    while (!identical(e, emptyenv()) && !exists(nm, envir = e, inherits = FALSE)) e <- parent.env(e)
+    if (identical(e, emptyenv())) e <- asNamespace("gcamreport")
+    if (exists(nm, envir = e, inherits = FALSE) && bindingIsLocked(nm, e)) unlockBinding(nm, e)
+    assign(nm, get(nm, envir = .kaist_data), envir = e)
+  }
+  invisible(TRUE)
+}
+
 patch_gcam_data <- function(version = "v7.0") {
   ov <- kaist_overrides[[version]]
   if (is.null(ov)) {
@@ -393,9 +411,7 @@ patch_gcam_data <- function(version = "v7.0") {
     e[[paste0(short, "_", version)]]
   }
   save_obj <- function(short, obj) {
-    nm <- paste0(short, "_", version)
-    assign(nm, obj)
-    save(list = nm, file = obj_file(short))
+    assign(paste0(short, "_", version), obj, envir = .kaist_data)
   }
 
   patched <- character(0)
@@ -489,7 +505,8 @@ patch_gcam_data <- function(version = "v7.0") {
     patched <- c(patched, "template")
   }
 
-  message(sprintf("patch_gcam_data(%s): patched %d data object(s): %s",
+  inject_kaist_data()
+  message(sprintf("patch_gcam_data(%s): patched %d data object(s) in memory: %s",
                   version, length(patched), paste(patched, collapse = ", ")))
   invisible(TRUE)
 }

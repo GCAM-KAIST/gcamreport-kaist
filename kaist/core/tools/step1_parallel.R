@@ -29,9 +29,6 @@ if (dry_run) {
   quit(status = 0)
 }
 
-# patch data/*.rda once here; workers skip it
-patch_gcam_data(paste0("v", version_number))
-
 # Rscript of the running R installation (Rscript is often not on PATH on Windows).
 rscript_bin <- file.path(R.home("bin"), if (.Platform$OS.type == "windows") "Rscript.exe" else "Rscript")
 

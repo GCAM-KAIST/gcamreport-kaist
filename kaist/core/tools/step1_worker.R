@@ -7,9 +7,7 @@
 # With a scenario manifest the database and label are looked up from
 # scenario_jobs; otherwise db_name from config.R and label = scenario.
 #
-# NOTE: run patch_gcam_data() ONCE before launching workers (the parallel
-# driver does this); workers skip it so 8 processes do not rewrite the same
-# data/*.rda files concurrently.
+# Each worker applies patch_gcam_data() in memory after load_all.
 ################################################################################
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -31,6 +29,7 @@ prj_basename <- paste0(run_name, "_project.dat")
 prj_name     <- prj_basename
 
 devtools::load_all(".", reset = TRUE)
+patch_gcam_data(paste0("v", version_number))   # in memory, after load_all
 library(dplyr)
 library(rgcam)
 library(tidyr)
