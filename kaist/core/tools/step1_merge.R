@@ -1,4 +1,3 @@
-# [2026-10-04: Claude code] per-run names from step1_run_names(), newest .dat per run, also writes {run_name}.csv; paths kaist/ -> kaist/.
 ################################################################################
 # step1_merge: combine per-job step1 outputs into the single {run_name}.xlsx,
 # {run_name}.csv and {run_name}_project_merged.dat that step2 expects.

@@ -1,4 +1,3 @@
-# [2026-10-04: Claude code] new file: individual test runs of the kaist pipeline steps 1~6 (fresh Rscript per step with a log, or in-session).
 ################################################################################
 # Testrun.R - individual test runs of the kaist pipeline (step1 ~ step6)
 #
@@ -11,11 +10,12 @@
 #
 # A fresh process per step: step1/step2 call patch_gcam_data() + devtools::load_all() and the
 # steps leave globals behind, so a clean R process is the reliable way to test one step at a
-# time. Settings come from kaist/core/config.R and kaist/scenario/config.R as usual.
+# time. Settings come from the KAIST_CONFIG settings file as usual.
 ################################################################################
 
 # --- package root (the folder with DESCRIPTION). Edit this line if the repo moves. ------
-pkg_root <- "C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked"
+# Set pkg_root before sourcing this file, or source it from the repo root.
+pkg_root <- get0("pkg_root", ifnotfound = getwd())
 if (!file.exists(file.path(pkg_root, "DESCRIPTION"))) stop("Testrun.R: no DESCRIPTION at pkg_root = ", pkg_root)
 setwd(pkg_root)
 cat("Testrun: working directory set to", getwd(), "\n")

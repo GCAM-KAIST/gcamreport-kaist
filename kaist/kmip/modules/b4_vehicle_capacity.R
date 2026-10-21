@@ -6,8 +6,9 @@
 #         Ratio = MT_2020_total_vehicles / GCAM_2020_energy_service_total
 #         Then apply this ratio to all years for each sub-category
 #
-# Note: GCAM "Plug-in Hybrid" corresponds to MT "Hybrid Liquids" -> template "HEV"
-#       This renaming is handled in the mapping template (step3), not here.
+# Note: GCAM has no plug-in hybrids. "Hybrid Liquids" (inside Internal
+#       Combustion in gcamreport) is added as |Hybrid by b7 -> template "HEV";
+#       the mapping subtracts it from Internal Combustion for "ICEV".
 #
 # ref_scenario: scenario whose 2020 values anchor the ratio (used for ALL
 # scenarios). NULL (default) falls back to the first scenario in the data.
@@ -24,7 +25,7 @@ add_vehicle_capacity <- function(data, ref_scenario = NULL) {
   mt_ldv_2020 <- list(
     BEV  = 37.10865787,
     FCEV = 0.903601319,
-    HEV  = 528.2116506,   # = Plug-in Hybrid in gcamreport
+    HEV  = 528.2116506,   # = |Hybrid (b7)
     ICEV = 19415.05747,
     PHEV = 0
   )
@@ -45,14 +46,15 @@ add_vehicle_capacity <- function(data, ref_scenario = NULL) {
     "Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Battery-Electric",
     "Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Fuel-Cell-Electric",
     "Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Internal Combustion",
-    "Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Plug-in Hybrid"
+    "Energy Service|Transportation|Passenger|Road|Light-Duty Vehicle|Hybrid"
   )
 
   mhdv_vars <- c(
     "Energy Service|Transportation|Freight|Truck",
     "Energy Service|Transportation|Freight|Truck|Battery-Electric",
+    "Energy Service|Transportation|Freight|Truck|Fuel-Cell-Electric",
     "Energy Service|Transportation|Freight|Truck|Internal Combustion",
-    "Energy Service|Transportation|Freight|Truck|Plug-in Hybrid"
+    "Energy Service|Transportation|Freight|Truck|Hybrid"
   )
 
   cat("\n=== Converting Energy Service to Vehicle Capacity ===\n")

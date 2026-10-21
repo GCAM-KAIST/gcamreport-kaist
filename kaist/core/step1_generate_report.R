@@ -1,5 +1,3 @@
-# [2026-10-04: Claude code] rewritten: one generate_report() per manifest job, per-job .dat moved and merged for step2; paths kaist/ -> kaist-pj/.
-# [2026-10-19: Claude code] folder renamed back to kaist/; gcamreport_patch.R removed (as on main), ignore_markets must stay non-empty instead.
 ################################################################################
 # Step 1: Generate GCAM Report (Query Database)
 #
@@ -8,7 +6,7 @@
 #   Outputs (paths set in config.R):
 #     {output_dir}/{run_name}.xlsx / .csv        - GCAM report (all regions)
 #     {output_dir}/{run_name}_project_*.dat       - rgcam project (used by step2)
-#   With a scenario manifest (kaist/scenario/config.R) each job also keeps
+#   With scenario_jobs in the settings file (one BaseX DB per job) each job keeps
 #   its own {run_name}_{label}.* report and .dat; the merged files above are
 #   built from them at the end so step2 sees one report and one project.
 #
@@ -24,9 +22,6 @@
 #     kaist/core/functions.R, then rerun with reuse_dat (below) so the
 #     queries are not redone.
 #   - "Database does not exist" error: see kaist/core/rgcam_patch.R.
-#   - Price|Carbon all zero: ignore_markets in kaist/core/config.R is empty.
-#     Upstream get_co2_price_fragmented_tmp() drops every CO2 price market when
-#     `ignore` is NULL (grepl("", market) is TRUE), so it must stay non-empty.
 #
 # NEXT STEP: kaist/kmip/step2_process_data.R
 ################################################################################
@@ -95,7 +90,7 @@ for (i in seq_len(nrow(jobs))) {
     GCAM_version      = paste0("v", version_number),
     desired_variables = desired_variables,
     desired_regions   = desired_regions,
-    ignore            = ignore_markets,
+    ignore            = get0("ignore_markets", ifnotfound = NULL),
     save_output       = TRUE,
     output_file       = file.path(output_dir, job_name),
     launch_ui         = FALSE

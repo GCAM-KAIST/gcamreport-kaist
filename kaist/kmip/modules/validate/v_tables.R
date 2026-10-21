@@ -7,16 +7,19 @@
 # --- Checkpoint A: raw query sums vs step1 report -----------------------------
 # mode: full = numeric + coverage, total_only = numeric, coverage_only = mapping
 # query_names / filter_exprs / join_keys are ";"-separated (aligned for queries).
+# prep: elec_output = add output column; deciles = merge income-decile sectors
+# ("resid heating modern_d3" -> "resid heating modern") as upstream does for
+# the versions in deciles_GCAM_versions.
 # When map_prefix is set, the numeric side sums only query keys the mapping
 # reports (var != NoReported/NA) -- mirrors the upstream join+filter. Numeric
 # checks cover years <= min(final_year, max_year); NA max_year = no cap.
 step5_aggregates <- tribble(
   ~aggregate_id,  ~mode,           ~query_names,                                                                ~filter_exprs,                    ~prep,          ~map_prefix,              ~join_keys,                      ~report_vars_add,                                    ~report_vars_subtract,                        ~factor,   ~tol_rel, ~max_year, ~note,
-  "fe_nontrn",    "full",          "final energy consumption by sector and fuel",                               "!startsWith(sector, \"trn\")",   "",             "final_energy_map",       "sector;input",                  "Final Energy",                                      "Final Energy|Transportation (w/ bunkers)",   1,         1e-6,     NA,        "report Final Energy includes Bunkers; KAIST irnstl-ceiling inputs are NoReported",
+  "fe_nontrn",    "full",          "final energy consumption by sector and fuel",                               "!startsWith(sector, \"trn\")",   "deciles",      "final_energy_map",       "sector;input",                  "Final Energy",                                      "Final Energy|Transportation (w/ bunkers)",   1,         1e-6,     NA,        "report Final Energy includes Bunkers; KAIST irnstl-ceiling inputs are NoReported",
   "fe_transport", "full",          "transport final energy by mode and fuel",                                   "",                               "",             "transport_final_en_map", "sector;input;mode",             "Final Energy|Transportation (w/ bunkers)",          "",                                           1,         1e-6,     NA,        "transport query includes intl bunkers",
   "se_elec",      "full",          "elec gen by gen tech",                                                      "",                               "elec_output",  "secondary_energy_map",   "output;subsector;technology",   "Secondary Energy|Electricity",                      "",                                           1,         1e-6,     NA,        "output='electricity' injected before join",
   "co2_total",    "total_only",    "CO2 emissions by region",                                                   "",                               "",             "",                       "",                              "Emissions|CO2|Energy and Industrial Processes",     "",                                           3.666667,  1e-2,     2035,      "raw-vs-E&IP identity holds only to 2035; later negative-emissions accounting diverges (upstream check has same gap)",
-  "co2_tech",     "coverage_only", "CO2 emissions by tech (excluding resource production)",                     "",                               "",             "co2_tech_map",           "sector;subsector;technology",   "",                                                  "",                                           3.666667,  NA,       NA,        "coverage of co2_tech_map; numeric repro blocked by bio corrections",
+  "co2_tech",     "coverage_only", "CO2 emissions by tech (excluding resource production)",                     "",                               "deciles",      "co2_tech_map",           "sector;subsector;technology",   "",                                                  "",                                           3.666667,  NA,       NA,        "coverage of co2_tech_map; numeric repro blocked by bio corrections",
   "co2_resource", "coverage_only", "CO2 emissions by resource production",                                      "",                               "",             "co2_resource_map",       "resource;subresource;ghg",      "",                                                  "",                                           3.666667,  NA,       NA,        "coverage of co2_resource_map",
 )
 
@@ -43,11 +46,13 @@ step5_exceptions <- tribble(
   "^Primary Energy\\|(Biomass|Coal|Gas|Electricity)\\|Hydrogen$",            "korea", "added",       "b2",    "exists", "derived from Secondary Energy + coefs",
   "^Primary Energy\\|Biomass\\|Electricity$",                                "korea", "added",       "b2",    "exists", "",
   "^Final Energy\\|Industry\\|Iron and Steel\\|Coal\\|(Fuel|Feedstock)$",    "korea", "added",       "b3",    "exists", "identity checked separately (identity_b3)",
+  "^Energy Service\\|Transportation\\|(Passenger\\|Road\\|Light-Duty Vehicle|Freight\\|Truck)\\|Hybrid$", "korea", "added", "b7", "exists", "GCAM Hybrid Liquids (inside Internal Combustion); converted by b4",
   "^Energy Service\\|Transportation\\|(Passenger\\|Road\\|Light-Duty Vehicle|Freight\\|Truck)", "korea", "scaled", "b4", "exists", "pkm/tkm -> thousand vehicles",
   "^Final Energy(\\|.*)?\\|Liquids$",                                        "korea", "scaled",      "b5",    "exists", "x (1 - bio_share); identity checked separately",
   "\\|[Bb]iomass\\|Liquids$",                                                "korea", "added",       "b5",    "exists", "identity checked separately (identity_b5)",
   "^Emissions\\|GHGs\\|Non-Energy\\|Industrial Process\\|Iron and Steel$", "korea", "added",     "b6",    "exists", "identity checked separately (identity_b6)",
   "^Emissions\\|CO2\\|Energy\\|Demand\\|Industry\\|Iron and Steel$",     "korea", "scaled",    "b6",    "none",   "process emissions moved to the Industrial Process row",
+  "^Carbon Capture\\|Geological Storage\\|Energy\\|Demand",                 "korea", "added",     "b8",    "exists", "CCS without feedstock carbon",
 )
 
 # --- Checkpoint B: b5 source <-> Biomass|Liquids pairs (mirror of b5 targets) -

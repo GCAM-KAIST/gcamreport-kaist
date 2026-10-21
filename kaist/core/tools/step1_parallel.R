@@ -1,5 +1,3 @@
-# [2026-10-04: Claude code] scenario list from the manifest; paths kaist/ -> kaist-pj/.
-# [2026-10-19: Claude code] folder renamed back to kaist/; workers launched with the running R's Rscript (not PATH).
 ################################################################################
 # step1_parallel: run step1 with one worker process per scenario, then merge.
 #

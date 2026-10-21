@@ -1,5 +1,3 @@
-# [2026-10-04: Claude code] manifest-aware (db/label lookup), ignore_markets; paths kaist/ -> kaist-pj/.
-# [2026-10-19: Claude code] folder renamed back to kaist/; gcamreport_patch.R removed (as on main).
 ################################################################################
 # step1_worker: query ONE scenario into {run_name}_{label}.* outputs.
 #
@@ -22,7 +20,7 @@ source(file.path(getwd(), "kaist/core/config.R"))
 label <- scen
 if (exists("scenario_jobs")) {
   job <- scenario_jobs[scenario_jobs$scenario == scen | scenario_jobs$label == scen, ]
-  if (nrow(job) != 1) stop("scenario '", scen, "' is not (uniquely) declared in kaist/scenario/config.R")
+  if (nrow(job) != 1) stop("scenario '", scen, "' is not (uniquely) declared in scenario_jobs")
   db_name <- job$db
   scen    <- job$scenario
   label   <- job$label
@@ -48,7 +46,7 @@ generate_report(
   GCAM_version      = paste0("v", version_number),
   desired_variables = desired_variables,
   desired_regions   = desired_regions,
-  ignore            = ignore_markets,
+  ignore            = get0("ignore_markets", ifnotfound = NULL),
   save_output       = TRUE,
   output_file       = file.path(output_dir, run_name),
   launch_ui         = FALSE

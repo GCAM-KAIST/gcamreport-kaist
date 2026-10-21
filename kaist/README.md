@@ -1,94 +1,68 @@
-<!-- [2026-10-04: Claude code] paths kaist/ -> kaist/; new section "GCAM v9.1: KAIST u0909 scenarios" describing the replicated gcamreport-temp fixes; folder tree, output location, Testrun.R and step3/4/6 notes brought in line with the current files. -->
-
 # KAIST GCAM Reporting Workflow
 
 ## Overview
 
-This folder (`kaist/`) contains the KAIST 6-step pipeline that turns GCAM
-output into KMIP report tables and figures. The rest of the repository is the
-[bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, used as-is
-(`R/`, `inst/` and `data/` are synced from the `gcam-core` branch, which now
-includes GCAM v9.1). The sibling folder `kaist/` is the KAIST team's original
-script set from `GCAM-KAIST/gcamreport-kaist` `main` and is left untouched;
-`kaist/` is the personal working copy on branch `pj-kaist`.
+This folder contains the KAIST 6-step pipeline that turns GCAM output into KMIP report tables and figures. The rest of the repository is the [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, taken from the branch `kaist/v9.1-korea` (upstream `gcam-core` plus our package fixes).
+
+Branches:
+
+- `main`: package code from `kaist/v9.1-korea` plus this `kaist/` folder. Use this one. `data/` is tracked, so a fresh clone runs without building data.
+- `kaist/v9.1-korea`: package only (no `kaist/` folder). Fixes to `R/`, `inst/`, `data/` go here, one topic per commit, through a PR to this branch. It is then merged into `main`, and single commits can be sent upstream to bc3LC.
+- `fix/...`: branches of open upstream PRs (for example PR #94).
 
 ## Folder Structure
 
 ```
 gcamreport-kaist/
-├── R/, inst/, data/           # gcamreport R package (synced from upstream, untouched)
-├── kaist/                     # KAIST team scripts from GCAM-KAIST main (untouched)
-├── kaist/                  # Personal pipeline copy (this folder)
-│   ├── README.md              # This file
-│   ├── Testrun.R              # Run one step (or several) in a fresh Rscript with a log
-│   ├── .gitignore             # Ignores scenario databases, .dat files and reports_u0909/
+├── R/, inst/, data/           # gcamreport package, from branch kaist/v9.1-korea (do not edit on main)
+├── kaist/                     # KAIST custom scripts (this folder)
+│   ├── README.md, ROADMAP.md  # This file; plan with phases, owners, dates
+│   ├── docs/                  # Notes and bug analyses (local only, gitignored)
 │   ├── core/                  # General use: make gcamreport run on any KAIST database
-│   │   ├── config.R           # Shared configuration for all steps (reads scenario/config.R)
-│   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data, kaist_overrides)
+│   │   ├── config.R           # Loader: reads the settings file named by KAIST_CONFIG, sets derived paths
+│   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data)
+│   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
-│   │   ├── step1_generate_report.R  # One generate_report() per manifest job + merge
-│   │   ├── run_scenarios.R    # Minimal loop over the manifest (no merge, no step2 hand-off)
-│   │   └── tools/             # step1_parallel.R (+ worker/merge), compare_outputs.R
-│   ├── kmip/                  # KMIP submissions only
-│   │   ├── step2_process_data.R   # Thin orchestrator -- calls modules/
-│   │   ├── step3_create_mapping.R
-│   │   ├── step4_fill_template.R
-│   │   ├── step5_validate.R       # Pipeline-wide validation (checkpoints A-D)
-│   │   ├── step6_plots.R          # Report figures (GHG pathway per scenario)
-│   │   ├── compare_manual_report.qmd  # Manual-vs-auto comparison (optional)
-│   │   ├── unit_table.R           # Unit conversions shared by step4 and step5
-│   │   ├── modules/               # step2 adjustments, one file per adjustment
-│   │   │   ├── 00_utils.R         # Shared utilities (year_cols, load_gcam_rda, ...)
-│   │   │   ├── a1_...R ~ a6_...R  # Part A: all regions
-│   │   │   ├── b1_...R ~ b6_...R  # Part B: Korea only
-│   │   │   └── validate/          # step5 checkpoint functions + rule tables
-│   │   ├── tools/test_step5.R     # step5 self-test (fault injection)
-│   │   ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
-│   │   └── data/                  # Coefficient files (L223, L225 CSVs)
-│   ├── scenario/              # Scenario manifest and the u0909 inputs/outputs
-│   │   ├── config.R           # scenario_jobs (db, scenario, label), version, output dir
-│   │   ├── KAIST_9_Ref_u0909.xml, KAIST_9_NZ_u0909.xml   # GCAM configurations (reference)
-│   │   ├── process_u0909.R    # Original two-scenario runner (superseded by core/)
-│   │   ├── u0909r/, u0909n/   # BaseX databases, Ref and NZ (gitignored)
-│   │   └── reports_u0909/     # output_dir: reports, csvs, .dat, logs/ (gitignored)
-│   └── debug/                 # Copies of the gcamreport-temp debugging records
-│       ├── ERROR_LOG.md       # First v9.1 mapping error, v9.1 vs v.9.1 key pitfall
-│       └── case1_chemical_feedback_Sector/   # u0909 fixes 1-8: README, logs, BEFORE csvs
-└── (the root .gitignore also hides data/*.rda and the team's kaist/docs, kaist/core/input)
+│   │   ├── tools/             # step1_parallel.R (+ worker/merge), compare_outputs.R
+│   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R, runtime_patch_v9.1.R)
+│   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
+│   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
+│   └── kmip/                  # KMIP submissions only
+│       ├── config/                # Run settings, one file per run (kaist9_hlm.R, nmsf2.R)
+│       ├── step2_process_data.R   # Thin orchestrator -- calls modules/
+│       ├── step3_create_mapping.R
+│       ├── step4_fill_template.R
+│       ├── step5_validate.R       # Pipeline-wide validation (checkpoints A-D)
+│       ├── step6_plots.R          # Report figures (GHG pathway per scenario)
+│       ├── write_submission.py    # Called by step4: KMIP submission workbook (Python + openpyxl)
+│       ├── compare_manual_report.qmd  # Manual-vs-auto comparison (optional)
+│       ├── compare_kaist9_kmip25.qmd  # Two-scenario comparison: KMIP2025 GC vs kaist9
+│       ├── template/              # KMIP template, submission layout and mapping (variable names only, no values)
+│       ├── unit_table.R           # Unit conversions shared by step4 and step5
+│       ├── modules/               # step2 adjustments, one file per adjustment
+│       │   ├── 00_utils.R         # Shared utilities (year_cols, load_gcam_rda, ...)
+│       │   ├── a1_...R ~ a6_...R  # Part A: all regions
+│       │   ├── b1_...R ~ b8_...R  # Part B: Korea only
+│       │   └── validate/          # step5 checkpoint functions + rule tables
+│       ├── tools/test_step5.R     # step5 self-test (fault injection)
+│       ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
+│       └── data/                  # Coefficient files (L223, L225 CSVs)
+└── (databases and outputs live outside the repo, see db_path in the settings file; never commit result files)
 ```
-
-Local-only notes that older versions of this README mentioned (`ROADMAP.md`,
-`docs/hardcoded_assumptions.md`, `core/input/`, `core/diagnostics/`) are
-gitignored and not present in this checkout.
-
-**Git caveat.** The root `.gitignore` has the rule `kmip/` (meant for the GCAM
-data folders), which matches `kaist/kmip/` as well. As of 2026-10-04 nothing
-under `kaist/kmip/` (step2-6, `modules/`, `steel/`, `unit_table.R`) is
-tracked by git; `git ls-files kaist/kmip` is empty. Narrow the rule to
-`/kmip/` (or add `!kaist/kmip/`) before committing the pipeline.
 
 ## Workflow Scripts
 
-Paths are under `kaist/`. Run every script from the repo root (the
-folder with `DESCRIPTION`), or use `Testrun.R` (below).
+Paths are under `kaist/`. Run every script from the repo root.
 
 | Step | Script | Purpose |
 |------|--------|---------|
 | 1 | `core/step1_generate_report.R` | Query GCAM database, generate base report |
 | 2 | `kmip/step2_process_data.R` | Post-process data (CO2 prices, battery storage, Korea adjustments) |
-| 3 | `kmip/step3_create_mapping.R` | Create variable mapping template (`kmip_gcam_mapping_template.xlsx`) from the Korea csv and the KMIP template |
-| 4 | `kmip/step4_fill_template.R` | Apply the reviewed mapping and unit conversions; writes `variables_before/after_unit_conversion.csv` |
+| 3 | `kmip/step3_create_mapping.R` | Create variable mapping template |
+| 4 | `kmip/step4_fill_template.R` | Apply mappings and unit conversions; write `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (Python + openpyxl, `KAIST_PYTHON`) |
 | 5 | `kmip/step5_validate.R` | Validate totals across all stages (see below) |
 | 6 | `kmip/step6_plots.R` | Report figures from the step2 Korea csv (national GHG pathway in Mt CO2eq/yr, one line per scenario, gross/net LULUCF panels) |
 | - | `kmip/compare_manual_report.qmd` | Manual-vs-auto comparison report; only useful when a hand-made reference workbook exists (KMIP2025) |
-
-Step 3 and step 4 read the KMIP template and the mapping workbook from
-`template_path` and `mapping_path` in `core/config.R` (both default to
-`output_dir`): `KMIP2025_DB_final.xlsx` must be copied there by hand, and the
-mapping workbook is step 3's output after manual review. Step 3 uses `openxlsx`
-only for column widths; if it is not installed the sheet is written with
-`writexl` instead. Step 4 needs `readr`, `dplyr`, `tibble`, `tidyr`, `readxl`
-(no `tidyverse` meta-package).
 
 ### Step 5: pipeline-wide validation
 
@@ -107,7 +81,7 @@ Standalone; runnable after any stage (missing inputs are skipped). Checkpoints:
 - **D** independent recompute of the filled KMIP template vs step4 output.
 
 Outputs: `step5_summary.csv`, `step5_mismatches.csv`, `step5_unmapped.csv`
-in `output_dir`. Tolerances: `config.R` "Step5 validation" section.
+in `output_dir`. Tolerances: "Step5 validation" section of the settings file.
 Non-fatal by default; `--strict` errors when any check FAILs.
 Checkpoint A needs the built `data/*_v<version>.rda` files -- if missing, run
 `inst/extdata/saveDataFiles_GCAM<version>.R` then `patch_gcam_data()`.
@@ -115,37 +89,32 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 ## Key Improvements
 
-1. **Separated KAIST code from the original package**
-   - Original gcamreport code in `R/`, `inst/`, and `data/` is untouched.
-   - KAIST customizations live only in `kaist/`, so syncing with bc3LC
-     upstream is conflict-free (see "Syncing with upstream" below).
+1. **Separated KAIST code from the package**
+   - On `main`, `R/`, `inst/` and `data/` are never edited by hand; they come from the branch `kaist/v9.1-korea`.
+   - KAIST customizations live only in `kaist/` (see "Syncing with upstream" below).
 
-2. **Shared configuration (`config.R`)**
-   - One file for run name, database, region, and year range.
-   - No need to edit multiple step scripts when changing the run.
+2. **Run settings per project (`KAIST_CONFIG`)**
+   - Each run has one settings file (run name, database, region, years, scenarios) in its project folder, e.g. `kaist/kmip/config/kaist9_hlm.R`. Projects never edit each other's settings.
+   - `kaist/core/config.R` is only a loader: every step sources it, it reads the file named by the `KAIST_CONFIG` environment variable and stops with a list of available files if it is not set.
 
-3. **Per-run output folder**
-   - `output_dir` comes from the scenario manifest
-     (`scenario_output_dir` in `kaist/scenario/config.R`, currently
-     `kaist/scenario/reports_u0909/`). Every step writes there, including
-     the step1 `.dat` project files and the `logs/` of `Testrun.R`, so runs
-     against different databases do not mix. Without a manifest the classic
-     single-database layout applies.
+3. **Per-database output folder**
+   - Outputs are written under `kmip/{db_name}_output/`, so different
+     databases (DB25, DB26, ...) do not mix.
 
 4. **step2 is a thin orchestrator over `kaist/kmip/modules/`**
    - Each adjustment is one function in one file (`a1` ~ `a6` run on all
-     regions, `b1` ~ `b6` on Korea only). All functions are data in -> data out,
+     regions, `b1` ~ `b8` on Korea only). All functions are data in -> data out,
      so step2 reads as a list of calls and you can inspect `data` between them.
    - Module files only define functions; sourcing them executes nothing.
    - Ordering constraints: capacity-changing modules (a2, a3, a4) must run
      before a5 (parent-child consistency); inside a3 the nuclear addition must
      come before the renewable multiplier; Part B modules require the
      Korea-filtered data; b6 (steel process emissions) needs b3's Coal|Feedstock
-     rows. Otherwise the b* order is arbitrary.
+     rows; b7 (hybrid Energy Service rows) must run before b4 (vehicle conversion). Otherwise the b* order is arbitrary.
    - Values that are not queried from GCAM (Korea statistics, literature
-     ratios, MT vehicle counts, ...) were catalogued in the team's local-only
-     note `kaist/docs/hardcoded_assumptions.md` (gitignored, not in this
-     checkout); the module headers carry the same information.
+     ratios, MT vehicle counts, ...) are catalogued in
+     `kaist/docs/hardcoded_assumptions.md` -- a local-only note (`kaist/docs/`
+     is gitignored); update it when you change one of those values.
    - To verify a refactor changed nothing:
      `source("kaist/core/tools/compare_outputs.R")` then
      `compare_csv(old_csv, new_csv)` (md5-based, prints first diffs).
@@ -153,17 +122,11 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 ## Quick Start
 
 1. Open R in the repo root and run `devtools::load_all(".")` once to
-   build the gcamreport package locally. The built `data/*_v9.1.rda` must
-   exist (gitignored): run `inst/extdata/saveDataFiles_GCAM9.1.R` or copy
-   them from an upstream checkout.
-2. Check `kaist/scenario/config.R` (databases, scenario names, labels,
-   GCAM version, output folder) and `kaist/core/config.R` (`run_name`,
-   `target_region`, year range, step5/step6 options).
-   `target_region` must be `"South Korea"` for step2 Part B, step3, step4 and
-   step6; with `"All"` the Korea csv is written with a header only and step6
-   stops with `object 'Emissions|Kyoto Gases' not found`.
+   build the gcamreport package locally.
+2. Pick or create a settings file in your project folder (copy `kaist/kmip/config/kaist9_hlm.R`, set `run_name`, `db_name`, `target_region`, years, scenarios) and point `KAIST_CONFIG` to it: `KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript kaist/kmip/step4_fill_template.R`, or `Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")` in RStudio. For the gcam-kaist9 DBs (one DB per scenario) use the tools in `kaist/core/tools/kaist9/`.
+   Step4 also writes `{run_name}_KMIP_submission.xlsx`; it needs Python with pandas and openpyxl (set `KAIST_PYTHON` if `python3` lacks them).
 3. If BaseX 9.5+ is installed, source `kaist/core/rgcam_patch.R` once per
-   session before step 1 (step1 and the step1 tools do this themselves).
+   session before step 1 (see the comment block in step1).
 4. Run the steps in order from the repo root:
    `kaist/core/step1_generate_report.R` -> `kaist/kmip/step2_process_data.R` ->
    `kaist/kmip/step3_create_mapping.R` -> `kaist/kmip/step4_fill_template.R` ->
@@ -171,32 +134,13 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
    `kaist/kmip/compare_manual_report.qmd` when a manual reference workbook exists.)
    `core/` is enough for general use (step1 only); `kmip/` is the KMIP pipeline.
 
-### Test runs with `Testrun.R`
-
-`kaist/Testrun.R` runs any step in a fresh `Rscript` process (step1 and
-step2 call `patch_gcam_data()` + `devtools::load_all()` and leave globals
-behind, so a clean process per step is the reliable way to test one step):
-
-```r
-source("kaist/Testrun.R")        # sets the working directory to the package root
-run_step(1)                         # one step; stdout+stderr -> {output_dir}/logs/testrun_step1_*.log
-run_step(5, args = "--checkpoints=A,B")
-run_steps(2:6, stop_on_error = FALSE)   # several steps, summary table at the end
-run_step(2, fresh = FALSE)          # source() in this session for interactive debugging
-testrun_status()                    # which inputs / outputs of each step exist right now
-```
-
-The `TEST` block at the bottom of the file holds the calls that run when the
-file is sourced; edit it to choose the steps. `testrun_status()` also warns
-when `target_region` is `"All"`.
-
 ### Parallel step1 (many scenarios)
 
 Each BaseX query uses one CPU, so with several scenarios run one worker per
 scenario instead of `step1_generate_report.R`:
 
 ```
-Rscript kaist/core/tools/step1_parallel.R            # all scenarios in config.R
+Rscript kaist/core/tools/step1_parallel.R            # all scenarios in the KAIST_CONFIG settings file
 Rscript kaist/core/tools/step1_parallel.R --jobs=4   # at most 4 at a time
 ```
 
@@ -205,37 +149,22 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 `kaist/core/tools/step1_merge.R` to build the single `{run_name}.xlsx` and
 `{run_name}_project_merged.dat` that step2 expects.
 
-### Scenario manifest
-
-The checked-in scenario names and database locations are declared in
-`kaist/scenario/config.R`. Run every declared scenario with:
-
-```
-Rscript kaist/core/run_scenarios.R
-```
-
-Reports are written under `kaist/scenario/reports_u0909/`. Add or change a
-job in the manifest rather than editing the core runner. `run_scenarios.R` is
-the minimal loop (one `generate_report()` per job, no merge);
-`step1_generate_report.R` does the same and then merges the per-job reports and
-`.dat` files into the single `{run_name}.*` set that step2 expects, so prefer
-step1 for the KMIP pipeline. `scenario/process_u0909.R` is the first version of
-that loop, kept for reference.
-
 ## Syncing with upstream gcamreport
 
-`R/`, `inst/`, and `data/` are kept byte-identical to upstream, so pulling the
-latest gcamreport is conflict-free:
+Upstream changes come in through `kaist/v9.1-korea`, never directly into `main`:
 
 ```
 git fetch upstream
-git merge upstream/gcam-core      # no conflicts -- all KAIST code is in kaist/ and kaist/
-git push origin pj-kaist
+git checkout kaist/v9.1-korea
+git merge upstream/gcam-core      # merge, not rebase: main already contains this branch
+git checkout main
+git merge kaist/v9.1-korea        # main's R/, inst/, data/ stay identical to kaist/v9.1-korea
+git push origin kaist/v9.1-korea main
 ```
 
-(In this checkout `upstream` points at GCAM-KAIST with pushing disabled; the
-package folders were last synced with the commit "Sync shared folders from
-gcamreport core".) All KAIST customizations live in `kaist/`:
+To send one of our package fixes upstream, cherry-pick its commit onto a new branch from `upstream/gcam-core` and open the PR from there.
+
+All KAIST customizations live in `kaist/`:
 
 - **Custom functions** -> `kaist/core/functions.R`.
 - **Data customizations** (the extra mapping rows and capacity-factor overrides
@@ -243,18 +172,17 @@ gcamreport core".) All KAIST customizations live in `kaist/`:
   `Gen_III_Korea`, Korea capacity factors, ...) are re-applied at runtime by
   `patch_gcam_data()` in `kaist/core/functions.R`. It is called at the top of step1
   and step2 (before `devtools::load_all`) and rewrites the built `data/*.rda`
-  objects in place. The upstream `inst/extdata/saveDataFiles_*.R` is **never
-  edited**, which is why merges never conflict.
+  files in place. Since `data/` is tracked, a v7.0 run leaves modified `data/*.rda` files in `git status`: do not commit them (`git checkout -- data/` restores them). For v9.1 there is no `kaist_overrides` entry yet; the kaist9 tools patch in memory instead (`kaist/core/tools/kaist9/runtime_patch_v9.1.R`).
 
 ## Moving to a new GCAM version (v8.2, v9, ...)
 
 The applier (`patch_gcam_data`) stays the same; only the per-version values
 change. To support a new version:
 
-1. Set `version_number` in `kaist/core/config.R` (e.g. `"8.2"`).
-2. Open `kaist/core/functions.R` and find the `kaist_overrides` list. It
-   holds one entry per version (`"v7.0"`, `"v9.1"`). **Add a sibling entry** keyed by
-   the new GCAM_version string, right next to them:
+1. Set `version_number` in your settings file (e.g. `"8.2"`).
+2. Open `kaist/core/functions.R` and find the `kaist_overrides` list. It currently
+   holds a single entry, `"v7.0" = list(...)`. **Add a sibling entry** keyed by
+   the new GCAM_version string, right next to it:
 
    ```r
    kaist_overrides <- list(
@@ -269,45 +197,7 @@ change. To support a new version:
    names.
 3. Nothing else changes -- `patch_gcam_data("v8.2")` will pick up the new block
    automatically via the `paste0("v", version_number)` call in step1/step2.
-   Every applier step (cf tables, capital, template, ...) runs only when the
-   block defines its spec, so a minimal block with just `map_rows` is valid.
-
-## GCAM v9.1: KAIST u0909 scenarios
-
-The `"v9.1"` block of `kaist_overrides` (and a non-empty `ignore_markets` in
-`kaist/core/config.R`) replicate the fixes that were worked out in the scratch checkout
-`gcamreport-temp` for the two KAIST v9.1 scenarios (`KAIST_9_Ref_u0909`,
-`KAIST_9_NZ_u0909`). The full debugging record is
-`gcamreport-temp/debug/case1_chemical_feedback_Sector/Error_Log/README.md`
-(a copy lives under `kaist/debug/`). In `gcamreport-temp` the fixes were made
-by editing `inst/extdata/mappings/GCAM9.1/*.csv` and `R/functions.R` and
-rebuilding the rdas; here `R/`, `inst/` and `data/` stay upstream and the same
-changes are re-applied at runtime:
-
-| fix | upstream object | what the KAIST run needed | replicated by |
-|---|---|---|---|
-| 1 | `carbon_seq_tech_map_v9.1` | rows for `chemical feedstocks` x `gas` / `coal` (KAIST feedstock techs report feedstock carbon as sequestration) | `kaist_overrides$v9.1$map_rows` |
-| 2, 4 | `energy_price_map_v9.1` | KAIST-only markets -> `NoReported`: `bio-ceiling`, `rowbio-ceiling`, `cement-ceiling`, `coal-ceiling`, `imported H2`, `dac-ceiling`, `CO2_Kor`, `rowCO2`, `rowCO2_LUC` | `map_rows` |
-| 3, 5 | `primary_energy_map_v9.1` | `uranium` -> `Primary Energy`, `Primary Energy\|Nuclear`; `bio-ceiling`, `bio-ceiling CCS`, `coal-ceiling`, `cement-ceiling` -> `NoReported` | `map_rows` |
-| 6 | `co2_market_v9.1` | `rowCO2` -> every region except South Korea (otherwise `Price\|Carbon` is 0 outside Korea) | `table_rows` |
-| 7 | `ag_demand_map_v9.1` | `bio-ceiling` / `regional biomass` -> `NoReported` (replaces `ignore = "^bio-ceiling$"`) | `ag_demand_rows` |
-| 8 | `R/functions.R::get_co2_price_fragmented_tmp()` | with `ignore = NULL`, `grepl("", market)` dropped every CO2 price market -> all carbon prices 0 | `ignore_markets` in `core/config.R` is always non-empty (`scenario_ignore`), so the filter never sees an empty pattern; the namespace patch was removed to match main |
-
-Everything else that differs between `gcamreport-temp` and upstream
-(`CO2_tech_map` biomass rows, `hdd_cdd`, template and `var_fun_map` edits, the
-`do_bind_results()` tier-1 change, removal of the `food demand v2` queries) is
-upstream moving on after the temp snapshot, not a KAIST fix, and is deliberately
-not replicated.
-
-Step 1 for these scenarios: `kaist/scenario/config.R` declares one job per
-database; `step1_generate_report.R` runs `generate_report()` once per job, writes
-`{run_name}_{label}.*` plus its `.dat`, and then merges them into `{run_name}.*`
-and `{run_name}_project_merged.dat` for step2. `data/*.rda` must exist first
-(gitignored; build with `inst/extdata/saveDataFiles_GCAM9.1.R` or copy from an
-upstream checkout); `patch_gcam_data("v9.1")` then adds the rows above.
 
 ## References
 
-- [core/rgcam_patch.R](core/rgcam_patch.R) - Fix for BaseX 9.5+ compatibility
-- [debug/case1_chemical_feedback_Sector/Error_Log/README.md](debug/case1_chemical_feedback_Sector/Error_Log/README.md) - Full record of the u0909 fixes 1-8
-- [kmip/steel/README.md](kmip/steel/README.md) - Steel template tools
+- [rgcam_patch.R](rgcam_patch.R) - Fix for BaseX 9.5+ compatibility

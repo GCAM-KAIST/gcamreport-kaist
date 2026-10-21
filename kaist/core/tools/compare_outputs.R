@@ -1,4 +1,3 @@
-# [2026-10-04: Claude code] comment path kaist/ -> kaist/.
 ################################################################################
 # compare_outputs.R -- verify that a refactored step produces identical output
 #

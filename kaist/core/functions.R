@@ -1,4 +1,3 @@
-# [2026-10-04: Claude code] added the "v9.1" kaist_overrides block (gcamreport-temp fixes 1-7: carbon_seq_tech_map, energy_price_map, primary_energy_map, co2_market, ag_demand_map rows); applier gained a plain-table step and skips steps a version block does not define; comment paths kaist/ -> kaist/.
 ################################################################################
 # KAIST helper functions
 #
@@ -22,11 +21,6 @@
 # rewriting the built data/*.rda objects. patch_gcam_data() is called at the top
 # of step1 / step2 (before devtools::load_all), so generate_report() and the
 # step2 calculations see the KAIST-modified data.
-#
-# --- Upstream R code fixes ----------------------------------------------------
-# Only data fixes live here (patch_gcam_data). The former runtime namespace patch
-# (gcamreport_patch.R, fix 8: empty `ignore` dropped every CO2 price market) was
-# removed to match main; instead config.R always passes a non-empty ignore_markets.
 #
 # --- Moving to a new GCAM version (v8.2, v9, ...) -----------------------------
 # Add a new entry to kaist_overrides keyed by the GCAM_version string, e.g.
@@ -256,9 +250,6 @@ kaist_overrides <- list(
   # There the rows were added to inst/extdata/mappings/GCAM9.1/*.csv and the
   # rdas rebuilt; here upstream inst/ and R/ stay byte-identical and the same
   # rows are appended to the built data/*_v9.1.rda at runtime.
-  # Fix 8 (R code: an empty `ignore` dropped every CO2 price market) is avoided
-  # by always passing a non-empty ignore_markets (kaist/core/config.R).
-  #
   # No capacity-factor / capital / template overrides for v9.1: none were part
   # of the temp changes, so those applier steps are skipped for this version.
   "v9.1" = list(
@@ -267,32 +258,14 @@ kaist_overrides <- list(
       # Fix 1: KAIST adds coal and gas chemical-feedstock technologies
       # (input/Korea/chemical_feedstocks_{coal,gas}.xml). They report feedstock
       # carbon as "sequestration"; core v9.1 only maps the refined-liquids tech,
-      # so get_co2_sequestration() stopped on the strict join. Same hierarchy as
-      # the refined-liquids row; the utilization sub-category follows the fuel
-      # (gas -> Gases, coal -> Other because the template has no Solids).
+      # so get_co2_sequestration() stopped on the strict join. Since upstream
+      # PR #96 feedstock carbon is not Carbon Capture, and these fuels have no
+      # bio share (no Carbon Removal), so they are NoReported.
       carbon_seq_tech_map = list(
-        rows = dplyr::bind_rows(
-          tidyr::crossing(
-            tibble::tibble(sector = "chemical feedstocks",
-                           technology = c("gas", "coal"),
-                           unit_conv = 3.666667),
-            var = c("Carbon Capture",
-                    "Carbon Capture|Utilization",
-                    "Carbon Capture|Energy",
-                    "Carbon Capture|Energy|Fossil",
-                    "Carbon Capture|Energy|Demand",
-                    "Carbon Capture|Energy|Demand|Fossil",
-                    "Carbon Capture|Energy|Demand|Industry",
-                    "Carbon Capture|Energy|Demand|Industry|Fossil",
-                    "Carbon Capture|Energy|Demand|Industry|Chemicals",
-                    "Carbon Capture|Energy|Demand|Industry|Chemicals|Fossil")
-          ),
-          tibble::tibble(sector = "chemical feedstocks",
-                         technology = c("gas", "coal"),
-                         unit_conv = 3.666667,
-                         var = c("Carbon Capture|Utilization|Gases",
-                                 "Carbon Capture|Utilization|Other"))
-        ),
+        rows = tibble::tibble(sector = "chemical feedstocks",
+                              technology = c("gas", "coal"),
+                              unit_conv = "3.666667",
+                              var = "NoReported"),
         key = c("sector", "technology", "var")
       ),
       # Fixes 2 + 4: KAIST-only markets in "prices of all markets". Constraint
@@ -311,16 +284,16 @@ kaist_overrides <- list(
         key = c("market", "var")
       ),
       # Fixes 3 + 5: fuels in "primary energy consumption with CCS" that core
-      # v9.1 never produces. `uranium` is the extra nuclear fuel flow of the
-      # KAIST nuclear plan (not inside `e nuclear`), mapped like e nuclear; the
+      # v9.1 never produces. `uranium` is the fuel of the KAIST Gen III plants
+      # (not inside `e nuclear`); it is NoReported here because step2 module a3
+      # adds Gen III to Primary Energy|Nuclear (avoids counting it twice). The
       # hyphenated ceiling policies follow the upstream bio_ceiling rows.
       primary_energy_map = list(
         rows = tibble::tibble(
-          fuel = c("uranium", "uranium",
+          fuel = c("uranium",
                    "bio-ceiling", "bio-ceiling CCS", "coal-ceiling", "cement-ceiling"),
           unit_conv = 1,
-          var = c("Primary Energy", "Primary Energy|Nuclear",
-                  "NoReported", "NoReported", "NoReported", "NoReported")
+          var = "NoReported"
         ),
         key = c("fuel", "var")
       )
