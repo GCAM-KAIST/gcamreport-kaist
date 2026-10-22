@@ -151,18 +151,19 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 
 ## Syncing with upstream gcamreport
 
-Upstream changes come in through `kaist/v9.1-korea`, never directly into `main`:
+Upstream changes come in through `kaist/v9.1-korea`, never directly into `main` (do not use the GitHub "Sync fork" button: it merges upstream into `main`). `kaist/v9.1-korea` is protected, so the upstream merge goes through a PR:
 
 ```
 git fetch upstream
-git checkout kaist/v9.1-korea
-git merge upstream/gcam-core      # merge, not rebase: main already contains this branch
-git checkout main
-git merge kaist/v9.1-korea        # main's R/, inst/, data/ stay identical to kaist/v9.1-korea
-git push origin kaist/v9.1-korea main
+git checkout -b sync/upstream-<date> origin/kaist/v9.1-korea
+git merge upstream/main           # bc3LC renamed gcam-core to main (2026-10-21)
+git push -u origin sync/upstream-<date>
+# open a PR to kaist/v9.1-korea
 ```
 
-To send one of our package fixes upstream, cherry-pick its commit onto a new branch from `upstream/gcam-core` and open the PR from there.
+Every day the workflow `.github/workflows/kaist_branch_to_main.yaml` merges `kaist/v9.1-korea` into `main` when it has commits that `main` does not have (a merge commit by github-actions). `kaist/` is never touched by this merge. If there are conflicts it pushes nothing and opens an issue; then merge by hand: `git checkout main && git merge origin/kaist/v9.1-korea`, fix, push. The workflow can also be started from the Actions tab (Run workflow).
+
+To send one of our package fixes upstream, cherry-pick its commit onto a new branch from `upstream/main` and open the PR from there.
 
 All KAIST customizations live in `kaist/`:
 

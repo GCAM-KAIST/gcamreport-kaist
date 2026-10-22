@@ -1,0 +1,48 @@
+# KAIST: merge kaist/v9.1-korea into main when the package branch has commits
+# that main does not have yet. kaist/v9.1-korea only changes through reviewed
+# PRs and has no kaist/ folder, so the merge leaves kaist/ as it is. If the
+# merge has conflicts, nothing is pushed and an issue is opened instead.
+name: kaist_branch_to_main
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # every day, 09:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  merge:
+    if: github.repository == 'GCAM-KAIST/gcamreport-kaist'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge kaist/v9.1-korea into main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          ahead=$(git rev-list --count origin/main..origin/kaist/v9.1-korea)
+          echo "kaist/v9.1-korea has $ahead commit(s) that main does not have"
+          if [ "$ahead" -eq 0 ]; then exit 0; fi
+          if git merge --no-ff --no-edit -m "Merge kaist/v9.1-korea into main" origin/kaist/v9.1-korea; then
+            # the package branch must never change kaist/
+            if ! git diff --quiet origin/main HEAD -- kaist; then
+              echo "The merge would change kaist/; stopping"; exit 1
+            fi
+            git push origin HEAD:main
+          else
+            git merge --abort
+            title="kaist/v9.1-korea could not be merged into main"
+            if [ "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq length)" -eq 0 ]; then
+              gh issue create --title "$title" --body "The daily kaist_branch_to_main workflow found merge conflicts. Merge by hand: git checkout main && git merge origin/kaist/v9.1-korea, fix the conflicts, push. Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            fi
+            exit 1
+          fi
