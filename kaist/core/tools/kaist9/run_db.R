@@ -26,7 +26,6 @@ if (mode == "list") quit(save = "no")
 
 prj_basename <- paste0(db, "_project.dat")
 existing_dat <- file.path(output_dir, prj_basename)
-prj_arg <- if (file.exists(existing_dat)) existing_dat else prj_basename
 
 # KAIST policy markets: not reported (gcamreport `ignore` argument)
 kaist_ignore <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling", "irnstl_ceiling_EAF",
@@ -35,35 +34,6 @@ kaist_ignore <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl
 # KAIST v9.1 mapping rows (kaist_overrides), added in memory only
 patch_gcam_data(paste0("v", version_number))
 t0 <- Sys.time()
-
-# Empty queries for South Korea break check_queries() or joins:
-# add an empty district heat table, and give all-NA placeholder tables proper types
-fill_empty_queries <- function(dat) {
-  p <- rgcam::loadProject(dat)
-  empty_schema <- list(
-    "district heat production by subsector (fuel)" = tibble::tibble(
-      Units = character(), scenario = character(), region = character(),
-      sector = character(), subsector = character(), output = character(),
-      year = double(), value = double())
-  )
-  changed <- FALSE
-  for (s in rgcam::listScenarios(p)) for (q in names(empty_schema)) {
-    if (is.null(p[[s]][[q]])) {
-      p[[s]][[q]] <- empty_schema[[q]]; changed <- TRUE
-      cat("fill_empty_queries: added empty", q, "for", s, "\n")
-    }
-  }
-  for (s in rgcam::listScenarios(p)) for (q in names(p[[s]])) {
-    d <- p[[s]][[q]]
-    lg <- names(d)[vapply(d, is.logical, TRUE)]
-    if (length(lg)) {
-      for (cn in lg) d[[cn]] <- if (cn %in% c("year", "value")) as.double(d[[cn]]) else as.character(d[[cn]])
-      p[[s]][[q]] <- d; changed <- TRUE
-      cat("fill_empty_queries: typed NA columns in", q, ":", paste(lg, collapse = ","), "\n")
-    }
-  }
-  if (changed) rgcam::saveProject(p, file = dat)
-}
 
 run_report <- function(prj) {
   generate_report(
@@ -82,14 +52,9 @@ run_report <- function(prj) {
   )
 }
 
-if (!file.exists(existing_dat)) {
-  # First pass queries the DB; the .dat is saved before post-processing
-  res <- tryCatch(run_report(prj_basename), error = function(e) e)
-  created_dat <- file.path(dbs_dir, paste(db, prj_basename, sep = "_"))
-  if (file.exists(created_dat)) file.rename(created_dat, existing_dat)
-  if (!inherits(res, "error")) { cat("\n=== DONE", db, "in", format(Sys.time() - t0), "===\n"); quit(save = "no") }
-  cat("First pass error (expected for empty queries):", conditionMessage(res), "\n")
-}
-fill_empty_queries(existing_dat)
-run_report(existing_dat)
+# Reuse the saved project if there is one, else query the DB. generate_report()
+# saves the .dat in dbs_dir before post-processing; move it to output_dir.
+created_dat <- file.path(dbs_dir, paste(db, prj_basename, sep = "_"))
+tryCatch(run_report(if (file.exists(existing_dat)) existing_dat else prj_basename),
+         finally = if (file.exists(created_dat)) file.rename(created_dat, existing_dat))
 cat("\n=== DONE", db, "in", format(Sys.time() - t0), "===\n")
