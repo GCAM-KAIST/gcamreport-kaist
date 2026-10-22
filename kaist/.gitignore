@@ -2,9 +2,7 @@
 **/*.quarto_ipynb
 TODO.md
 ROADMAP.md
-scenario/u0909n/
-scenario/u0909r/
-scenario/reports_u0909/
-scenario/*.dat
+# scenario/: BaseX databases (input/) and run outputs (output/) stay out of git.
+# The scenario XMLs and RESULT.md under scenario/ were added with -f and stay tracked.
+scenario/
 debug/
-scenario/*_output/

@@ -8,8 +8,10 @@
 run_name <- "reports_u0909"
 
 # === GCAM databases ===========================================================
-# The scenario XMLs and the BaseX DBs (u0909r, u0909n) sit in kaist/scenario/.
-db_path <- file.path(getwd(), "kaist", "scenario")
+# The scenario XMLs and the BaseX DBs (u0909r, u0909n) sit in kaist/scenario/input/u0909/.
+db_path <- file.path(getwd(), "kaist", "scenario", "input", "u0909")
+# Outputs: kaist/scenario/output/reports_u0909 (overrides the {db_name}_output default)
+output_dir <- file.path(getwd(), "kaist", "scenario", "output", run_name)
 # One generate_report() call per row (see step1_jobs() in kaist/core/config.R).
 scenario_jobs <- data.frame(
   db       = c("u0909r", "u0909n"),
@@ -17,7 +19,7 @@ scenario_jobs <- data.frame(
   label    = c("Ref_u0909", "NZ_u0909"),
   stringsAsFactors = FALSE
 )
-db_name <- scenario_jobs$db[[1]]          # output_dir = {db_path}/{db_name}_output
+db_name <- scenario_jobs$db[[1]]          # first DB (output_dir is set above)
 
 # === Region & year range ======================================================
 target_region  <- "South Korea"

@@ -99,7 +99,9 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 3. **Per-database output folder**
    - Outputs are written under `kmip/{db_name}_output/`, so different
-     databases (DB25, DB26, ...) do not mix.
+     databases (DB25, DB26, ...) do not mix. A settings file may set
+     `output_dir` itself; the `kaist/scenario/` runs use
+     `kaist/scenario/output/{run_name}` (see `kaist/scenario/RESULT.md`).
 
 4. **step2 is a thin orchestrator over `kaist/kmip/modules/`**
    - Each adjustment is one function in one file (`a1` ~ `a6` run on all

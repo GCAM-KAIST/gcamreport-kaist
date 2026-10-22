@@ -28,7 +28,9 @@ source(kaist_config)
 # Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
 # runs against different databases do not mix. .dat project files from step1
 # also land here so they sit next to their .xlsx / .csv siblings.
-output_dir <- file.path(db_path, paste0(db_name, "_output"))
+# A settings file may set output_dir itself (e.g. kaist/scenario/output/{run_name}).
+if (!exists("output_dir"))
+  output_dir <- file.path(db_path, paste0(db_name, "_output"))
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 # Coefficient files used by step2.
