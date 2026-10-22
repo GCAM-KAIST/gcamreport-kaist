@@ -22,9 +22,16 @@ filter_region_years <- function(data, region, start_year, final_year) {
 # return it. The object INSIDE the rda carries the same version suffix as the
 # file name, so both are built from `prefix` and `version`. Using this instead
 # of a hardcoded load("data/cf_rgn_v7.0.rda") means a GCAM version switch is
-# just the `version_number` line in kaist/core/config.R.
+# just the `version_number` line in the run settings file (KAIST_CONFIG).
 load_gcam_rda <- function(prefix, version = version_number) {
   obj_name <- paste0(prefix, "_v", version)
+  # KAIST-patched object (kaist/core/functions.R::patch_gcam_data), if any
+  if (exists(".kaist_data") && length(ls(.kaist_data)) == 0) {
+    suppressWarnings(suppressMessages(patch_gcam_data(paste0("v", version))))
+  }
+  if (exists(".kaist_data") && exists(obj_name, envir = .kaist_data, inherits = FALSE)) {
+    return(get(obj_name, envir = .kaist_data))
+  }
   path <- file.path(getwd(), "data", paste0(obj_name, ".rda"))
   if (!file.exists(path)) stop("Data file not found: ", path)
   env <- new.env()
@@ -32,7 +39,14 @@ load_gcam_rda <- function(prefix, version = version_number) {
   get(obj_name, envir = env)
 }
 
-# TRUE when verbose debug output is enabled (verbose_debug in kaist/core/config.R).
+# Same for data objects without a version suffix (e.g. deciles_GCAM_versions).
+load_gcam_rda_plain <- function(obj_name) {
+  env <- new.env()
+  load(file.path(getwd(), "data", paste0(obj_name, ".rda")), envir = env)
+  get(obj_name, envir = env)
+}
+
+# TRUE when verbose debug output is enabled (verbose_debug in the KAIST_CONFIG settings file).
 # Modules wrap their diagnostic tables in `if (debug_on()) { ... }`.
 debug_on <- function() {
   isTRUE(get0("verbose_debug", ifnotfound = FALSE))

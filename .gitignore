@@ -259,7 +259,7 @@ inst/extdata/template/GCAMScenarioMIPCMIP7/common-definitions-template_old.csv
 
 # GCAM data folders
 gcam_input/
-kmip/
+/kmip/
 output_kmip/
 
 # IDE / editor
@@ -274,10 +274,9 @@ variables_7.1.csv
 *.dat
 *.pdf
 # but DO track guideline PDFs that live inside gitguideline/
-!gitguideline/*.pdf
+gitguideline/
 images/
 .claude/
-/data/*
 
 # Local-only working notes (not shared in repo)
 /CLAUDE.md
@@ -310,3 +309,11 @@ queries_*
 *standardized.RData
 *.txt
 /LULUCF_interpreter_GCAM_ScenMIP
+*.zip
+
+# [Commit #90 changed files ]
+!inst/extdata/queries/GCAM9.1/queries_gcamreport_*.xml
+!tests/testthat/testInputs/v_9.1/*.dat
+!data/queries_*.rda
+changes.patch
+*.patch

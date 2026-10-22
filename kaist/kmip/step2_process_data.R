@@ -34,15 +34,11 @@ if (length(prj_files) > 0) {
 }
 #########################################
 
-########## Apply KAIST data overrides ##########
-# Re-apply KAIST customizations to data/*.rda so the upstream
-# inst/extdata/saveDataFiles_GCAM*.R can stay 100% unmodified.
-# See kaist/core/functions.R::patch_gcam_data. Must run before load_all.
-patch_gcam_data(paste0("v", version_number))
-################################################
-
 ########## Libraries ##########
 devtools::load_all(".", reset = TRUE)
+# KAIST data overrides, in memory only (kaist/core/functions.R::patch_gcam_data).
+# Must run after load_all.
+patch_gcam_data(paste0("v", version_number))
 library(dplyr)
 library(tidyr)
 library(readxl)
@@ -73,11 +69,23 @@ write.csv(gcam_vars, file.path(output_dir, "gcam_available_variables.csv"), row.
 ################################################################################
 
 ########## Shared Part A inputs ##########
-# cf tables were already patched by patch_gcam_data() above (South Korea
+# cf tables come patched from patch_gcam_data() above (South Korea
 # renewable CF overrides + Korea conventional CFs), so they are used as loaded.
 # load_gcam_rda (modules/00_utils.R) picks the file matching version_number.
 cf_rgn  <- load_gcam_rda("cf_rgn")
 cf_gcam <- load_gcam_rda("cf_gcam")
+# No cf_rgn overrides for this version (e.g. v9.1): add the Korea CFs here,
+# reusing the v7.0 South Korea renewable values.
+ov_cf <- kaist_overrides[[paste0("v", version_number)]]
+if (is.null(ov_cf$cf_rgn_sk_renewable) && !isTRUE(ov_cf$cf_rgn_add_korea)) {
+  sk_cf <- kaist_overrides[["v7.0"]]$cf_rgn_sk_renewable
+  for (tech in names(sk_cf)) {
+    sel <- cf_rgn$region == "South Korea" & cf_rgn$stub.technology == tech
+    cf_rgn$capacity.factor[sel] <- sk_cf[[tech]]
+  }
+  cf_rgn <- add_korea_cf(cf_rgn)
+  message("cf_rgn: Korea CFs added in memory (no overrides for v", version_number, ")")
+}
 
 # Generation by technology, shared by a2 (battery storage) and a3 (Gen III).
 elec_gen <- getQuery(prj, "elec gen by gen tech")
@@ -134,6 +142,10 @@ data_korea <- add_primary_from_secondary(data_korea)
 # b3: split Iron and Steel coal into Fuel / Feedstock (MT 2020 ratio)
 data_korea <- split_steel_coal(data_korea, prj)
 
+# b7: add Hybrid rows (GCAM "Hybrid Liquids") for LDV and Truck Energy Service;
+# must run before b4 so they are converted to vehicles too
+data_korea <- add_hybrid_vehicles(data_korea, prj)
+
 # b4: convert transportation Energy Service (billion pkm/tkm) into thousand
 # vehicles using MT 2020 reference vehicle counts; ref_scenario (config.R)
 # anchors the conversion ratio, NULL falls back to the first scenario
@@ -146,6 +158,9 @@ data_korea <- split_biomass_liquids(data_korea)
 
 # b6: split steel process emissions out of the steel CO2 row (needs b3)
 data_korea <- add_steel_process_emissions(data_korea)
+
+# b8: CCS by demand sector without feedstock carbon (geological storage only)
+data_korea <- add_geological_ccs(data_korea, prj)
 
 ########## Save Korea Data ##########
 korea_output <- file.path(output_dir, paste0(run_name, "_korea.csv"))

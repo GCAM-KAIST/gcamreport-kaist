@@ -69,6 +69,8 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
     "Gen_III",        "Capacity|Electricity|Nuclear",
     "Gen_III_Korea",  "Capacity|Electricity|Nuclear",
     "Gen_II_LWR",     "Capacity|Electricity|Nuclear",
+    "large reactor",  "Capacity|Electricity|Nuclear",  # GCAM 9.1
+    "SMR",            "Capacity|Electricity|Nuclear",  # GCAM 9.1
     # Hydro & Geothermal
     "hydro",          "Capacity|Electricity|Hydro",
     "geothermal",     "Capacity|Electricity|Geothermal",
@@ -185,7 +187,7 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
 
   cat("Recalculated Capacity|Electricity using vintage-based calculation with correct CF\n")
 
-  # Debug output (set verbose_debug <- TRUE in kaist/core/config.R to see it):
+  # Debug output (set verbose_debug <- TRUE in the KAIST_CONFIG settings file to see it):
   # CF table and generation back-calculation check for the first scenario
   if (debug_on()) {
     debug_scen <- capacity_by_vintage$scenario[1]

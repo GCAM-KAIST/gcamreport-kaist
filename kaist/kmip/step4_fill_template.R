@@ -21,6 +21,8 @@
 # OUTPUT FILES:
 #   - variables_before_unit_conversion.csv: Data before unit conversion
 #   - variables_after_unit_conversion.csv: Final data (COMPLETE!)
+#   - {run_name}_KMIP_submission.xlsx: the same data in the submitted KMIP layout
+#     (needs Python with pandas + openpyxl; set KAIST_PYTHON if python3 lacks them)
 #
 ################################################################################
 
@@ -68,6 +70,12 @@ gcam_data <- read_csv(gcam_data_path, show_col_types = FALSE)
 
 # Remove 'X' prefix from year columns if present (X2020 -> 2020)
 names(gcam_data) <- gsub("^X(\\d{4})$", "\\1", names(gcam_data))
+
+# GCAM 9.1 has no 2020 period (base year 2021): fill the template 2020 column with 2021
+if (!"2020" %in% names(gcam_data) && "2021" %in% names(gcam_data)) {
+  names(gcam_data)[names(gcam_data) == "2021"] <- "2020"
+  message("No 2020 column: using 2021 values for the template 2020 column")
+}
 
 # Load mapping and template (normalize all column names to lowercase)
 mapping <- read_excel(mapping_path) %>%
@@ -369,6 +377,17 @@ for (i in seq_len(nrow(missing_report))) {
   cat(sprintf("    Optional: %d / %d covered (%.1f%%)\n",
               covered_opt, total_opt, covered_opt / total_opt * 100))
 }
+########## Submission workbook ##########
+# Same data in the submitted KMIP layout; missing values are written as 0
+submission_path <- file.path(output_dir, paste0(run_name, "_KMIP_submission.xlsx"))
+status <- system2(Sys.getenv("KAIST_PYTHON", "python3"),
+                  shQuote(c(file.path(getwd(), "kaist/kmip/write_submission.py"),
+                            submission_template_path,
+                            file.path(output_dir, "variables_after_unit_conversion.csv"),
+                            submission_path)))
+if (status != 0) warning("Submission workbook not written: needs Python with pandas and openpyxl (set KAIST_PYTHON)")
+#########################################
+
 cat("\nNext: Run kaist/kmip/step5_validate.R to validate results\n")
 ######################################
 

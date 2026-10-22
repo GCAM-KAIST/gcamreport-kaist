@@ -1,6 +1,6 @@
 # gcamreport
 
-> **KAIST fork notice.** This repository is a [GCAM-KAIST](https://github.com/GCAM-KAIST) fork of [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport). On top of the original package it adds a 5-step KMIP (Korea Mid-century Integrated Planning) reporting pipeline in the [`kaist/`](kaist/) folder. **If you are a KAIST lab member, start with [`kaist/README.md`](kaist/README.md).** The rest of this file is the original bc3LC documentation and applies to the underlying R package.
+> **KAIST fork notice.** This repository is a [GCAM-KAIST](https://github.com/GCAM-KAIST) fork of [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport). On top of the original package it adds a 6-step KMIP (Korea Mid-century Integrated Planning) reporting pipeline in the [`kaist/`](kaist/) folder, and the package itself comes from the branch `kaist/v9.1-korea` (upstream plus our fixes). **If you are a KAIST lab member, start with [`kaist/README.md`](kaist/README.md).** The rest of this file is the original bc3LC documentation and applies to the underlying R package.
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![docs](https://github.com/bc3LC/gcamreport/actions/workflows/docs.yaml/badge.svg)](https://github.com/bc3LC/gcamreport/actions/workflows/docs.yaml)
@@ -144,7 +144,7 @@ git clone https://github.com/bc3LC/gcamreport.git
 4.  Inside a terminal (bash or cmd) pull the docker image:
 
 ``` bash
-docker pull claudiarodes/gcamreport_docker:gcam-v7.0-v2
+docker pull claudiarodes/gcamreport_docker:v4
 ```
 
 **Note**:exclamation:: This step requires 13.5GB of free space in your computer.
@@ -152,7 +152,7 @@ docker pull claudiarodes/gcamreport_docker:gcam-v7.0-v2
 5.  Run the Docker container using your full path to the `gcamreport` folder:
 
 ``` bash
-docker run -v /path/to/gcamreport:/app -p 4000:3838 -it claudiarodes/gcamreport_docker:gcam-v7.0-v2
+docker run -v /path/to/gcamreport:/app -p 4000:3838 -it claudiarodes/gcamreport_docker:v4
 ```
 
 This should prompt an R console in your terminal.
@@ -219,9 +219,11 @@ You are welcome to contribute to this project! Follow the steps below to facilit
 
 1. Fork this repository.
 2. Commit your modifications.
-3. Open a [Pull Request (PR)](https://github.com/bc3LC/gcamreport/pulls) into this repository. Make sure you detail the goal of the modification and the changes performed.
+3. Open a [Pull Request (PR)](https://github.com/bc3LC/gcamreport/pulls) against the [gcam-core](https://github.com/bc3LC/gcamreport/tree/gcam-core) (main) target branch. Clearly describe the purpose of your modifications and outline the specific changes made. Ensure there are no merge conflicts and that all automated tests pass successfully.
 4. Set [@klau506](https://github.com/klau506) as reviewers (or include this mention in the PR requested text).
 5. Once everything is tested, we will merge the PR for you.
+
+**Note**: in case of integrating a new GCAM version into `gcamreport`, ensure you place a small/dummy project file under `tests/testthat/testInputs/[GCAM_VERSION]/` folder. This allows to test and validate the new compatibility.
 
 
 <br>

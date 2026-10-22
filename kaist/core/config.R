@@ -1,80 +1,28 @@
 ################################################################################
-# KAIST GCAM Report Configuration
+# KAIST GCAM Report Configuration (loader)
 #
-# Shared settings for step1 ~ step5. Source this at the top of each step file:
+# Every step sources this file:
 #   source(file.path(getwd(), "kaist/core/config.R"))
 #
-# Most runs only need to change `run_name`, `db_name`, and the year range.
+# It holds no run settings. It reads the run settings file named by the
+# KAIST_CONFIG environment variable (path from the repo root), then sets the
+# derived paths and loads kaist/core/functions.R. Each project keeps its own
+# settings files, e.g. kaist/kmip/config/kaist9_hlm.R:
+#   KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript kaist/kmip/step4_fill_template.R
+#   Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")   # in RStudio
 ################################################################################
 
-# === Run name (output prefix) =================================================
-# Change this to label a run. Every output file (xlsx, csv, .dat project file)
-# will start with this prefix, and they are written under output_dir below.
-# Example: "merge_test", "kaist_report", "kmip_v3"
-run_name <- "nmsf2"
-
-# === GCAM database ============================================================
-# Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
-db_path <- "/home/jiheun/reporting/kmip"
-# Which database inside db_path to query.
-db_name <- "NMSF2"
-
-# === Region & year range ======================================================
-target_region <- "South Korea"   # Region used in the Korea-only blocks
-start_year    <- 2005            # First year kept in step2 / step4
-final_year    <- 2050            # Last year kept in step2 / step4
-version_number <- "7.0"          # GCAM version (used for queries and rda lookups)
-
-# === Step1 query scope ========================================================
-# Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- c("NMSF2_concave", "NMSF2_convex")
-desired_variables <- "All"                        # "All" for everything
-desired_regions   <- "All"                        # "All" or a character vector
-
-# === Step2 options ============================================================
-# Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
-# module b4. NULL = use the first scenario found in the data.
-ref_scenario <- "NMSF2_concave"   # no "ref" in the NMSF2 DB; 2020 is the same in all scenarios
-# TRUE prints the diagnostic tables from modules a4 / b3 / b5 (CF check,
-# steel coal ratios, biomass share). FALSE keeps the step2 console output short.
-verbose_debug <- FALSE
-# KMIP2025 MT reference workbook (steel coal split + process factor for b3/b6).
-# If missing, built-in constants are used.
-mt_reference_path <- file.path(db_path, "KMIP25_6Scenarios_output", "iron_report",
-  "(붙임 2-1) KMIP2025 상향식 모형 분석 결과_장기감축경로_MT+GC+MS (참고용).xlsx")
-
-# === Step6 options ============================================================
-# Panels to draw: c("Gross", "Net") or just "Net".
-plot_measures <- "Net"
-# First year on the x axis of the figure.
-plot_start_year <- 2015
-# Text under the title (NULL = none). Used here for the cap settings.
-plot_subtitle <- "pa = 0.01, da = 3.667, 2050 cap = 10"
-# Optional target points drawn on the Net panel of the GHG pathway figure.
-# NULL = none. A data frame with columns Scenario, year, value (Mt CO2eq/yr).
-pathway_targets <- data.frame(
-  Scenario = rep(c("NMSF2_concave", "NMSF2_convex"), each = 5),
-  year     = rep(c(2030, 2035, 2040, 2045, 2050), 2),
-  value    = c(470.3, 348.9, 230.1, 118.8, 0,     # statutory lower bound (linear)
-               470.3, 289.5, 148.5, 74.2, 0))     # statutory upper bound (early cuts)
-# Optional cap values as written in the GCAM XML (target + bunker share).
-# NULL = none. Same columns as pathway_targets.
-pathway_caps <- data.frame(
-  Scenario = rep(c("NMSF2_concave", "NMSF2_convex"), each = 5),
-  year     = rep(c(2030, 2035, 2040, 2045, 2050), 2),
-  value    = c(496.06, 371.23, 248.75, 131.12, 10.09,
-               496.06, 308.33, 161.95, 77.44, 10.34))
-
-# === Step5 validation =========================================================
-# Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).
-step5_tol_rel_a <- 1e-2   # raw query sums vs step1 (CO2 bio corrections need slack)
-step5_tol_rel_b <- 1e-6   # step1-vs-step2 pass-through rows
-step5_tol_rel_c <- 1e-6   # parent = sum(children)
-step5_tol_rel_d <- 1e-6   # recomputed template vs step4 output
-# TRUE (or --strict on the command line) turns any FAIL into an error exit.
-step5_strict <- FALSE
-# Checkpoints to run by default; --checkpoints=A,C overrides.
-step5_checkpoints <- c("A", "B", "C", "D")
+kaist_config <- Sys.getenv("KAIST_CONFIG")
+if (kaist_config == "") {
+  found <- list.files(file.path(getwd(), "kaist"), pattern = "\\.R$", recursive = TRUE)
+  found <- grep("(^|/)config/", found, value = TRUE)
+  stop("KAIST_CONFIG is not set. Choose a run settings file, e.g.\n",
+       "  Sys.setenv(KAIST_CONFIG = \"kaist/kmip/config/kaist9_hlm.R\")\n",
+       "Available:\n", paste0("  kaist/", found, collapse = "\n"), call. = FALSE)
+}
+if (!file.exists(kaist_config)) kaist_config <- file.path(getwd(), kaist_config)
+if (!file.exists(kaist_config)) stop("KAIST_CONFIG file not found: ", Sys.getenv("KAIST_CONFIG"), call. = FALSE)
+source(kaist_config)
 
 # === Derived paths (no need to edit these usually) ============================
 # Each database gets its own output folder (DB26 -> kmip/DB26_output) so that
@@ -90,14 +38,38 @@ kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
 model_name <- paste("GCAM", version_number)
 
 # === Template & mapping (used by step3 / step4) ===============================
-template_path <- file.path(output_dir, "KMIP2025_DB_final.xlsx")
-mapping_path  <- file.path(output_dir, "kmip_gcam_mapping_template.xlsx")
+# A settings file may set its own; otherwise the KMIP2025 files in the repo.
+if (!exists("template_path"))
+  template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_final.xlsx")
+if (!exists("mapping_path"))
+  mapping_path <- file.path(getwd(), "kaist/kmip/template/kmip_gcam_mapping_template.xlsx")
+# Submitted KMIP layout (sheet "Template(제출용)", values removed) for the step4 workbook
+if (!exists("submission_template_path"))
+  submission_template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_template_submission.xlsx")
 
-cat("Config loaded: run_name =", run_name,
-    ", db =", db_name,
-    ", output_dir =", output_dir, "\n")
+cat("Config loaded:", Sys.getenv("KAIST_CONFIG"), "| run_name =", run_name,
+    "| db =", db_name, "| output_dir =", output_dir, "\n")
 
 # === KAIST helper functions ===================================================
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
 source(file.path(getwd(), "kaist/core/functions.R"))
+
+# === Step1 job list ===========================================================
+# One row per generate_report() call. If the settings file defines
+# scenario_jobs (data frame with db, scenario, label), every job has its own
+# BaseX database inside db_path; otherwise one job: db_name with all `scenarios`.
+step1_jobs <- function() {
+  if (exists("scenario_jobs")) {
+    return(data.frame(db = scenario_jobs$db, scenario = I(as.list(scenario_jobs$scenario)),
+                      label = scenario_jobs$label, stringsAsFactors = FALSE))
+  }
+  data.frame(db = db_name, scenario = I(list(scenarios)), label = run_name,
+             stringsAsFactors = FALSE)
+}
+# Per-run output names used by the step1 worker/merge tools:
+# {run_name}_{label} (scenario_jobs) or {run_name}_{scenario} (single database).
+step1_run_names <- function() {
+  if (exists("scenario_jobs")) return(paste0(run_name, "_", scenario_jobs$label))
+  paste0(run_name, "_", scenarios)
+}
