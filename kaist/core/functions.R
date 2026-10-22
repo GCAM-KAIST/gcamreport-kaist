@@ -374,6 +374,14 @@ kaist_overrides <- list(
 # from the files in data/.
 .kaist_data <- new.env()
 
+# Path of data/<obj_name>.rda, matched without case: upstream names some files
+# with capitals (data/CO2_market_v7.0.rda holds the object co2_market_v7.0).
+gcam_rda_path <- function(obj_name, data_dir = file.path(getwd(), "data")) {
+  f <- list.files(data_dir, pattern = "\\.rda$")
+  hit <- f[tolower(f) == tolower(paste0(obj_name, ".rda"))]
+  file.path(data_dir, if (length(hit) > 0) hit[1] else paste0(obj_name, ".rda"))
+}
+
 # Put the objects of .kaist_data into the loaded gcamreport package (no-op if
 # the package is not loaded yet).
 inject_kaist_data <- function() {
@@ -398,7 +406,7 @@ patch_gcam_data <- function(version = "v7.0") {
   }
 
   data_dir <- file.path(getwd(), "data")
-  obj_file <- function(short) file.path(data_dir, paste0(short, "_", version, ".rda"))
+  obj_file <- function(short) gcam_rda_path(paste0(short, "_", version), data_dir)
 
   load_obj <- function(short) {
     f <- obj_file(short)

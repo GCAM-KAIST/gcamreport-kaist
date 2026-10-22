@@ -32,7 +32,7 @@ load_gcam_rda <- function(prefix, version = version_number) {
   if (exists(".kaist_data") && exists(obj_name, envir = .kaist_data, inherits = FALSE)) {
     return(get(obj_name, envir = .kaist_data))
   }
-  path <- file.path(getwd(), "data", paste0(obj_name, ".rda"))
+  path <- gcam_rda_path(obj_name)
   if (!file.exists(path)) stop("Data file not found: ", path)
   env <- new.env()
   load(path, envir = env)
@@ -42,7 +42,7 @@ load_gcam_rda <- function(prefix, version = version_number) {
 # Same for data objects without a version suffix (e.g. deciles_GCAM_versions).
 load_gcam_rda_plain <- function(obj_name) {
   env <- new.env()
-  load(file.path(getwd(), "data", paste0(obj_name, ".rda")), envir = env)
+  load(gcam_rda_path(obj_name), envir = env)
   get(obj_name, envir = env)
 }
 
