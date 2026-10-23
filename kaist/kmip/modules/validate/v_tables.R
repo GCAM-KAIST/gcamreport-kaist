@@ -53,6 +53,8 @@ step5_exceptions <- tribble(
   "^Emissions\\|GHGs\\|Non-Energy\\|Industrial Process\\|Iron and Steel$", "korea", "added",     "b6",    "exists", "identity checked separately (identity_b6)",
   "^Emissions\\|CO2\\|Energy\\|Demand\\|Industry\\|Iron and Steel$",     "korea", "scaled",    "b6",    "none",   "process emissions moved to the Industrial Process row",
   "^Carbon Capture\\|Geological Storage\\|Energy\\|Demand",                 "korea", "added",     "b8",    "exists", "CCS without feedstock carbon",
+  "^Emissions\\|CO2\\|AFOLU\\|LULUCF Inventory Adjustment$",               "korea", "added",     "b9",    "none",   "only for runs with CO2_LULUCF_adj",
+  "^Emissions\\|(CO2|Kyoto Gases)\\|AFOLU( \\[NGHGI\\])?$",                "korea", "scaled",    "b9",    "none",   "+ CO2_LULUCF_adj",
 )
 
 # --- Checkpoint B: b5 source <-> Biomass|Liquids pairs (mirror of b5 targets) -

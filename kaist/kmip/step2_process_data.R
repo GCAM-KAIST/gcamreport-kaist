@@ -162,6 +162,10 @@ data_korea <- add_steel_process_emissions(data_korea)
 # b8: CCS by demand sector without feedstock carbon (geological storage only)
 data_korea <- add_geological_ccs(data_korea, prj)
 
+# b9: add the LULUCF inventory adjustment gas (CO2_LULUCF_adj, NMSF2 runs) to
+# the CO2 / Kyoto AFOLU rows and totals; skips when the run has no such gas
+data_korea <- add_lulucf_adjustment(data_korea, prj)
+
 ########## Save Korea Data ##########
 korea_output <- file.path(output_dir, paste0(run_name, "_korea.csv"))
 data_korea <- data_korea %>% mutate(across(where(is.numeric), ~replace_na(., 0)))

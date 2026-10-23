@@ -57,4 +57,6 @@ run_report <- function(prj) {
 created_dat <- file.path(dbs_dir, paste(db, prj_basename, sep = "_"))
 tryCatch(run_report(if (file.exists(existing_dat)) existing_dat else prj_basename),
          finally = if (file.exists(created_dat)) file.rename(created_dat, existing_dat))
+# KAIST queries (kaist/core/queries/kaist_queries.xml), e.g. the NMSF2 LULUCF adjustment
+add_kaist_queries(conn, existing_dat, sc$name, desired_regions)
 cat("\n=== DONE", db, "in", format(Sys.time() - t0), "===\n")

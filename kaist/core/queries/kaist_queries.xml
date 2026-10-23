@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- KAIST queries added to the step1 project (.dat) next to the gcamreport ones.
+     A query that returns no rows (e.g. a gas a run does not have) is skipped. -->
+<queries>
+    <!-- From gcam-kaist9 (LULUCF PR #2, util/krlulucf): the CO2_LULUCF_adj gas that brings
+         GCAM land-use CO2 to the Korean inventory coverage, MtC. Net LULUCF =
+         "LUC emissions by region" + this query. Used by step2 module b9. -->
+    <emissionsQueryBuilder title="LULUCF inventory adjustment by region">
+        <axis1 name="GHG">GHG</axis1>
+        <axis2 name="Year">emissions</axis2>
+        <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' (:collapse:)]//*[@type = 'GHG' and @name = 'CO2_LULUCF_adj']/emissions/node()</xPath>
+        <comments>Inventory-coverage adjustment (South Korea only), MtC.</comments>
+    </emissionsQueryBuilder>
+</queries>

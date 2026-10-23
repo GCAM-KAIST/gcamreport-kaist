@@ -366,6 +366,33 @@ kaist_overrides <- list(
 }
 
 
+# add_kaist_queries -----------------------------------------------------------
+# Run the queries of kaist/core/queries/kaist_queries.xml on a database and add
+# the ones with rows to the project file `dat` (queries already in it are kept).
+# `regions` = "All" or a vector of regions.
+add_kaist_queries <- function(conn, dat, scenarios, regions = "All",
+                              query_file = file.path(getwd(), "kaist/core/queries/kaist_queries.xml")) {
+  nodes <- xml2::xml_find_all(xml2::read_xml(query_file), "//*[@title]")
+  prj <- rgcam::loadProject(dat)
+  added <- character(0)
+  for (node in nodes) {
+    title <- xml2::xml_attr(node, "title")
+    if (title %in% rgcam::listQueries(prj)) next
+    table <- suppressMessages(rgcam::runQuery(conn, as.character(node), scenarios,
+                                              if (identical(regions, "All")) NULL else regions,
+                                              warn.empty = FALSE))
+    if (nrow(table) == 0) next
+    prj <- rgcam::addQueryTable(prj, table, title, clobber = FALSE, saveProj = FALSE)
+    added <- c(added, title)
+  }
+  if (length(added) > 0) {
+    rgcam::saveProject(prj, file = dat)
+    cat("add_kaist_queries:", paste(added, collapse = "; "), "\n")
+  }
+  invisible(added)
+}
+
+
 # patch_gcam_data ------------------------------------------------------------
 # Apply the KAIST data overrides to the built package data objects
 # (data/<name>_<version>.rda) IN MEMORY ONLY; the files in data/ are never
