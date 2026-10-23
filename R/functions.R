@@ -193,6 +193,31 @@ check_queries <- function(var, GCAM_version = 'v8.2', optional = NULL) {
 
 
 
+#' get_query_or_empty
+#'
+#' Read a query that can be empty for the selected regions. A query that
+#' returned no rows is not stored in the project, so the given empty table is
+#' returned instead.
+#'
+#' @param query Query name.
+#' @param empty Empty table with the columns of the query.
+#' @return The query data, or `empty` when the query is not in the project.
+#' @keywords internal
+#' @export
+get_query_or_empty <- function(query, empty) {
+  if (query %in% rgcam::listQueries(prj)) {
+    check_inf(rgcam::getQuery(prj, query), dataset_name = query)
+  } else {
+    empty
+  }
+}
+
+# empty "purpose-grown biomass production" table, used when no selected region
+# grows biomass crops (e.g. a region with fixed land run on its own)
+empty_purpose_grown <- tibble::tibble(Units = character(), scenario = character(), region = character(),
+                                      sector = character(), year = numeric(), value = numeric())
+
+
 #' Filter data by desired regions.
 #'
 #' This function filters a dataset based on the specified regions listed in the "regions" column.
@@ -3461,11 +3486,10 @@ get_yield <- function(GCAM_version = 'v8.2') {
 #' @export
 get_biomass_shares <- function(GCAM_version = 'v8.2') {
 
-  check_queries("biomass_shares", GCAM_version)
+  check_queries("biomass_shares", GCAM_version, optional = "purpose-grown biomass production")
 
   biomass_shares <- dplyr::full_join(
-    check_inf(rgcam::getQuery(prj, "purpose-grown biomass production"),
-              dataset_name = "purpose-grown biomass production") %>%
+    get_query_or_empty("purpose-grown biomass production", empty_purpose_grown) %>%
       dplyr::rename(purpose_grown = value),
     check_inf(rgcam::getQuery(prj, "MSW production"),
               dataset_name = "MSW production") %>%
@@ -3934,7 +3958,7 @@ get_pe_trade_prod <- function(GCAM_version = 'v8.2') {
   Units <- resource <- scenario <- region <- year <- value <-
     pe_trade_prod <- NULL
 
-  check_queries("pe_trade_prod", GCAM_version)
+  check_queries("pe_trade_prod", GCAM_version, optional = "purpose-grown biomass production")
 
   pe_trade_prod <-
     check_inf(rgcam::getQuery(prj, "resource production"),
@@ -3947,8 +3971,7 @@ get_pe_trade_prod <- function(GCAM_version = 'v8.2') {
     ) %>%
     # biomass pe production
     rbind(
-      check_inf(rgcam::getQuery(prj, "purpose-grown biomass production"),
-                dataset_name = "purpose-grown biomass production") %>%
+      get_query_or_empty("purpose-grown biomass production", empty_purpose_grown) %>%
         dplyr::rename(resource = sector),
       check_inf(rgcam::getQuery(prj, "residue biomass production"),
                 dataset_name = "residue biomass production") %>%
