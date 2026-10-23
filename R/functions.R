@@ -5336,6 +5336,9 @@ get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
                        dplyr::select(scenario, region, year, price_C = value), by = c("scenario", "region", "year"),
                      relationship = "many-to-many") %>%
     tidyr::replace_na(list(price_C = 0)) %>%
+    # no carbon price in calibration years: GCAM can report placeholder values
+    # there (e.g. 1e6 1990$/tC in the v8.2 Ctax test project)
+    dplyr::mutate(price_C = dplyr::if_else(year <= base_year, 0, price_C)) %>%
     # remove carbon price (subsidy) 1990$/tC from biomass 1975$/GJ
     dplyr::mutate(
       price_C = PrimaryFuelCO2Coef * price_C *
