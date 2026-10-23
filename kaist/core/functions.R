@@ -272,12 +272,16 @@ kaist_overrides <- list(
       # ("ceiling") markets are policy shadow prices, imported H2 is an
       # intermediate trade market, and the CO2 markets are reported through the
       # dedicated CO2 price functions -- all NoReported, like the upstream
-      # globalbio-ceiling / CO2 / ROWCO2 rows.
+      # globalbio-ceiling / CO2 / ROWCO2 rows. The NMSF2 runs (gcam-kaist9
+      # PR #6) add markets for the gases linked to GHG_Kor: LULUCF adder,
+      # international credits and the bunker adjustments.
       energy_price_map = list(
         rows = tibble::tibble(
           market = c("bio-ceiling", "rowbio-ceiling", "cement-ceiling",
                      "coal-ceiling", "imported H2", "dac-ceiling",
-                     "CO2_Kor", "GHG_Kor", "rowCO2", "rowCO2_LUC"),
+                     "CO2_Kor", "GHG_Kor", "rowCO2", "rowCO2_LUC",
+                     "CO2_LULUCF_adj", "CO2_intl_credit", "CO2_bunker_adj",
+                     "CH4_bunker_adj", "N2O_bunker_adj"),
           unit_conv = 1,
           var = "NoReported"
         ),
