@@ -165,15 +165,18 @@ harmonize_trn_service_units <- function(dataset) {
 #'
 #' @param var Variable name
 #' @param GCAM_version Name of the GCAM compatible version. Run `available_GCAM_versions()` to see the list of supported options.
+#' @param optional Names of queries that may be missing (empty query results).
 #' @return boolean indicating if all the required queries to compute the desired variable are available.
 #' @export
-check_queries <- function(var, GCAM_version = 'v8.2') {
+check_queries <- function(var, GCAM_version = 'v8.2', optional = NULL) {
   var_fun_map <- get(paste('var_fun_map',GCAM_version,sep='_'), envir = asNamespace("gcamreport"))
   queryItems <- var_fun_map[var_fun_map$name == var, "queries"][[1]]
+  # queries that can be empty (e.g. no district heat in the selected regions)
+  queryItems <- queryItems[!queryItems %in% optional]
 
   it = 1; allOk = TRUE
   while (sum(is.na(queryItems)) == 0 & it <= as.numeric(length(queryItems)) & allOk) {
-    qi <- var_fun_map[var_fun_map$name == var, "queries"][[1]][it]
+    qi <- queryItems[it]
     qi <- unlist(strsplit(qi, split = "|", fixed = TRUE))
     allOk <- any(qi %in% rgcam::listQueries(prj))
     it <- it + 1
@@ -560,7 +563,7 @@ start_with_pattern <- function(vector, pattern) {
 #' @keywords internal
 #' @export
 filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM_version = 'v8.2') {
-  market <- region <- NULL
+  market <- region <- subsector <- NULL
 
   if (!(identical(desired_regions, "All"))) {
     desired_regions <- c(desired_regions, "global")
@@ -597,6 +600,12 @@ filter_loading_regions <- function(data, desired_regions = "All", variable, GCAM
         dplyr::mutate(region = stringr::str_extract(market, region_pattern)) %>%
         dplyr::filter(region %in% desired_regions_tmp) %>%
         dplyr::select(-region)
+
+    } else if (variable %in% "ag export to the world center (USA) (Intl. Armington competition)") {
+      # all rows sit in the USA region (the world center); the exporting region
+      # is in the subsector name ("<region> traded <crop>"), as in get_ag_trade()
+      data <- data %>%
+        dplyr::filter(sub(" traded.*", "", subsector) %in% desired_regions)
 
     } else if (!(variable %in% c(
       "CO2 concentrations", "global mean temperature",
@@ -4032,8 +4041,10 @@ get_elec_gen_tech <- function(GCAM_version = 'v8.2') {
   var <- value <- unit_conv <- scenario <- region <- year <-
     secondary_energy_clean <- secondary_energy_raw <- NULL
 
-  check_queries("secondary_energy_clean", GCAM_version)
-  check_queries("secondary_energy_raw", GCAM_version)
+  # the district heat query is empty when no selected region has district heat
+  dh_query <- "district heat production by subsector (fuel)"
+  check_queries("secondary_energy_clean", GCAM_version, optional = dh_query)
+  check_queries("secondary_energy_raw", GCAM_version, optional = dh_query)
 
   # deal with grid regions:
   # split the subsector "region_name load generation" and substitute the
@@ -4084,10 +4095,11 @@ get_elec_gen_tech <- function(GCAM_version = 'v8.2') {
                 dataset_name = "gas production by tech"),
       check_inf(rgcam::getQuery(prj, "hydrogen production by tech"),
                 dataset_name = "hydrogen production by tech"),
-      check_inf(rgcam::getQuery(prj, "district heat production by subsector (fuel)"),
-                dataset_name = "district heat production by subsector (fuel)") %>%
-        dplyr::mutate(technology = subsector) %>%
-        dplyr::select(-output),
+      if (dh_query %in% rgcam::listQueries(prj)) {
+        check_inf(rgcam::getQuery(prj, dh_query), dataset_name = dh_query) %>%
+          dplyr::mutate(technology = subsector) %>%
+          dplyr::select(-output)
+      },
       check_inf(rgcam::getQuery(prj, "refined liquids production by tech"),
                 dataset_name = "refined liquids production by tech") %>%
         dplyr::select(-output)
@@ -5324,6 +5336,9 @@ get_energy_price_tmp <- function(GCAM_version = 'v8.2') {
                        dplyr::select(scenario, region, year, price_C = value), by = c("scenario", "region", "year"),
                      relationship = "many-to-many") %>%
     tidyr::replace_na(list(price_C = 0)) %>%
+    # no carbon price in calibration years: GCAM can report placeholder values
+    # there (e.g. 1e6 1990$/tC in the v8.2 Ctax test project)
+    dplyr::mutate(price_C = dplyr::if_else(year <= base_year, 0, price_C)) %>%
     # remove carbon price (subsidy) 1990$/tC from biomass 1975$/GJ
     dplyr::mutate(
       price_C = PrimaryFuelCO2Coef * price_C *
@@ -5789,7 +5804,9 @@ get_elec_cf_tmp <- function(GCAM_version = 'v8.2') {
     tidyr::complete(tidyr::nesting(technology, cf),
                     vintage = seq(2025, 2100, by = 5),
                     region = unique(cf_rgn_filteredReg$region)
-    )
+    ) %>%
+    # drop the "USA" seed row when USA is not a selected region
+    dplyr::filter(region %in% unique(cf_rgn_filteredReg$region))
 
   tmp2 <- cf_rgn_filteredReg %>%
     dplyr::select(region, technology = stub.technology, vintage = year, cf.rgn = capacity.factor)

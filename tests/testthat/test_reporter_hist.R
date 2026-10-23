@@ -29,28 +29,31 @@ test_that("Test_historical_values", {
                                'CO2_LTG','globalCO2_LTG','enh_wew_ceiling'))
 
 
-    # load expected output
+    # load expected output of this GCAM version only (e.g. "_8p2"); the files of
+    # other versions would add rows this version does not report the same way
     base_dir <- file.path(rprojroot::find_root(rprojroot::is_testthat), "testOutputs", "historical_data")
+    v_suffix <- gsub(".", "p", sub("^v(Europe)?", "", GCAMv), fixed = TRUE)
 
     if (grepl('Europe',GCAMv)) {
       file_list <- list.files(
         path = base_dir,
-        pattern = "^hist_data_EUR.*\\.RData$",
+        pattern = paste0("^hist_data_EUR_", v_suffix, "\\.RData$"),
         full.names = TRUE
       )
     } else if ('Ukraine' %in% unique(report$Region)) {
       file_list <- list.files(
         path = base_dir,
-        pattern = "^hist_data_wUkraine.*\\.RData$",
+        pattern = paste0("^hist_data_wUkraine_", v_suffix, "\\.RData$"),
         full.names = TRUE
       )
     } else {
       file_list <- list.files(
         path = base_dir,
-        pattern = "^hist_data_woUkraine.*\\.RData$",
+        pattern = paste0("^hist_data_woUkraine_", v_suffix, "\\.RData$"),
         full.names = TRUE
       )
     }
+    testthat::expect_length(file_list, 1)
     # bind all datasets
     report_expected <- dplyr::bind_rows(lapply(file_list, function(file) {
       # temporary environment so loaded objects don't overwrite each other
