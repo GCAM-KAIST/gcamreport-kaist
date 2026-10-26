@@ -27,6 +27,12 @@ gcamreport-kaist/
 │   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R)
 │   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
 │   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
+│   ├── ktraces/               # K-TRACES tables only (not IAMC-standard variables)
+│   │   ├── config/            # Run settings (ssp2_ndc.R)
+│   │   ├── functions.R        # K-TRACES data overrides: Industry|Construction, |Mining, Service Output|...
+│   │   ├── step1_ktraces.R    # step1_worker.R + the K-TRACES overrides, one process per scenario
+│   │   ├── build_ktraces_workbook.R  # Merged step1 report -> K-TRACES workbook (South Korea, USD_2025)
+│   │   └── data/              # USD deflator csv (FRED A191RD3A086NBEA)
 │   └── kmip/                  # KMIP submissions only
 │       ├── config/                # Run settings, one file per run (kaist9_hlm.R, nmsf2.R)
 │       ├── step2_process_data.R   # Thin orchestrator -- calls modules/
@@ -62,6 +68,7 @@ Paths are under `kaist/`. Run every script from the repo root.
 | 4 | `kmip/step4_fill_template.R` | Apply mappings and unit conversions; write `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (Python + openpyxl, `KAIST_PYTHON`) |
 | 5 | `kmip/step5_validate.R` | Validate totals across all stages (see below) |
 | 6 | `kmip/step6_plots.R` | Report figures from the step2 Korea csv (national GHG pathway in Mt CO2eq/yr, one line per scenario, gross/net LULUCF panels) |
+| - | `ktraces/step1_ktraces.R`, `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (one process per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Settings: `ktraces/config/ssp2_ndc.R`. Not for KMIP / IAMC submissions |
 | - | `kmip/compare_manual_report.qmd` | Manual-vs-auto comparison report; only useful when a hand-made reference workbook exists (KMIP2025) |
 
 ### Step 5: pipeline-wide validation
@@ -132,7 +139,8 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
    `kaist/kmip/step3_create_mapping.R` -> `kaist/kmip/step4_fill_template.R` ->
    `kaist/kmip/step5_validate.R` -> `kaist/kmip/step6_plots.R`. (Optional:
    `kaist/kmip/compare_manual_report.qmd` when a manual reference workbook exists.)
-   `core/` is enough for general use (step1 only); `kmip/` is the KMIP pipeline.
+   `core/` is enough for general use (step1 only); `kmip/` is the KMIP pipeline;
+   `ktraces/` is the K-TRACES pipeline (its own step1, then the workbook builder).
 
 ### Parallel step1 (many scenarios)
 
