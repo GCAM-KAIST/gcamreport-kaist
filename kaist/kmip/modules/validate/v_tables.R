@@ -106,7 +106,7 @@ step5_known_violations <- tribble(
   ~violation_id,       ~stages,                        ~reason,
   "capacity_total",    "step1;step2_all;step2_korea",  "Capacity|Electricity grand total is never recomputed after a2/a4 change children",
   "primary_energy",    "step2_all;step2_korea",        "a3 nuclear add + b2 Primary Energy|*|Hydrogen / |Biomass|Electricity rows sit outside the Primary Energy total",
-  "battery_storage",   "step2_all;step2_korea",        "a2 Battery Storage capacity is outside the Solar/Wind parents by design",
+  "battery_storage",   "step2_all;step2_korea",        "a2 Battery Storage capacity is outside the Solar/Wind parents by design (the storage techs also count in PV/Onshore via a4, KMIP convention)",
   "cap_parents_step1", "step1",                        "step1 capacity parents double-count (upstream bug) -- only valid after a5",
   "fe_industry_korea", "step2_korea",                  "b5 Industry Biomass|Liquids includes the Non-Energy Use share (matches KMIP Industry|Oil scope), so Industry fuel children exceed the GCAM-side parent by NEU x bio_share (~0.3%)",
 )

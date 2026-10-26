@@ -21,7 +21,7 @@
 #   cf_rgn  - regional CF table (data/cf_rgn_v*.rda, patched by patch_gcam_data)
 #   cf_gcam - global default CF table (data/cf_gcam_v*.rda)
 #
-# Hardcoded assumptions (tech_to_cap table, storage exclusion):
+# Hardcoded assumptions (tech_to_cap table, storage techs counted twice):
 # see kaist/docs/hardcoded_assumptions.md (local-only note; gitignored)
 ################################################################################
 
@@ -48,23 +48,22 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
   # Technology to capacity variable mapping
   # Includes renewables, nuclear, and fossil fuels
   #
-  # NOTE: *_storage techs (wind_storage, PV_storage, CSP_storage) are
-  # deliberately commented out to avoid double counting: their capacity is
-  # already reported as separate Battery Storage variables by module a2
-  # (add_battery_storage). Mapping them here as well would add the same
-  # capacity into Onshore/PV/CSP a second time, and a5 would then roll the
-  # duplicate into the parent totals.
+  # NOTE: *_storage techs (wind_storage, PV_storage, CSP_storage) count in the
+  # generator variable (Onshore/PV/CSP) here AND as Battery Storage in module
+  # a2: a PV_storage plant of X GW is X GW of PV panels plus X GW of battery
+  # (KMIP convention, lab meeting 2026-10-14). Before that they were left out
+  # of the generator variables.
   tech_to_cap <- tribble(
     ~tech_base,       ~cap_var,
     # Renewables
     "wind",           "Capacity|Electricity|Wind|Onshore",
-    # "wind_storage",   "Capacity|Electricity|Wind|Onshore",
+    "wind_storage",   "Capacity|Electricity|Wind|Onshore",
     "wind_offshore",  "Capacity|Electricity|Wind|Offshore",
     "PV",             "Capacity|Electricity|Solar|PV",
-    # "PV_storage",     "Capacity|Electricity|Solar|PV",
+    "PV_storage",     "Capacity|Electricity|Solar|PV",
     "rooftop_pv",     "Capacity|Electricity|Solar|PV",
     "CSP",            "Capacity|Electricity|Solar|CSP",
-    # "CSP_storage",    "Capacity|Electricity|Solar|CSP",
+    "CSP_storage",    "Capacity|Electricity|Solar|CSP",
     # Nuclear
     "Gen_III",        "Capacity|Electricity|Nuclear",
     "Gen_III_Korea",  "Capacity|Electricity|Nuclear",
