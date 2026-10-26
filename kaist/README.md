@@ -2,7 +2,7 @@
 
 ## Overview
 
-This folder contains the KAIST 6-step pipeline that turns GCAM output into KMIP report tables and figures. The rest of the repository is the [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, taken from the branch `kaist/v9.1-korea` (upstream `gcam-core` plus our package fixes).
+This folder contains the KAIST 7-step pipeline that turns GCAM output into KMIP report tables, figures and a comparison report. The rest of the repository is the [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, taken from the branch `kaist/v9.1-korea` (upstream `gcam-core` plus our package fixes).
 
 Branches:
 
@@ -23,14 +23,13 @@ gcamreport-kaist/
 │   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data)
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
-│   │   ├── tools/             # step1_parallel.R (+ worker/merge), compare_outputs.R
-│   │   │   └── kaist9/        # step1 for gcam-kaist9: one DB per scenario (run_db.R, merge.R)
+│   │   ├── queries/           # Extra queries added to every step1 project (kaist_queries.xml)
+│   │   ├── tools/             # step1_parallel.R (+ worker/merge), merge_basex_dbs.R (scenarios of several DBs -> one DB), compare_outputs.R
 │   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
 │   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
 │   ├── ktraces/               # K-TRACES tables only (not IAMC-standard variables)
 │   │   ├── config/            # Run settings (ssp2_ndc.R)
-│   │   ├── functions.R        # K-TRACES data overrides: Industry|Construction, |Mining, Service Output|...
-│   │   ├── step1_ktraces.R    # step1_worker.R + the K-TRACES overrides, one process per scenario
+│   │   ├── functions.R        # K-TRACES data overrides (patch_project_data, applied by the core step1 hook)
 │   │   ├── build_ktraces_workbook.R  # Merged step1 report -> K-TRACES workbook (South Korea, USD_2025)
 │   │   └── data/              # USD deflator csv (FRED A191RD3A086NBEA)
 │   └── kmip/                  # KMIP submissions only
@@ -40,9 +39,9 @@ gcamreport-kaist/
 │       ├── step4_fill_template.R
 │       ├── step5_validate.R       # Pipeline-wide validation (checkpoints A-D)
 │       ├── step6_plots.R          # Report figures (GHG pathway per scenario)
+│       ├── step7_compare.R/.qmd   # Comparison report (PDF) against a reference run, e.g. the KMIP2025 submission
+│       ├── run_pipeline.sh        # Steps 1-7 in one command
 │       ├── write_submission.py    # Called by step4: KMIP submission workbook (Python + openpyxl)
-│       ├── compare_manual_report.qmd  # Manual-vs-auto comparison (optional)
-│       ├── compare_kaist9_kmip25.qmd  # Two-scenario comparison: KMIP2025 GC vs kaist9
 │       ├── template/              # KMIP template, submission layout and mapping (variable names only, no values)
 │       ├── unit_table.R           # Unit conversions shared by step4 and step5
 │       ├── modules/               # step2 adjustments, one file per adjustment
@@ -53,6 +52,7 @@ gcamreport-kaist/
 │       ├── tools/test_step5.R     # step5 self-test (fault injection)
 │       ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
 │       └── data/                  # Coefficient files (L223, L225 CSVs)
+│   └── scenario/              # Scenario XMLs and notes of test runs (input/<run>/, RESULT.md)
 └── (databases and outputs live outside the repo, see db_path in the settings file; never commit result files)
 ```
 
@@ -68,8 +68,8 @@ Paths are under `kaist/`. Run every script from the repo root.
 | 4 | `kmip/step4_fill_template.R` | Apply mappings and unit conversions; write `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (Python + openpyxl, `KAIST_PYTHON`) |
 | 5 | `kmip/step5_validate.R` | Validate totals across all stages (see below) |
 | 6 | `kmip/step6_plots.R` | Report figures from the step2 Korea csv (national GHG pathway in Mt CO2eq/yr, one line per scenario, gross/net LULUCF panels) |
-| - | `ktraces/step1_ktraces.R`, `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (one process per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Settings: `ktraces/config/ssp2_ndc.R`. Not for KMIP / IAMC submissions |
-| - | `kmip/compare_manual_report.qmd` | Manual-vs-auto comparison report; only useful when a hand-made reference workbook exists (KMIP2025) |
+| 7 | `kmip/step7_compare.R` + `kmip/step7_compare.qmd` | Comparison report (PDF) against a reference run (the KMIP2025 submission workbook or a step4 csv of an earlier run): all scenarios side by side, then one scenario pair variable by variable. Needs quarto and the `compare_*` block in the settings file |
+| - | `core/tools/step1_worker.R` with `ktraces/config/ssp2_ndc.R`, then `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (`patch_project_data()` in `ktraces/functions.R`, picked up by the step1 project hook; one worker per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Not for KMIP / IAMC submissions |
 
 ### Step 5: pipeline-wide validation
 
@@ -106,7 +106,9 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 3. **Per-database output folder**
    - Outputs are written under `kmip/{db_name}_output/`, so different
-     databases (DB25, DB26, ...) do not mix.
+     databases (DB25, DB26, ...) do not mix. A settings file may set
+     `output_dir` itself; the `kaist/scenario/` test runs use
+     `kaist/scenario/output/{run_name}` (see `kaist/scenario/RESULT.md`).
 
 4. **step2 is a thin orchestrator over `kaist/kmip/modules/`**
    - Each adjustment is one function in one file (`a1` ~ `a6` run on all
@@ -130,17 +132,13 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 
 1. Open R in the repo root and run `devtools::load_all(".")` once to
    build the gcamreport package locally.
-2. Pick or create a settings file in your project folder (copy `kaist/kmip/config/kaist9_hlm.R`, set `run_name`, `db_name`, `target_region`, years, scenarios) and point `KAIST_CONFIG` to it: `KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript kaist/kmip/step4_fill_template.R`, or `Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")` in RStudio. For the gcam-kaist9 DBs (one DB per scenario) use the tools in `kaist/core/tools/kaist9/`.
+2. Pick or create a settings file in your project folder (copy `kaist/kmip/config/kaist9_low26.R`; set `run_name`, `db_path`, `db_name`, `scenarios`, years and the `compare_*` block) and point `KAIST_CONFIG` to it: `KAIST_CONFIG=kaist/kmip/config/kaist9_low26.R Rscript kaist/kmip/step4_fill_template.R`, or `Sys.setenv(KAIST_CONFIG = "...")` in RStudio. One GCAM database per scenario (gcam-kaist9): merge them into one database first, see below.
    Step4 also writes `{run_name}_KMIP_submission.xlsx`; it needs Python with pandas and openpyxl (set `KAIST_PYTHON` if `python3` lacks them).
 3. If BaseX 9.5+ is installed, source `kaist/core/rgcam_patch.R` once per
    session before step 1 (see the comment block in step1).
-4. Run the steps in order from the repo root:
-   `kaist/core/step1_generate_report.R` -> `kaist/kmip/step2_process_data.R` ->
-   `kaist/kmip/step3_create_mapping.R` -> `kaist/kmip/step4_fill_template.R` ->
-   `kaist/kmip/step5_validate.R` -> `kaist/kmip/step6_plots.R`. (Optional:
-   `kaist/kmip/compare_manual_report.qmd` when a manual reference workbook exists.)
+4. Run everything with `kaist/kmip/run_pipeline.sh kaist/kmip/config/<run>.R`: step1 with one worker per scenario, then steps 2, 4, 5, 6 and 7 (logs in `{output_dir}/logs/<date>/`; `--from 2` skips step1). Or run the steps by hand in that order from the repo root; step3 (`kaist/kmip/step3_create_mapping.R`) only when the template or the mapping changes.
    `core/` is enough for general use (step1 only); `kmip/` is the KMIP pipeline;
-   `ktraces/` is the K-TRACES pipeline (its own step1, then the workbook builder).
+   `ktraces/` builds the K-TRACES workbook from a step1 run made with its settings file.
 
 ### Parallel step1 (many scenarios)
 
@@ -157,25 +155,20 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 `kaist/core/tools/step1_merge.R` to build the single `{run_name}.xlsx` and
 `{run_name}_project_merged.dat` that step2 expects.
 
-### gcam-kaist9 databases (one DB per scenario)
+### One database per scenario (gcam-kaist9): merge first
 
-gcam-kaist9 writes one BaseX database per scenario (e.g. `kmip/KAIST9_HLM/low_nz/`). The settings file lists the DB folder names in `scenarios`; each scenario is reported under its folder name. Step1 is `run_db.R` per DB plus `merge.R`; steps 2-6 are the same as above.
+gcam-kaist9 writes one BaseX database per run (e.g. `kmip/KAIST9_LOW26/low_nz/`). Merge the scenarios you want into one database; the settings file then points at that database like any other (`db_path`, `db_name`, `scenarios`):
 
 ```
-export KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R
-export KAIST_PYTHON=/path/to/python            # pandas + openpyxl, for the submission workbook in step4
-Rscript kaist/core/tools/kaist9/run_db.R low_nz list   # scenarios inside the DB
-Rscript kaist/core/tools/kaist9/run_db.R low_nz        # step1 for one DB -> low_nz.xlsx + low_nz_project.dat
-Rscript kaist/core/tools/kaist9/merge.R                # all DBs -> {run_name}.xlsx / .csv / _project_merged.dat
-Rscript kaist/kmip/step2_process_data.R
-Rscript kaist/kmip/step4_fill_template.R               # step3 only when the template or mapping changes
-Rscript kaist/kmip/step5_validate.R
-Rscript kaist/kmip/step6_plots.R
+Rscript kaist/core/tools/merge_basex_dbs.R list kmip/KAIST9_LOW26        # scenarios in every database of the folder
+Rscript kaist/core/tools/merge_basex_dbs.R merge kmip/KMIP26_LOW kmip/KAIST9_LOW26/low_ref kmip/KAIST9_LOW26/low_nz
 ```
 
-Each `run_db.R` uses one CPU, so start one per DB at the same time (`Rscript ... run_db.R high_nz > high_nz.log 2>&1 &` for each, then `wait`). `run_db.R` reuses `{db}_project.dat` in the output folder when it exists, so a failed post-processing step does not query the DB again; delete the `.dat` to re-query. Outputs go to `kmip/{db_name}_output/`.
+`merge` copies the scenario documents with the BaseX jar (no ModelInterface, no export file); `<db folder>:<scenario name>` picks one scenario of a database. The report keeps the GCAM scenario names; `scenario_labels <- c("KAIST_9_NZ_u1007low" = "low_nz", ...)` in the settings file renames them in the merged step1 outputs (then `scenarios` lists the GCAM names and everything after step1 uses the labels).
 
-Comparison with KMIP2025: `kaist/kmip/compare_kaist9_kmip25.qmd` (two scenarios, variable by variable; `quarto render kaist/kmip/compare_kaist9_kmip25.qmd --to pdf --execute-params params.yml` with `a_file`, `a_scen`, `b_scen`, `out_dir` in the yml) and `kaist/kmip/tools/compare_kaist9_kmip25.R` (all scenarios: GHG, primary energy, electricity, final energy).
+### Step 7: comparison with a reference run
+
+`compare_a_file` in the settings file names the reference: the KMIP2025 submission workbook (sheet `data`, `compare_a_model`) or a step4 csv of an earlier run. `compare_pair` picks the scenario pair for the variable-by-variable part, `compare_a_scenarios` / `compare_b_scenarios` the lines of the overview, and `compare_ref_step2_csv` (optional) a step2 Korea csv of the reference database for the national gross/net GHG panel. Output: `{output_dir}/compare/{run_name}_compare.pdf` plus one png and csv per section. Quarto must be on PATH or in `QUARTO_BIN`.
 
 ## Syncing with upstream gcamreport
 
