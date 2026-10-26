@@ -272,16 +272,13 @@ kaist_overrides <- list(
       # ("ceiling") markets are policy shadow prices, imported H2 is an
       # intermediate trade market, and the CO2 markets are reported through the
       # dedicated CO2 price functions -- all NoReported, like the upstream
-      # globalbio-ceiling / CO2 / ROWCO2 rows. The NMSF2 runs (gcam-kaist9
-      # PR #6) add markets for the gases linked to GHG_Kor: LULUCF adder,
-      # international credits and the bunker adjustments.
+      # globalbio-ceiling / CO2 / ROWCO2 rows. Markets of one project only
+      # (the NMSF2 gases) are in kaist/kmip/functions.R.
       energy_price_map = list(
         rows = tibble::tibble(
           market = c("bio-ceiling", "rowbio-ceiling", "cement-ceiling",
                      "coal-ceiling", "imported H2", "dac-ceiling",
-                     "CO2_Kor", "GHG_Kor", "rowCO2", "rowCO2_LUC",
-                     "CO2_LULUCF_adj", "CO2_intl_credit", "CO2_bunker_adj",
-                     "CH4_bunker_adj", "N2O_bunker_adj"),
+                     "CO2_Kor", "GHG_Kor", "rowCO2", "rowCO2_LUC"),
           unit_conv = 1,
           var = "NoReported"
         ),
@@ -367,11 +364,11 @@ kaist_overrides <- list(
 
 
 # add_kaist_queries -----------------------------------------------------------
-# Run the queries of kaist/core/queries/kaist_queries.xml on a database and add
-# the ones with rows to the project file `dat` (queries already in it are kept).
-# `regions` = "All" or a vector of regions.
-add_kaist_queries <- function(conn, dat, scenarios, regions = "All",
-                              query_file = file.path(getwd(), "kaist/core/queries/kaist_queries.xml")) {
+# Run the queries of a query xml (settings: project_queries, e.g.
+# kaist/kmip/queries/nmsf2_queries.xml) on a database and add them to a saved
+# rgcam project, skipping queries it already has. For queries that gcamreport
+# does not run itself, e.g. the NMSF2 LULUCF inventory adjustment.
+add_kaist_queries <- function(conn, dat, scenarios, regions = "All", query_file) {
   nodes <- xml2::xml_find_all(xml2::read_xml(query_file), "//*[@title]")
   prj <- rgcam::loadProject(dat)
   added <- character(0)
@@ -427,12 +424,16 @@ inject_kaist_data <- function() {
   invisible(TRUE)
 }
 
-patch_gcam_data <- function(version = "v7.0") {
-  ov <- kaist_overrides[[version]]
+# `overrides` is kaist_overrides (model names every gcam-kaist9 database has) or
+# a project list of the same shape (e.g. kmip_overrides in kaist/kmip/functions.R,
+# applied by the step1 project hook). An object already patched in this session
+# is taken from .kaist_data, so project rows add to the KAIST rows.
+patch_gcam_data <- function(version = "v7.0", overrides = kaist_overrides, label = "KAIST") {
+  ov <- overrides[[version]]
   if (is.null(ov)) {
     warning(sprintf(
-      "patch_gcam_data: no KAIST overrides defined for version '%s' -- data left unchanged. Add a kaist_overrides[['%s']] block in kaist/core/functions.R.",
-      version, version))
+      "patch_gcam_data: no %s overrides defined for version '%s' -- data left unchanged.",
+      label, version))
     return(invisible(FALSE))
   }
 
@@ -440,6 +441,8 @@ patch_gcam_data <- function(version = "v7.0") {
   obj_file <- function(short) gcam_rda_path(paste0(short, "_", version), data_dir)
 
   load_obj <- function(short) {
+    nm <- paste0(short, "_", version)
+    if (exists(nm, envir = .kaist_data, inherits = FALSE)) return(get(nm, envir = .kaist_data))
     f <- obj_file(short)
     if (!file.exists(f)) {
       warning(sprintf("patch_gcam_data: %s not found -- skipping. Run inst/extdata/saveDataFiles_GCAM*.R first.", f))
@@ -545,8 +548,8 @@ patch_gcam_data <- function(version = "v7.0") {
   }
 
   inject_kaist_data()
-  message(sprintf("patch_gcam_data(%s): patched %d data object(s) in memory: %s",
-                  version, length(patched), paste(patched, collapse = ", ")))
+  message(sprintf("patch_gcam_data(%s, %s): patched %d data object(s) in memory: %s",
+                  version, label, length(patched), paste(patched, collapse = ", ")))
   invisible(TRUE)
 }
 

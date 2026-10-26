@@ -22,7 +22,6 @@ gcamreport-kaist/
 │   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data)
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
-│   │   ├── queries/           # Extra queries added to every step1 project (kaist_queries.xml)
 │   │   └── tools/             # step1_parallel.R (+ worker/merge), merge_basex_dbs.R (scenarios of several DBs -> one DB), compare_outputs.R
 │   ├── ktraces/               # K-TRACES tables only (not IAMC-standard variables)
 │   │   ├── config/            # Run settings (ssp2_ndc.R)
@@ -30,7 +29,9 @@ gcamreport-kaist/
 │   │   ├── build_ktraces_workbook.R  # Merged step1 report -> K-TRACES workbook (South Korea, USD_2025)
 │   │   └── data/              # USD deflator csv (FRED A191RD3A086NBEA)
 │   └── kmip/                  # KMIP submissions only
-│       ├── config/                # Run settings, one file per run (kaist9_hlm.R, nmsf2.R)
+│       ├── config/                # Run settings, one file per run (kaist9_low26.R, kaist9_hlm.R, nmsf2_k9l.R)
+│       ├── functions.R            # KMIP-only data overrides (NMSF2 gas markets), applied by the step1 project hook
+│       ├── queries/               # Extra queries for a run (nmsf2_queries.xml), named by project_queries in the settings
 │       ├── step2_process_data.R   # Thin orchestrator -- calls modules/
 │       ├── step3_create_mapping.R
 │       ├── step4_fill_template.R
@@ -71,7 +72,7 @@ Paths are under `kaist/`. Run every script from the repo root.
 
 `Rscript kaist/kmip/step5_validate.R [--strict] [--checkpoints=A,B,C,D]`
 
-Standalone; runnable after any stage (missing inputs are skipped). Checkpoints:
+Runs in every pipeline run (`run_pipeline.sh` calls it after step4) and can be run alone after any stage (missing inputs are skipped). `step5_validate.R` only reads the settings and prints the summary; the checks themselves are the files in `kmip/modules/validate/`: `v0_engine.R` (compare two tables, tolerances, PASS/WARN/FAIL, report writers), `v1`-`v4` (one checkpoint each) and `v_tables.R` (the rule tables: which module may change which variable, parent-child relations, known gaps). `kmip/tools/test_step5.R` is a test of the checker itself (it damages copies of the outputs and asserts that each checkpoint notices); it is not part of a pipeline run. Checkpoints:
 
 - **A** raw query sums from the `.dat` vs the step1 report, plus a list of
   query technologies/inputs absent from the mapping rdas (the silent-drop
@@ -89,6 +90,10 @@ Non-fatal by default; `--strict` errors when any check FAILs.
 Checkpoint A needs the built `data/*_v<version>.rda` files -- if missing, run
 `inst/extdata/saveDataFiles_GCAM<version>.R` (KAIST rows are added in memory by `load_gcam_rda()`).
 Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
+
+### kmip/steel: the KMIP2026 steel sheet
+
+KMIP2026 sent its steel sheet before the rest of the template. `kmip/steel/build_steel_template.py` fills that sheet (production, energy and emissions by steel route, capture) from ModelInterface query dumps, outside the R pipeline; `plot_steel_compare.py` draws the comparison charts. The two steel methods it introduced, the coal fuel/feedstock split and the process-emission split, were later moved into step2 (`b3_steel_coal_split.R`, `b6_steel_process_split.R`), so the main template and the steel sheet agree. Step4 still fills only the main template; the steel sheet exists only through this folder. It goes when the full KMIP2026 template arrives and step3/step4 cover the steel rows. Method notes: `kmip/steel/README.md`.
 
 ## Key Improvements
 

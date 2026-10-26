@@ -6,7 +6,7 @@
 # counts in the GHG_Kor cap. gcamreport reads only CO2 and CO2_FUG, so the gas
 # is missing from the report. This adds it (MtC x 44/12) to the CO2 and Kyoto
 # AFOLU rows and totals, and as its own row. Needs the "LULUCF inventory
-# adjustment by region" query in the project (kaist/core/queries); skips
+# adjustment by region" query in the project (kaist/kmip/queries/nmsf2_queries.xml, settings project_queries); skips
 # otherwise.
 ################################################################################
 

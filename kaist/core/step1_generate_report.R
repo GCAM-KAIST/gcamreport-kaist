@@ -105,9 +105,11 @@ for (i in seq_len(nrow(jobs))) {
     if (file.exists(created_dat)) {
       file.rename(created_dat, moved_dat)
       prj_name <- moved_dat
-      # KAIST queries (kaist/core/queries/kaist_queries.xml) go into the saved project.
-      conn <- rgcam::localDBConn(db_path, job$db, maxMemory = "8g")
-      add_kaist_queries(conn, moved_dat, scen, desired_regions)
+      # Project queries (settings: project_queries) go into the saved project.
+      if (exists("project_queries")) {
+        conn <- rgcam::localDBConn(db_path, job$db, maxMemory = "8g")
+        add_kaist_queries(conn, moved_dat, scen, desired_regions, project_queries)
+      }
       check_policy_markets(moved_dat, get0("ignore_markets", ifnotfound = NULL))
     } else {
       warning("Expected .dat not found at ", created_dat, " -- skipped the move.")

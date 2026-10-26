@@ -62,12 +62,14 @@ if (file.exists(created_dat)) {
   file.rename(created_dat, file.path(output_dir, prj_basename))
 }
 
-# KAIST queries (kaist/core/queries/kaist_queries.xml, e.g. the NMSF2 LULUCF
-# inventory adjustment) are added to the saved project.
+# Project queries (settings: project_queries, a query xml such as
+# kaist/kmip/queries/nmsf2_queries.xml) go into the saved project.
 dat_path <- file.path(output_dir, prj_basename)
 if (file.exists(dat_path)) {
-  conn <- rgcam::localDBConn(db_path, db_name, maxMemory = "8g")
-  add_kaist_queries(conn, dat_path, scenarios, desired_regions)
+  if (exists("project_queries")) {
+    conn <- rgcam::localDBConn(db_path, db_name, maxMemory = "8g")
+    add_kaist_queries(conn, dat_path, scenarios, desired_regions, project_queries)
+  }
   check_policy_markets(dat_path, get0("ignore_markets", ifnotfound = NULL))
 }
 
