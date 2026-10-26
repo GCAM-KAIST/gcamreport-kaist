@@ -68,6 +68,7 @@ dat_path <- file.path(output_dir, prj_basename)
 if (file.exists(dat_path)) {
   conn <- rgcam::localDBConn(db_path, db_name, maxMemory = "8g")
   add_kaist_queries(conn, dat_path, scenarios, desired_regions)
+  check_policy_markets(dat_path, get0("ignore_markets", ifnotfound = NULL))
 }
 
 cat("\n=== step1_worker complete:", label, "===\n")

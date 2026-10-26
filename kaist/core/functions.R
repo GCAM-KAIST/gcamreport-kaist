@@ -549,3 +549,22 @@ patch_gcam_data <- function(version = "v7.0") {
                   version, length(patched), paste(patched, collapse = ", ")))
   invisible(TRUE)
 }
+
+# Policy markets of a run (ceilings, floors, caps, credits) that the settings'
+# ignore_markets does not cover. gcamreport reports their shadow prices as if
+# they were fuel prices (e.g. bio-ceiling into Price|...|Solids|Biomass), so
+# step1 prints them as a warning. Nothing is changed; add the names to
+# ignore_markets in the settings file and rerun step1.
+check_policy_markets <- function(dat, ignore = NULL,
+                                 pattern = "ceiling|floor|constraint|limit|target|_Kor$|row(bio|CO2)") {
+  q <- "prices of all markets"
+  prj <- rgcam::loadProject(dat)
+  if (!q %in% rgcam::listQueries(prj)) return(invisible(character(0)))
+  markets <- unique(rgcam::getQuery(prj, q)$market)
+  cand <- markets[grepl(pattern, markets, ignore.case = TRUE)]
+  if (length(ignore) > 0) cand <- cand[!grepl(paste(ignore, collapse = "|"), cand)]
+  if (length(cand) > 0)
+    warning("policy-like markets not in ignore_markets (their prices leak into the energy price rows): ",
+            paste(cand, collapse = ", "), call. = FALSE, immediate. = TRUE)
+  invisible(cand)
+}

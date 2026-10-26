@@ -108,6 +108,7 @@ for (i in seq_len(nrow(jobs))) {
       # KAIST queries (kaist/core/queries/kaist_queries.xml) go into the saved project.
       conn <- rgcam::localDBConn(db_path, job$db, maxMemory = "8g")
       add_kaist_queries(conn, moved_dat, scen, desired_regions)
+      check_policy_markets(moved_dat, get0("ignore_markets", ifnotfound = NULL))
     } else {
       warning("Expected .dat not found at ", created_dat, " -- skipped the move.")
     }
