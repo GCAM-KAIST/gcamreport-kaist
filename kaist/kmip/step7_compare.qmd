@@ -1,0 +1,557 @@
+---
+title: "GCAM report comparison"
+subtitle: "This run against a reference run, KMIP template variables"
+params:
+  a_file: ""
+  a_model: "GC"
+  a_label: "Reference"
+  a_scenarios: ""
+  b_label: "this run"
+  b_step4: ""
+  b_korea: ""
+  b_scenarios: ""
+  pair_a: ""
+  pair_b: ""
+  ref_step2_csv: ""
+  out_dir: ""
+  save_png: true
+format:
+  pdf:
+    toc: false
+    number-sections: false
+    colorlinks: true
+    fig-width: 16
+    fig-height: 9
+    geometry:
+      - top=15mm
+      - left=15mm
+      - right=15mm
+      - bottom=15mm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.align = "center")
+library(tidyverse)
+library(readxl)
+if (params$save_png) dir.create(params$out_dir, recursive = TRUE, showWarnings = FALSE)
+```
+
+```{r load-data}
+years       <- seq(2020, 2050, 5)
+table_years <- c(2020, 2030, 2035, 2040, 2050)
+EJ_TO_MTOE  <- 23.884589   # same factor as unit_table.R
+GWP_CH4 <- 27.2; GWP_N2O <- 0.273
+
+# Reference workbook (sheet "data", Model column) or a step4 csv. The 2021 base
+# year of GCAM 9.1 is shown in the 2020 column.
+read_iamc <- function(f) {
+  d <- if (grepl("\\.xlsx$", f)) read_excel(f, sheet = "data") else read_csv(f, show_col_types = FALSE)
+  d <- as.data.frame(d)
+  names(d) <- trimws(names(d))
+  if ("2021" %in% names(d) && !"2020" %in% names(d)) names(d)[names(d) == "2021"] <- "2020"
+  d <- d %>% mutate(across(any_of(c("Model", "Scenario", "Region", "Variable", "Unit")), ~ trimws(as.character(.x))))
+  yc <- grep("^[0-9]{4}$", names(d), value = TRUE)
+  d[yc] <- lapply(d[yc], function(x) replace_na(suppressWarnings(as.numeric(x)), 0))
+  d
+}
+# File names with Korean letters may be stored in NFD form: match NFC-normalized
+a_file <- params$a_file
+if (!file.exists(a_file)) {
+  cand <- list.files(dirname(a_file), full.names = TRUE)
+  a_file <- cand[stringi::stri_trans_nfc(basename(cand)) == stringi::stri_trans_nfc(basename(a_file))][1]
+}
+a_is_step4 <- grepl("\\.csv$", a_file)
+a_all <- read_iamc(a_file)
+if (!a_is_step4 && "Model" %in% names(a_all)) a_all <- a_all %>% filter(Model == params$a_model)
+a_scen <- unlist(params$a_scenarios); a_scen <- a_scen[nzchar(a_scen)]
+if (length(a_scen) == 0) a_scen <- unique(a_all$Scenario)
+a_ov <- a_all %>% filter(Scenario %in% a_scen)
+
+b_step4 <- read_iamc(params$b_step4)
+b_scen <- unlist(params$b_scenarios); b_scen <- b_scen[nzchar(b_scen)]
+if (length(b_scen) == 0) b_scen <- unique(b_step4$Scenario)
+b_ov <- b_step4 %>% filter(Scenario %in% b_scen)
+b_korea <- read_iamc(params$b_korea) %>% filter(Region == "South Korea", Scenario %in% b_scen)
+ref_korea <- if (nzchar(params$ref_step2_csv) && file.exists(params$ref_step2_csv))
+  read_iamc(params$ref_step2_csv) %>% filter(Region == "South Korea") else NULL
+
+stopifnot(nrow(a_ov) > 0, nrow(b_ov) > 0,
+          params$pair_a %in% a_all$Scenario, params$pair_b %in% b_step4$Scenario)
+lab_a <- function(s) paste(params$a_label, s)
+lab_b <- function(s) paste(params$b_label, s)
+year_labels <- function(x) ifelse(x == 2020, "2020/21", as.character(x))
+fmt <- function(x, digits = 1) formatC(x, format = "f", digits = digits, big.mark = ",")
+```
+
+This report compares the run **`r params$b_label`** (scenarios `r paste(b_scen, collapse = ", ")`) with the reference **`r params$a_label`** (`r if (a_is_step4) "step4 output of an earlier run" else paste0("submission workbook, model ", params$a_model)`; scenarios `r paste(a_scen, collapse = ", ")`).
+
+- Part 1: all scenarios side by side (GHG in the KMIP template scope, national gross/net GHG, primary energy, electricity, final energy by sector).
+- Part 2: one scenario pair, `r lab_a(params$pair_a)` (A) vs `r lab_b(params$pair_b)` (B), variable by variable.
+- GCAM 9.1 has no 2020 period; its 2021 values sit in the 2020 column, shown as "2020/21". The reference 2020 values of a submission workbook are inventory values, not model output.
+- Bunker rule (international aviation/shipping removed): this pipeline keeps the domestic shares 0.099 / 0.039 (GIR 2023); the KMIP2025 submission used 0.093 / 0.032.
+- Sign convention: a submission workbook reports CCS as negative numbers, step4 outputs as positive. Carbon sequestration is shown as positive amounts.
+
+```{r part1-functions}
+# Pick the first candidate variable set that exists in d and sum it by scenario and year.
+get_var <- function(d, cands) {
+  for (vs in cands) {
+    hit <- d %>% filter(Variable %in% vs)
+    if (nrow(hit) > 0)
+      return(hit %>% pivot_longer(matches("^[0-9]{4}$"), names_to = "year", values_to = "value") %>%
+               mutate(year = as.integer(year)) %>%
+               group_by(Scenario, year) %>% summarise(value = sum(value), .groups = "drop"))
+  }
+  tibble(Scenario = unique(d$Scenario)) %>% crossing(year = years) %>% mutate(value = 0)
+}
+# items = list(category = list(candidate sets)); total gives an "Other" = total - items row
+build <- function(d, items, total = NULL, factor = 1) {
+  parts <- bind_rows(lapply(names(items), function(nm) get_var(d, items[[nm]]) %>% mutate(category = nm)))
+  if (!is.null(total)) {
+    tot <- get_var(d, total)
+    other <- tot %>% left_join(parts %>% group_by(Scenario, year) %>% summarise(s = sum(value), .groups = "drop"),
+                               by = c("Scenario", "year")) %>%
+      transmute(Scenario, year, value = value - s, category = "Other")
+    parts <- bind_rows(parts, other)
+  }
+  parts %>% mutate(value = value * factor)
+}
+# KMIP template scope: CO2 + CH4 + N2O from energy, industrial process GHG, minus DAC
+ghg_scope <- function(d) {
+  vars <- c("Emissions|CO2|Energy", "Emissions|CH4|Energy", "Emissions|N2O|Energy",
+            "Emissions|GHGs|Non-Energy|Industrial Process")
+  dac <- get_var(d, list("Carbon Sequestration|DAC")) %>% mutate(value = -abs(value))
+  bind_rows(get_var(d, list(vars)), dac) %>% group_by(Scenario, year) %>% summarise(value = sum(value), .groups = "drop")
+}
+# National total from the step2 Korea csv (IAMC names): net = Kyoto Gases, gross = net - LULUCF
+ghg_national <- function(d) {
+  kyoto <- get_var(d, list("Emissions|Kyoto Gases"))
+  luc   <- get_var(d, list("Emissions|CO2|AFOLU"))
+  land  <- get_var(d, list("Emissions|Kyoto Gases|AFOLU|Land"))
+  kyoto %>% rename(net = value) %>%
+    left_join(luc %>% rename(luc = value), by = c("Scenario", "year")) %>%
+    left_join(land %>% rename(land = value), by = c("Scenario", "year")) %>%
+    transmute(Scenario, year, `Net (incl. LULUCF)` = net, `Gross (excl. LULUCF)` = net - luc - land) %>%
+    pivot_longer(-c(Scenario, year), names_to = "category", values_to = "value")
+}
+pe_fuels <- c("Coal", "Oil", "Gas", "Biomass", "Nuclear", "Hydro", "Solar", "Wind", "Geothermal")
+pe_items <- setNames(lapply(pe_fuels, function(f) list(paste0("Primary Energy|", f))), pe_fuels)
+el_items <- list(
+  Coal = list(paste0("Secondary Energy|Electricity|Coal|", c("w/ CCS", "w/o CCS"))),
+  Oil = list(paste0("Secondary Energy|Electricity|Oil|", c("w/ CCS", "w/o CCS"))),
+  Gas = list(paste0("Secondary Energy|Electricity|Gas|", c("w/ CCS", "w/o CCS"))),
+  Biomass = list(paste0("Secondary Energy|Electricity|Biomass|", c("w/ CCS", "w/o CCS"))),
+  Nuclear = list("Secondary Energy|Electricity|Nuclear"),
+  Hydro = list("Secondary Energy|Electricity|Hydro"),
+  Solar = list(c("Secondary Energy|Electricity|Solar|PV", "Secondary Energy|Electricity|Solar|CSP")),
+  Wind = list(c("Secondary Energy|Electricity|Wind|Onshore", "Secondary Energy|Electricity|Wind|Offshore")),
+  Hydrogen = list("Secondary Energy|Electricity|Hydrogen"))
+fe_items_template <- list(
+  Industry = list("Final Energy|Industry"), Transportation = list("Final Energy|Transportation"),
+  Buildings = list("Final Energy|Building"), AFOFI = list("Final Energy|AFOFI"))
+fe_items_iamc <- list(
+  Industry = list("Final Energy|Industry"), Transportation = list("Final Energy|Transportation"),
+  Buildings = list("Final Energy|Residential and Commercial", "Final Energy|Buildings",
+                   c("Final Energy|Residential", "Final Energy|Commercial")),
+  AFOFI = list("Final Energy|Agriculture"),
+  `Non-energy use` = list("Final Energy|Non-Energy Use"),
+  `Intl. bunkers` = list("Final Energy|Bunkers"))
+
+tag <- function(df, labf) df %>% mutate(series = labf(Scenario))
+# A series in grays, B series in colors; "ref" scenarios dashed
+series_levels <- c(lab_a(a_scen), lab_b(b_scen))
+b_cols <- c("#d03b2f", "#2a78d6", "#1b8a5a", "#eda100", "#8e44ad", "#e87ba4", "#008080", "#7f6000")
+series_col <- c(setNames(gray.colors(length(a_scen), start = 0.15, end = 0.7), lab_a(a_scen)),
+                setNames(rep_len(b_cols, length(b_scen)), lab_b(b_scen)))
+series_lty <- c(setNames(rep("solid", length(a_scen)), lab_a(a_scen)),
+                setNames(ifelse(grepl("ref", b_scen, ignore.case = TRUE), "dashed", "solid"), lab_b(b_scen)))
+series_lwd <- c(setNames(rep(0.6, length(a_scen)), lab_a(a_scen)), setNames(rep(1.1, length(b_scen)), lab_b(b_scen)))
+cat_fill <- c(Coal = "#3d3d3d", Oil = "#8c564b", Gas = "#7fb3e6", Biomass = "#5aa05a",
+              Nuclear = "#9467bd", Hydro = "#1f5fa8", Solar = "#f2c12e", Wind = "#5cc8c0",
+              Geothermal = "#d98c5f", Hydrogen = "#e377c2", Other = "#c8c8c8",
+              Industry = "#4a6fa5", Transportation = "#e07b39", Buildings = "#6aa84f",
+              AFOFI = "#b39b5c", `Non-energy use` = "#8fb8d8", `Intl. bunkers` = "#9e9e9e")
+base_theme <- theme_bw(base_size = 18) +
+  theme(plot.background = element_rect(fill = "white", color = NA), panel.grid.minor = element_blank(),
+        strip.background = element_rect(fill = "white", color = "black"), legend.text = element_text(size = 14))
+
+order_series <- function(d) d %>% filter(series %in% series_levels) %>%
+  mutate(series = factor(series, levels = intersect(series_levels, unique(series))))
+line_plot <- function(d, ylab, facet = FALSE) {
+  d <- order_series(d) %>% filter(year %in% years)
+  ggplot(d, aes(year, value, color = series, linetype = series, linewidth = series)) +
+    geom_hline(yintercept = 0, color = "gray60", linewidth = 0.3) +
+    geom_line() +
+    {if (facet) facet_wrap(~category)} +
+    scale_color_manual(values = series_col, name = NULL) +
+    scale_linetype_manual(values = series_lty, name = NULL) +
+    scale_linewidth_manual(values = series_lwd, name = NULL) +
+    scale_x_continuous(breaks = years, labels = year_labels) +
+    labs(x = NULL, y = ylab) + base_theme
+}
+bar_plot <- function(d, ylab) {
+  d <- order_series(d) %>% filter(year %in% table_years)
+  cats <- intersect(names(cat_fill), unique(d$category))
+  d <- d %>% mutate(category = factor(category, levels = rev(cats)), year = year_labels(year))
+  ggplot(d, aes(series, value, fill = category)) +
+    geom_col(width = 0.8) +
+    geom_hline(yintercept = 0, color = "gray40", linewidth = 0.3) +
+    facet_wrap(~year, nrow = 1) +
+    scale_fill_manual(values = cat_fill, breaks = cats, name = NULL) +
+    labs(x = NULL, y = ylab) + base_theme +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 11))
+}
+totals <- function(d) d %>% group_by(series, year) %>% summarise(value = sum(value), .groups = "drop")
+# Wide table: one row per series, one column per table year
+wide_table <- function(d, digits = 0) {
+  w <- order_series(d) %>% filter(year %in% table_years) %>% arrange(series, year) %>%
+    mutate(value = fmt(value, digits)) %>% select(series, year, value) %>%
+    pivot_wider(names_from = year, values_from = value) %>% rename(Scenario = series)
+  names(w)[names(w) == "2020"] <- "2020/21"
+  knitr::kable(w, align = c("l", rep("r", ncol(w) - 1)))
+}
+save_part1 <- function(name, p, d) {
+  if (!params$save_png) return(invisible())
+  ggsave(file.path(params$out_dir, paste0(name, ".png")), p, width = 16, height = 9, dpi = 100, bg = "white")
+  write_csv(d %>% filter(year %in% years) %>% pivot_wider(names_from = year, values_from = value),
+            file.path(params$out_dir, paste0(name, ".csv")))
+}
+```
+
+# Part 1: all scenarios
+
+```{=latex}
+\newpage
+```
+
+## GHG, KMIP template scope (energy + industrial process - DAC)
+
+```{r fig1a}
+fig1a <- bind_rows(ghg_scope(a_ov) %>% tag(lab_a), ghg_scope(b_ov) %>% tag(lab_b)) %>%
+  mutate(category = "Energy + IP (KMIP scope)")
+p <- line_plot(fig1a, "Mt CO2eq/yr"); print(p); save_part1("fig1a_ghg_kmip_scope", p, fig1a)
+```
+
+Scope = KMIP template: CO2 + CH4 + N2O from energy, industrial process GHG, minus DAC (no LULUCF). Mt CO2eq/yr.
+
+```{r tab1a}
+wide_table(fig1a)
+```
+
+```{=latex}
+\newpage
+```
+
+## GHG, national total (gross and net of LULUCF)
+
+```{r fig1b}
+fig1b <- ghg_national(b_korea) %>% tag(lab_b)
+if (!is.null(ref_korea)) {
+  ref_lab <- function(s) paste(params$a_label, s, "(rerun)")
+  ref_scen <- unique(ref_korea$Scenario)
+  series_levels <<- c(series_levels, ref_lab(ref_scen))
+  series_col <<- c(series_col, setNames(gray.colors(length(ref_scen), 0.1, 0.7), ref_lab(ref_scen)))
+  series_lty <<- c(series_lty, setNames(rep("solid", length(ref_scen)), ref_lab(ref_scen)))
+  series_lwd <<- c(series_lwd, setNames(rep(0.6, length(ref_scen)), ref_lab(ref_scen)))
+  fig1b <- bind_rows(ghg_national(ref_korea) %>% tag(ref_lab), fig1b)
+}
+p <- line_plot(fig1b, "Mt CO2eq/yr", facet = TRUE); print(p); save_part1("fig1b_ghg_national_gross_net", p, fig1b)
+```
+
+Net = Emissions|Kyoto Gases (incl. LULUCF). Gross = Net - CO2 AFOLU - Kyoto AFOLU|Land (as step6). From the step2 Korea csv; a submission workbook has no national total, so the reference appears here only when `compare_ref_step2_csv` points at a step2 csv of the reference database.
+
+```{r tab1b}
+t1b <- order_series(fig1b) %>% filter(year %in% table_years) %>%
+  mutate(series = paste0(series, if_else(grepl("^Net", category), " | net", " | gross"))) %>%
+  arrange(category, series, year) %>% mutate(value = fmt(value, 0)) %>%
+  select(series, year, value) %>% pivot_wider(names_from = year, values_from = value) %>%
+  rename(Scenario = series)
+names(t1b)[names(t1b) == "2020"] <- "2020/21"
+knitr::kable(t1b, align = c("l", rep("r", ncol(t1b) - 1)))
+```
+
+```{=latex}
+\newpage
+```
+
+## Primary energy by fuel
+
+```{r fig2}
+fig2 <- bind_rows(build(a_ov, pe_items, list("Primary Energy"), 1 / 1000) %>% tag(lab_a),
+                  build(b_ov, pe_items, list("Primary Energy"), 1 / 1000) %>% tag(lab_b))
+p <- bar_plot(fig2, "Mtoe/yr"); print(p); save_part1("fig2_primary_energy", p, fig2)
+```
+
+Nuclear / hydro / solar / wind / geothermal primary energy x2.1 (KMIP convention, a3 module) on both sides. Other = total - listed fuels. Table = total primary energy (Mtoe).
+
+```{r tab2}
+wide_table(totals(fig2))
+```
+
+```{=latex}
+\newpage
+```
+
+## Electricity generation by source
+
+```{r fig3}
+fig3 <- bind_rows(build(a_ov, el_items, list("Secondary Energy|Electricity"), 1 / 1000) %>% tag(lab_a),
+                  build(b_ov, el_items, list("Secondary Energy|Electricity"), 1 / 1000) %>% tag(lab_b))
+p <- bar_plot(fig3, "TWh/yr"); print(p); save_part1("fig3_electricity_generation", p, fig3)
+```
+
+Other = total - listed sources. Table = total generation (TWh).
+
+```{r tab3}
+wide_table(totals(fig3))
+```
+
+```{=latex}
+\newpage
+```
+
+## Final energy by sector
+
+```{r fig4}
+fig4 <- bind_rows(build(a_ov, fe_items_template, list("Final Energy"), 1 / 1000) %>% tag(lab_a),
+                  build(b_korea, fe_items_iamc, list("Final Energy"), EJ_TO_MTOE) %>% tag(lab_b))
+p <- bar_plot(fig4, "Mtoe/yr"); print(p); save_part1("fig4_final_energy_by_sector", p, fig4)
+```
+
+The reference uses the template rows (Industry, Transportation, Building, AFOFI); this run uses the step2 gcamreport rows, where GCAM 9.1 reports Non-energy use (feedstocks) and Intl. bunkers as own rows. Other = total - listed sectors. Table = total final energy (Mtoe).
+
+```{r tab4}
+wide_table(totals(fig4))
+```
+
+# Part 2: `r lab_a(params$pair_a)` vs `r lab_b(params$pair_b)`
+
+```{r part2-data}
+lab_a2 <- lab_a(params$pair_a); lab_b2 <- lab_b(params$pair_b)
+to_long <- function(df, label) {
+  df %>% select(variable = Variable, unit = Unit, any_of(as.character(years))) %>%
+    mutate(across(any_of(as.character(years)), as.numeric)) %>%
+    pivot_longer(-c(variable, unit), names_to = "year", values_to = "value") %>%
+    mutate(year = as.numeric(year), source = label) %>% filter(!is.na(value))
+}
+combined_data <- bind_rows(to_long(a_all %>% filter(Scenario == params$pair_a), lab_a2),
+                           to_long(b_step4 %>% filter(Scenario == params$pair_b), lab_b2)) %>%
+  mutate(source = factor(source, levels = c(lab_a2, lab_b2)))
+unit_of <- combined_data %>% distinct(variable, unit) %>% filter(!is.na(unit)) %>%
+  group_by(variable) %>% summarise(unit = first(unit))
+```
+
+Each section: stacked bars (A left, B right, same y scale), a totals table (Diff = B - A) and a variable table for 2030 and 2050. Variables that are zero or missing in both scenarios are dropped. The sub-sector sections are mostly empty in a submission workbook; use a step4 csv of the reference database as `compare_a_file` to fill them. Capacity Additions: the KMIP2025 workbook has zeros and the GCAM 9.1 values look wrong; do not use that section yet.
+
+```{r sections}
+fe_fuels <- c("Coal", "Gas", "Oil", "Biomass", "Electricity", "Heat", "Hydrogen")
+elec_techs <- c("Biomass|w/ CCS", "Biomass|w/o CCS", "Coal|w/ CCS", "Coal|w/o CCS",
+                "Gas|w/ CCS", "Gas|w/o CCS", "Hydro", "Hydrogen", "Nuclear",
+                "Oil|w/ CCS", "Oil|w/o CCS", "Solar|CSP", "Solar|PV", "Wind|Offshore", "Wind|Onshore")
+cap_techs <- c(elec_techs, "Storage|Battery ESS", "Storage|PSH", "Storage|Hydrogen")
+ind_sub <- c("Chemicals", "Iron and Steel", "Non-Metallic Minerals", "Other Sector")
+trn_modes <- c("Road", "Rail", "Ship", "Air")
+bld_sub <- c("Residential", "Commercial/Public")
+
+sections <- list(
+  list(title = "Emissions|CO2", slug = "01_emissions_co2",
+       pos = c(paste0("Emissions|CO2|Energy|Demand|", c("Building", "Industry", "Transportation")),
+               paste0("Emissions|CO2|Energy|Supply|", c("Electricity", "Heat", "Hydrogen", "Other Energy", "Refinery")),
+               "Emissions|GHGs|Non-Energy|Industrial Process"),
+       neg = "Carbon Sequestration|DAC"),
+  list(title = "Emissions|N2O", slug = "02_emissions_n2o", total = "Emissions|N2O|Energy",
+       pos = c(paste0("Emissions|N2O|Energy|Demand|", c("AFOFI", "Building", "Industry", "Transportation")),
+               paste0("Emissions|N2O|Energy|Supply|", c("Electricity", "Heat", "Hydrogen", "Refinery")))),
+  list(title = "Emissions|CH4", slug = "03_emissions_ch4", total = "Emissions|CH4|Energy",
+       pos = c(paste0("Emissions|CH4|Energy|Demand|", c("AFOFI", "Building", "Industry", "Transportation")),
+               paste0("Emissions|CH4|Energy|Supply|", c("Electricity", "Heat", "Hydrogen", "Refinery")))),
+  list(title = "Price|Carbon", slug = "04_carbon_price", pos = "Price|Carbon"),
+  list(title = "Carbon Sequestration", slug = "05_carbon_sequestration", abs_all = TRUE,
+       pos = c("Carbon Sequestration|CCS|Energy|Demand",
+               paste0("Carbon Sequestration|CCS|Energy|Supply|", c("Electricity", "Heat", "Hydrogen", "Refinery"))),
+       pos2 = "Carbon Sequestration|DAC"),
+  list(title = "Secondary Energy|Electricity by fuel", slug = "06_secondary_electricity", total = "Secondary Energy|Electricity",
+       pos = c(paste0("Secondary Energy|Electricity|", elec_techs), "Secondary Energy|Electricity|Other")),
+  list(title = "Secondary Energy|Hydrogen", slug = "07_secondary_hydrogen", total = "Secondary Energy|Hydrogen",
+       pos = c(paste0("Secondary Energy|Hydrogen|Domestic|",
+                      c("Biomass", "Electricity", "Coal|w/ CCS", "Coal|w/o CCS", "Gas|w/ CCS", "Gas|w/o CCS")),
+               "Secondary Energy|Hydrogen|Import")),
+  list(title = "Capacity|Electricity", slug = "08_capacity_electricity", total = "Capacity|Electricity",
+       pos = paste0("Capacity|Electricity|", cap_techs)),
+  list(title = "Capacity Additions|Electricity", slug = "09_capacity_additions", total = "Capacity Additions|Electricity",
+       pos = paste0("Capacity Additions|Electricity|", cap_techs)),
+  list(title = "Final Energy", slug = "10_final_energy", total = "Final Energy", pos = paste0("Final Energy|", fe_fuels)),
+  list(title = "Final Energy|Building", slug = "11_final_energy_building", total = "Final Energy|Building",
+       pos = paste0("Final Energy|Building|", fe_fuels)),
+  list(title = "Final Energy|Transportation", slug = "12_final_energy_transportation", total = "Final Energy|Transportation",
+       pos = paste0("Final Energy|Transportation|", fe_fuels)),
+  list(title = "Final Energy|Industry", slug = "13_final_energy_industry", total = "Final Energy|Industry",
+       pos = paste0("Final Energy|Industry|", fe_fuels)),
+  list(title = "Primary Energy", slug = "14_primary_energy", total = "Primary Energy",
+       pos = paste0("Primary Energy|",
+                    c("Coal", "Gas", "Oil", "Biomass", "Electricity|Hydrogen", "Geothermal", "Hydro",
+                      "Hydrogen Import", "Hydrogen|Electricity", "Hydrogen|Heat", "Nuclear",
+                      "Solar", "Wind", "Waste", "Other"))),
+  # Sub-sector detail (template Optional rows)
+  list(title = "Emissions|CO2|Energy|Demand|Industry by sub-sector", slug = "15_co2_industry_subsector",
+       total = "Emissions|CO2|Energy|Demand|Industry",
+       pos = paste0("Emissions|CO2|Energy|Demand|Industry|", ind_sub)),
+  list(title = "Emissions|CO2|Energy|Demand|Transportation by mode", slug = "16_co2_transport_mode",
+       total = "Emissions|CO2|Energy|Demand|Transportation",
+       pos = paste0("Emissions|CO2|Energy|Demand|Transportation|", trn_modes)),
+  list(title = "Emissions|CO2|Energy|Demand|Building by sub-sector", slug = "17_co2_building_subsector",
+       total = "Emissions|CO2|Energy|Demand|Building",
+       pos = paste0("Emissions|CO2|Energy|Demand|Building|", bld_sub)),
+  list(title = "Emissions|GHGs|Non-Energy|Industrial Process by sub-sector", slug = "18_ip_subsector",
+       total = "Emissions|GHGs|Non-Energy|Industrial Process",
+       pos = paste0("Emissions|GHGs|Non-Energy|Industrial Process|", c("Chemicals", "Iron and Steel", "Non-Metallic Minerals"))),
+  list(title = "Carbon Sequestration|CCS|Energy|Demand by industry sub-sector", slug = "19_ccs_industry_subsector",
+       abs_all = TRUE, total = "Carbon Sequestration|CCS|Energy|Demand",
+       pos = paste0("Carbon Sequestration|CCS|Energy|Demand|Industry|", ind_sub)),
+  list(title = "Final Energy|Industry by sub-sector", slug = "20_fe_industry_subsector", total = "Final Energy|Industry",
+       pos = paste0("Final Energy|Industry|", ind_sub)),
+  list(title = "Final Energy|Industry|Iron and Steel by fuel", slug = "21_fe_steel_fuel",
+       total = "Final Energy|Industry|Iron and Steel", pos = paste0("Final Energy|Industry|Iron and Steel|", fe_fuels)),
+  list(title = "Final Energy|Industry|Chemicals by fuel", slug = "22_fe_chemicals_fuel",
+       total = "Final Energy|Industry|Chemicals", pos = paste0("Final Energy|Industry|Chemicals|", fe_fuels)),
+  list(title = "Final Energy|Transportation by mode", slug = "23_fe_transport_mode", total = "Final Energy|Transportation",
+       pos = paste0("Final Energy|Transportation|", trn_modes)),
+  list(title = "Final Energy|Transportation|Road by fuel", slug = "24_fe_road_fuel",
+       total = "Final Energy|Transportation|Road", pos = paste0("Final Energy|Transportation|Road|", fe_fuels)),
+  list(title = "Final Energy|Building by sub-sector", slug = "25_fe_building_subsector", total = "Final Energy|Building",
+       pos = paste0("Final Energy|Building|", bld_sub)),
+  list(title = "Final Energy|Building|Residential by fuel", slug = "26_fe_residential_fuel",
+       total = "Final Energy|Building|Residential", pos = paste0("Final Energy|Building|Residential|", fe_fuels))
+)
+```
+
+```{r part2-functions}
+pal20 <- c("#1F77B4", "#AEC7E8", "#FF7F0E", "#FFBB78", "#2CA02C", "#98DF8A", "#D62728",
+           "#FF9896", "#9467BD", "#C5B0D5", "#8C564B", "#C49C94", "#E377C2", "#F7B6D2",
+           "#7F7F7F", "#C7C7C7", "#BCBD22", "#DBDB8D", "#17BECF", "#9EDAE5")
+# Shortest legend label: drop the prefix shared by all variables
+short_names <- function(v) {
+  if (length(v) == 1) return(v)
+  if (any(str_detect(v, "^Emissions\\|"))) return(str_remove(v, "^Emissions\\|[^|]+\\|(Energy\\|)?"))
+  parts <- str_split(v, fixed("|"))
+  n <- 0
+  while (n < min(lengths(parts)) - 1 && length(unique(map_chr(parts, ~ .x[n + 1]))) == 1) n <- n + 1
+  map_chr(parts, ~ paste(.x[(n + 1):length(.x)], collapse = "|"))
+}
+section_data <- function(sec) {
+  all_vars <- c(sec$pos, sec$pos2, sec$neg)
+  d <- combined_data %>% filter(variable %in% all_vars) %>% select(-unit) %>%
+    complete(variable, source, year = years, fill = list(value = 0)) %>%
+    mutate(value = if_else(variable %in% sec$neg, -abs(value), value),
+           value = if (isTRUE(sec$abs_all)) abs(value) else value)
+  keep <- d %>% group_by(variable) %>% summarise(nz = any(abs(value) > 1e-9)) %>% filter(nz) %>% pull(variable)
+  d %>% filter(variable %in% keep) %>% mutate(variable = factor(variable, levels = intersect(all_vars, keep)))
+}
+section_unit <- function(sec) {
+  u <- unit_of %>% filter(variable %in% c(sec$pos, sec$pos2, sec$neg)) %>% pull(unit) %>% unique()
+  if (length(u) == 0) "" else u[1]
+}
+make_plot <- function(d, unit) {
+  if (nrow(d) == 0) return(ggplot() + annotate("text", x = 0, y = 0, label = "No data", size = 8) + theme_void())
+  vars <- levels(d$variable)
+  cols <- if (length(vars) <= 20) pal20[seq_along(vars)] else colorRampPalette(pal20)(length(vars))
+  ggplot(d, aes(x = year, y = value, fill = variable)) +
+    geom_col(width = 4, position = "stack") +
+    geom_hline(yintercept = 0, color = "black", linewidth = 0.4) +
+    facet_wrap(~ source, ncol = 2) +
+    scale_fill_manual(values = setNames(cols, vars), labels = short_names(vars), name = NULL) +
+    scale_x_continuous(breaks = years, labels = year_labels) +
+    scale_y_continuous(labels = scales::comma) +
+    labs(x = NULL, y = unit) +
+    theme_bw(base_size = 20) +
+    theme(plot.background = element_rect(fill = "white", color = NA),
+          strip.background = element_rect(fill = "white", color = "black"),
+          strip.text = element_text(color = "black", face = "bold"),
+          axis.text = element_text(color = "black"), axis.text.x = element_text(size = 14),
+          legend.key.size = unit(0.9, "cm"), legend.position = "right")
+}
+reported_total <- function(sec) {
+  if (is.null(sec$total)) return(NULL)
+  combined_data %>% filter(variable == sec$total) %>%
+    mutate(source = if_else(source == lab_a2, "A_reported", "B_reported")) %>%
+    select(year, source, value) %>% pivot_wider(names_from = source, values_from = value)
+}
+totals_table <- function(d) {
+  d %>% group_by(source, year) %>% summarise(total = sum(value), .groups = "drop") %>%
+    pivot_wider(names_from = source, values_from = total) %>%
+    rename(A = all_of(lab_a2), B = all_of(lab_b2)) %>%
+    mutate(Diff = B - A, `Diff (%)` = if_else(abs(A) > 1e-9, 100 * Diff / A, NA_real_))
+}
+detail_table <- function(d, yr) {
+  d %>% filter(year == yr) %>%
+    mutate(variable = as.character(variable), source = if_else(source == lab_a2, "A", "B")) %>%
+    select(variable, source, value) %>% pivot_wider(names_from = source, values_from = value) %>%
+    select(variable, A, B) %>%
+    mutate(Diff = B - A, `Diff (%)` = if_else(abs(A) > 1e-9, 100 * Diff / A, NA_real_))
+}
+```
+
+```{r run-sections, results='asis', fig.width=16, fig.height=9}
+all_detail <- list()
+for (sec in sections) {
+  d <- section_data(sec)
+  unit <- section_unit(sec)
+  p <- make_plot(d, unit)
+
+  cat("\n\n```{=latex}\n\\newpage\n```\n\n")
+  cat("## ", gsub("|", "\\|", sec$title, fixed = TRUE), "\n\n", sep = "")
+  print(p)
+  cat("\n\n")
+  if (nrow(d) == 0) next
+  zero_src <- d %>% group_by(source) %>% summarise(nz = any(abs(value) > 1e-9), .groups = "drop") %>%
+    filter(!nz) %>% pull(source)
+  if (length(zero_src) > 0)
+    cat("All values are zero or missing in ", paste(as.character(zero_src), collapse = ", "), ".\n\n", sep = "")
+
+  tot <- totals_table(d)
+  if (params$save_png) {
+    ggsave(file.path(params$out_dir, paste0(sec$slug, ".png")), p, width = 16, height = 9, dpi = 100, bg = "white")
+    rep_tot <- reported_total(sec)
+    tot_csv <- if (is.null(rep_tot)) tot else left_join(tot, rep_tot, by = "year")
+    write_csv(tot_csv %>% mutate(unit = unit) %>%
+                rename(!!paste0("A_", params$pair_a) := A, !!paste0("B_", params$pair_b) := B),
+              file.path(params$out_dir, paste0(sec$slug, "_totals.csv")))
+  }
+
+  # Table titles as bold lines, not kable captions: pandoc binds a caption that
+  # follows a table to that table, so two captioned tables in a row get mixed up.
+  tot_show <- tot %>% mutate(year = year_labels(year), across(c(A, B, Diff, `Diff (%)`), fmt))
+  cat("**Total by year (", unit, ")**\n\n", sep = "")
+  cat(knitr::kable(tot_show, col.names = c("Year", lab_a2, lab_b2, "Diff (B-A)", "Diff (%)"), align = "lrrrr"), sep = "\n")
+  cat("\n\n")
+
+  for (yr in c(2030, 2050)) {
+    det <- detail_table(d, yr)
+    all_detail[[paste(sec$slug, yr)]] <- det %>% mutate(section = sec$title, year = yr, unit = unit)
+    det_show <- det %>% filter(abs(Diff) > 1e-6) %>%
+      mutate(variable = short_names(variable), across(c(A, B, Diff, `Diff (%)`), fmt))
+    if (nrow(det_show) == 0) next
+    cat("**", yr, " by variable (", unit, ")**\n\n", sep = "")
+    cat(knitr::kable(det_show, col.names = c("Variable", "A", "B", "Diff (B-A)", "Diff (%)"), align = "lrrrr"), sep = "\n")
+    cat("\n\n")
+  }
+}
+if (params$save_png)
+  write_csv(bind_rows(all_detail) %>% relocate(section, year, unit),
+            file.path(params$out_dir, "all_sections_by_variable_2030_2050.csv"))
+```
+
+```{=latex}
+\newpage
+```
+
+## Template variables with values in only one scenario of the pair
+
+```{r only-one}
+has_val <- combined_data %>% group_by(variable, source) %>%
+  summarise(nz = any(abs(value) > 1e-9), .groups = "drop") %>%
+  pivot_wider(names_from = source, values_from = nz, values_fill = FALSE)
+only <- has_val %>% filter(.data[[lab_a2]] != .data[[lab_b2]]) %>%
+  mutate(`Has values in` = if_else(.data[[lab_a2]], lab_a2, lab_b2)) %>%
+  select(Variable = variable, `Has values in`) %>% arrange(`Has values in`, Variable)
+knitr::kable(only)
+```

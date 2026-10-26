@@ -55,6 +55,20 @@ pathway_targets <- NULL
 # Optional cap values as written in the GCAM XML. NULL = none.
 pathway_caps <- NULL
 
+# === Step7 comparison =========================================================
+# Reference run: the KMIP2025 submission workbook (sheet "data", Model column)
+# or a step4 csv (variables_after_unit_conversion.csv) of an earlier run.
+compare_a_file  <- file.path(db_path, "KMIP25_6Scenarios_output",
+  "(붙임 2-1) KMIP2025 상향식 모형 분석 결과_장기감축경로_MT+GC+MS (참고용).xlsx")
+compare_a_model <- "GC"                 # workbook only
+compare_a_label <- "KMIP25 GC"
+compare_a_scenarios <- c("S0.7_ESM", "S0.8_ESM", "S0.9", "S1", "S1.1")   # Part 1; empty = all
+compare_b_label <- "K9 low26"
+compare_b_scenarios <- scenarios        # Part 1
+compare_pair    <- c(a = "S1", b = "low_nz")   # Part 2, variable by variable
+# Optional: step2 Korea csv of the reference database (national gross/net GHG panel).
+compare_ref_step2_csv <- file.path(db_path, "KMIP25_6Scenarios_output", "kmip26_all8_korea.csv")
+
 # === Step5 validation =========================================================
 # Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).
 step5_tol_rel_a <- 1e-2   # raw query sums vs step1 (CO2 bio corrections need slack)
