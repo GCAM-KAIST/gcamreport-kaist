@@ -48,11 +48,11 @@ recalc_vintage_capacity <- function(data, prj, cf_rgn, cf_gcam) {
   # Technology to capacity variable mapping
   # Includes renewables, nuclear, and fossil fuels
   #
-  # NOTE: *_storage techs (wind_storage, PV_storage, CSP_storage) count in the
-  # generator variable (Onshore/PV/CSP) here AND as Battery Storage in module
-  # a2: a PV_storage plant of X GW is X GW of PV panels plus X GW of battery
-  # (KMIP convention, lab meeting 2026-10-14). Before that they were left out
-  # of the generator variables.
+  # NOTE: *_storage techs (wind_storage, PV_storage, CSP_storage) count twice
+  # on purpose: in the generator variable (Onshore/PV/CSP) here and as Battery
+  # Storage in module a2. A PV_storage plant of X GW is X GW of panels plus
+  # X GW of battery (KMIP convention, lab meeting 2026-10-14). Until
+  # 2026-10-26 they were left out of the generator variables.
   tech_to_cap <- tribble(
     ~tech_base,       ~cap_var,
     # Renewables

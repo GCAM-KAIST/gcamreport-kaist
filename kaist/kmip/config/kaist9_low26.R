@@ -19,7 +19,7 @@ run_name <- "kaist9_low26"
 db_path <- "/home/jiheun/reporting/kmip"
 # Which database inside db_path to query.
 db_name <- "KMIP26_LOW"
-# Outputs stay in the folder of the first report of these runs.
+# Keep the output folder of the first report of these runs.
 output_dir <- file.path(db_path, "KAIST9_LOW26_output")
 
 # === Region & year range ======================================================
