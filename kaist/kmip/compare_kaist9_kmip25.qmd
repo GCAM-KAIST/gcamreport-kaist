@@ -302,9 +302,12 @@ for (sec in sections) {
               file.path(params$out_dir, paste0(sec$slug, "_totals.csv")))
   }
 
+  # Table titles as bold lines, not kable captions: pandoc binds a caption that
+  # follows a table to that table, so two captioned tables in a row get mixed up.
   tot_show <- tot %>% mutate(year = year_labels(year), across(c(A, B, Diff, `Diff (%)`), fmt))
+  cat("**Total by year (", unit, ")**\n\n", sep = "")
   cat(knitr::kable(tot_show, col.names = c("Year", lab_a, lab_b, "Diff (B-A)", "Diff (%)"),
-                   align = "lrrrr", caption = paste0("Total by year (", unit, ")")), sep = "\n")
+                   align = "lrrrr"), sep = "\n")
   cat("\n\n")
 
   for (yr in c(2030, 2050)) {
@@ -313,8 +316,9 @@ for (sec in sections) {
     det_show <- det %>% filter(abs(Diff) > 1e-6) %>%
       mutate(variable = short_names(variable), across(c(A, B, Diff, `Diff (%)`), fmt))
     if (nrow(det_show) == 0) next
+    cat("**", yr, " by variable (", unit, ")**\n\n", sep = "")
     cat(knitr::kable(det_show, col.names = c("Variable", "A", "B", "Diff (B-A)", "Diff (%)"),
-                     align = "lrrrr", caption = paste0(yr, " by variable (", unit, ")")), sep = "\n")
+                     align = "lrrrr"), sep = "\n")
     cat("\n\n")
   }
 }
