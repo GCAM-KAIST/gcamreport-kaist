@@ -2,7 +2,7 @@
 # Run settings: ssp2_ndc (K-TRACES; GCAM-KAIST 9.1 SSP2-Ref / SSP2-NDC-slow /
 # SSP2-NDC-fast, one BaseX DB per scenario, DBs left in the GCAM output folder).
 # Used through the loader: KAIST_CONFIG=kaist/ktraces/config/ssp2_ndc.R Rscript <script>
-#   step1:    Rscript kaist/ktraces/step1_ktraces.R <scenario>  (x3), then
+#   step1:    Rscript kaist/core/tools/step1_worker.R <scenario>  (x3), then
 #             Rscript kaist/core/tools/step1_merge.R
 #   workbook: Rscript kaist/ktraces/build_ktraces_workbook.R
 ################################################################################
@@ -40,5 +40,5 @@ ignore_markets    <- "^bio-ceiling$"
 # USD_2010 -> USD_2025 with the US GDP deflator (BEA A191RD3A086NBEA via FRED).
 ktraces_deflator_file <- file.path(getwd(), "kaist/ktraces/data/FRED_A191RD3A086NBEA_20261008.csv")
 # Industry extensions (Construction, Mining, service output): patch_project_data(),
-# called by kaist/ktraces/step1_ktraces.R. Not for IAMC/KMIP submissions.
+# called by kaist/core/tools/step1_worker.R. Not for IAMC/KMIP submissions.
 source(file.path(getwd(), "kaist/ktraces/functions.R"))

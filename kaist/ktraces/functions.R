@@ -5,7 +5,7 @@
 # definitions (Industry|Construction, Industry|Mining, Service Output|...), so
 # these overrides live here and not in kaist/core: they apply only when a
 # settings file sources this file (kaist/ktraces/config/*.R) and the K-TRACES
-# step1 (kaist/ktraces/step1_ktraces.R) calls patch_project_data() after
+# step1 (kaist/core/tools/step1_worker.R) calls patch_project_data() after
 # patch_gcam_data(), before inject_kaist_data(). kaist/core is not changed.
 # Do not use these settings for IAMC / KMIP submissions.
 ################################################################################
@@ -54,7 +54,7 @@ ktraces_overrides <- list(
 
 
 # patch_project_data -----------------------------------------------------------
-# Called by step1_ktraces.R after patch_gcam_data(version) and before
+# Called by the step1 project hook (kaist/core/tools/step1_worker.R) after patch_gcam_data(version) and before
 # inject_kaist_data(). Works on .kaist_data: an object already patched by
 # kaist_overrides is taken from there, otherwise it is loaded from data/.
 # Idempotent: moved rows no longer match `from`, added rows are keyed.

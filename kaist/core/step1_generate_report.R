@@ -49,6 +49,12 @@ devtools::load_all(".", reset = TRUE)
 # KAIST data overrides, in memory only (kaist/core/functions.R::patch_gcam_data).
 # Must run after load_all.
 patch_gcam_data(paste0("v", version_number))
+# Project hook: a settings file may define patch_project_data(version) for data
+# overrides that belong to one project only (e.g. kaist/ktraces/functions.R).
+if (exists("patch_project_data", mode = "function")) {
+  patch_project_data(paste0("v", version_number))
+  inject_kaist_data()
+}
 library(dplyr)
 library(rgcam)
 library(tidyr)
@@ -99,6 +105,9 @@ for (i in seq_len(nrow(jobs))) {
     if (file.exists(created_dat)) {
       file.rename(created_dat, moved_dat)
       prj_name <- moved_dat
+      # KAIST queries (kaist/core/queries/kaist_queries.xml) go into the saved project.
+      conn <- rgcam::localDBConn(db_path, job$db, maxMemory = "8g")
+      add_kaist_queries(conn, moved_dat, scen, desired_regions)
     } else {
       warning("Expected .dat not found at ", created_dat, " -- skipped the move.")
     }

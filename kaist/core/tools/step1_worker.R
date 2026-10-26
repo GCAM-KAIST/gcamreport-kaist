@@ -30,6 +30,12 @@ prj_name     <- prj_basename
 
 devtools::load_all(".", reset = TRUE)
 patch_gcam_data(paste0("v", version_number))   # in memory, after load_all
+# Project hook: a settings file may define patch_project_data(version) for data
+# overrides that belong to one project only (e.g. kaist/ktraces/functions.R).
+if (exists("patch_project_data", mode = "function")) {
+  patch_project_data(paste0("v", version_number))
+  inject_kaist_data()
+}
 library(dplyr)
 library(rgcam)
 library(tidyr)
@@ -54,6 +60,14 @@ generate_report(
 created_dat <- file.path(db_path, paste(db_name, prj_basename, sep = "_"))
 if (file.exists(created_dat)) {
   file.rename(created_dat, file.path(output_dir, prj_basename))
+}
+
+# KAIST queries (kaist/core/queries/kaist_queries.xml, e.g. the NMSF2 LULUCF
+# inventory adjustment) are added to the saved project.
+dat_path <- file.path(output_dir, prj_basename)
+if (file.exists(dat_path)) {
+  conn <- rgcam::localDBConn(db_path, db_name, maxMemory = "8g")
+  add_kaist_queries(conn, dat_path, scenarios, desired_regions)
 }
 
 cat("\n=== step1_worker complete:", label, "===\n")
