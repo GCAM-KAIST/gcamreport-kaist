@@ -1,7 +1,9 @@
 ################################################################################
 # KMIP run settings: kaist9_low26
 # gcam-kaist9 master 895bc1e4 (GCAM 9.1, low nuclear, district heat, KESIS steel gas): low_ref / low_nz
-# run on the lab server 2026-10-26, 6 cores each (one DB per scenario).
+# run on the lab server 2026-10-26, 6 cores each. GCAM wrote one DB per run
+# (kmip/KAIST9_LOW26/{low_ref,low_nz}); they were merged into kmip/KMIP26_LOW with
+# kaist/core/tools/merge_basex_dbs.R.
 # Used through the loader: KAIST_CONFIG=kaist/kmip/config/kaist9_low26.R Rscript <step script>
 # Derived paths, template paths and kaist/core/functions.R are set by kaist/core/config.R.
 ################################################################################
@@ -16,7 +18,9 @@ run_name <- "kaist9_low26"
 # Folder that contains the GCAM BaseX databases (DB25, DB26, ...).
 db_path <- "/home/jiheun/reporting/kmip"
 # Which database inside db_path to query.
-db_name <- "KAIST9_LOW26"
+db_name <- "KMIP26_LOW"
+# Outputs stay in the folder of the first report of these runs.
+output_dir <- file.path(db_path, "KAIST9_LOW26_output")
 
 # === Region & year range ======================================================
 target_region <- "South Korea"   # Region used in the Korea-only blocks
@@ -26,9 +30,17 @@ version_number <- "9.1"          # GCAM version (used for queries and rda lookup
 
 # === Step1 query scope ========================================================
 # Which scenarios / variables / regions step1 asks generate_report() for.
-scenarios         <- c("low_ref", "low_nz")
+scenarios         <- c("KAIST_9_ref_u1007low", "KAIST_9_NZ_u1007low")   # names inside the DB
+# Short names used from the merged step1 outputs on (step1_merge.R).
+scenario_labels   <- c(KAIST_9_ref_u1007low = "low_ref", KAIST_9_NZ_u1007low = "low_nz")
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "South Korea"                # "All" or a character vector
+# KAIST policy markets that are not reported (generate_report(ignore = ...)):
+# ceilings/floors, the Korea CO2/GHG caps and the rest-of-world caps. Without
+# this list their shadow prices leak into the biomass and solids price rows.
+ignore_markets    <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling",
+                       "irnstl_ceiling_EAF", "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
+                       "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
@@ -64,7 +76,7 @@ compare_a_model <- "GC"                 # workbook only
 compare_a_label <- "KMIP25 GC"
 compare_a_scenarios <- c("S0.7_ESM", "S0.8_ESM", "S0.9", "S1", "S1.1")   # Part 1; empty = all
 compare_b_label <- "K9 low26"
-compare_b_scenarios <- scenarios        # Part 1
+compare_b_scenarios <- unname(scenario_labels)   # Part 1
 compare_pair    <- c(a = "S1", b = "low_nz")   # Part 2, variable by variable
 # Optional: step2 Korea csv of the reference database (national gross/net GHG panel).
 compare_ref_step2_csv <- file.path(db_path, "KMIP25_6Scenarios_output", "kmip26_all8_korea.csv")

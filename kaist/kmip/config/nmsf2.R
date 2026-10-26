@@ -28,6 +28,12 @@ version_number <- "7.0"          # GCAM version (used for queries and rda lookup
 scenarios         <- c("NMSF2_concave", "NMSF2_convex")
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "All"                        # "All" or a character vector
+# KAIST policy markets that are not reported (generate_report(ignore = ...)):
+# ceilings/floors, the Korea CO2/GHG caps and the rest-of-world caps. Without
+# this list their shadow prices leak into the biomass and solids price rows.
+ignore_markets    <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling",
+                       "irnstl_ceiling_EAF", "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
+                       "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in

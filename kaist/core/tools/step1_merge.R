@@ -26,6 +26,10 @@ xlsx_paths <- file.path(output_dir, paste0(per_run, ".xlsx"))
 missing <- xlsx_paths[!file.exists(xlsx_paths)]
 if (length(missing) > 0) stop("missing step1 outputs: ", paste(missing, collapse = ", "))
 data <- bind_rows(lapply(xlsx_paths, read_excel))
+# Optional scenario_labels in the settings file, c("<GCAM scenario name>" = "<label>"):
+# the merged outputs (xlsx, csv, .dat) carry the labels, e.g. KAIST_9_NZ_u1007low -> low_nz.
+labels <- if (exists("scenario_labels")) scenario_labels[names(scenario_labels) %in% unique(data$Scenario)] else character(0)
+if (length(labels) > 0) data$Scenario <- ifelse(data$Scenario %in% names(labels), labels[data$Scenario], data$Scenario)
 write_xlsx(data, file.path(output_dir, paste0(run_name, ".xlsx")))
 write.csv(data, file.path(output_dir, paste0(run_name, ".csv")), row.names = FALSE)
 cat("Merged report:", nrow(data), "rows,", length(unique(data$Scenario)), "scenario(s)\n")
@@ -40,6 +44,12 @@ prjs <- lapply(vapply(per_run, latest_dat, character(1)), loadProject)
 merged_path <- file.path(output_dir, paste0(run_name, "_project_merged.dat"))
 if (file.exists(merged_path)) file.remove(merged_path)
 merged <- mergeProjects(merged_path, prjs, clobber = TRUE, saveProj = TRUE)
+for (old in names(labels)) {
+  q <- lapply(merged[[old]], function(t) { if ("scenario" %in% names(t)) t$scenario <- labels[[old]]; t })
+  attributes(q) <- attributes(merged[[old]]); names(q) <- names(merged[[old]])
+  merged[[labels[[old]]]] <- q; merged[[old]] <- NULL
+}
+if (length(labels) > 0) saveProject(merged, file = merged_path)
 cat("Merged project:", paste(listScenarios(merged), collapse = ", "), "\n")
 
 cat("\n=== step1_merge complete ===\n")
