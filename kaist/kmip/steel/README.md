@@ -35,7 +35,7 @@ python -X utf8 kaist/kmip/steel/build_steel_template.py \
 python -X utf8 kaist/kmip/steel/build_steel_template.py \
     --dir kmip/KMIP25_6Scenarios_output/iron_report \
     --tag kaist9_nz --input query_results_kaist9.xlsx \
-    --xml kaist/core/input/Korea/iron_steel_no_h2.xml --base-year 2021  # GCAM 9.1 run
+    --xml ../gcam_input/kaist9_input/Korea/iron_steel_no_h2.xml --base-year 2021  # GCAM 9.1 run (KAIST XMLs live outside the repo)
 python -X utf8 kaist/kmip/steel/plot_steel_compare.py \
     --dir kmip/KMIP25_6Scenarios_output/iron_report [--en]
 ```
