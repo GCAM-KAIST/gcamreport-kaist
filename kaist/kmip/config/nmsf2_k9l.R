@@ -5,7 +5,7 @@
 # kmip/NMSF2_K9L_runs/, links to the gcam-kaist9-nmsf2 output folder); they are
 # merged into kmip/NMSF2_K9L with kaist/core/tools/merge_basex_dbs.R.
 # Run: kaist/kmip/run_pipeline.sh kaist/kmip/config/nmsf2_k9l.R (steps 1, 2, 5, 6)
-# NMSF2-only mapping rows (kaist/kmip/functions.R) and queries (kaist/kmip/queries/)
+# NMSF2-only mapping rows (kaist/kmip/functions.R) and queries (kaist/kmip/data/)
 # are wired in at the end of this file.
 ################################################################################
 
@@ -54,4 +54,4 @@ check_checkpoints <- c("A", "B", "C")   # no step3 (KMIP template) for NMSF2
 # Mapping rows for the NMSF2 gases (step1 project hook) and the LULUCF inventory
 # adjustment query that step2 module b9 reads.
 source(file.path(getwd(), "kaist/kmip/functions.R"))
-project_queries <- file.path(getwd(), "kaist/kmip/queries/nmsf2_queries.xml")
+project_queries <- file.path(getwd(), "kaist/kmip/data/nmsf2_queries.xml")

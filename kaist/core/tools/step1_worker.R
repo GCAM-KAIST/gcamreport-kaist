@@ -63,7 +63,7 @@ if (file.exists(created_dat)) {
 }
 
 # Project queries (settings: project_queries, a query xml such as
-# kaist/kmip/queries/nmsf2_queries.xml) go into the saved project.
+# kaist/kmip/data/nmsf2_queries.xml) go into the saved project.
 dat_path <- file.path(output_dir, prj_basename)
 if (file.exists(dat_path)) {
   if (exists("project_queries")) {

@@ -3,7 +3,7 @@
 #
 # PURPOSE:
 #   Apply variable mappings to fill template with GCAM data.
-#   This step uses the mapping (kaist/kmip/tools/make_mapping.R) to perform simple arithmetic
+#   This step uses the mapping (kaist/kmip/make_mapping.R) to perform simple arithmetic
 #   operations and convert units to template requirements.
 #
 # WHAT THIS SCRIPT DOES:
@@ -15,7 +15,7 @@
 #
 # PREREQUISITES:
 #   1. Run step2_adjust.R (creates Korea-specific data)
-#   2. Complete manual review of mapping_template.xlsx (tools/make_mapping.R)
+#   2. Complete manual review of mapping_template.xlsx (make_mapping.R)
 #   3. Have template file in output directory
 #
 # OUTPUT FILES:

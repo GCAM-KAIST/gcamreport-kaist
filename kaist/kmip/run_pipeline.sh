@@ -6,7 +6,7 @@
 #   kaist/kmip/run_pipeline.sh kaist/kmip/config/<run>.R [--from N] [--to N]
 # --from / --to limit the steps (e.g. --from 2 after a step1 that already ran). A settings
 # file may set run_steps <- c(1, 2, 4, 5) to leave out steps (NMSF2 has no KMIP template).
-# The mapping tool (kaist/kmip/tools/make_mapping.R) is not part of a run.
+# The mapping tool (kaist/kmip/make_mapping.R) is not part of a run.
 # Logs: {output_dir}/logs/<date>/step*.log. Set QUARTO_BIN if quarto is not on PATH (step5).
 set -u
 cfg=${1:?settings file, e.g. kaist/kmip/config/kaist9_low26.R}; shift

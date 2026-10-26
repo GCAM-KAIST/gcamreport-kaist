@@ -15,7 +15,7 @@
 #   - {run_name}_korea.csv: Korea data with additional calculations
 #
 # NEXT STEP:
-#   - kaist/kmip/step3_template.R (or tools/make_mapping.R when the template changes)
+#   - kaist/kmip/step3_template.R (or make_mapping.R when the template changes)
 #
 ################################################################################
 
@@ -174,5 +174,5 @@ write.csv(data_korea, korea_output, row.names = FALSE, fileEncoding = "UTF-8")
 cat("\n=== Step 2 Complete ===\n")
 cat("All regions:", csv_file, "\n")
 cat("Korea only:", korea_output, "\n")
-cat("Next: Run kaist/kmip/step3_template.R (or tools/make_mapping.R when the template changes)\n")
+cat("Next: Run kaist/kmip/step3_template.R (or make_mapping.R when the template changes)\n")
 #########################################

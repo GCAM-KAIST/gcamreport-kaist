@@ -36,16 +36,16 @@ gcamreport-kaist/
 │       ├── step5_report.R/.qmd    # GHG pathway figure + comparison report (PDF) against a reference run
 │       ├── run_pipeline.sh        # Steps 1-5 in one command
 │       ├── functions.R            # KMIP-only data overrides (NMSF2 gas markets), applied by the step1 project hook
-│       ├── queries/               # Extra queries for a run (nmsf2_queries.xml), named by project_queries in the settings
-│       ├── template/              # KMIP template, submission layout and mapping (variable names only, no values)
+│       ├── make_mapping.R         # Build the variable mapping (only when the template or the mapping changes)
+│       ├── data/                  # Inputs that are not GCAM output: KMIP template, submission layout and mapping
+│       │                          #   (variable names only, no values), coefficient csvs (L223, L225 from the
+│       │                          #   GCAM 9.1 xml), extra queries (nmsf2_queries.xml, named by project_queries)
 │       ├── modules/               # Code used by steps 2-4
 │       │   ├── 00_utils.R, unit_table.R   # Shared helpers; unit conversions used by step3 and step4
 │       │   ├── a1_...R ~ a6_...R  # step2 part A: all regions
 │       │   ├── b1_...R ~ b9_...R  # step2 part B: Korea only
 │       │   └── validate/          # step4 checkpoints, rule tables and test_check.R
-│       ├── tools/make_mapping.R   # Build the variable mapping (only when the template or the mapping changes)
-│       ├── steel/                 # KMIP2026 steel sheet tools (see steel/README.md)
-│       └── data/                  # Coefficient files (L223, L225 CSVs from the GCAM 9.1 xml)
+│       └── steel/                 # KMIP2026 steel sheet tools (see steel/README.md)
 └── (databases, outputs, notes and GCAM input XMLs live outside the repo, see db_path in the settings file; never commit result files)
 ```
 
@@ -60,7 +60,7 @@ Paths are under `kaist/`. Run every script from the repo root.
 | 3 | `kmip/step3_template.R` | Mapping and unit conversion: `variables_after_unit_conversion.csv` and `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (openxlsx, cell styles copied from the template) |
 | 4 | `kmip/step4_check.R` | Validation across all stages (see below): `check_summary.csv`, `check_mismatches.csv`, `check_unmapped.csv` |
 | 5 | `kmip/step5_report.R` + `kmip/step5_report.qmd` | `{run_name}_ghg_pathway.png` (national GHG, Mt CO2eq/yr per scenario, gross/net LULUCF) and, when the settings name a reference run, `compare/{run_name}_compare.pdf` |
-| - | `kmip/tools/make_mapping.R` | Build the variable mapping template from a step2 output. Needed only when the KMIP template or the mapping changes; one manual review pass |
+| - | `kmip/make_mapping.R` | Build the variable mapping template from a step2 output. Needed only when the KMIP template or the mapping changes; one manual review pass |
 | - | `core/tools/step1_worker.R` with `ktraces/config/ssp2_ndc.R`, then `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (`patch_project_data()` in `ktraces/functions.R`, picked up by the step1 project hook; one worker per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Not for KMIP / IAMC submissions |
 
 ### Step 4: check

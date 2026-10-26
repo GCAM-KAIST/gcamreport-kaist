@@ -39,15 +39,15 @@ kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
 # Display name for the report Model column.
 model_name <- paste("GCAM", version_number)
 
-# === Template & mapping (used by tools/make_mapping.R and step3) ===============================
+# === Template & mapping (used by make_mapping.R and step3) ===============================
 # A settings file may set its own; otherwise the KMIP2025 files in the repo.
 if (!exists("template_path"))
-  template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_final.xlsx")
+  template_path <- file.path(getwd(), "kaist/kmip/data/KMIP2025_DB_final.xlsx")
 if (!exists("mapping_path"))
-  mapping_path <- file.path(getwd(), "kaist/kmip/template/kmip_gcam_mapping_template.xlsx")
+  mapping_path <- file.path(getwd(), "kaist/kmip/data/kmip_gcam_mapping_template.xlsx")
 # Submitted KMIP layout (sheet "Template(제출용)", values removed) for the step3 workbook
 if (!exists("submission_template_path"))
-  submission_template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_template_submission.xlsx")
+  submission_template_path <- file.path(getwd(), "kaist/kmip/data/KMIP2025_DB_template_submission.xlsx")
 
 cat("Config loaded:", Sys.getenv("KAIST_CONFIG"), "| run_name =", run_name,
     "| db =", db_name, "| output_dir =", output_dir, "\n")

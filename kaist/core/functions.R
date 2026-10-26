@@ -365,7 +365,7 @@ kaist_overrides <- list(
 
 # add_kaist_queries -----------------------------------------------------------
 # Run the queries of a query xml (settings: project_queries, e.g.
-# kaist/kmip/queries/nmsf2_queries.xml) on a database and add them to a saved
+# kaist/kmip/data/nmsf2_queries.xml) on a database and add them to a saved
 # rgcam project, skipping queries it already has. For queries that gcamreport
 # does not run itself, e.g. the NMSF2 LULUCF inventory adjustment.
 add_kaist_queries <- function(conn, dat, scenarios, regions = "All", query_file) {
