@@ -161,7 +161,7 @@ git push -u origin sync/upstream-<date>
 # open a PR to kaist/v9.1-korea
 ```
 
-Every day the workflow `.github/workflows/kaist_branch_to_main.yaml` merges `kaist/v9.1-korea` into `main` when it has commits that `main` does not have (a merge commit by github-actions). `kaist/` is never touched by this merge. If there are conflicts it pushes nothing and opens an issue; then merge by hand: `git checkout main && git merge origin/kaist/v9.1-korea`, fix, push. The workflow can also be started from the Actions tab (Run workflow).
+Every day the workflow `.github/workflows/kaist_branch_to_main.yaml` opens a PR "kaist/v9.1-korea -> main" when the package branch has commits that `main` does not have, and merges it with a merge commit (main is protected: changes only through PRs, except jiheunha). `kaist/` is never touched by this merge. If the PR cannot be merged it stays open; then merge by hand. The workflow can also be started from the Actions tab (Run workflow).
 
 To send one of our package fixes upstream, cherry-pick its commit onto a new branch from `upstream/main` and open the PR from there.
 
