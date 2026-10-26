@@ -16,17 +16,14 @@ Branches:
 gcamreport-kaist/
 ├── R/, inst/, data/           # gcamreport package, from branch kaist/v9.1-korea (do not edit on main)
 ├── kaist/                     # KAIST custom scripts (this folder)
-│   ├── README.md, ROADMAP.md  # This file; plan with phases, owners, dates
-│   ├── docs/                  # Notes and bug analyses (local only, gitignored)
+│   ├── README.md              # This file
 │   ├── core/                  # General use: make gcamreport run on any KAIST database
 │   │   ├── config.R           # Loader: reads the settings file named by KAIST_CONFIG, sets derived paths
 │   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data)
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
 │   │   ├── queries/           # Extra queries added to every step1 project (kaist_queries.xml)
-│   │   ├── tools/             # step1_parallel.R (+ worker/merge), merge_basex_dbs.R (scenarios of several DBs -> one DB), compare_outputs.R
-│   │   ├── input/             # KAIST GCAM input XMLs for the name check (gitignored)
-│   │   └── diagnostics/       # Ad-hoc reprex / check scripts (gitignored)
+│   │   └── tools/             # step1_parallel.R (+ worker/merge), merge_basex_dbs.R (scenarios of several DBs -> one DB), compare_outputs.R
 │   ├── ktraces/               # K-TRACES tables only (not IAMC-standard variables)
 │   │   ├── config/            # Run settings (ssp2_ndc.R)
 │   │   ├── functions.R        # K-TRACES data overrides (patch_project_data, applied by the core step1 hook)
@@ -52,8 +49,7 @@ gcamreport-kaist/
 │       ├── tools/test_step5.R     # step5 self-test (fault injection)
 │       ├── steel/                 # KMIP2026 steel template tools (see steel/README.md)
 │       └── data/                  # Coefficient files (L223, L225 CSVs)
-│   └── scenario/              # Scenario XMLs and notes of test runs (input/<run>/, RESULT.md)
-└── (databases and outputs live outside the repo, see db_path in the settings file; never commit result files)
+└── (databases, outputs, notes and GCAM input XMLs live outside the repo, see db_path in the settings file; never commit result files)
 ```
 
 ## Workflow Scripts
@@ -107,8 +103,7 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
 3. **Per-database output folder**
    - Outputs are written under `kmip/{db_name}_output/`, so different
      databases (DB25, DB26, ...) do not mix. A settings file may set
-     `output_dir` itself; the `kaist/scenario/` test runs use
-     `kaist/scenario/output/{run_name}` (see `kaist/scenario/RESULT.md`).
+     `output_dir` itself (the kaist9 settings keep their first output folder).
 
 4. **step2 is a thin orchestrator over `kaist/kmip/modules/`**
    - Each adjustment is one function in one file (`a1` ~ `a6` run on all
@@ -122,8 +117,8 @@ Self-test: `Rscript kaist/kmip/tools/test_step5.R` (fault injection).
      rows; b7 (hybrid Energy Service rows) must run before b4 (vehicle conversion). Otherwise the b* order is arbitrary.
    - Values that are not queried from GCAM (Korea statistics, literature
      ratios, MT vehicle counts, ...) are catalogued in
-     `kaist/docs/hardcoded_assumptions.md` -- a local-only note (`kaist/docs/`
-     is gitignored); update it when you change one of those values.
+     `hardcoded_assumptions.md` -- a local note outside the repo
+     (`~/reporting/docs/` on the lab server); update it when you change one of those values.
    - To verify a refactor changed nothing:
      `source("kaist/core/tools/compare_outputs.R")` then
      `compare_csv(old_csv, new_csv)` (md5-based, prints first diffs).

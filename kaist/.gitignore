@@ -1,10 +1,4 @@
 /.quarto/
 **/*.quarto_ipynb
 TODO.md
-ROADMAP.md
-scenario/u0909n/
-scenario/u0909r/
-scenario/reports_u0909/
-scenario/*.dat
 debug/
-scenario/*_output/
