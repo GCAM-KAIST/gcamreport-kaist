@@ -71,4 +71,4 @@ if (length(failed) > 0) {
 cat("merging ...\n")
 st <- system2(rscript_bin, "kaist/core/tools/step1_merge.R")
 if (st != 0) stop("step1_merge.R failed (exit ", st, ")")
-cat("\n=== step1_parallel complete ===\nNext: Rscript kaist/kmip/step2_process_data.R\n")
+cat("\n=== step1_parallel complete ===\nNext: Rscript kaist/kmip/step2_adjust.R\n")

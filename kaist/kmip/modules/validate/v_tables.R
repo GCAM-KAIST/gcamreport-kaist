@@ -1,5 +1,5 @@
 ################################################################################
-# v_tables: all data-driven rule tables for step5 validation.
+# v_tables: all data-driven rule tables for step4 check.
 # Child sets and comparators were numerically confirmed on DB26 outputs
 # (2026-08-24). Add rows here to extend coverage.
 ################################################################################
@@ -13,7 +13,7 @@
 # When map_prefix is set, the numeric side sums only query keys the mapping
 # reports (var != NoReported/NA) -- mirrors the upstream join+filter. Numeric
 # checks cover years <= min(final_year, max_year); NA max_year = no cap.
-step5_aggregates <- tribble(
+check_aggregates <- tribble(
   ~aggregate_id,  ~mode,           ~query_names,                                                                ~filter_exprs,                    ~prep,          ~map_prefix,              ~join_keys,                      ~report_vars_add,                                    ~report_vars_subtract,                        ~factor,   ~tol_rel, ~max_year, ~note,
   "fe_nontrn",    "full",          "final energy consumption by sector and fuel",                               "!startsWith(sector, \"trn\")",   "deciles",      "final_energy_map",       "sector;input",                  "Final Energy",                                      "Final Energy|Transportation (w/ bunkers)",   1,         1e-6,     NA,        "report Final Energy includes Bunkers; KAIST irnstl-ceiling inputs are NoReported",
   "fe_transport", "full",          "transport final energy by mode and fuel",                                   "",                               "",             "transport_final_en_map", "sector;input;mode",             "Final Energy|Transportation (w/ bunkers)",          "",                                           1,         1e-6,     NA,        "transport query includes intl bunkers",
@@ -28,7 +28,7 @@ step5_aggregates <- tribble(
 # type: replaced/scaled/overwritten = exempt from equality; unit_only = compare
 # values with Unit ignored; added = new rows created by the module.
 # verify: "exists" = warn if no new-side row matches (module may not have run).
-step5_exceptions <- tribble(
+check_exceptions <- tribble(
   ~pattern,                                                                  ~scope,  ~type,         ~module, ~verify,  ~note,
   "^Price\\|Carbon",                                                         "all",   "replaced",    "a1",    "exists", "rebuilt from CO2 prices query",
   "\\|Battery Storage$",                                                     "all",   "replaced",    "a2",    "exists", "rebuilt from PV/wind storage gen",
@@ -58,7 +58,7 @@ step5_exceptions <- tribble(
 )
 
 # --- Checkpoint B: b5 source <-> Biomass|Liquids pairs (mirror of b5 targets) -
-step5_b5_pairs <- tribble(
+check_b5_pairs <- tribble(
   ~bioliq_variable,                                              ~source_variables,
   "Final Energy|Biomass|Liquids",                                "Final Energy|Liquids",
   "Final Energy|Industry|Biomass|Liquids",                       "Final Energy|Industry|Liquids;Final Energy|Non-Energy Use|Liquids",
@@ -79,7 +79,7 @@ step5_b5_pairs <- tribble(
 
 # --- Checkpoint C: parent = sum(children) relations ---------------------------
 # stages: ";"-separated subset of step1 / step2_all / step2_korea.
-step5_relations <- tribble(
+check_relations <- tribble(
   ~relation_id,        ~stages,                        ~parent,                                          ~children,
   "fe_fuels",          "step1;step2_all",              "Final Energy",                                   "Final Energy|Electricity;Final Energy|Gases;Final Energy|Heat;Final Energy|Hydrogen;Final Energy|Liquids;Final Energy|Solids;Final Energy|Other",
   "fe_fuels_korea",    "step2_korea",                  "Final Energy",                                   "Final Energy|Electricity;Final Energy|Gases;Final Energy|Heat;Final Energy|Hydrogen;Final Energy|Liquids;Final Energy|Solids;Final Energy|Other;Final Energy|Biomass|Liquids",
@@ -102,7 +102,7 @@ step5_relations <- tribble(
 )
 
 # --- Checkpoint C: relations that must NOT be asserted (documented gaps) ------
-step5_known_violations <- tribble(
+check_known_violations <- tribble(
   ~violation_id,       ~stages,                        ~reason,
   "capacity_total",    "step1;step2_all;step2_korea",  "Capacity|Electricity grand total is never recomputed after a2/a4 change children",
   "primary_energy",    "step2_all;step2_korea",        "a3 nuclear add + b2 Primary Energy|*|Hydrogen / |Biomass|Electricity rows sit outside the Primary Energy total",

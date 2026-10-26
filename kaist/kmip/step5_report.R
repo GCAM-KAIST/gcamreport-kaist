@@ -1,15 +1,23 @@
 ################################################################################
-# Step 6: Report plots
+# Step 5: Report
 #
-# PURPOSE:
-#   Draw report figures from the step2 Korea output.
-#   Figure 1: national GHG pathway (Mt CO2eq/yr), one colored line per
-#   scenario, two panels: Gross (excl. LULUCF) and Net (incl. LULUCF).
-#   Uses Emissions|Kyoto Gases, which excludes international bunkers after
-#   the b1 reallocation (years >= 2020; earlier years keep raw GCAM values).
+#   1. National GHG pathway figure from the step2 Korea csv: Mt CO2eq/yr, one
+#      line per scenario, panels Gross (excl. LULUCF) and Net (incl. LULUCF).
+#      Emissions|Kyoto Gases excludes international bunkers after the b1
+#      reallocation (years >= 2020; earlier years keep raw GCAM values).
+#   2. When the settings name a reference run (compare_a_file): the comparison
+#      report, kaist/kmip/step5_report.qmd rendered with quarto. Part 1 puts all
+#      scenarios of this run next to the reference (GHG in the KMIP scope,
+#      national gross/net GHG, primary energy, electricity, final energy by
+#      sector); Part 2 is one scenario pair, variable by variable.
 #
-# INPUT:  {output_dir}/{run_name}_korea.csv   (from step2)
+# INPUT:  {output_dir}/{run_name}_korea.csv (step2); for the comparison also
+#         variables_after_unit_conversion.csv (step3) and the compare_* settings
+#         (see kaist/kmip/config/kaist9_low26.R)
 # OUTPUT: {output_dir}/{run_name}_ghg_pathway.png / .csv
+#         {output_dir}/compare/{run_name}_compare.pdf, one png + csv per section
+# Quarto: `quarto` on PATH, or set QUARTO_BIN (RStudio Server ships one under
+#         /usr/lib/rstudio-server/bin/quarto/bin/quarto).
 ################################################################################
 
 ########## Load configuration ##########
@@ -23,7 +31,7 @@ suppressMessages({
   library(ggplot2)
 })
 
-########## Scenario colors ##########
+########## 1. GHG pathway figure ##########
 # Fixed scenario -> color assignment (colorblind-validated palette, fixed
 # order). A scenario keeps its color no matter which subset is plotted.
 scenario_order <- c("ref", "S1", "S1.1", "S0.9",
@@ -31,9 +39,7 @@ scenario_order <- c("ref", "S1", "S1.1", "S0.9",
 palette_hex <- c("#2a78d6", "#eb6834", "#1baf7a", "#eda100",
                  "#e87ba4", "#008300", "#4a3aa7", "#e34948")
 scenario_colors <- setNames(palette_hex, scenario_order)
-#####################################
 
-########## Build the GHG series ##########
 korea_csv <- file.path(output_dir, paste0(run_name, "_korea.csv"))
 data_korea <- read_csv(korea_csv, show_col_types = FALSE)
 
@@ -60,7 +66,7 @@ ghg <- data_korea %>%
   mutate(measure = factor(measure, levels = c("Gross (excl. LULUCF)",
                                               "Net (incl. LULUCF)")))
 
-# Keep only the panels asked for in config (plot_measures: "Gross", "Net").
+# Keep only the panels asked for in the settings (plot_measures: "Gross", "Net").
 keep <- get0("plot_measures", ifnotfound = c("Gross", "Net"))
 ghg <- ghg %>% filter(sub(" .*", "", measure) %in% keep) %>% droplevels()
 
@@ -73,9 +79,7 @@ if (length(scen_extra) > 0) {
                        setNames(free_hex[seq_along(scen_extra)], scen_extra))
 }
 ghg$Scenario <- factor(ghg$Scenario, levels = c(scen_known, scen_extra))
-##########################################
 
-########## Plot ##########
 # Line-end labels only for a few scenarios; with many they overlap, so the
 # legend alone carries identity.
 show_end_labels <- length(unique(ghg$Scenario)) <= 3 &&
@@ -114,8 +118,8 @@ if (show_end_labels) {
                      show.legend = FALSE)
 }
 
-# Optional points on the Net panel (from config): statutory targets and the
-# cap values written in the GCAM XML. Their shapes get their own legend.
+# Optional points on the Net panel (from the settings): statutory targets and
+# the cap values written in the GCAM XML. Their shapes get their own legend.
 net_panel <- function(d, kind) d %>%
   filter(Scenario %in% levels(ghg$Scenario)) %>%
   mutate(Scenario = factor(Scenario, levels = levels(ghg$Scenario)),
@@ -149,11 +153,73 @@ if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
 ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 7,
        height = 4.6, dpi = 150, bg = "white")
-
 series_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.csv"))
 write_csv(ghg %>% arrange(measure, Scenario, year), series_file)
+cat("Figure:", png_file, "\nSeries:", series_file, "\n")
+###########################################
 
-cat("\n=== Step 6 Complete ===\n")
-cat("Figure:", png_file, "\n")
-cat("Series:", series_file, "\n")
-##########################
+########## 2. Comparison report ##########
+if (!exists("compare_a_file")) {
+  cat("No compare_a_file in the settings: comparison report skipped.\n\n=== Step 5 Complete ===\n")
+  quit(save = "no")
+}
+if (!exists("compare_pair")) stop("step5: compare_a_file is set but compare_pair (c(a = ..., b = ...)) is missing")
+
+# File names with Korean letters may be stored in NFD form: match NFC-normalized
+resolve_nfc <- function(f) {
+  if (file.exists(f)) return(f)
+  cand <- list.files(dirname(f), full.names = TRUE)
+  hit <- cand[stringi::stri_trans_nfc(basename(cand)) == stringi::stri_trans_nfc(basename(f))]
+  if (length(hit) > 0) hit[1] else f
+}
+compare_a_file <- resolve_nfc(compare_a_file)
+
+out_dir    <- file.path(output_dir, "compare")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+b_template <- file.path(output_dir, "variables_after_unit_conversion.csv")
+for (f in c(compare_a_file, b_template, korea_csv))
+  if (!file.exists(f)) stop("step5: missing input ", f)
+
+params <- list(
+  a_file        = compare_a_file,
+  a_model       = get0("compare_a_model", ifnotfound = "GC"),
+  a_label       = get0("compare_a_label", ifnotfound = "Reference"),
+  a_scenarios   = as.list(get0("compare_a_scenarios", ifnotfound = character(0))),
+  b_label       = get0("compare_b_label", ifnotfound = run_name),
+  b_template    = b_template,
+  b_korea       = korea_csv,
+  b_scenarios   = as.list(get0("compare_b_scenarios", ifnotfound = scenarios)),
+  pair_a        = unname(compare_pair[["a"]]),
+  pair_b        = unname(compare_pair[["b"]]),
+  ref_korea_csv = get0("compare_ref_step2_csv", ifnotfound = ""),
+  pathway_png   = png_file,
+  out_dir       = out_dir,
+  save_png      = TRUE
+)
+yml <- file.path(out_dir, "params.yml")
+# write TRUE/FALSE as true/false (yaml's default "yes"/"no" reaches quarto as text)
+yaml::write_yaml(params, yml, handlers = list(logical = function(x) {
+  r <- ifelse(x, "true", "false"); class(r) <- "verbatim"; r }))
+
+# quarto binary
+qb <- Sys.getenv("QUARTO_BIN")
+if (qb == "") qb <- unname(Sys.which("quarto"))
+if (qb == "" && requireNamespace("quarto", quietly = TRUE)) qb <- quarto::quarto_path()
+if (qb == "" && file.exists("/usr/lib/rstudio-server/bin/quarto/bin/quarto"))
+  qb <- "/usr/lib/rstudio-server/bin/quarto/bin/quarto"
+if (qb == "" || is.na(qb)) stop("step5: quarto not found; set QUARTO_BIN")
+
+qmd    <- file.path(getwd(), "kaist/kmip/step5_report.qmd")
+pdf_nm <- paste0(run_name, "_compare.pdf")
+cat("Rendering", basename(qmd), "->", file.path(out_dir, pdf_nm), "\n")
+st <- system2(qb, c("render", shQuote(qmd), "--to", "pdf", "--execute-params", shQuote(yml),
+                    "--output", shQuote(pdf_nm)))
+if (st != 0) stop("step5: quarto render failed (exit ", st, ")")
+# quarto writes --output relative to the working directory (older versions: next to the qmd)
+made <- c(file.path(getwd(), pdf_nm), file.path(dirname(qmd), pdf_nm))
+made <- made[file.exists(made)]
+if (length(made) == 0) stop("step5: rendered pdf not found")
+file.rename(made[1], file.path(out_dir, pdf_nm))
+
+cat("\n=== Step 5 Complete ===\nReport:", file.path(out_dir, pdf_nm), "\nSections (png, csv):", out_dir, "\n")
+##########################################

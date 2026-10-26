@@ -137,7 +137,7 @@ against each sheet's `Units` column. Inputs `scrap`, `irnstl-ceiling`,
      2020 ratio process CO2 / Coal|Feedstock = 29.648 / 15,400.8 (runtime).
    - Energy row = no-bio total - process, so energy + process = no-bio total.
    - Pipeline module b6 does the same to the korea csv.
-5. **CH4 / N2O** (§5): AR6 GWP100, CH4 x 27.2, N2O x 273 (same as step4).
+5. **CH4 / N2O** (§5): AR6 GWP100, CH4 x 27.2, N2O x 273 (same as step3).
 6. **Production** (§6): Steel from `iron and steel production by region`;
    Iron and Iron Ore are NR (GCAM has no separate output; MT also reported
    0 last year).

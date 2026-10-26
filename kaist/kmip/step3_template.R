@@ -1,9 +1,9 @@
 ################################################################################
-# Step 4: Fill Template (Final Step)
+# Step 3: Fill the KMIP template
 #
 # PURPOSE:
 #   Apply variable mappings to fill template with GCAM data.
-#   This step uses the mapping created in Step 3 to perform simple arithmetic
+#   This step uses the mapping (kaist/kmip/tools/make_mapping.R) to perform simple arithmetic
 #   operations and convert units to template requirements.
 #
 # WHAT THIS SCRIPT DOES:
@@ -14,15 +14,15 @@
 #   5. Generate missing data report
 #
 # PREREQUISITES:
-#   1. Run step2_process_data.R (creates Korea-specific data)
-#   2. Complete manual review of mapping_template.xlsx from Step 3
+#   1. Run step2_adjust.R (creates Korea-specific data)
+#   2. Complete manual review of mapping_template.xlsx (tools/make_mapping.R)
 #   3. Have template file in output directory
 #
 # OUTPUT FILES:
 #   - variables_before_unit_conversion.csv: Data before unit conversion
 #   - variables_after_unit_conversion.csv: Final data (COMPLETE!)
 #   - {run_name}_KMIP_submission.xlsx: the same data in the submitted KMIP layout
-#     (needs Python with pandas + openpyxl; set KAIST_PYTHON if python3 lacks them)
+#     (openxlsx; cell styles copied from the submission template)
 #
 ################################################################################
 
@@ -52,8 +52,8 @@ year_cols <- year_cols[as.numeric(year_cols) >= 2020]  # Usually start from 2020
 #################################
 
 ########## Unit Conversion Table ##########
-# Shared with step5 validation -- single source of truth
-source(file.path(getwd(), "kaist/kmip/unit_table.R"))
+# Shared with the step4 check -- single source of truth
+source(file.path(getwd(), "kaist/kmip/modules/unit_table.R"))
 ###########################################
 
 ########## Load Data ##########
@@ -346,7 +346,7 @@ write_csv(df_final,
           file.path(output_dir, "variables_after_unit_conversion.csv"),
           na = "")
 
-cat("\n=== Step 4 Complete ===\n")
+cat("\n=== Step 3 Complete ===\n")
 cat("Output:", file.path(output_dir, "variables_after_unit_conversion.csv"), "\n")
 
 cat("\n=== Coverage report by scenario ===\n")
@@ -378,16 +378,85 @@ for (i in seq_len(nrow(missing_report))) {
               covered_opt, total_opt, covered_opt / total_opt * 100))
 }
 ########## Submission workbook ##########
-# Same data in the submitted KMIP layout; missing values are written as 0
+# Same data in the submitted KMIP layout (sheet "Template(제출용)"): the main rows
+# of every scenario one block after another, then the "Added" rows of every
+# scenario. Cell styles are copied from the template block; missing values are
+# written as 0, as in the past GC submissions.
+write_submission <- function(template_path, csv_path, out_path, model = "GC") {
+  sheet <- "Template(제출용)"
+  df <- read.csv(csv_path, check.names = FALSE, stringsAsFactors = FALSE)
+  df <- df[!duplicated(paste(df$Scenario, df$Variable)), ]
+  rownames(df) <- paste(df$Scenario, df$Variable)
+  wb  <- openxlsx::loadWorkbook(template_path)
+  # readxl for the cell text (openxlsx::read.xlsx turns Korean inline strings into &#...; entities)
+  tpl <- as.data.frame(readxl::read_excel(template_path, sheet = sheet, col_names = FALSE,
+                                          col_types = "text", .name_repair = "minimal"),
+                       stringsAsFactors = FALSE)
+  header <- sub("\\.0+$", "", as.character(unlist(tpl[1, ])))
+  block  <- tpl[-1, , drop = FALSE]
+  year_cols <- which(grepl("^[0-9]{4}$", header))
+  col <- function(nm) which(tolower(header) == tolower(nm))[1]
+  is_added <- !is.na(block[[col("Region")]]) & block[[col("Region")]] == "Added"
+  scens <- unique(df$Scenario)
+
+  fill_block <- function(scen, rows) {
+    b <- block[rows, , drop = FALSE]
+    b[[col("model")]]    <- model
+    b[[col("scenario")]] <- scen
+    keys <- paste(scen, b[[col("variable")]])
+    for (j in year_cols) {
+      v <- suppressWarnings(as.numeric(df[keys, header[j]]))
+      v[is.na(v)] <- 0
+      b[[j]] <- v
+    }
+    b
+  }
+  main_rows <- which(!is_added); added_rows <- which(is_added)
+  out <- do.call(rbind, c(lapply(scens, fill_block, rows = main_rows),
+                          lapply(scens, fill_block, rows = added_rows)))
+  # template block row behind each output row, for the style copy below
+  tpl_of_out <- c(rep(main_rows, length(scens)), rep(added_rows, length(scens)))
+
+  openxlsx::deleteData(wb, sheet, cols = seq_along(header), rows = 2:(nrow(block) + 1), gridExpand = TRUE)
+  openxlsx::writeData(wb, sheet, out, startRow = 2, colNames = FALSE)
+  for (s in wb$styleObjects) {
+    if (s$sheet != sheet) next
+    for (cc in unique(s$cols)) {
+      tpl_rows <- s$rows[s$cols == cc] - 1          # sheet row 2 = block row 1
+      target <- which(tpl_of_out %in% tpl_rows) + 1
+      if (length(target) > 0)
+        openxlsx::addStyle(wb, sheet, s$style, rows = target, cols = cc, gridExpand = TRUE, stack = FALSE)
+    }
+  }
+  openxlsx::addFilter(wb, sheet, rows = 1, cols = seq_along(header))
+  openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
+  drop_dangling_rels(out_path)
+  cat(sprintf("KMIP submission workbook: %s (%d rows, %d scenarios)\n", out_path, nrow(out), length(scens)))
+}
+# openxlsx leaves a drawing relationship in every sheet of a loaded workbook but
+# writes no drawing file. Excel ignores that; openpyxl and some other readers
+# refuse the file. Remove the relationships whose target does not exist.
+drop_dangling_rels <- function(xlsx) {
+  xlsx <- normalizePath(xlsx)
+  d <- tempfile("xlsx_"); dir.create(d)
+  zip::unzip(xlsx, exdir = d)
+  parts <- list.files(d, recursive = TRUE, all.files = TRUE)
+  for (r in list.files(file.path(d, "xl/worksheets/_rels"), full.names = TRUE)) {
+    s <- paste(readLines(r, warn = FALSE), collapse = "\n")
+    for (rel in regmatches(s, gregexpr("<Relationship [^>]*/>", s))[[1]]) {
+      target <- sub("^\\.\\./", "xl/", sub('.*Target="([^"]+)".*', "\\1", rel))
+      if (!target %in% parts) s <- sub(rel, "", s, fixed = TRUE)
+    }
+    writeLines(s, r)
+  }
+  zip::zip(xlsx, files = parts, root = d, mode = "mirror")
+  unlink(d, recursive = TRUE)
+}
 submission_path <- file.path(output_dir, paste0(run_name, "_KMIP_submission.xlsx"))
-status <- system2(Sys.getenv("KAIST_PYTHON", "python3"),
-                  shQuote(c(file.path(getwd(), "kaist/kmip/write_submission.py"),
-                            submission_template_path,
-                            file.path(output_dir, "variables_after_unit_conversion.csv"),
-                            submission_path)))
-if (status != 0) warning("Submission workbook not written: needs Python with pandas and openpyxl (set KAIST_PYTHON)")
+write_submission(submission_template_path,
+                 file.path(output_dir, "variables_after_unit_conversion.csv"), submission_path)
 #########################################
 
-cat("\nNext: Run kaist/kmip/step5_validate.R to validate results\n")
+cat("\nNext: Run kaist/kmip/step4_check.R\n")
 ######################################
 

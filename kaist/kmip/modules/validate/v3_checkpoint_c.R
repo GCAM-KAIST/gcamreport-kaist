@@ -1,6 +1,6 @@
 ################################################################################
 # v3 / checkpoint C: parent variable = sum of children within one stage file.
-# Catches double counting (b5-class bugs). Relations: step5_relations.
+# Catches double counting (b5-class bugs). Relations: check_relations.
 ################################################################################
 
 checkpoint_c <- function(stage_long, stage_id, relations, known_violations,

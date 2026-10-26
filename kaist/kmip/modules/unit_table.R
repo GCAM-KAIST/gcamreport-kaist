@@ -1,6 +1,6 @@
 ################################################################################
-# Unit conversion table shared by step4 (template fill) and step5 (validation).
-# Extracted from step4_fill_template.R so both steps use the same factors.
+# Unit conversion table shared by step3 (template fill) and step4 (check).
+# Extracted from step3_template.R so both steps use the same factors.
 ################################################################################
 
 unit_table <- tibble::tribble(

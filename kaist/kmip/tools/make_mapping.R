@@ -1,5 +1,5 @@
 ################################################################################
-# Step 3: Create Variable Mapping
+# make_mapping: create the variable mapping (only when the template or the mapping changes)
 #
 # PURPOSE:
 #   Map template variables to GCAM variables using simple add/subtract operations.
@@ -11,12 +11,12 @@
 #   3. Create manual mapping template (incorporates previous mapping if exists)
 #   4. User manually reviews and edits the mapping file
 #
-# KEY DIFFERENCE FROM STEP 2:
+# DIFFERENCE FROM STEP 2:
 #   - Step 2: Creates NEW variables using coefficients (complex calculations)
-#   - Step 3: Maps to EXISTING variables using simple add/subtract
+#   - This tool: Maps to EXISTING variables using simple add/subtract
 #
 # PREREQUISITES:
-#   1. Run step2_process_data.R successfully
+#   1. Run step2_adjust.R successfully
 #   2. Have template file in project output directory
 #
 # OUTPUT FILES:
@@ -24,7 +24,7 @@
 #
 # NEXT STEP:
 #   1. Manually review and edit mapping_template.xlsx
-#   2. kaist/kmip/step4_fill_template.R
+#   2. kaist/kmip/step3_template.R
 #
 ################################################################################
 
@@ -170,7 +170,7 @@ setColWidths(wb, "mapping", cols = 1:6, widths = c(8.5, 8.5, 48, 48, 48, 48))
 saveWorkbook(wb, mapping_output_path, overwrite = TRUE)
 #####################################################
 
-cat("\n=== Step 3 Complete ===\n")
+cat("\n=== make_mapping complete ===\n")
 cat("Mapping template:", mapping_output_path, "\n")
-cat("Next: Manually review mapping, then run kaist/kmip/step4_fill_template.R\n")
+cat("Next: Manually review mapping, then run kaist/kmip/step3_template.R\n")
 

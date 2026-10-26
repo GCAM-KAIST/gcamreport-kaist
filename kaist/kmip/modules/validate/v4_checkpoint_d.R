@@ -1,8 +1,8 @@
 ################################################################################
 # v4 / checkpoint D: independently recompute the filled KMIP template from the
-# korea csv + mapping + shared unit table, then compare with step4's output
+# korea csv + mapping + shared unit table, then compare with step3's output
 # (variables_after_unit_conversion.csv). Independent reimplementation of the
-# step4 arithmetic on purpose -- catches algorithm drift and stale outputs.
+# step3 arithmetic on purpose -- catches algorithm drift and stale outputs.
 ################################################################################
 
 # Expected values per mapping row x scenario. Returns long tibble:
@@ -49,15 +49,15 @@ recompute_template <- function(korea_long, mapping, template_units, unit_table,
         if (is.na(spec$txt) || spec$txt == "") next
         for (term in trimws(strsplit(spec$txt, ";")[[1]])) {
           td <- get_var(term, scen)
-          if (nrow(td) == 0) next                      # step4: missing -> 0
-          if (td$Unit[1] != base_unit) next            # step4: mismatch -> skip term
+          if (nrow(td) == 0) next                      # step3: missing -> 0
+          if (td$Unit[1] != base_unit) next            # step3: mismatch -> skip term
           tv_vals <- setNames(td$value, td$year)
           yy <- intersect(years, names(tv_vals))
           vals[yy] <- vals[yy] + spec$sign * tv_vals[yy]
         }
       }
 
-      # unit conversion (same rule as step4: no factor found -> 1)
+      # unit conversion (same rule as step3: no factor found -> 1)
       target <- template_units$target_unit[template_units$Variable == tv][1]
       factor <- 1
       if (!is.na(target) && !is.na(base_unit) && base_unit != target) {
@@ -98,7 +98,7 @@ checkpoint_d <- function(korea_long, mapping, template_units, unit_table,
                                       "unexpected_value"))
   mm <- NULL
   if (nrow(bad) > 0) {
-    mm <- v_mismatch("D", "template_fill", "step4", bad$Scenario, "",
+    mm <- v_mismatch("D", "template_fill", "step3", bad$Scenario, "",
                      bad$Variable, "", bad$year,
                      ifelse(is.na(bad$expected), 0, bad$expected),
                      ifelse(is.na(bad$actual), 0, bad$actual),
@@ -109,7 +109,7 @@ checkpoint_d <- function(korea_long, mapping, template_units, unit_table,
   status <- if (nrow(bad) > 0) "FAIL" else if (n_warn > 0) "WARN" else "PASS"
 
   ok_rows <- j %>% filter(category == "ok")
-  list(results = v_result("D", "template_fill", "step4", status,
+  list(results = v_result("D", "template_fill", "step3", status,
          n_checked = nrow(j), n_failed = nrow(bad),
          max_rel_diff = ifelse(nrow(ok_rows) > 0,
                                max(rel_diff(ok_rows$expected, ok_rows$actual)), NA),

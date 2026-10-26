@@ -1,5 +1,5 @@
 ################################################################################
-# v0: shared machinery for step5 validation (functions only, no I/O side
+# v0: shared machinery for step4 check (functions only, no I/O side
 # effects except the report writers). Long format everywhere:
 #   (Model, Scenario, Region, Variable, Unit, year<chr>, value<dbl>)
 ################################################################################
@@ -140,10 +140,10 @@ compare_stage <- function(old_long, new_long, exceptions, tol_rel,
        mismatches = if (length(mm) > 0) bind_rows(mm) else NULL)
 }
 
-write_step5_reports <- function(results, mismatches, unmapped, output_dir) {
-  write.csv(results, file.path(output_dir, "step5_summary.csv"), row.names = FALSE)
+write_check_reports <- function(results, mismatches, unmapped, output_dir) {
+  write.csv(results, file.path(output_dir, "check_summary.csv"), row.names = FALSE)
   write.csv(if (is.null(mismatches)) data.frame() else mismatches,
-            file.path(output_dir, "step5_mismatches.csv"), row.names = FALSE)
+            file.path(output_dir, "check_mismatches.csv"), row.names = FALSE)
   write.csv(if (is.null(unmapped)) data.frame() else unmapped,
-            file.path(output_dir, "step5_unmapped.csv"), row.names = FALSE)
+            file.path(output_dir, "check_unmapped.csv"), row.names = FALSE)
 }

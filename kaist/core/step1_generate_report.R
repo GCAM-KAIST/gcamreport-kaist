@@ -23,7 +23,7 @@
 #     queries are not redone.
 #   - "Database does not exist" error: see kaist/core/rgcam_patch.R.
 #
-# NEXT STEP: kaist/kmip/step2_process_data.R
+# NEXT STEP: kaist/kmip/step2_adjust.R
 ################################################################################
 
 ########## Load configuration ##########
@@ -132,5 +132,5 @@ for (lb in names(job_results)) {
               lb, job_results[[lb]]$report, "", job_results[[lb]]$dat))
 }
 cat("Merged report:", file.path(output_dir, paste0(run_name, ".xlsx")), "\n")
-cat("Next: kaist/kmip/step2_process_data.R\n")
+cat("Next: kaist/kmip/step2_adjust.R\n")
 ########################################

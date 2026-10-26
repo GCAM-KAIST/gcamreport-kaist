@@ -7,12 +7,13 @@ params:
   a_label: "Reference"
   a_scenarios: ""
   b_label: "this run"
-  b_step4: ""
+  b_template: ""
   b_korea: ""
   b_scenarios: ""
   pair_a: ""
   pair_b: ""
-  ref_step2_csv: ""
+  ref_korea_csv: ""
+  pathway_png: ""
   out_dir: ""
   save_png: true
 format:
@@ -42,7 +43,7 @@ table_years <- c(2020, 2030, 2035, 2040, 2050)
 EJ_TO_MTOE  <- 23.884589   # same factor as unit_table.R
 GWP_CH4 <- 27.2; GWP_N2O <- 0.273
 
-# Reference workbook (sheet "data", Model column) or a step4 csv. The 2021 base
+# Reference workbook (sheet "data", Model column) or a step3 csv. The 2021 base
 # year of GCAM 9.1 is shown in the 2020 column.
 read_iamc <- function(f) {
   d <- if (grepl("\\.xlsx$", f)) read_excel(f, sheet = "data") else read_csv(f, show_col_types = FALSE)
@@ -60,36 +61,36 @@ if (!file.exists(a_file)) {
   cand <- list.files(dirname(a_file), full.names = TRUE)
   a_file <- cand[stringi::stri_trans_nfc(basename(cand)) == stringi::stri_trans_nfc(basename(a_file))][1]
 }
-a_is_step4 <- grepl("\\.csv$", a_file)
+a_is_template <- grepl("\\.csv$", a_file)
 a_all <- read_iamc(a_file)
-if (!a_is_step4 && "Model" %in% names(a_all)) a_all <- a_all %>% filter(Model == params$a_model)
+if (!a_is_template && "Model" %in% names(a_all)) a_all <- a_all %>% filter(Model == params$a_model)
 a_scen <- unlist(params$a_scenarios); a_scen <- a_scen[nzchar(a_scen)]
 if (length(a_scen) == 0) a_scen <- unique(a_all$Scenario)
 a_ov <- a_all %>% filter(Scenario %in% a_scen)
 
-b_step4 <- read_iamc(params$b_step4)
+b_template <- read_iamc(params$b_template)
 b_scen <- unlist(params$b_scenarios); b_scen <- b_scen[nzchar(b_scen)]
-if (length(b_scen) == 0) b_scen <- unique(b_step4$Scenario)
-b_ov <- b_step4 %>% filter(Scenario %in% b_scen)
+if (length(b_scen) == 0) b_scen <- unique(b_template$Scenario)
+b_ov <- b_template %>% filter(Scenario %in% b_scen)
 b_korea <- read_iamc(params$b_korea) %>% filter(Region == "South Korea", Scenario %in% b_scen)
-ref_korea <- if (nzchar(params$ref_step2_csv) && file.exists(params$ref_step2_csv))
-  read_iamc(params$ref_step2_csv) %>% filter(Region == "South Korea") else NULL
+ref_korea <- if (nzchar(params$ref_korea_csv) && file.exists(params$ref_korea_csv))
+  read_iamc(params$ref_korea_csv) %>% filter(Region == "South Korea") else NULL
 
 stopifnot(nrow(a_ov) > 0, nrow(b_ov) > 0,
-          params$pair_a %in% a_all$Scenario, params$pair_b %in% b_step4$Scenario)
+          params$pair_a %in% a_all$Scenario, params$pair_b %in% b_template$Scenario)
 lab_a <- function(s) paste(params$a_label, s)
 lab_b <- function(s) paste(params$b_label, s)
 year_labels <- function(x) ifelse(x == 2020, "2020/21", as.character(x))
 fmt <- function(x, digits = 1) formatC(x, format = "f", digits = digits, big.mark = ",")
 ```
 
-This report compares the run **`r params$b_label`** (scenarios `r paste(b_scen, collapse = ", ")`) with the reference **`r params$a_label`** (`r if (a_is_step4) "step4 output of an earlier run" else paste0("submission workbook, model ", params$a_model)`; scenarios `r paste(a_scen, collapse = ", ")`).
+This report compares the run **`r params$b_label`** (scenarios `r paste(b_scen, collapse = ", ")`) with the reference **`r params$a_label`** (`r if (a_is_template) "step3 output of an earlier run" else paste0("submission workbook, model ", params$a_model)`; scenarios `r paste(a_scen, collapse = ", ")`).
 
 - Part 1: all scenarios side by side (GHG in the KMIP template scope, national gross/net GHG, primary energy, electricity, final energy by sector).
 - Part 2: one scenario pair, `r lab_a(params$pair_a)` (A) vs `r lab_b(params$pair_b)` (B), variable by variable.
 - GCAM 9.1 has no 2020 period; its 2021 values sit in the 2020 column, shown as "2020/21". The reference 2020 values of a submission workbook are inventory values, not model output.
 - Bunker rule (international aviation/shipping removed): this pipeline keeps the domestic shares 0.099 / 0.039 (GIR 2023); the KMIP2025 submission used 0.093 / 0.032.
-- Sign convention: a submission workbook reports CCS as negative numbers, step4 outputs as positive. Carbon sequestration is shown as positive amounts.
+- Sign convention: a submission workbook reports CCS as negative numbers, step3 outputs as positive. Carbon sequestration is shown as positive amounts.
 
 ```{r part1-functions}
 # Pick the first candidate variable set that exists in d and sum it by scenario and year.
@@ -217,6 +218,14 @@ save_part1 <- function(name, p, d) {
 }
 ```
 
+# National GHG pathway of this run
+
+```{r pathway, out.width="85%"}
+if (nzchar(params$pathway_png) && file.exists(params$pathway_png)) knitr::include_graphics(params$pathway_png)
+```
+
+Net GHG incl. LULUCF per scenario (`{run_name}_ghg_pathway.png`, made by step5 from the step2 Korea csv).
+
 # Part 1: all scenarios
 
 ```{=latex}
@@ -257,7 +266,7 @@ if (!is.null(ref_korea)) {
 p <- line_plot(fig1b, "Mt CO2eq/yr", facet = TRUE); print(p); save_part1("fig1b_ghg_national_gross_net", p, fig1b)
 ```
 
-Net = Emissions|Kyoto Gases (incl. LULUCF). Gross = Net - CO2 AFOLU - Kyoto AFOLU|Land (as step6). From the step2 Korea csv; a submission workbook has no national total, so the reference appears here only when `compare_ref_step2_csv` points at a step2 csv of the reference database.
+Net = Emissions|Kyoto Gases (incl. LULUCF). Gross = Net - CO2 AFOLU - Kyoto AFOLU|Land (as the GHG pathway figure). From the step2 Korea csv; a submission workbook has no national total, so the reference appears here only when `compare_ref_korea_csv` points at a step2 csv of the reference database.
 
 ```{r tab1b}
 t1b <- order_series(fig1b) %>% filter(year %in% table_years) %>%
@@ -334,13 +343,13 @@ to_long <- function(df, label) {
     mutate(year = as.numeric(year), source = label) %>% filter(!is.na(value))
 }
 combined_data <- bind_rows(to_long(a_all %>% filter(Scenario == params$pair_a), lab_a2),
-                           to_long(b_step4 %>% filter(Scenario == params$pair_b), lab_b2)) %>%
+                           to_long(b_template %>% filter(Scenario == params$pair_b), lab_b2)) %>%
   mutate(source = factor(source, levels = c(lab_a2, lab_b2)))
 unit_of <- combined_data %>% distinct(variable, unit) %>% filter(!is.na(unit)) %>%
   group_by(variable) %>% summarise(unit = first(unit))
 ```
 
-Each section: stacked bars (A left, B right, same y scale), a totals table (Diff = B - A) and a variable table for 2030 and 2050. Variables that are zero or missing in both scenarios are dropped. The sub-sector sections are mostly empty in a submission workbook; use a step4 csv of the reference database as `compare_a_file` to fill them. Capacity Additions: the KMIP2025 workbook has zeros and the GCAM 9.1 values look wrong; do not use that section yet.
+Each section: stacked bars (A left, B right, same y scale), a totals table (Diff = B - A) and a variable table for 2030 and 2050. Variables that are zero or missing in both scenarios are dropped. The sub-sector sections are mostly empty in a submission workbook; use a step3 csv of the reference database as `compare_a_file` to fill them. Capacity Additions: the KMIP2025 workbook has zeros and the GCAM 9.1 values look wrong; do not use that section yet.
 
 ```{r sections}
 fe_fuels <- c("Coal", "Gas", "Oil", "Biomass", "Electricity", "Heat", "Hydrogen")

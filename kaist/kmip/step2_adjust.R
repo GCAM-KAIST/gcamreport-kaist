@@ -1,5 +1,5 @@
 ################################################################################
-# Step 2: Process GCAM Data
+# Step 2: Adjust the report (Korea rules, capacity, prices)
 #
 # PURPOSE:
 #   Post-process GCAM report data with additional queries and calculations.
@@ -15,7 +15,7 @@
 #   - {run_name}_korea.csv: Korea data with additional calculations
 #
 # NEXT STEP:
-#   - kaist/kmip/step3_create_mapping.R
+#   - kaist/kmip/step3_template.R (or tools/make_mapping.R when the template changes)
 #
 ################################################################################
 
@@ -174,5 +174,5 @@ write.csv(data_korea, korea_output, row.names = FALSE, fileEncoding = "UTF-8")
 cat("\n=== Step 2 Complete ===\n")
 cat("All regions:", csv_file, "\n")
 cat("Korea only:", korea_output, "\n")
-cat("Next: Run kaist/kmip/step3_create_mapping.R\n")
+cat("Next: Run kaist/kmip/step3_template.R (or tools/make_mapping.R when the template changes)\n")
 #########################################

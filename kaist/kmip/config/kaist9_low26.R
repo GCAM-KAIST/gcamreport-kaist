@@ -24,8 +24,8 @@ output_dir <- file.path(db_path, "KAIST9_LOW26_output")
 
 # === Region & year range ======================================================
 target_region <- "South Korea"   # Region used in the Korea-only blocks
-start_year    <- 2005            # First year kept in step2 / step4
-final_year    <- 2050            # Last year kept in step2 / step4
+start_year    <- 2005            # First year kept in step2 / step3
+final_year    <- 2050            # Last year kept in step2 / step3
 version_number <- "9.1"          # GCAM version (used for queries and rda lookups)
 
 # === Step1 query scope ========================================================
@@ -54,7 +54,7 @@ verbose_debug <- FALSE
 mt_reference_path <- file.path(db_path, "KMIP25_6Scenarios_output", "iron_report",
   "(붙임 2-1) KMIP2025 상향식 모형 분석 결과_장기감축경로_MT+GC+MS (참고용).xlsx")
 
-# === Step6 options ============================================================
+# === Step5 report: GHG pathway figure ============================================================
 # Panels to draw: c("Gross", "Net") or just "Net".
 plot_measures <- "Net"
 # First year on the x axis of the figure.
@@ -67,9 +67,9 @@ pathway_targets <- NULL
 # Optional cap values as written in the GCAM XML. NULL = none.
 pathway_caps <- NULL
 
-# === Step7 comparison =========================================================
+# === Step5 report: comparison with a reference run =========================================================
 # Reference run: the KMIP2025 submission workbook (sheet "data", Model column)
-# or a step4 csv (variables_after_unit_conversion.csv) of an earlier run.
+# or a step3 csv (variables_after_unit_conversion.csv) of an earlier run.
 compare_a_file  <- file.path(db_path, "KMIP25_6Scenarios_output",
   "(붙임 2-1) KMIP2025 상향식 모형 분석 결과_장기감축경로_MT+GC+MS (참고용).xlsx")
 compare_a_model <- "GC"                 # workbook only
@@ -81,13 +81,13 @@ compare_pair    <- c(a = "S1", b = "low_nz")   # Part 2, variable by variable
 # Optional: step2 Korea csv of the reference database (national gross/net GHG panel).
 compare_ref_step2_csv <- file.path(db_path, "KMIP25_6Scenarios_output", "kmip26_all8_korea.csv")
 
-# === Step5 validation =========================================================
+# === Step4 check =========================================================
 # Relative tolerances per checkpoint (rel_diff = |a-b| / max(|a|,|b|,1e-12)).
-step5_tol_rel_a <- 1e-2   # raw query sums vs step1 (CO2 bio corrections need slack)
-step5_tol_rel_b <- 1e-6   # step1-vs-step2 pass-through rows
-step5_tol_rel_c <- 1e-6   # parent = sum(children)
-step5_tol_rel_d <- 1e-6   # recomputed template vs step4 output
+check_tol_rel_a <- 1e-2   # raw query sums vs step1 (CO2 bio corrections need slack)
+check_tol_rel_b <- 1e-6   # step1-vs-step2 pass-through rows
+check_tol_rel_c <- 1e-6   # parent = sum(children)
+check_tol_rel_d <- 1e-6   # recomputed template vs step3 output
 # TRUE (or --strict on the command line) turns any FAIL into an error exit.
-step5_strict <- FALSE
+check_strict <- FALSE
 # Checkpoints to run by default; --checkpoints=A,C overrides.
-step5_checkpoints <- c("A", "B", "C", "D")
+check_checkpoints <- c("A", "B", "C", "D")

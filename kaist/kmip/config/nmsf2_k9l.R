@@ -25,8 +25,8 @@ scenario_labels   <- c(NMSF2_reference_k9l = "ref_k9l", NMSF2_less_ambition_k9l 
 ignore_markets    <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling",
                        "irnstl_ceiling_EAF", "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
                        "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
-# No KMIP template for NMSF2: run_pipeline.sh runs only these steps.
-run_steps         <- c(1, 2, 5, 6)
+# No KMIP template for NMSF2: run_pipeline.sh runs only these steps (no step3).
+run_steps         <- c(1, 2, 4, 5)
 desired_variables <- "All"
 desired_regions   <- c("South Korea", "Japan")   # Korea alone stops: no purpose-grown biomass in Korea (land frozen); Japan has it, Korea values unchanged
 ref_scenario <- "ref_k9l"
@@ -43,12 +43,12 @@ pathway_targets <- data.frame(
   value    = c(470.3, 348.9, 230.1, 118.8, 0,
                470.3, 289.5, 148.5, 74.2, 0))
 pathway_caps <- NULL
-step5_tol_rel_a <- 1e-2
-step5_tol_rel_b <- 1e-6
-step5_tol_rel_c <- 1e-6
-step5_tol_rel_d <- 1e-6
-step5_strict <- FALSE
-step5_checkpoints <- c("A", "B", "C")   # no step4 (KMIP template) for NMSF2
+check_tol_rel_a <- 1e-2
+check_tol_rel_b <- 1e-6
+check_tol_rel_c <- 1e-6
+check_tol_rel_d <- 1e-6
+check_strict <- FALSE
+check_checkpoints <- c("A", "B", "C")   # no step3 (KMIP template) for NMSF2
 
 # === NMSF2-only data =========================================================
 # Mapping rows for the NMSF2 gases (step1 project hook) and the LULUCF inventory

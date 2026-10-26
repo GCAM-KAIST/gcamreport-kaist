@@ -1,6 +1,6 @@
 ################################################################################
 # v2 / checkpoint B: step1 vs step2 -- totals unchanged except the documented
-# module adjustments (step5_exceptions), plus identity checks for added rows.
+# module adjustments (check_exceptions), plus identity checks for added rows.
 ################################################################################
 
 # B1: step1 xlsx vs step2 all-regions csv (Part A exceptions, scope "all")

@@ -8,7 +8,7 @@
 # KAIST_CONFIG environment variable (path from the repo root), then sets the
 # derived paths and loads kaist/core/functions.R. Each project keeps its own
 # settings files, e.g. kaist/kmip/config/kaist9_hlm.R:
-#   KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript kaist/kmip/step4_fill_template.R
+#   KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R Rscript kaist/kmip/step3_template.R
 #   Sys.setenv(KAIST_CONFIG = "kaist/kmip/config/kaist9_hlm.R")   # in RStudio
 ################################################################################
 
@@ -39,13 +39,13 @@ kaist_data_dir <- file.path(getwd(), "kaist/kmip/data")
 # Display name for the report Model column.
 model_name <- paste("GCAM", version_number)
 
-# === Template & mapping (used by step3 / step4) ===============================
+# === Template & mapping (used by tools/make_mapping.R and step3) ===============================
 # A settings file may set its own; otherwise the KMIP2025 files in the repo.
 if (!exists("template_path"))
   template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_final.xlsx")
 if (!exists("mapping_path"))
   mapping_path <- file.path(getwd(), "kaist/kmip/template/kmip_gcam_mapping_template.xlsx")
-# Submitted KMIP layout (sheet "Template(제출용)", values removed) for the step4 workbook
+# Submitted KMIP layout (sheet "Template(제출용)", values removed) for the step3 workbook
 if (!exists("submission_template_path"))
   submission_template_path <- file.path(getwd(), "kaist/kmip/template/KMIP2025_DB_template_submission.xlsx")
 
