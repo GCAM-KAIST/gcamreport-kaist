@@ -149,6 +149,26 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 `kaist/core/tools/step1_merge.R` to build the single `{run_name}.xlsx` and
 `{run_name}_project_merged.dat` that step2 expects.
 
+### gcam-kaist9 databases (one DB per scenario)
+
+gcam-kaist9 writes one BaseX database per scenario (e.g. `kmip/KAIST9_HLM/low_nz/`). The settings file lists the DB folder names in `scenarios`; each scenario is reported under its folder name. Step1 is `run_db.R` per DB plus `merge.R`; steps 2-6 are the same as above.
+
+```
+export KAIST_CONFIG=kaist/kmip/config/kaist9_hlm.R
+export KAIST_PYTHON=/path/to/python            # pandas + openpyxl, for the submission workbook in step4
+Rscript kaist/core/tools/kaist9/run_db.R low_nz list   # scenarios inside the DB
+Rscript kaist/core/tools/kaist9/run_db.R low_nz        # step1 for one DB -> low_nz.xlsx + low_nz_project.dat
+Rscript kaist/core/tools/kaist9/merge.R                # all DBs -> {run_name}.xlsx / .csv / _project_merged.dat
+Rscript kaist/kmip/step2_process_data.R
+Rscript kaist/kmip/step4_fill_template.R               # step3 only when the template or mapping changes
+Rscript kaist/kmip/step5_validate.R
+Rscript kaist/kmip/step6_plots.R
+```
+
+Each `run_db.R` uses one CPU, so start one per DB at the same time (`Rscript ... run_db.R high_nz > high_nz.log 2>&1 &` for each, then `wait`). `run_db.R` reuses `{db}_project.dat` in the output folder when it exists, so a failed post-processing step does not query the DB again; delete the `.dat` to re-query. Outputs go to `kmip/{db_name}_output/`.
+
+Comparison with KMIP2025: `kaist/kmip/compare_kaist9_kmip25.qmd` (two scenarios, variable by variable; `quarto render kaist/kmip/compare_kaist9_kmip25.qmd --to pdf --execute-params params.yml` with `a_file`, `a_scen`, `b_scen`, `out_dir` in the yml) and `kaist/kmip/tools/compare_kaist9_kmip25.R` (all scenarios: GHG, primary energy, electricity, final energy).
+
 ## Syncing with upstream gcamreport
 
 Upstream changes come in through `kaist/v9.1-korea`, never directly into `main` (do not use the GitHub "Sync fork" button: it merges upstream into `main`). `kaist/v9.1-korea` is protected, so the upstream merge goes through a PR:

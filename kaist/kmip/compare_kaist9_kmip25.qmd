@@ -49,15 +49,21 @@ to_long <- function(df, label) {
     filter(!is.na(value))
 }
 
-# A: KMIP2025 submission workbook (scenario names may have trailing spaces)
+# A: the KMIP2025 submission workbook (xlsx, sheet "data"; scenario names may
+# have trailing spaces) or a step4 output csv (variables_after_unit_conversion.csv)
 # File name may be stored in NFD form (Korean): match it NFC-normalized
 a_file <- params$a_file
 if (!file.exists(a_file)) {
   cand <- list.files(dirname(a_file), full.names = TRUE)
   a_file <- cand[stringi::stri_trans_nfc(basename(cand)) == stringi::stri_trans_nfc(basename(a_file))][1]
 }
-a_raw <- read_excel(a_file, sheet = "data") %>%
-  filter(Model == params$a_model, str_trim(Scenario) == params$a_scen)
+a_is_step4 <- grepl("\\.csv$", a_file)
+a_raw <- if (a_is_step4) {
+  read_csv(a_file, show_col_types = FALSE) %>% filter(Scenario == params$a_scen)
+} else {
+  read_excel(a_file, sheet = "data") %>%
+    filter(Model == params$a_model, str_trim(Scenario) == params$a_scen)
+}
 # B: kaist9 step4 output
 b_raw <- read_csv(file.path(params$b_dir, "variables_after_unit_conversion.csv"),
                   show_col_types = FALSE) %>%
@@ -76,14 +82,15 @@ year_labels <- function(x) ifelse(x == 2020, "2020/21", as.character(x))
 
 This report compares two scenarios variable by variable:
 
-- **A** = `r lab_a`: KMIP2025 submission (GCAM-KAIST7, model `r params$a_model`), from the submission workbook.
+- **A** = `r lab_a`: `r if (a_is_step4) "KMIP2025 database (GCAM-KAIST7) run through this pipeline (step4 output)" else paste0("KMIP2025 submission (GCAM-KAIST7, model ", params$a_model, "), from the submission workbook")`.
 - **B** = `r lab_b`: GCAM-KAIST 9.1 (kaist9) step4 output (`variables_after_unit_conversion.csv`).
 
 Both use the KMIP template variable names and units. Notes:
 
 - kaist9 has no 2020 period; its 2021 values sit in the 2020 column. The year axis shows this as "2020/21".
 - Bunker rule (international aviation/shipping removed): kaist9 uses domestic shares 0.099/0.039 (GIR 2023); the KMIP2025 submission used 0.093/0.032.
-- Sign convention: the KMIP2025 workbook reports CCS as negative numbers, kaist9 as positive. The Carbon Sequestration section shows all captured amounts as positive.
+- Sign convention: the KMIP2025 workbook reports CCS as negative numbers, step4 outputs as positive. The Carbon Sequestration sections show all captured amounts as positive.
+- The sub-sector sections (industry sub-sectors, transport modes, residential/commercial) are mostly empty in the submission workbook; use a step4 csv of the KMIP2025 database as A to fill them.
 - Totals in the tables are the sum of the plotted variables. Where the template total variable (e.g. Secondary Energy|Hydrogen) differs from that sum, the per-section CSV also has the reported totals (A_reported, B_reported).
 - Capacity Additions: the KMIP2025 workbook has zeros, and the kaist9 values look wrong (e.g. Wind Offshore over 2,000 GW in 2050); do not use that section yet.
 - Each section: stacked bars (A left, B right, same y scale), a totals table (Diff = B - A), and a variable table for 2030 and 2050. Variables that are zero or missing in both scenarios are dropped from the legend.
@@ -96,6 +103,9 @@ elec_techs <- c("Biomass|w/ CCS", "Biomass|w/o CCS", "Coal|w/ CCS", "Coal|w/o CC
                 "Oil|w/ CCS", "Oil|w/o CCS", "Solar|CSP", "Solar|PV",
                 "Wind|Offshore", "Wind|Onshore")
 cap_techs <- c(elec_techs, "Storage|Battery ESS", "Storage|PSH", "Storage|Hydrogen")
+ind_sub <- c("Chemicals", "Iron and Steel", "Non-Metallic Minerals", "Other Sector")
+trn_modes <- c("Road", "Rail", "Ship", "Air")
+bld_sub <- c("Residential", "Commercial/Public")
 
 sections <- list(
   list(title = "Emissions|CO2", slug = "01_emissions_co2",
@@ -138,7 +148,41 @@ sections <- list(
        pos = paste0("Primary Energy|",
                     c("Coal", "Gas", "Oil", "Biomass", "Electricity|Hydrogen", "Geothermal", "Hydro",
                       "Hydrogen Import", "Hydrogen|Electricity", "Hydrogen|Heat", "Nuclear",
-                      "Solar", "Wind", "Waste", "Other")))
+                      "Solar", "Wind", "Waste", "Other"))),
+  # Sub-sector detail (template Optional rows)
+  list(title = "Emissions|CO2|Energy|Demand|Industry by sub-sector", slug = "15_co2_industry_subsector",
+       total = "Emissions|CO2|Energy|Demand|Industry",
+       pos = paste0("Emissions|CO2|Energy|Demand|Industry|", ind_sub)),
+  list(title = "Emissions|CO2|Energy|Demand|Transportation by mode", slug = "16_co2_transport_mode",
+       total = "Emissions|CO2|Energy|Demand|Transportation",
+       pos = paste0("Emissions|CO2|Energy|Demand|Transportation|", trn_modes)),
+  list(title = "Emissions|CO2|Energy|Demand|Building by sub-sector", slug = "17_co2_building_subsector",
+       total = "Emissions|CO2|Energy|Demand|Building",
+       pos = paste0("Emissions|CO2|Energy|Demand|Building|", bld_sub)),
+  list(title = "Emissions|GHGs|Non-Energy|Industrial Process by sub-sector", slug = "18_ip_subsector",
+       total = "Emissions|GHGs|Non-Energy|Industrial Process",
+       pos = paste0("Emissions|GHGs|Non-Energy|Industrial Process|", c("Chemicals", "Iron and Steel", "Non-Metallic Minerals"))),
+  list(title = "Carbon Sequestration|CCS|Energy|Demand by industry sub-sector", slug = "19_ccs_industry_subsector",
+       abs_all = TRUE, total = "Carbon Sequestration|CCS|Energy|Demand",
+       pos = paste0("Carbon Sequestration|CCS|Energy|Demand|Industry|", ind_sub)),
+  list(title = "Final Energy|Industry by sub-sector", slug = "20_fe_industry_subsector", total = "Final Energy|Industry",
+       pos = paste0("Final Energy|Industry|", ind_sub)),
+  list(title = "Final Energy|Industry|Iron and Steel by fuel", slug = "21_fe_steel_fuel",
+       total = "Final Energy|Industry|Iron and Steel",
+       pos = paste0("Final Energy|Industry|Iron and Steel|", fe_fuels)),
+  list(title = "Final Energy|Industry|Chemicals by fuel", slug = "22_fe_chemicals_fuel",
+       total = "Final Energy|Industry|Chemicals",
+       pos = paste0("Final Energy|Industry|Chemicals|", fe_fuels)),
+  list(title = "Final Energy|Transportation by mode", slug = "23_fe_transport_mode", total = "Final Energy|Transportation",
+       pos = paste0("Final Energy|Transportation|", trn_modes)),
+  list(title = "Final Energy|Transportation|Road by fuel", slug = "24_fe_road_fuel",
+       total = "Final Energy|Transportation|Road",
+       pos = paste0("Final Energy|Transportation|Road|", fe_fuels)),
+  list(title = "Final Energy|Building by sub-sector", slug = "25_fe_building_subsector", total = "Final Energy|Building",
+       pos = paste0("Final Energy|Building|", bld_sub)),
+  list(title = "Final Energy|Building|Residential by fuel", slug = "26_fe_residential_fuel",
+       total = "Final Energy|Building|Residential",
+       pos = paste0("Final Energy|Building|Residential|", fe_fuels))
 )
 ```
 
@@ -242,6 +286,10 @@ for (sec in sections) {
   print(p)
   cat("\n\n")
   if (nrow(d) == 0) next
+  zero_src <- d %>% group_by(source) %>% summarise(nz = any(abs(value) > 1e-9), .groups = "drop") %>%
+    filter(!nz) %>% pull(source)
+  if (length(zero_src) > 0)
+    cat("All values are zero or missing in ", paste(as.character(zero_src), collapse = ", "), ".\n\n", sep = "")
 
   tot <- totals_table(d)
   if (params$save_png) {
