@@ -41,6 +41,9 @@ pathway_targets <- data.frame(
   value    = c(470.3, 348.9, 230.1, 118.8, 0,
                470.3, 289.5, 148.5, 74.2, 0))
 pathway_caps <- NULL
+# b1: "split" re-splits aviation/shipping by the GIR domestic ratios (databases without the
+# L154 split, like these); "intl" uses the trn_*_intl rows as they are (databases with it).
+bunker_mode <- "split"
 check_tol_rel_a <- 1e-2
 check_tol_rel_b <- 1e-6
 check_tol_rel_c <- 1e-6

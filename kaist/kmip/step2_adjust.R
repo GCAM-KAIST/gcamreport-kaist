@@ -129,9 +129,10 @@ cat("Saved all regions data:", csv_file, "\n")
 # Every b* module below assumes this Korea-only, year-trimmed data.
 data_korea <- filter_region_years(data, target_region, start_year, final_year)
 
-# b1: redistribute aviation/shipping emissions by Korean domestic ratios and
-# take international bunkers out of every total up to Emissions|{gas},
-# including the Kyoto Gases (CO2eq) tree
+# b1: take international bunkers out of every total up to Emissions|{gas},
+# including the Kyoto Gases (CO2eq) tree. bunker_mode "split" (default) first
+# re-splits aviation/shipping by the Korean domestic ratios; "intl" is for
+# databases built with the L154 split (Bunkers rows used as they are)
 data_korea <- reallocate_all_bunker_emissions(
   data_korea, gases = c("CO2", "N2O", "CH4", "Kyoto Gases"))
 
