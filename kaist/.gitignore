@@ -2,3 +2,13 @@
 **/*.quarto_ipynb
 TODO.md
 debug/
+# result files never go into the repo (outputs live outside, see db_path / output_dir)
+output/
+*_output/
+logs/
+*.RData
+*.dat
+*_korea.csv
+*_KMIP_submission.xlsx
+variables_*_unit_conversion.csv
+check_*.csv
