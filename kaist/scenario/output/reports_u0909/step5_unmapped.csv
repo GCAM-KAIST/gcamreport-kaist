@@ -1,0 +1,612 @@
+"aggregate_id","query_name","mapping_object","status","key_names","key1","key2","key3","n_query_rows","max_abs_value"
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d1","electricity","",22,0.004730975
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d1","gas","",22,0.0006676983
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d10","electricity","",22,0.0574571
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d10","gas","",22,0.00873266
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d2","electricity","",22,0.011256492
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d2","gas","",22,0.001587146
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d3","electricity","",22,0.016207216
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d3","gas","",22,0.002281075
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d4","electricity","",22,0.020864493
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d4","gas","",22,0.002930401
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d5","electricity","",22,0.02542552
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d5","gas","",22,0.003562884
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d6","electricity","",22,0.03005911
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d6","gas","",22,0.004201559
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d7","electricity","",22,0.03500172
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d7","gas","",22,0.004890247
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d8","electricity","",22,0.04035014
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d8","gas","",22,0.005728259
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d9","electricity","",22,0.04679091
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes dryers modern_d9","gas","",22,0.00682358
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d1","electricity","",22,0.00079657825
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d10","electricity","",22,0.010134725
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d2","electricity","",22,0.0019015007
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d3","electricity","",22,0.0027489239
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d4","electricity","",22,0.0035544534
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d5","electricity","",22,0.0043521133
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d6","electricity","",22,0.0051722725
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d7","electricity","",22,0.0061072902
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d8","electricity","",22,0.007116556
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid clothes washers modern_d9","electricity","",22,0.008252878
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d1","electricity","",22,0.00242855
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d10","electricity","",22,0.0246195
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d2","electricity","",22,0.00516234
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d3","electricity","",22,0.00752026
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d4","electricity","",22,0.00959234
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d5","electricity","",22,0.0115141
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d6","electricity","",22,0.013527
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d7","electricity","",22,0.0156098
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d8","electricity","",22,0.0177612
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid computers modern_d9","electricity","",22,0.0201245
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d1","electricity","",22,0.0030420977
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d1","gas","",22,0.002207579
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d1","refined liquids","",22,0.000391966
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d10","electricity","",22,0.0213606
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d10","gas","",22,0.018280229
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d10","refined liquids","",22,0.0038699
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d2","electricity","",22,0.00662001
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d2","gas","",22,0.00511875
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d2","refined liquids","",22,0.00105386
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d3","electricity","",22,0.008838716
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d3","gas","",22,0.00702721
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d3","refined liquids","",22,0.00150467
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d4","electricity","",22,0.010612853
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d4","gas","",22,0.00853538
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d4","refined liquids","",22,0.0018698
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d5","electricity","",22,0.012131744
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d5","gas","",22,0.00982288
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d5","refined liquids","",22,0.00218191
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d6","electricity","",22,0.013489881
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d6","gas","",22,0.0110751
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d6","refined liquids","",22,0.00246006
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d7","electricity","",22,0.014809115
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d7","gas","",22,0.0122429
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d7","refined liquids","",22,0.00271945
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d8","electricity","",22,0.016169337
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d8","gas","",22,0.013414239
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d8","refined liquids","",22,0.00297831
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d9","electricity","",22,0.017813965
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d9","gas","",22,0.014949945
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooking modern_d9","refined liquids","",22,0.00326513
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d1","electricity","",704,0.059197
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d1","gas","",22,0.0147968
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d10","electricity","",704,0.194273
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d10","gas","",22,0.068381
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d2","electricity","",704,0.0726828
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d2","gas","",22,0.0239532
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d3","electricity","",704,0.0797442461
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d3","gas","",22,0.0305754
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d4","electricity","",704,0.0894236219
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d4","gas","",22,0.0350278
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d5","electricity","",704,0.0975126357
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d5","gas","",22,0.0384322
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d6","electricity","",704,0.1050091827
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d6","gas","",22,0.0418155
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d7","electricity","",704,0.1126813726
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d7","gas","",22,0.0450336
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d8","electricity","",704,0.1209286459
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d8","gas","",22,0.0496585
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d9","electricity","",704,0.13424
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid cooling modern_d9","gas","",22,0.0551024
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d1","electricity","",22,0.0005327161
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d10","electricity","",22,0.006094297
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d2","electricity","",22,0.0012514137
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d3","electricity","",22,0.0017811447
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d4","electricity","",22,0.0022665778
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d5","electricity","",22,0.0027294288
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d6","electricity","",22,0.0031865536
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d7","electricity","",22,0.0036596867
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d8","electricity","",22,0.0041537032
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid dishwashers modern_d9","electricity","",22,0.004818775
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d1","electricity","",22,0.0023059663
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d10","electricity","",22,0.015147945
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d2","electricity","",22,0.0049082956
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d3","electricity","",22,0.0064641758
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d4","electricity","",22,0.007677756
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d5","electricity","",22,0.008690999
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d6","electricity","",22,0.009597581
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d7","electricity","",22,0.010501897
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d8","electricity","",22,0.011466768
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid freezers modern_d9","electricity","",22,0.012633058
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d1","electricity","",22,0.00154631
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d10","electricity","",22,0.0151923
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d2","electricity","",22,0.00345961
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d3","electricity","",22,0.00472385
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d4","electricity","",22,0.00595376
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d5","electricity","",22,0.00713177
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d6","electricity","",22,0.00834712
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d7","electricity","",22,0.00963241
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d8","electricity","",22,0.0109601
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid furnace fans modern_d9","electricity","",22,0.0124184
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d1","traditional biomass","",626,1.03576
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d10","traditional biomass","",418,0.23915
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d2","traditional biomass","",620,0.803118
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d3","traditional biomass","",612,0.736366
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d4","traditional biomass","",606,0.686433
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d5","traditional biomass","",588,0.642672
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d6","traditional biomass","",574,0.60112
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d7","traditional biomass","",546,0.557496
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d8","traditional biomass","",520,0.507013
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating TradBio_d9","traditional biomass","",482,0.431996
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d1","coal","",134,0.194547
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d10","coal","",95,0.163929
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d2","coal","",132,0.192661
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d3","coal","",128,0.191372
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d4","coal","",122,0.190258
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d5","coal","",119,0.189152
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d6","coal","",115,0.187967
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d7","coal","",111,0.186553
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d8","coal","",108,0.184646
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating coal_d9","coal","",107,0.181098
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d1","biomass","",420,0.00692108
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d1","district heat","",108,0.100545
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d1","electricity","",642,0.252424
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d1","gas","",604,0.261706
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d1","hydrogen","",302,0.00449143
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d1","refined liquids","",594,0.0523332
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d10","biomass","",420,0.0358858
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d10","district heat","",108,0.439393
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d10","electricity","",642,0.745889
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d10","gas","",604,0.7123826
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d10","hydrogen","",312,0.0149209
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d10","refined liquids","",594,0.18826612
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d2","biomass","",420,0.00931259
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d2","district heat","",108,0.135675
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d2","electricity","",642,0.276097
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d2","gas","",604,0.307905
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d2","hydrogen","",307,0.00515856
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d2","refined liquids","",594,0.0618879
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d3","biomass","",420,0.0119335
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d3","district heat","",108,0.149751
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d3","electricity","",642,0.287421
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d3","gas","",604,0.328801
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d3","hydrogen","",307,0.00544173
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d3","refined liquids","",594,0.0668378
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d4","biomass","",420,0.013975
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d4","district heat","",108,0.159161
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d4","electricity","",642,0.295726
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d4","gas","",604,0.341725
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d4","hydrogen","",308,0.0056546
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d4","refined liquids","",594,0.0695943
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d5","biomass","",420,0.0157689
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d5","district heat","",108,0.167098
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d5","electricity","",642,0.302712
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d5","gas","",604,0.35189
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d5","hydrogen","",308,0.00584265
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d5","refined liquids","",594,0.08296386
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d6","biomass","",420,0.0176608
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d6","district heat","",108,0.174046
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d6","electricity","",642,0.309398
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d6","gas","",604,0.361076
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d6","hydrogen","",310,0.0060297
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d6","refined liquids","",594,0.09928167
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d7","biomass","",420,0.0195724
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d7","district heat","",108,0.181179
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d7","electricity","",642,0.316673
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d7","gas","",604,0.4207815
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d7","hydrogen","",310,0.00623555
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d7","refined liquids","",594,0.11615171
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d8","biomass","",420,0.0221235
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d8","district heat","",108,0.191539
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d8","electricity","",642,0.364938
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d8","gas","",604,0.4860215
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d8","hydrogen","",310,0.0069498
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d8","refined liquids","",594,0.13416024
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d9","biomass","",420,0.0264742
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d9","district heat","",108,0.220201
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d9","electricity","",642,0.450165
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d9","gas","",604,0.5680554
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d9","hydrogen","",312,0.00868809
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid heating modern_d9","refined liquids","",594,0.153947
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d1","electricity","",22,0.030257737
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d1","gas","",22,0.022459663
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d1","refined liquids","",22,0.00243304
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d10","electricity","",22,0.206243731
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d10","gas","",22,0.17633869
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d10","refined liquids","",22,0.02494595
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d2","electricity","",22,0.065229234
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d2","gas","",22,0.04886135
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d2","refined liquids","",22,0.00661081
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d3","electricity","",22,0.086576971
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d3","gas","",22,0.06719665
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d3","refined liquids","",22,0.009501921
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d4","electricity","",22,0.103436999
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d4","gas","",22,0.0818515
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d4","refined liquids","",22,0.011871048
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d5","electricity","",22,0.117599877
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d5","gas","",22,0.09432806
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d5","refined liquids","",22,0.01391478
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d6","electricity","",22,0.130275726
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d6","gas","",22,0.10664913
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d6","refined liquids","",22,0.01574781
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d7","electricity","",22,0.143014527
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d7","gas","",22,0.1182552
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d7","refined liquids","",22,0.01746147
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d8","electricity","",22,0.156144574
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d8","gas","",22,0.1298037
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d8","refined liquids","",22,0.01916685
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d9","electricity","",22,0.172017502
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d9","gas","",22,0.1441296
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid hot water modern_d9","refined liquids","",22,0.02103977
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d1","electricity","",22,0.002798789
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d10","electricity","",22,0.05199312
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d2","electricity","",22,0.009443022
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d3","electricity","",22,0.01402645
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d4","electricity","",22,0.01820266
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d5","electricity","",22,0.02221222
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d6","electricity","",22,0.02639923
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d7","electricity","",22,0.03112644
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d8","electricity","",22,0.03621134
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid lighting modern_d9","electricity","",22,0.04191134
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d1","electricity","",22,0.054771
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d1","gas","",22,0.00573042
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d1","refined liquids","",22,0.00168485
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d10","electricity","",22,0.363952
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d10","gas","",22,0.0403017
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d10","refined liquids","",22,0.0186741
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d2","electricity","",22,0.117059
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d2","gas","",22,0.0121723
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d2","refined liquids","",22,0.00467116
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d3","electricity","",22,0.15454
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d3","gas","",22,0.0160115
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d3","refined liquids","",22,0.00680234
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d4","electricity","",22,0.183882
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d4","gas","",22,0.0190007
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d4","refined liquids","",22,0.00858991
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d5","electricity","",22,0.208425
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d5","gas","",22,0.0218576
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d5","refined liquids","",22,0.0101621
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d6","electricity","",22,0.23038
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d6","gas","",22,0.0246814
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d6","refined liquids","",22,0.0115933
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d7","electricity","",22,0.252324
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d7","gas","",22,0.0275542
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d7","refined liquids","",22,0.0129427
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d8","electricity","",22,0.275506
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d8","gas","",22,0.0304078
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d8","refined liquids","",22,0.0142831
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d9","electricity","",22,0.303528
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d9","gas","",22,0.0334924
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid other modern_d9","refined liquids","",22,0.015732
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d1","traditional biomass","",640,1.02955
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d10","traditional biomass","",446,0.214837
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d2","traditional biomass","",602,0.913291
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d3","traditional biomass","",568,0.814829
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d4","traditional biomass","",536,0.733875
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d5","traditional biomass","",510,0.653044
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d6","traditional biomass","",492,0.57352
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d7","traditional biomass","",486,0.500148
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d8","traditional biomass","",482,0.414665
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others TradBio_d9","traditional biomass","",470,0.320542
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d1","coal","",482,0.160246
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d10","coal","",352,0.143667
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d2","coal","",475,0.159283
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d3","coal","",470,0.15862
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d4","coal","",463,0.158044
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d5","coal","",452,0.15747
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d6","coal","",438,0.156853
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d7","coal","",427,0.156112
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d8","coal","",412,0.155107
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others coal_d9","coal","",402,0.153216
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d1","biomass","",552,0.0185637
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d1","district heat","",108,0.0122625
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d1","electricity","",682,0.406377
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d1","gas","",626,0.0883988
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d1","hydrogen","",336,0.00148769
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d1","refined liquids","",682,0.0552967
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d10","biomass","",552,0.807145
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d10","district heat","",108,0.0432304
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d10","electricity","",682,1.8783
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d10","gas","",626,0.31288
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d10","hydrogen","",336,0.0050534
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d10","refined liquids","",682,0.535026
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d2","biomass","",552,0.0315017
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d2","district heat","",108,0.0150904
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d2","electricity","",682,0.595016
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d2","gas","",626,0.112234
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d2","hydrogen","",336,0.00191303
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d2","refined liquids","",682,0.0871704
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d3","biomass","",552,0.0503556
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d3","district heat","",108,0.0166432
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d3","electricity","",682,0.699856
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d3","gas","",626,0.125726
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d3","hydrogen","",336,0.00212508
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d3","refined liquids","",682,0.111793
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d4","biomass","",552,0.0668469
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d4","district heat","",108,0.0176824
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d4","electricity","",682,0.786445
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d4","gas","",626,0.139203
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d4","hydrogen","",336,0.00231205
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d4","refined liquids","",682,0.131303
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d5","biomass","",552,0.0861013
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d5","district heat","",108,0.0185605
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d5","electricity","",682,0.868323
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d5","gas","",626,0.152731
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d5","hydrogen","",336,0.00249144
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d5","refined liquids","",682,0.150427
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d6","biomass","",552,0.110022
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d6","district heat","",108,0.0193303
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d6","electricity","",682,0.954353
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d6","gas","",626,0.166176
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d6","hydrogen","",336,0.00263079
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d6","refined liquids","",682,0.169922
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d7","biomass","",552,0.145701
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d7","district heat","",108,0.0201214
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d7","electricity","",682,1.05575
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d7","gas","",626,0.178964
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d7","hydrogen","",336,0.00277796
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d7","refined liquids","",682,0.191637
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d8","biomass","",552,0.19863
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d8","district heat","",108,0.0213615
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d8","electricity","",682,1.18284
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d8","gas","",626,0.197343
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d8","hydrogen","",336,0.00303175
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d8","refined liquids","",682,0.216293
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d9","biomass","",552,0.307016
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d9","district heat","",108,0.0241353
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d9","electricity","",682,1.37367
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d9","gas","",626,0.218977
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d9","hydrogen","",336,0.00358919
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid others modern_d9","refined liquids","",682,0.25224
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d1","electricity","",22,0.0095102147
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d10","electricity","",22,0.063404715
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d2","electricity","",22,0.020349179
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d3","electricity","",22,0.026883444
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d4","electricity","",22,0.032004352
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d5","electricity","",22,0.036289841
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d6","electricity","",22,0.040123516
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d7","electricity","",22,0.043957707
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d8","electricity","",22,0.047996385
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid refrigerators modern_d9","electricity","",22,0.052878105
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d1","electricity","",22,0.0119283
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d10","electricity","",22,0.0976867
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d2","electricity","",22,0.0268454
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d3","electricity","",22,0.0368166
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d4","electricity","",22,0.045224
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d5","electricity","",22,0.0526369
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d6","electricity","",22,0.0594498
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d7","electricity","",22,0.0660964
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d8","electricity","",22,0.0731399
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","unmapped","sector;input","resid televisions modern_d9","electricity","",22,0.0813213
+"fe_nontrn","final energy consumption by sector and fuel","final_energy_map_v9.1","no_reported","sector;input","process heat food processing","solar","",318,0.04099304053
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d1","gas","clothes dryer",22,0.009481301
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d10","gas","clothes dryer",22,0.1240037
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d2","gas","clothes dryer",22,0.02253747
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d3","gas","clothes dryer",22,0.03239123
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d4","gas","clothes dryer",22,0.04161173
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d5","gas","clothes dryer",22,0.0505929
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d6","gas","clothes dryer",22,0.05966223
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d7","gas","clothes dryer",22,0.06944149
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d8","gas","clothes dryer",22,0.0813412
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid clothes dryers modern_d9","gas","clothes dryer",22,0.0968949
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d1","gas","gas oven",22,0.0250576
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d1","gas","gas oven hi-eff",12,0.012187996
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d1","refined liquids","lpg oven",22,0.00768253
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d1","refined liquids","lpg oven hi-eff",12,0.0016095383
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d10","gas","gas oven",22,0.256626
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d10","gas","gas oven hi-eff",12,0.08184082
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d10","refined liquids","lpg oven",22,0.07585
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d10","refined liquids","lpg oven hi-eff",12,0.011049701
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d2","gas","gas oven",22,0.0726862
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d2","gas","gas oven hi-eff",12,0.026131037
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d2","refined liquids","lpg oven",22,0.0206556
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d2","refined liquids","lpg oven hi-eff",12,0.003465729
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d3","gas","gas oven",22,0.0997863
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d3","gas","gas oven hi-eff",12,0.03455535
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d3","refined liquids","lpg oven",22,0.0294915
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d3","refined liquids","lpg oven hi-eff",12,0.004599355
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d4","gas","gas oven",22,0.121202
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d4","gas","gas oven hi-eff",12,0.04116488
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d4","refined liquids","lpg oven",22,0.036648
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d4","refined liquids","lpg oven hi-eff",12,0.005494299
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d5","gas","gas oven",22,0.139485
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d5","gas","gas oven hi-eff",12,0.04669968
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d5","refined liquids","lpg oven",22,0.0427654
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d5","refined liquids","lpg oven hi-eff",12,0.006249267
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d6","gas","gas oven",22,0.157267
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d6","gas","gas oven hi-eff",12,0.05165021
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d6","refined liquids","lpg oven",22,0.0482173
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d6","refined liquids","lpg oven hi-eff",12,0.00692642
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d7","gas","gas oven",22,0.173849
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d7","gas","gas oven hi-eff",12,0.05660339
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d7","refined liquids","lpg oven",22,0.0533012
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d7","refined liquids","lpg oven hi-eff",12,0.007603426
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d8","gas","gas oven",22,0.190397
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d8","gas","gas oven hi-eff",12,0.06180792
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d8","refined liquids","lpg oven",22,0.0583748
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d8","refined liquids","lpg oven hi-eff",12,0.008318379
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d9","gas","gas oven",22,0.211248
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d9","gas","gas oven hi-eff",12,0.06809764
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d9","refined liquids","lpg oven",22,0.0639965
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooking modern_d9","refined liquids","lpg oven hi-eff",12,0.009182441
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d1","gas","gas",22,0.210115
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d10","gas","gas",22,0.97101
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d2","gas","gas",22,0.340135
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d3","gas","gas",22,0.434171
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d4","gas","gas",22,0.497395
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d5","gas","gas",22,0.545737
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d6","gas","gas",22,0.59378
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d7","gas","gas",22,0.639477
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d8","gas","gas",22,0.70515
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid cooling modern_d9","gas","gas",22,0.782454
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d1","coal","coal",134,5.31112
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d10","coal","coal",95,4.47527
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d2","coal","coal",132,5.25965
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d3","coal","coal",128,5.22445
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d4","coal","coal",122,5.19403
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d5","coal","coal",119,5.16384
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d6","coal","coal",115,5.13149
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d7","coal","coal",111,5.09288
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d8","coal","coal",108,5.04085
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating coal_d9","coal","coal",107,4.94398
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","biomass","biomass",420,0.159185
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","gas","gas",582,3.71622
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","gas","gas furnace",22,0.537553
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","gas","gas furnace hi-eff",22,0.12959883
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","refined liquids","fuel furnace",22,0.201415
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","refined liquids","fuel furnace hi-eff",22,0.020285516
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d1","refined liquids","refined liquids",572,1.02573
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","biomass","biomass",420,0.825373
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","gas","gas",582,8.45241
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","gas","gas furnace",22,9.86293
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","gas","gas furnace hi-eff",22,1.0694774
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","refined liquids","fuel furnace",22,3.53807
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","refined liquids","fuel furnace hi-eff",22,0.17203732
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d10","refined liquids","refined liquids",572,1.95065
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","biomass","biomass",420,0.21419
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","gas","gas",582,4.37226
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","gas","gas furnace",22,1.75525
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","gas","gas furnace hi-eff",22,0.29633728
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","refined liquids","fuel furnace",22,0.609131
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","refined liquids","fuel furnace hi-eff",22,0.04664709
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d2","refined liquids","refined liquids",572,1.213
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","biomass","biomass",420,0.274469
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","gas","gas",582,4.66897
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","gas","gas furnace",22,2.61605
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","gas","gas furnace hi-eff",22,0.4086906
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","refined liquids","fuel furnace",22,0.942095
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","refined liquids","fuel furnace hi-eff",22,0.06452971
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d3","refined liquids","refined liquids",572,1.31002
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","biomass","biomass",420,0.321425
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","gas","gas",582,4.8525
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","gas","gas furnace",22,3.40532
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","gas","gas furnace hi-eff",22,0.5047584
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","refined liquids","fuel furnace",22,1.25431
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","refined liquids","fuel furnace hi-eff",22,0.07989041
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d4","refined liquids","refined liquids",572,1.36405
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","biomass","biomass",420,0.362685
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","gas","gas",582,4.99684
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","gas","gas furnace",22,4.16778
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","gas","gas furnace hi-eff",22,0.590193
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","refined liquids","fuel furnace",22,1.55913
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","refined liquids","fuel furnace hi-eff",22,0.09362885
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d5","refined liquids","refined liquids",572,1.40821
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","biomass","biomass",420,0.406199
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","gas","gas",582,5.12729
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","gas","gas furnace",22,4.97959
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","gas","gas furnace hi-eff",22,0.6685541
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","refined liquids","fuel furnace",22,1.86579
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","refined liquids","fuel furnace hi-eff",22,0.10631474
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d6","refined liquids","refined liquids",572,1.44766
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","biomass","biomass",420,0.450164
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","gas","gas",582,5.25775
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","gas","gas furnace",22,5.82572
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","gas","gas furnace hi-eff",22,0.7440014
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","refined liquids","fuel furnace",22,2.18283
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","refined liquids","fuel furnace hi-eff",22,0.11860824
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d7","refined liquids","refined liquids",572,1.48748
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","biomass","biomass",420,0.508841
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","gas","gas",582,5.40102
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","gas","gas furnace",22,6.72896
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","gas","gas furnace hi-eff",22,0.8157614
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","refined liquids","fuel furnace",22,2.52126
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","refined liquids","fuel furnace hi-eff",22,0.13041232
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d8","refined liquids","refined liquids",572,1.52945
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","biomass","biomass",420,0.608906
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","gas","gas",582,5.59208
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","gas","gas furnace",22,7.86473
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","gas","gas furnace hi-eff",22,0.9078157
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","refined liquids","fuel furnace",22,2.89312
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","refined liquids","fuel furnace hi-eff",22,0.14544488
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid heating modern_d9","refined liquids","refined liquids",572,1.58731
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d1","gas","gas water heater",22,0.2845163
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d1","gas","gas water heater hi-eff",22,0.03560994
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d1","refined liquids","fuel water heater",22,0.0437482
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d1","refined liquids","fuel water heater hi-eff",22,0.00393941
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d10","gas","gas water heater",22,2.266731
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d10","gas","gas water heater hi-eff",22,0.2642931
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d10","refined liquids","fuel water heater",22,0.448549
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d10","refined liquids","fuel water heater hi-eff",22,0.0403907
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d2","gas","gas water heater",22,0.629263
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d2","gas","gas water heater hi-eff",22,0.0768589
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d2","refined liquids","fuel water heater",22,0.118868
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d2","refined liquids","fuel water heater hi-eff",22,0.0107038
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d3","gas","gas water heater",22,0.867071
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d3","gas","gas water heater hi-eff",22,0.1032562
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d3","refined liquids","fuel water heater",22,0.170853
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d3","refined liquids","fuel water heater hi-eff",22,0.0153848
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d4","gas","gas water heater",22,1.05617
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d4","gas","gas water heater hi-eff",22,0.1252179
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d4","refined liquids","fuel water heater",22,0.213451
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d4","refined liquids","fuel water heater hi-eff",22,0.0192207
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d5","gas","gas water heater",22,1.21716
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d5","gas","gas water heater hi-eff",22,0.1442259
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d5","refined liquids","fuel water heater",22,0.250199
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d5","refined liquids","fuel water heater hi-eff",22,0.0225298
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d6","gas","gas water heater",22,1.37614
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d6","gas","gas water heater hi-eff",22,0.1619018
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d6","refined liquids","fuel water heater",22,0.283159
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d6","refined liquids","fuel water heater hi-eff",22,0.0254978
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d7","gas","gas water heater",22,1.5259
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d7","gas","gas water heater hi-eff",22,0.1790671
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d7","refined liquids","fuel water heater",22,0.313973
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d7","refined liquids","fuel water heater hi-eff",22,0.0282724
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d8","gas","gas water heater",22,1.67492
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d8","gas","gas water heater hi-eff",22,0.1968409
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d8","refined liquids","fuel water heater",22,0.344636
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d8","refined liquids","fuel water heater hi-eff",22,0.0310336
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d9","gas","gas water heater",22,1.852918
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d9","gas","gas water heater hi-eff",22,0.2181363
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d9","refined liquids","fuel water heater",22,0.378314
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid hot water modern_d9","refined liquids","fuel water heater hi-eff",22,0.0340662
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d1","gas","gas",22,0.081372
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d1","refined liquids","refined liquids",22,0.033023
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d10","gas","gas",22,0.572285
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d10","refined liquids","refined liquids",22,0.366012
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d2","gas","gas",22,0.172847
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d2","refined liquids","refined liquids",22,0.0915547
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d3","gas","gas",22,0.227364
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d3","refined liquids","refined liquids",22,0.133326
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d4","gas","gas",22,0.26981
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d4","refined liquids","refined liquids",22,0.168362
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d5","gas","gas",22,0.310378
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d5","refined liquids","refined liquids",22,0.199177
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d6","gas","gas",22,0.350476
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d6","refined liquids","refined liquids",22,0.227229
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d7","gas","gas",22,0.391269
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d7","refined liquids","refined liquids",22,0.253678
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d8","gas","gas",22,0.43179
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d8","refined liquids","refined liquids",22,0.279949
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d9","gas","gas",22,0.475591
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid other modern_d9","refined liquids","refined liquids",22,0.308347
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d1","coal","coal",482,4.3747
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d10","coal","coal",352,3.9221
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d2","coal","coal",475,4.34841
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d3","coal","coal",470,4.33032
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d4","coal","coal",463,4.31461
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d5","coal","coal",452,4.29894
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d6","coal","coal",438,4.28209
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d7","coal","coal",427,4.26187
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d8","coal","coal",412,4.23443
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others coal_d9","coal","coal",402,4.18279
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d1","biomass","biomass",552,0.426966
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d1","gas","gas",626,1.25526
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d1","refined liquids","refined liquids",682,1.08382
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d10","biomass","biomass",552,18.5643
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d10","gas","gas",626,4.44289
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d10","refined liquids","refined liquids",682,10.4865
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d2","biomass","biomass",552,0.72454
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d2","gas","gas",626,1.59372
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d2","refined liquids","refined liquids",682,1.70854
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d3","biomass","biomass",552,1.15818
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d3","gas","gas",626,1.78531
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d3","refined liquids","refined liquids",682,2.19114
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d4","biomass","biomass",552,1.53748
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d4","gas","gas",626,1.97668
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d4","refined liquids","refined liquids",682,2.57353
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d5","biomass","biomass",552,1.98033
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d5","gas","gas",626,2.16878
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d5","refined liquids","refined liquids",682,2.94837
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d6","biomass","biomass",552,2.53051
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d6","gas","gas",626,2.35969
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d6","refined liquids","refined liquids",682,3.33047
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d7","biomass","biomass",552,3.35113
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d7","gas","gas",626,2.54129
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d7","refined liquids","refined liquids",682,3.75609
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d8","biomass","biomass",552,4.56848
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d8","gas","gas",626,2.80227
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d8","refined liquids","refined liquids",682,4.23935
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d9","biomass","biomass",552,7.06137
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d9","gas","gas",626,3.10948
+"co2_tech","CO2 emissions by tech (excluding resource production)","co2_tech_map_v9.1","unmapped","sector;subsector;technology","resid others modern_d9","refined liquids","refined liquids",682,4.94391

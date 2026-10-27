@@ -1,0 +1,40 @@
+Config loaded: run_name = reports_u0909 , db = u0909r , output_dir = C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909 
+Using project file: reports_u0909_project_merged.dat 
+patch_gcam_data(v9.1): patched 5 data object(s): carbon_seq_tech_map, energy_price_map, primary_energy_map, co2_market, ag_demand_map
+ℹ Loading gcamreport
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Loaded vintage generation data: 83403 rows
+Recalculated Capacity|Electricity using vintage-based calculation with correct CF
+Fixed parent capacity variables (Coal, Gas, Oil, Biomass, Solar, Wind, Fossil, Non-Biomass Renewables)
+Fixed unit for Production|Chemicals|High-Value Chemicals: Mt/yr -> EJ/yr
+Saved all regions data: C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909/reports_u0909.csv 
+Warning: no aviation/shipping rows for CO2 - skipped
+Warning: no aviation/shipping rows for N2O - skipped
+Warning: no aviation/shipping rows for CH4 - skipped
+Warning: no aviation/shipping rows for Kyoto Gases - skipped
+
+=== Coal Fuel/Feedstock Split for Iron and Steel (MT 2020 ratio) ===
+Skipped Iron and Steel coal feedstock split (query not available)
+
+=== Converting Energy Service to Vehicle Capacity ===
+
+=== Biomass Origin Split for Final Energy Liquids (National Blend-Share) ===
+Skipped Biomass|Liquids allocation -- Secondary Energy|Liquids(|Biomass) not present in this run's queried variables
+
+=== Iron and Steel Process Emissions (Coal|Feedstock x MT 2020 factor) ===
+Skipped steel process split (needs Final Energy|Industry|Iron and Steel|Coal|Feedstock from b3 and Emissions|CO2|Energy|Demand|Industry|Iron and Steel )
+
+=== Step 2 Complete ===
+All regions: C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909/reports_u0909.csv 
+Korea only: C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909/reports_u0909_korea.csv 
+Next: Run kaist-pj/kmip/step3_create_mapping.R

@@ -1,0 +1,16 @@
+Config loaded: run_name = reports_u0909 , db = u0909r , output_dir = C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909 
+=== Step5 inputs ===
+  step1_xlsx  OK   reports_u0909.xlsx
+  step2_csv   OK   reports_u0909.csv
+  korea_csv   OK   reports_u0909_korea.csv
+  after_csv   MISSING variables_after_unit_conversion.csv
+  mapping     MISSING kmip_gcam_mapping_template.xlsx
+  template    MISSING KMIP2025_DB_final.xlsx
+  dat         OK   reports_u0909_project_merged.dat
+
+=== Step5 validation summary (run: reports_u0909, db: u0909r) ===
+A raw-vs-report : FAIL  (9 checks: 4 fail, 0 warn, 0 skip)
+B step1-vs-step2: FAIL  (6 checks: 1 fail, 0 warn, 0 skip)
+C tree sums     : PASS  (51 checks: 0 fail, 0 warn, 25 skip)
+D template fill : SKIP  (1 checks: 0 fail, 0 warn, 1 skip)
+Reports: C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909/step5_summary.csv (+ mismatches, unmapped)

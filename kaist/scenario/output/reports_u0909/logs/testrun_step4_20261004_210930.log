@@ -1,0 +1,14 @@
+Config loaded: run_name = reports_u0909 , db = u0909r , output_dir = C:/Users/pjhan/Desktop/git/iam_models/GCAM/gcamreport-integrated/gcamreport-kaist/forked/kaist-pj/scenario/reports_u0909 
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Error in library(tidyverse) : there is no package called 'tidyverse'
+Execution halted
