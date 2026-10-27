@@ -112,6 +112,17 @@ add_korea_cf <- function(cf_rgn) {
 # For the gathered mapping tables, gcamreport's gather_map() turns the wide
 # var1/var2/... columns into a single `var` column, so the rows below are given
 # in that gathered shape (one row per non-empty var value).
+# Policy markets of KAIST runs that must not be treated as fuel prices: the
+# ceilings and floors, the Korea CO2/GHG caps and the rest-of-world caps. Passed
+# to generate_report(ignore = ...) by step1 (config.R sets ignore_markets to this
+# list unless the config file defines its own; a run with other cap markets uses
+# ignore_markets <- c(kaist_ignore_markets, "...")). The NoReported rows in
+# kaist_overrides only hide the markets' own price variables; without this list
+# their shadow prices leak into the biomass and solids price rows.
+kaist_ignore_markets <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling",
+                          "irnstl_ceiling_EAF", "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
+                          "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
+
 kaist_overrides <- list(
   "v7.0" = list(
 

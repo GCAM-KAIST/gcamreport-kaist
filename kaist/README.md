@@ -18,7 +18,7 @@ gcamreport-kaist/
 ├── kaist/                     # KAIST custom scripts (this folder)
 │   ├── README.md              # This file
 │   ├── core/                  # General use: make gcamreport run on any KAIST database
-│   │   ├── config.R           # Loader: reads the settings file named by KAIST_CONFIG, sets derived paths
+│   │   ├── config.R           # Loader: reads the config file named by KAIST_CONFIG, sets derived paths
 │   │   ├── functions.R        # KAIST helpers + data overrides (patch_gcam_data, kaist_overrides)
 │   │   ├── step1_generate_report.R
 │   │   ├── rgcam_patch.R      # BaseX 9.5+ compatibility fix
@@ -46,7 +46,7 @@ gcamreport-kaist/
 │       │   ├── b1_...R ~ b9_...R  # step2 part B: Korea only
 │       │   └── validate/          # step4 checkpoints, rule tables and test_check.R
 │       └── steel/                 # KMIP2026 steel sheet tools (see steel/README.md)
-└── (databases, outputs, notes and GCAM input XMLs live outside the repo, see db_path in the settings file; never commit result files)
+└── (databases, outputs, notes and GCAM input XMLs live outside the repo, see db_path in the config file; never commit result files)
 ```
 
 ## The five steps
@@ -80,7 +80,7 @@ Step4 runs in every pipeline run (`run_pipeline.sh` calls it after step3). It ca
 - **D** independent recompute of the filled KMIP template vs the step3 output.
 
 Outputs: `check_summary.csv`, `check_mismatches.csv`, `check_unmapped.csv`
-in `output_dir`. Tolerances: "Step4 check" section of the settings file.
+in `output_dir`. Tolerances: "Step4 check" section of the config file.
 Non-fatal by default; `--strict` errors when any check FAILs.
 Checkpoint A needs the built `data/*_v<version>.rda` files; if they are missing, run
 `inst/extdata/saveDataFiles_GCAM<version>.R` (KAIST rows are added in memory by `load_gcam_rda()`).
@@ -94,9 +94,9 @@ KMIP2026 sent its steel sheet before the rest of the template. `kmip/steel/build
 
 1. KAIST code is separate from the package. On `main`, `R/`, `inst/` and `data/` are never edited by hand; they come from the branch `kaist/v9.1-korea`. KAIST customizations live only in `kaist/` (see "Syncing with upstream" below).
 
-2. Run settings per project (`KAIST_CONFIG`). Each run has one settings file (run name, database, region, years, scenarios) in its project folder, e.g. `kaist/kmip/config/kaist9_low26.R`. Projects never edit each other's settings. `kaist/core/config.R` is only a loader: every step sources it, it reads the file named by the `KAIST_CONFIG` environment variable and stops with a list of available files if it is not set.
+2. Run settings per project (`KAIST_CONFIG`). Each run has one config file (run name, database, region, years, scenarios) in its project folder, e.g. `kaist/kmip/config/kaist9_low26.R`. Projects never edit each other's settings. `kaist/core/config.R` is only a loader: every step sources it, it reads the file named by the `KAIST_CONFIG` environment variable and stops with a list of available files if it is not set.
 
-3. One output folder per database. Outputs are written under `kmip/{db_name}_output/`, so different databases do not mix. A settings file may set `output_dir` itself (the kaist9 settings keep their first output folder).
+3. One output folder per database. Outputs are written under `kmip/{db_name}_output/`, so different databases do not mix. A config file may set `output_dir` itself (the kaist9 settings keep their first output folder).
 
 4. step2 is a thin orchestrator over `kaist/kmip/modules/`. Each adjustment is one function in one file (`a1` to `a6` run on all regions, `b1` to `b9` on Korea only). All functions are data in, data out, so step2 reads as a list of calls and you can inspect `data` between them. Module files only define functions; sourcing them executes nothing. Order matters in a few places: capacity-changing modules (a2, a3, a4) must run before a5 (parent-child consistency); inside a3 the nuclear addition must come before the renewable multiplier; Part B modules need the Korea-filtered data; b6 (steel process emissions) needs b3's Coal|Feedstock rows; b7 (hybrid Energy Service rows) must run before b4 (vehicle conversion). Otherwise the b* order is arbitrary. `modules/` also holds the shared helpers (`00_utils.R`, `unit_table.R`) and the step4 checks (`validate/`). Values that are not queried from GCAM (Korea statistics, literature ratios, MT vehicle counts) are catalogued in `hardcoded_assumptions.md`, a local note outside the repo (`~/reporting/docs/` on the lab server); update it when you change one of those values. To verify that a refactor changed nothing: `source("kaist/core/tools/compare_outputs.R")` then `compare_csv(old_csv, new_csv)` (md5-based, prints the first differences).
 
@@ -104,13 +104,13 @@ KMIP2026 sent its steel sheet before the rest of the template. `kmip/steel/build
 
 1. Open R in the repo root and run `devtools::load_all(".")` once to
    build the gcamreport package locally.
-2. Pick or create a settings file in your project folder (copy `kaist/kmip/config/kaist9_low26.R`; set `run_name`, `db_path`, `db_name`, `scenarios`, years, `ignore_markets` and the `compare_*` block) and point `KAIST_CONFIG` to it: `KAIST_CONFIG=kaist/kmip/config/kaist9_low26.R Rscript kaist/kmip/step3_template.R`, or `Sys.setenv(KAIST_CONFIG = "...")` in RStudio. One GCAM database per scenario (gcam-kaist9): merge them into one database first, see below.
-   `ignore_markets` must name every policy market of the run (ceilings, floors, caps such as `CO2_Kor`); gcamreport would otherwise report their shadow prices as fuel prices. Step1 warns about policy-like market names the list does not cover.
+2. Pick or create a config file in your project folder (copy `kaist/kmip/config/kaist9_low26.R`; set `run_name`, `db_path`, `db_name`, `scenarios`, years, `ignore_markets` and the `compare_*` block) and point `KAIST_CONFIG` to it: `KAIST_CONFIG=kaist/kmip/config/kaist9_low26.R Rscript kaist/kmip/step3_template.R`, or `Sys.setenv(KAIST_CONFIG = "...")` in RStudio. One GCAM database per scenario (gcam-kaist9): merge them into one database first, see below.
+   Policy markets (ceilings, floors, caps such as `CO2_Kor`) must be dropped from the price rows, or gcamreport reports their shadow prices as fuel prices. The core list `kaist_ignore_markets` (`kaist/core/functions.R`) covers the KAIST ones and is used unless the config file sets `ignore_markets`; a run with other cap markets writes `ignore_markets <- c(kaist_ignore_markets, "...")`. Step1 warns about policy-like market names the list does not cover.
 3. If BaseX 9.5+ is installed, source `kaist/core/rgcam_patch.R` once per
    session before step 1 (see the comment block in step1).
 4. Run everything with `kaist/kmip/run_pipeline.sh kaist/kmip/config/<run>.R`: step1 with one worker per scenario, then steps 2 to 5 (logs in `{output_dir}/logs/<date>/`; `--from 2` skips step1; `run_steps <- c(1, 2, 4, 5)` in the settings leaves steps out, e.g. no KMIP template for NMSF2). Or run the steps by hand in that order from the repo root. Step5 needs quarto on PATH or in `QUARTO_BIN`.
    `core/` is enough for general use (step1 only); `kmip/` is the KMIP pipeline;
-   `ktraces/` builds the K-TRACES workbook from a step1 run made with its settings file.
+   `ktraces/` builds the K-TRACES workbook from a step1 run made with its config file.
 
 ### Parallel step1 (many scenarios)
 
@@ -118,7 +118,7 @@ Each BaseX query uses one CPU, so with several scenarios run one worker per
 scenario instead of `step1_generate_report.R`:
 
 ```
-Rscript kaist/core/tools/step1_parallel.R            # all scenarios in the KAIST_CONFIG settings file
+Rscript kaist/core/tools/step1_parallel.R            # all scenarios in the KAIST_CONFIG config file
 Rscript kaist/core/tools/step1_parallel.R --jobs=4   # at most 4 at a time
 ```
 
@@ -129,14 +129,14 @@ per scenario (logs in `{output_dir}/logs/`), waits, then runs
 
 ### One database per scenario (gcam-kaist9): merge first
 
-gcam-kaist9 writes one BaseX database per run (e.g. `kmip/KAIST9_LOW26/low_nz/`). Merge the scenarios you want into one database; the settings file then points at that database like any other (`db_path`, `db_name`, `scenarios`):
+gcam-kaist9 writes one BaseX database per run (e.g. `kmip/KAIST9_LOW26/low_nz/`). Merge the scenarios you want into one database; the config file then points at that database like any other (`db_path`, `db_name`, `scenarios`):
 
 ```
 Rscript kaist/core/tools/merge_basex_dbs.R list kmip/KAIST9_LOW26        # scenarios in every database of the folder
 Rscript kaist/core/tools/merge_basex_dbs.R merge kmip/KMIP26_LOW kmip/KAIST9_LOW26/low_ref kmip/KAIST9_LOW26/low_nz
 ```
 
-`merge` copies the scenario documents with the BaseX jar (no ModelInterface, no export file); `--pick 1,3` takes rows of the numbered table, `--interactive` asks on the terminal, and `<db folder>:<scenario name>` picks one scenario of a database. A scenario name may be chosen only once. The report keeps the GCAM scenario names; `scenario_labels <- c("KAIST_9_NZ_u1007low" = "low_nz", ...)` in the settings file renames them in the merged step1 outputs (then `scenarios` lists the GCAM names and everything after step1 uses the labels).
+`merge` copies the scenario documents with the BaseX jar (no ModelInterface, no export file); `--pick 1,3` takes rows of the numbered table, `--interactive` asks on the terminal, and `<db folder>:<scenario name>` picks one scenario of a database. A scenario name may be chosen only once. The report keeps the GCAM scenario names; `scenario_labels <- c("KAIST_9_NZ_u1007low" = "low_nz", ...)` in the config file renames them in the merged step1 outputs (then `scenarios` lists the GCAM names and everything after step1 uses the labels).
 
 ### Step 5: report
 
@@ -160,13 +160,13 @@ Every day the workflow `.github/workflows/kaist_branch_to_main.yaml` opens a PR 
 
 To send one of our package fixes upstream, cherry-pick its commit onto a new branch from `upstream/main` and open the PR from there.
 
-All KAIST customizations live in `kaist/`. Helper functions are in `kaist/core/functions.R`. The data customizations that gcamreport needs for KAIST's GCAM runs (extra mapping rows and capacity-factor overrides for `bio-ceiling`, `irnstl-ceiling`, `Gen_III_Korea`, Korea capacity factors and so on) are applied at runtime by `patch_gcam_data()` in the same file. Step1 and step2 call it right after `devtools::load_all`; it changes the loaded data objects in memory only and never writes the tracked `data/*.rda` files. Step2 and step4 helpers get the patched objects through `load_gcam_rda()`. Rows that only one project needs go into that project's `functions.R` (`kaist/kmip/functions.R`, `kaist/ktraces/functions.R`), which defines `patch_project_data()`; step1 calls it when the settings file sources that project file.
+All KAIST customizations live in `kaist/`. Helper functions are in `kaist/core/functions.R`. The data customizations that gcamreport needs for KAIST's GCAM runs (extra mapping rows and capacity-factor overrides for `bio-ceiling`, `irnstl-ceiling`, `Gen_III_Korea`, Korea capacity factors and so on) are applied at runtime by `patch_gcam_data()` in the same file. Step1 and step2 call it right after `devtools::load_all`; it changes the loaded data objects in memory only and never writes the tracked `data/*.rda` files. Step2 and step4 helpers get the patched objects through `load_gcam_rda()`. Rows that only one project needs go into that project's `functions.R` (`kaist/kmip/functions.R`, `kaist/ktraces/functions.R`), which defines `patch_project_data()`; step1 calls it when the config file sources that project file.
 
 ## Moving to a new GCAM version
 
 The applier (`patch_gcam_data`) stays the same; only the per-version values change. To support a new version:
 
-1. Set `version_number` in your settings file (e.g. `"9.1"`).
+1. Set `version_number` in your config file (e.g. `"9.1"`).
 2. Open `kaist/core/functions.R` and find the `kaist_overrides` list, one entry per GCAM version (`"v7.0"`, `"v8.2"`, `"v9.1"`). Add a sibling entry keyed by the new GCAM_version string:
 
    ```r

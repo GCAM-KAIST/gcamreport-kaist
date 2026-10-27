@@ -20,11 +20,9 @@ scenarios         <- c("NMSF2_reference_k9l", "NMSF2_less_ambition_k9l", "NMSF2_
 # Short names used from the merged step1 outputs on (step1_merge.R).
 scenario_labels   <- c(NMSF2_reference_k9l = "ref_k9l", NMSF2_less_ambition_k9l = "less_k9l",
                        NMSF2_more_ambition_k9l = "more_k9l")
-# KAIST policy markets that are not reported (generate_report(ignore = ...)); the
-# NMSF2 gases (GHG_Kor, bunker and LULUCF adjustments) are mapped to NoReported instead.
-ignore_markets    <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling",
-                       "irnstl_ceiling_EAF", "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
-                       "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
+# Policy markets dropped from the price rows: the core default (kaist_ignore_markets
+# in kaist/core/functions.R) covers the KAIST ceilings and caps. A run with other
+# cap markets adds them: ignore_markets <- c(kaist_ignore_markets, "...").
 # No KMIP template for NMSF2: run_pipeline.sh runs only these steps (no step3).
 run_steps         <- c(1, 2, 4, 5)
 desired_variables <- "All"

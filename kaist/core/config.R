@@ -56,6 +56,9 @@ cat("Config loaded:", Sys.getenv("KAIST_CONFIG"), "| run_name =", run_name,
 # Custom functions (available_variables_with_units, add_korea_cf, ...) kept in
 # kaist/ so the package source under R/ stays identical to upstream.
 source(file.path(getwd(), "kaist/core/functions.R"))
+# Policy markets dropped from the price rows (generate_report(ignore = ...)):
+# the core list unless the config file sets ignore_markets itself.
+if (!exists("ignore_markets")) ignore_markets <- kaist_ignore_markets
 
 # === Step1 job list ===========================================================
 # One row per generate_report() call. If the settings file defines

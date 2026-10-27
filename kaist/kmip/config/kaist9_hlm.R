@@ -37,12 +37,9 @@ scenario_labels   <- c(KAIST_9_ref_u0923pv = "high_ref", KAIST_9_NZ_u0923pv = "h
                        KAIST_9_ref_u1007low = "low_ref", KAIST_9_NZ_u1007low = "low_nz")
 desired_variables <- "All"                        # "All" for everything
 desired_regions   <- "South Korea"                # "All" or a character vector
-# KAIST policy markets that are not reported (generate_report(ignore = ...)):
-# ceilings/floors, the Korea CO2/GHG caps and the rest-of-world caps. Without
-# this list their shadow prices leak into the biomass and solids price rows.
-ignore_markets    <- c("-ceiling", "_ceiling", "bio-ceiling", "coal-ceiling", "irnstl-ceiling",
-                       "irnstl_ceiling_EAF", "dac-ceiling", "Generation-Ceiling", "Generation-Floor",
-                       "CO2_Kor", "GHG_Kor", "rowbio-ceiling", "rowCO2")
+# Policy markets dropped from the price rows: the core default (kaist_ignore_markets
+# in kaist/core/functions.R) covers the KAIST ceilings and caps. A run with other
+# cap markets adds them: ignore_markets <- c(kaist_ignore_markets, "...").
 
 # === Step2 options ============================================================
 # Scenario whose 2020 values anchor the vehicle-capacity conversion ratio in
