@@ -143,12 +143,7 @@ if (nrow(pts) > 0 && "Net (incl. LULUCF)" %in% levels(ghg$measure)) {
           legend.background = element_rect(fill = "white", color = "gray70", linewidth = 0.3),
           legend.box.background = element_blank())
 }
-if (!is.null(get0("plot_subtitle", ifnotfound = NULL))) {
-  p <- p + labs(caption = paste0(
-    "Cap on all 23 GHGs in one South Korea market (MtCO2eq, GWP AR5).\n",
-    "pa = CO2_LUC price-adjust (share of the carbon price that land receives)\n",
-    "da = CO2_LUC demand-adjust (3.667 = land-use CO2 counted in the cap); cap = 2050 constraint, MtCO2eq"))
-}
+if (!is.null(get0("plot_caption", ifnotfound = NULL))) p <- p + labs(caption = plot_caption)
 
 png_file <- file.path(output_dir, paste0(run_name, "_ghg_pathway.png"))
 ggsave(png_file, p, width = if (nlevels(ghg$measure) > 1) 10 else 7,

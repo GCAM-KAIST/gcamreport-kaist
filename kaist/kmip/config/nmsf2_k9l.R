@@ -34,6 +34,11 @@ mt_reference_path <- file.path(db_path, "KMIP25_6Scenarios_output", "iron_report
 plot_measures   <- "Net"
 plot_start_year <- 2015
 plot_subtitle   <- "GCAM-KAIST 9.1, NMSF2 (u1007low): reference, less and more ambition"
+# Text under the figure (NULL = none): what the cap covers and the pa / da settings.
+plot_caption <- paste0(
+  "Cap on all 23 GHGs in one South Korea market (MtCO2eq, GWP AR5).\n",
+  "pa = CO2_LUC price-adjust (share of the carbon price that land receives)\n",
+  "da = CO2_LUC demand-adjust (3.667 = land-use CO2 counted in the cap); cap = 2050 constraint, MtCO2eq")
 # statutory national net targets (MtCO2eq); international mitigation is not in the report
 pathway_targets <- data.frame(
   Scenario = rep(c("less_k9l", "more_k9l"), each = 5),

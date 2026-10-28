@@ -51,6 +51,11 @@ plot_measures <- "Net"
 plot_start_year <- 2015
 # Text under the title (NULL = none). Used here for the cap settings.
 plot_subtitle <- "pa = 0.01, da = 3.667, 2050 cap = 10"
+# Text under the figure (NULL = none): what the cap covers and the pa / da settings.
+plot_caption <- paste0(
+  "Cap on all 23 GHGs in one South Korea market (MtCO2eq, GWP AR5).\n",
+  "pa = CO2_LUC price-adjust (share of the carbon price that land receives)\n",
+  "da = CO2_LUC demand-adjust (3.667 = land-use CO2 counted in the cap); cap = 2050 constraint, MtCO2eq")
 # Optional target points drawn on the Net panel of the GHG pathway figure.
 # NULL = none. A data frame with columns Scenario, year, value (Mt CO2eq/yr).
 pathway_targets <- data.frame(

@@ -140,7 +140,7 @@ Rscript kaist/core/tools/merge_basex_dbs.R merge kmip/KMIP26_LOW kmip/KAIST9_LOW
 
 ### Step 5: report
 
-The GHG pathway figure comes from the step2 Korea csv: `Emissions|Kyoto Gases` (net) and net minus LULUCF (gross), one line per scenario; `plot_measures`, `plot_start_year`, `plot_subtitle`, `pathway_targets` and `pathway_caps` in the settings shape it.
+The GHG pathway figure comes from the step2 Korea csv: `Emissions|Kyoto Gases` (net) and net minus LULUCF (gross), one line per scenario; `plot_measures`, `plot_start_year`, `plot_subtitle`, `plot_caption`, `pathway_targets` and `pathway_caps` in the settings shape it.
 
 The comparison report needs `compare_a_file` in the settings: the KMIP2025 submission workbook (sheet `data`, `compare_a_model`) or a step3 csv of an earlier run. `compare_pair` picks the scenario pair for the variable-by-variable part, `compare_a_scenarios` / `compare_b_scenarios` the lines of the overview, and `compare_ref_step2_csv` (optional) a step2 Korea csv of the reference database for the national gross/net GHG panel. Output: `{output_dir}/compare/{run_name}_compare.pdf` plus one png and csv per section. Without `compare_a_file` step5 makes only the figure.
 
