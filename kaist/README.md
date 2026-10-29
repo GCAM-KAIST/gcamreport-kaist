@@ -51,33 +51,65 @@ gcamreport-kaist/
 
 ## The five steps
 
-Paths are under `kaist/`. Run every script from the repo root.
+Paths are under `kaist/`. Run every script from the repo root. `kmip/run_pipeline.sh <settings>`
+runs them in order and stops at the first step whose R process exits with an error; a step
+"passes" the pipeline when its script finishes (exit 0) and writes the outputs listed below.
+Step 4 is the only step that judges the numbers: it never stops the pipeline unless
+`check_strict <- TRUE` (or `--strict`) is set.
 
-| Step | Script | What it does |
-|------|--------|--------------|
-| 1 | `core/step1_generate_report.R`, or `core/tools/step1_parallel.R` with one worker per scenario | Query the GCAM database with gcamreport: `{run_name}.xlsx` (all regions) plus the rgcam project `.dat` |
-| 2 | `kmip/step2_adjust.R` | Korea adjustments (CO2 prices, battery storage, bunkers, steel, ...): `{run_name}.csv` and `{run_name}_korea.csv` |
-| 3 | `kmip/step3_template.R` | Mapping and unit conversion: `variables_after_unit_conversion.csv` and `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (openxlsx, cell styles copied from the template) |
-| 4 | `kmip/step4_check.R` | Validation across all stages (see below): `check_summary.csv`, `check_mismatches.csv`, `check_unmapped.csv` |
-| 5 | `kmip/step5_report.R` + `kmip/step5_report.qmd` | `{run_name}_ghg_pathway.png` (national GHG, Mt CO2eq/yr per scenario, gross/net LULUCF) and, when the settings name a reference run, `compare/{run_name}_compare.pdf` |
-| - | `kmip/make_mapping.R` | Build the variable mapping template from a step2 output. Needed only when the KMIP template or the mapping changes; one manual review pass |
-| - | `core/tools/step1_worker.R` with `ktraces/config/ssp2_ndc.R`, then `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (`patch_project_data()` in `ktraces/functions.R`, picked up by the step1 project hook; one worker per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Not for KMIP / IAMC submissions |
+| Step | Script | What it does | Outputs in `output_dir` | Passes when |
+|------|--------|--------------|-------------------------|-------------|
+| 1 | `core/step1_generate_report.R`, or `core/tools/step1_parallel.R` with one worker per scenario (what `run_pipeline.sh` uses) | Loads the package with `devtools::load_all`, applies the KAIST data overrides in memory (`patch_gcam_data`), queries each BaseX database with `generate_report()` (all IAMC variables, all regions, policy markets in `ignore_markets` dropped from the price rows), then `step1_merge.R` row-binds the per-scenario reports and merges the rgcam projects into one `.dat` (scenario names relabelled if `scenario_labels` is set) | `{run_name}_{label}.xlsx/.csv/.RData` and `{run_name}_{label}_project.dat` per scenario; merged `{run_name}.xlsx`, `{run_name}.csv`, `{run_name}_project_merged.dat`; `logs/step1_{scenario}.log` | Every worker exits 0 (the `.dat` holds every query and `Database scenarios:` lists the requested scenario), gcamreport's vetting prints `Inf variables: OK` and `NA variables: OK`, the merge reports the expected number of scenarios, and no `policy-like markets not in ignore_markets` warning appears |
+| 2 | `kmip/step2_adjust.R` | Reads `{run_name}.xlsx` and the merged `.dat`, then runs the modules in `kmip/modules/` in order. Part A, all regions: a1 `Price\|Carbon` from the CO2 prices query, a2 battery storage capacity, a3 Gen_III_Korea nuclear into `Primary Energy\|Nuclear` plus the 2.1x direct-equivalent factor for renewables, a4 capacity recalculated from vintages with GCAM capacity factors, a5 parent capacity sums, a6 HVC unit relabel. Part B, Korea only: b1 international bunkers removed from the emission totals (years >= 2020), b2 primary energy for hydrogen and biomass electricity, b3 steel coal into Fuel/Feedstock, b7 hybrid-vehicle rows, b4 energy service to thousand vehicles (MT 2020 ratio anchored on `ref_scenario`), b5 biomass share of every `...\|Liquids` row, b6 steel process emissions, b8 geological CCS, b9 LULUCF inventory adjustment (only when the DB has `CO2_LULUCF_adj`) | `{run_name}.csv` (all regions), `{run_name}_korea.csv`, `gcam_available_variables.csv` | Script exits 0 and prints `=== Step 2 Complete ===`. A module prints `Skipped ...` when its query or variable is absent; that is informational, but each skip must be explainable (b9 skips on every run without the LULUCF gas). The arithmetic itself is verified by checkpoint B |
+| 3 | `kmip/step3_template.R` | Maps the Korea csv onto the KMIP template with `kmip/data/kmip_gcam_mapping_template.xlsx` (base variable plus add/subtract columns), converts units with `kmip/modules/unit_table.R`, fills every template row for every scenario (unmapped rows stay empty), prints a coverage report (Required / Optional rows from the template) and writes the submission workbook in the submitted layout (openxlsx, cell styles copied from `KMIP2025_DB_template_submission.xlsx`) | `variables_before_unit_conversion.csv`, `variables_after_unit_conversion.csv`, `{run_name}_KMIP_submission.xlsx` | Script exits 0, every unit in the mapping is known to the unit table, the coverage report prints for every scenario, and the submission workbook lists all scenarios. Coverage below 100 % is a mapping gap, not a failure; the template rows that stay empty are the ones to review in `make_mapping.R` |
+| 4 | `kmip/step4_check.R` | Pipeline-wide validation, checkpoints A to D (see below) | `check_summary.csv` (one row per check), `check_mismatches.csv` (every failing cell), `check_unmapped.csv` | All checks PASS, or only the documented WARN / FAIL cases listed under "Step 4: check" below. Anything else is a real defect |
+| 5 | `kmip/step5_report.R` + `kmip/step5_report.qmd` | National GHG pathway figure from `Emissions\|Kyoto Gases` (net, and gross = net minus LULUCF when `plot_measures` includes "Gross") in the Korea csv, one line per scenario, with optional target and cap points. With `compare_a_file` set: the comparison report against a reference run, rendered with quarto to PDF | `{run_name}_ghg_pathway.png`, `{run_name}_ghg_pathway.csv`; with a reference run also `compare/{run_name}_compare.pdf` plus one png and csv per section | Figure and csv written with one series per scenario (the script prints `=== Step 5 Complete ===`); without `compare_a_file` it prints `comparison report skipped`. With a reference run, quarto must exit 0 and the PDF must exist |
+| - | `kmip/make_mapping.R` | Build the variable mapping template from a step2 output. Needed only when the KMIP template or the mapping changes; one manual review pass | | |
+| - | `core/tools/step1_worker.R` with `ktraces/config/ssp2_ndc.R`, then `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (`patch_project_data()` in `ktraces/functions.R`, picked up by the step1 project hook; one worker per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Not for KMIP / IAMC submissions | | |
 
 ### Step 4: check
 
 `Rscript kaist/kmip/step4_check.R [--strict] [--checkpoints=A,B,C,D]`
 
-Step4 runs in every pipeline run (`run_pipeline.sh` calls it after step3). It can also run alone after any stage; inputs that do not exist yet are skipped. `step4_check.R` itself only reads the settings and prints the summary. The checks are the files in `kmip/modules/validate/`: `v0_engine.R` compares two tables with tolerances, decides PASS, WARN or FAIL and writes the reports; `v1` to `v4` hold one checkpoint each; `v_tables.R` holds the rule tables (which module may change which variable, parent-child relations, known gaps). `test_check.R` in the same folder tests the checker itself: it damages copies of the outputs and asserts that each checkpoint notices. It is not part of a pipeline run. Checkpoints:
+Step4 runs in every pipeline run (`run_pipeline.sh` calls it after step3). It can also run alone after any stage; inputs that do not exist yet are skipped. `step4_check.R` itself only reads the settings and prints the summary. The checks are the files in `kmip/modules/validate/`: `v0_engine.R` compares two tables with tolerances, decides PASS, WARN or FAIL and writes the reports; `v1` to `v4` hold one checkpoint each; `v_tables.R` holds the rule tables (which module may change which variable, parent-child relations, known gaps). `test_check.R` in the same folder tests the checker itself: it damages copies of the outputs and asserts that each checkpoint notices. It is not part of a pipeline run.
 
-- **A** raw query sums from the `.dat` vs the step1 report, plus a list of
-  query technologies/inputs absent from the mapping rdas (the silent-drop
-  risk for new GCAM versions, e.g. SMRs in kaist9).
-- **B** step1 vs step2: totals must be unchanged except the documented
-  module adjustments (encoded in `modules/validate/v_tables.R`), plus
-  conservation identities for b3 and b5.
-- **C** parent variable = sum of children in the IAMC tree (catches
-  double counting; known gaps are listed as SKIP with reasons).
-- **D** independent recompute of the filled KMIP template vs the step3 output.
+Status per check: **PASS** = every compared cell is within the tolerance (`rel_diff = |a-b| / max(|a|,|b|,1e-12)` <= `check_tol_rel_*` from the settings); **WARN** = nothing is wrong numerically but something is missing (a module left no rows, a template row could not be filled, a query key is marked NoReported); **FAIL** = at least one cell outside the tolerance, a lost or unexpected row, or a query key the mapping does not know; **SKIP** = input missing or a documented gap that is listed on purpose. The checkpoint status is the worst status of its checks. Checkpoints:
+
+- **A, raw vs step1** (`v1_checkpoint_a.R`, tolerance `check_tol_rel_a`, 1e-2 by default). Recomputes report
+  totals directly from the rgcam queries in the merged `.dat` and compares them with the step1 report,
+  per scenario, region and year. Six aggregates (`v_tables.R::check_registry`): `fe_nontrn` (final energy
+  by sector and fuel, non-transport), `fe_transport`, `se_elec` (electricity generation) and `co2_total`
+  (`CO2 emissions by region` x 3.667 vs `Emissions|CO2|Energy and Industrial Processes`, checked up to 2035
+  only) compare sums; `fe_nontrn`, `fe_transport`, `se_elec`, `co2_tech` and `co2_resource` also check
+  coverage: every sector/technology/input key in the query must exist in the mapping rda of this GCAM
+  version. `:sum` checks PASS when all cells are within tolerance and FAIL otherwise; `:coverage` checks
+  FAIL on a key absent from the mapping (gcamreport drops such rows silently), WARN when the only findings
+  are keys the mapping marks `NoReported` on purpose, PASS when every key is mapped. A query missing from
+  the `.dat` gives SKIP. The findings go to `check_unmapped.csv`.
+- **B, step1 vs step2** (`v2_checkpoint_b.R`, tolerance `check_tol_rel_b`, 1e-6). B1 compares the step1
+  report with the step2 all-regions csv, B2 the Korea rows of that csv with the Korea csv. Every variable
+  that no rule in `check_exceptions` names must pass through unchanged: `pass_through` PASSes when no row
+  is lost, no row appears and no value moves; `unit_only` additionally allows a unit relabel (a6). For each
+  module rule with `verify = "exists"` the module's output rows must be present (PASS) or the check WARNs
+  that the module may not have run. Three identities must hold to the tolerance: b3 Coal|Fuel +
+  Coal|Feedstock = Solids|Coal, b5 scaled Liquids + Biomass|Liquids = original Liquids for every sector,
+  b6 steel energy CO2 + process CO2 = original steel CO2. B is the check that the step2 arithmetic did
+  exactly what its documentation says and nothing else.
+- **C, tree sums** (`v3_checkpoint_c.R`, tolerance `check_tol_rel_c`, 1e-6). For each relation in
+  `check_relations` (final energy by fuel and by sector, residential + commercial, industry fuels,
+  electricity by source, fossil and non-biomass renewable subtotals, CO2 top level and E&IP, capacity
+  w/ and w/o CCS, PV + CSP, onshore + offshore) the parent must equal the sum of its children in the
+  step1 report, the step2 all-regions csv and the Korea csv; a missing child counts as 0. PASS when every
+  cell is within tolerance. Relations that are known not to hold (`check_known_violations`: capacity grand
+  total, primary energy total after a3/b2, battery storage, step1 capacity parents, b5 industry share) are
+  printed as SKIP with their reason and are never asserted.
+- **D, template fill** (`v4_checkpoint_d.R`, tolerance `check_tol_rel_d`, 1e-6). Recomputes the filled
+  template from the Korea csv, the mapping and the unit table with its own code and compares it with
+  `variables_after_unit_conversion.csv`. Each template row x scenario x year is classified: `ok`
+  (match), `expected_missing` (template row without mapping, empty on both sides), `lost_row` (mapped,
+  but the base variable is not in the Korea csv), `unit_unconverted`, `value_mismatch`, `unexpected_missing`
+  (recompute has a value, step3 does not) and `unexpected_value` (step3 has a value without a mapping).
+  FAIL on any of the last three, WARN when there are only `lost_row` / `unit_unconverted` rows, PASS otherwise.
 
 Outputs: `check_summary.csv`, `check_mismatches.csv`, `check_unmapped.csv`
 in `output_dir`. Tolerances: "Step4 check" section of the config file.
@@ -85,6 +117,37 @@ Non-fatal by default; `--strict` errors when any check FAILs.
 Checkpoint A needs the built `data/*_v<version>.rda` files; if they are missing, run
 `inst/extdata/saveDataFiles_GCAM<version>.R` (KAIST rows are added in memory by `load_gcam_rda()`).
 Self-test: `Rscript kaist/kmip/modules/validate/test_check.R` (fault injection).
+
+Documented non-PASS results that every gcam-kaist9 run shows today (not defects):
+
+- A `co2_total:sum` FAIL: in 2035 the regional CO2 sum and `Emissions|CO2|Energy and Industrial
+  Processes` differ by 1-2 % for one or two South American regions in the policy scenarios
+  (upstream negative-emissions accounting; the upstream gcamreport test has the same gap). South Korea passes.
+- A `fe_nontrn:coverage` WARN: the query key `process heat food processing / solar` is `NoReported`
+  in `final_energy_map_v9.1` (about 0.04 EJ).
+- C: nine SKIP rows from `check_known_violations`.
+- D WARN: `lost_row` for the template rows whose mapped base variable the Korea csv does not have
+  (the same rows that keep step3 coverage near 50 %).
+
+### Test runs (kaist/scenario)
+
+`kaist/scenario/` keeps two scenario sets as a regression test of the whole pipeline: `input/` holds
+the BaseX databases (and the scenario XMLs for u0909), `output/<run>/` the results, and
+[scenario/RESULT.md](scenario/RESULT.md) the run record with the per-step findings and a
+symptom-to-fix table. Settings: `kmip/config/u0909.R` and `kmip/config/ssp2.R` (local paths, no
+reference run, no MT workbook). Last run 2026-10-27 on Windows 11 with R 4.6.1, Java 1.8, one step1
+worker per scenario; both runs exited 0:
+
+| Run | Scenarios | Step1 | Step2 | Step3 | Step4 | Step5 | Time |
+|---|---|---|---|---|---|---|---|
+| reports_u0909 | KAIST_9_ref_u0909, KAIST_9_NZ_u0909 (gcam-kaist9, GHG_Kor cap) | OK, 2 DBs, 105,169 report rows, vetting Inf/NA OK | OK; b9 skipped (no `CO2_LULUCF_adj`) | OK; coverage ref 271/584 (46 %), NZ 294/584 (50 %); submission 1,168 rows | A FAIL (1 of 9: `co2_total` 2035, 2 regions, max 2.2 %), WARN 1 (NoReported key); B PASS 34/34; C PASS 42/42 + 9 known SKIP; D WARN (3,390 ok, 3,372 expected_missing, 246 lost_row, 0 mismatch) | OK, figure only | 42 min, step1 37 min |
+| reports_ssp2 | SSP2-Ref, SSP2-NDC-fast, SSP2-NDC-slow (gcam-kaist9) | OK, 3 DBs, 158,817 report rows, vetting Inf/NA OK | OK; b9 skipped | OK; coverage Ref 46 %, NDC 50 %; submission 1,752 rows | A FAIL (1 of 9: `co2_total` 2035, 1 region, max 1.3 %), WARN 1; B PASS 34/34; C PASS 42/42 + 9 known SKIP; D WARN (5,154 ok, 5,058 expected_missing, 300 lost_row, 0 mismatch) | OK, figure only | 45 min, step1 38 min |
+
+What the test run established: the pipeline runs end to end on Windows once `Rscript` is on PATH
+and `openxlsx` and `tidyverse` are installed (earlier local attempts died in step3 on those two
+packages); the step2 modules a1-a6, b1-b8 all ran (b9 correctly skipped); step4 shows only the
+documented non-PASS results above. To repeat: `kaist/kmip/run_pipeline.sh kaist/kmip/config/u0909.R`
+(or `ssp2.R`) from the repo root; `--from 2` reuses the step1 outputs.
 
 ### kmip/steel: the KMIP2026 steel sheet
 
