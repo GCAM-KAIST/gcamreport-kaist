@@ -167,6 +167,10 @@ data_korea <- add_geological_ccs(data_korea, prj)
 # the CO2 / Kyoto AFOLU rows and totals; skips when the run has no such gas
 data_korea <- add_lulucf_adjustment(data_korea, prj)
 
+# b10: hydrogen import and grid electricity into electrolysis (central and
+# onsite) from the inputs by tech query; must run after b2
+data_korea <- add_hydrogen_rows(data_korea, prj)
+
 ########## Save Korea Data ##########
 korea_output <- file.path(output_dir, paste0(run_name, "_korea.csv"))
 data_korea <- data_korea %>% mutate(across(where(is.numeric), ~replace_na(., 0)))

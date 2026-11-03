@@ -43,8 +43,9 @@ gcamreport-kaist/
 │       ├── modules/               # Code used by steps 2-4
 │       │   ├── 00_utils.R, unit_table.R   # Shared helpers; unit conversions used by step3 and step4
 │       │   ├── a1_...R ~ a6_...R  # step2 part A: all regions
-│       │   ├── b1_...R ~ b9_...R  # step2 part B: Korea only
+│       │   ├── b1_...R ~ b10_...R # step2 part B: Korea only
 │       │   └── validate/          # step4 checkpoints, rule tables and test_check.R
+│       ├── hydrogen/              # compare_h2.R: KMIP hydrogen rows vs DB-direct values (usage in the script header)
 │       └── steel/                 # KMIP2026 steel sheet tools (see steel/README.md)
 └── (databases, outputs, notes and GCAM input XMLs live outside the repo, see db_path in the config file; never commit result files)
 ```
@@ -98,7 +99,7 @@ KMIP2026 sent its steel sheet before the rest of the template. `kmip/steel/build
 
 3. One output folder per database. Outputs are written under `kmip/{db_name}_output/`, so different databases do not mix. A config file may set `output_dir` itself (the kaist9 settings keep their first output folder).
 
-4. step2 is a thin orchestrator over `kaist/kmip/modules/`. Each adjustment is one function in one file (`a1` to `a6` run on all regions, `b1` to `b9` on Korea only). All functions are data in, data out, so step2 reads as a list of calls and you can inspect `data` between them. Module files only define functions; sourcing them executes nothing. Order matters in a few places: capacity-changing modules (a2, a3, a4) must run before a5 (parent-child consistency); inside a3 the nuclear addition must come before the renewable multiplier; Part B modules need the Korea-filtered data; b6 (steel process emissions) needs b3's Coal|Feedstock rows; b7 (hybrid Energy Service rows) must run before b4 (vehicle conversion). Otherwise the b* order is arbitrary. `modules/` also holds the shared helpers (`00_utils.R`, `unit_table.R`) and the step4 checks (`validate/`). Values that are not queried from GCAM (Korea statistics, literature ratios, MT vehicle counts) are catalogued in `hardcoded_assumptions.md`, a local note outside the repo (`~/reporting/docs/` on the lab server); update it when you change one of those values. To verify that a refactor changed nothing: `source("kaist/core/tools/compare_outputs.R")` then `compare_csv(old_csv, new_csv)` (md5-based, prints the first differences).
+4. step2 is a thin orchestrator over `kaist/kmip/modules/`. Each adjustment is one function in one file (`a1` to `a6` run on all regions, `b1` to `b10` on Korea only). All functions are data in, data out, so step2 reads as a list of calls and you can inspect `data` between them. Module files only define functions; sourcing them executes nothing. Order matters in a few places: capacity-changing modules (a2, a3, a4) must run before a5 (parent-child consistency); inside a3 the nuclear addition must come before the renewable multiplier; Part B modules need the Korea-filtered data; b6 (steel process emissions) needs b3's Coal|Feedstock rows; b7 (hybrid Energy Service rows) must run before b4 (vehicle conversion); b10 (hydrogen import, electricity into electrolysis) runs after b2. Otherwise the b* order is arbitrary. `modules/` also holds the shared helpers (`00_utils.R`, `unit_table.R`) and the step4 checks (`validate/`). Values that are not queried from GCAM (Korea statistics, literature ratios, MT vehicle counts) are catalogued in `hardcoded_assumptions.md`, a local note outside the repo (`~/reporting/docs/` on the lab server); update it when you change one of those values. To verify that a refactor changed nothing: `source("kaist/core/tools/compare_outputs.R")` then `compare_csv(old_csv, new_csv)` (md5-based, prints the first differences).
 
 ## Quick start
 
