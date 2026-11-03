@@ -1,8 +1,8 @@
 ################################################################################
 # b2: Calculate Primary Energy from Secondary Energy (Korea only)
 #
-# Creates Primary Energy|<fuel>|Hydrogen, Primary Energy|Electricity|Hydrogen
-# and Primary Energy|Biomass|Electricity rows by dividing / multiplying
+# Creates Primary Energy|<fuel>|Hydrogen (Biomass, Coal, Gas) and
+# Primary Energy|Biomass|Electricity rows by dividing / multiplying
 # Secondary Energy rows with GCAM technology coefficients:
 #   - kaist/kmip/data/L225.GlobalTechCoef_h2.csv   (hydrogen production coefficients)
 #   - kaist/kmip/data/L223.GlobalTechEff_elec.csv  (electricity generation efficiency)
@@ -100,12 +100,7 @@ add_primary_from_secondary <- function(data, coef_dir = kaist_data_dir) {
     primary_energy_list[[length(primary_energy_list) + 1]] <- result
   }
 
-  h2_elec <- data %>% filter(Variable == "Secondary Energy|Hydrogen|Electricity")
-  elec_coef <- h2_coef %>%
-    filter(technology == "electrolysis", minicam.energy.input == "elect_td_ind") %>%
-    select(year, coefficient)
-  result <- apply_coefficient_to_secondary(h2_elec, "Primary Energy|Electricity|Hydrogen", elec_coef, year_columns)
-  primary_energy_list[[length(primary_energy_list) + 1]] <- result
+  # Primary Energy|Electricity|Hydrogen is read from the electrolysis inputs in b10
 
   elec_biomass_ccs <- data %>% filter(Variable == "Secondary Energy|Electricity|Biomass|w/ CCS")
   elec_biomass_no_ccs <- data %>% filter(Variable == "Secondary Energy|Electricity|Biomass|w/o CCS")
