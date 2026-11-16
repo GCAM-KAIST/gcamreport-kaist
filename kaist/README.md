@@ -2,7 +2,7 @@
 
 ## Overview
 
-This folder holds the KAIST pipeline that turns GCAM output into KMIP report tables, a GHG pathway figure and a comparison report, in five steps. The rest of the repository is the [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, taken from the branch `kaist/v9.1-korea` (upstream `main` plus our package fixes).
+This folder holds the KAIST pipeline that turns GCAM output into KMIP report tables, a GHG pathway figure, a comparison report and a validation against historical statistics, in six steps. The rest of the repository is the [bc3LC/gcamreport](https://github.com/bc3LC/gcamreport) R package, taken from the branch `kaist/v9.1-korea` (upstream `main` plus our package fixes).
 
 Branches:
 
@@ -28,13 +28,15 @@ gcamreport-kaist/
 │   │   ├── functions.R        # K-TRACES data overrides (patch_project_data, applied by the core step1 hook)
 │   │   ├── build_ktraces_workbook.R  # Merged step1 report -> K-TRACES workbook (South Korea, USD_2025)
 │   │   └── data/              # USD deflator csv (FRED A191RD3A086NBEA)
+│   ├── iamc/                  # IAMC national study: benchmark of historical statistics for step6 (IAMC_benchmark.csv, its build script, README.md)
 │   └── kmip/                  # KMIP submissions only
 │       ├── config/                # Run settings, one file per run (kaist9_low26.R, kaist9_hlm.R, nmsf2_k9l.R)
 │       ├── step2_adjust.R         # Korea adjustments, one module per rule (modules/)
 │       ├── step3_template.R       # Mapping + unit conversion -> filled KMIP template + submission workbook
 │       ├── step4_check.R          # Pipeline-wide validation (checkpoints A-D, modules/validate/)
 │       ├── step5_report.R/.qmd    # GHG pathway figure + comparison report (PDF) against a reference run
-│       ├── run_pipeline.sh        # Steps 1-5 in one command
+│       ├── step6_validation.R     # Historical years against the IAMC benchmark (kaist/iamc/): sheet "validation"
+│       ├── run_pipeline.sh        # Steps 1-6 in one command
 │       ├── functions.R            # KMIP-only data overrides (NMSF2 gas markets), applied by the step1 project hook
 │       ├── make_mapping.R         # Build the variable mapping (only when the template or the mapping changes)
 │       ├── data/                  # Inputs that are not GCAM output: KMIP template, submission layout and mapping
@@ -49,7 +51,7 @@ gcamreport-kaist/
 └── (databases, outputs, notes and GCAM input XMLs live outside the repo, see db_path in the config file; never commit result files)
 ```
 
-## The five steps
+## The six steps
 
 Paths are under `kaist/`. Run every script from the repo root.
 
@@ -60,6 +62,7 @@ Paths are under `kaist/`. Run every script from the repo root.
 | 3 | `kmip/step3_template.R` | Mapping and unit conversion: `variables_after_unit_conversion.csv` and `{run_name}_KMIP_submission.xlsx` in the submitted KMIP layout (openxlsx, cell styles copied from the template) |
 | 4 | `kmip/step4_check.R` | Validation across all stages (see below): `check_summary.csv`, `check_mismatches.csv`, `check_unmapped.csv` |
 | 5 | `kmip/step5_report.R` + `kmip/step5_report.qmd` | `{run_name}_ghg_pathway.png` (national GHG, Mt CO2eq/yr per scenario, gross/net LULUCF) and, when the settings name a reference run, `compare/{run_name}_compare.pdf` |
+| 6 | `kmip/step6_validation.R` | Historical years (2005-2020) of the Korea report against `iamc/IAMC_benchmark.csv`: sheet `validation` in `{run_name}.xlsx` and `{run_name}_validation.csv`, with the margin of error, the threshold and `validation_pass` per scenario, metric and year (see below) |
 | - | `kmip/make_mapping.R` | Build the variable mapping template from a step2 output. Needed only when the KMIP template or the mapping changes; one manual review pass |
 | - | `core/tools/step1_worker.R` with `ktraces/config/ssp2_ndc.R`, then `ktraces/build_ktraces_workbook.R` | K-TRACES: step1 with the Construction / Mining / service-output extensions (`patch_project_data()` in `ktraces/functions.R`, picked up by the step1 project hook; one worker per scenario, then `core/tools/step1_merge.R`), then the K-TRACES workbook. Not for KMIP / IAMC submissions |
 
@@ -86,6 +89,14 @@ Checkpoint A needs the built `data/*_v<version>.rda` files; if they are missing,
 `inst/extdata/saveDataFiles_GCAM<version>.R` (KAIST rows are added in memory by `load_gcam_rda()`).
 Self-test: `Rscript kaist/kmip/modules/validate/test_check.R` (fault injection).
 
+### Step 6: validation
+
+`Rscript kaist/kmip/step6_validation.R [--strict]`
+
+Step6 compares the historical years of the Korea report (`{run_name}_korea.csv`; without step2 the Korea rows of the step1 report) with `kaist/iamc/IAMC_benchmark.csv`: ten metrics of the IAMC SWG National Scenarios Study 2 call (population, GDP, fossil and land CO2, AFOLU CH4, primary energy, electricity) for 2005, 2010, 2015 and 2020. For every scenario, metric and year it writes the report value, the benchmark value and its source, `margin_of_error_pct` = 100 × (report − benchmark) / |benchmark|, `threshold_pct` and `validation_pass` (TRUE when the margin is within the threshold). A report without 2020 is compared at 2021 (`model_year` shows the year used).
+
+Outputs: sheet `validation` added to the gcamreport workbook `{run_name}.xlsx` (the report sheet is unchanged), `{run_name}_validation.csv` in `output_dir`, and a copy of the table in `kaist/iamc/` (`{run_name}_validation.csv` and `.xlsx`). Non-fatal by default; `--strict` or `validation_strict <- TRUE` errors when a check fails. Thresholds are in the benchmark csv; metrics without one use `validation_default_threshold_pct` (20). Sources and reading notes: `kaist/iamc/README.md`.
+
 ### kmip/steel: the KMIP2026 steel sheet
 
 KMIP2026 sent its steel sheet before the rest of the template. `kmip/steel/build_steel_template.py` fills that sheet (production, energy and emissions by steel route, capture) from ModelInterface query dumps, outside the R pipeline; `plot_steel_compare.py` draws the comparison charts. The two steel methods it introduced, the coal fuel/feedstock split and the process-emission split, were later moved into step2 (`b3_steel_coal_split.R`, `b6_steel_process_split.R`), so the main template and the steel sheet agree. Step3 still fills only the main template, so the steel sheet comes only from this folder. Delete the folder once the full KMIP2026 template arrives and `make_mapping.R` and step3 cover the steel rows. Method notes: `kmip/steel/README.md`.
@@ -108,7 +119,7 @@ KMIP2026 sent its steel sheet before the rest of the template. `kmip/steel/build
    Policy markets (ceilings, floors, caps such as `CO2_Kor`) must be dropped from the price rows, or gcamreport reports their shadow prices as fuel prices. The core list `kaist_ignore_markets` (`kaist/core/functions.R`) covers the KAIST ones and is used unless the config file sets `ignore_markets`; a run with other cap markets writes `ignore_markets <- c(kaist_ignore_markets, "...")`. The same three layers as for the data rows apply: the core list holds the market names of the model, a project adds its own markets in its `functions.R` (for example `ktraces_ignore_markets`), and a config file adds the ones of a single run. Names in the list that a database does not have are harmless. Step1 warns about policy-like market names the list does not cover.
 3. If BaseX 9.5+ is installed, source `kaist/core/rgcam_patch.R` once per
    session before step 1 (see the comment block in step1).
-4. Run everything with `kaist/kmip/run_pipeline.sh kaist/kmip/config/<run>.R`: step1 with one worker per scenario, then steps 2 to 5 (logs in `{output_dir}/logs/<date>/`; `--from 2` skips step1; `run_steps <- c(1, 2, 4, 5)` in the settings leaves steps out, e.g. no KMIP template for NMSF2). Or run the steps by hand in that order from the repo root. Step5 needs quarto on PATH or in `QUARTO_BIN`.
+4. Run everything with `kaist/kmip/run_pipeline.sh kaist/kmip/config/<run>.R`: step1 with one worker per scenario, then steps 2 to 6 (logs in `{output_dir}/logs/<date>/`; `--from 2` skips step1; `run_steps <- c(1, 2, 4, 5, 6)` in the settings leaves steps out, e.g. no KMIP template for NMSF2). Or run the steps by hand in that order from the repo root. Step5 needs quarto on PATH or in `QUARTO_BIN`.
    `core/` is enough for general use (step1 only); `kmip/` is the KMIP pipeline;
    `ktraces/` builds the K-TRACES workbook from a step1 run made with its config file.
 
