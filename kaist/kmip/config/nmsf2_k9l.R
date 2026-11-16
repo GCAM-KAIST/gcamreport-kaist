@@ -4,7 +4,7 @@
 # less ambition, more ambition. GCAM wrote one DB per run (now in
 # kmip/NMSF2_K9L_runs/, links to the gcam-kaist9-nmsf2 output folder); they are
 # merged into kmip/NMSF2_K9L with kaist/core/tools/merge_basex_dbs.R.
-# Run: kaist/kmip/run_pipeline.sh kaist/kmip/config/nmsf2_k9l.R (steps 1, 2, 5, 6)
+# Run: kaist/kmip/run_pipeline.sh kaist/kmip/config/nmsf2_k9l.R (steps 1, 2, 4, 5, 6)
 # NMSF2-only mapping rows (kaist/kmip/functions.R) and queries (kaist/kmip/data/)
 # are wired in at the end of this file.
 ################################################################################
@@ -24,7 +24,7 @@ scenario_labels   <- c(NMSF2_reference_k9l = "ref_k9l", NMSF2_less_ambition_k9l 
 # in kaist/core/functions.R) covers the KAIST ceilings and caps. A run with other
 # cap markets adds them: ignore_markets <- c(kaist_ignore_markets, "...").
 # No KMIP template for NMSF2: run_pipeline.sh runs only these steps (no step3).
-run_steps         <- c(1, 2, 4, 5)
+run_steps         <- c(1, 2, 4, 5, 6)
 desired_variables <- "All"
 desired_regions   <- c("South Korea", "Japan")   # Korea alone stops: no purpose-grown biomass in Korea (land frozen); Japan has it, Korea values unchanged
 ref_scenario <- "ref_k9l"
