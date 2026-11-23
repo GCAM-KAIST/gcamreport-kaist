@@ -28,6 +28,8 @@ gcamreport-kaist/
 │   │   ├── functions.R        # K-TRACES data overrides (patch_project_data, applied by the core step1 hook)
 │   │   ├── build_ktraces_workbook.R  # Merged step1 report -> K-TRACES workbook (South Korea, USD_2025)
 │   │   └── data/              # USD deflator csv (FRED A191RD3A086NBEA)
+│   ├── pj_kgx/                # K-GX fund runs: step1 rows unchanged + K-ETS price, paid / free allocation shares and
+│   │                          #   Revenue|Government by class and sector (build_kgx_report.R, see pj_kgx/README.md)
 │   └── kmip/                  # KMIP submissions only
 │       ├── config/                # Run settings, one file per run (kaist9_low26.R, kaist9_hlm.R, nmsf2_k9l.R)
 │       ├── step2_adjust.R         # Korea adjustments, one module per rule (modules/)

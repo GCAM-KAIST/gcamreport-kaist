@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- pj_kgx queries added to the step1 project (.dat) next to the gcamreport ones (settings: project_queries).
+     A query that returns no rows (a database without K-ETS class gases) is skipped. -->
+<queries>
+    <!-- K-GX fund runs (pj_gcam_runs/tools/build_kgx_fund_scenarios.R): every covered South Korea technology carries a
+         second CO2 object named after the market of its K-ETS class (CO2_KETS_POWER / _OTHER / _LEAK). It counts the
+         same CO2 as the technology's own CO2 object and pays that market's price. Technology level, so that
+         build_kgx_report.R can place it in gcamreport's Emissions|CO2 tree with co2_tech_map. MtC. -->
+    <emissionsQueryBuilder title="K-ETS covered CO2 by tech">
+        <axis1 name="technology">technology</axis1>
+        <axis2 name="Year">emissions</axis2>
+        <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type='subsector']/*[@type='technology']//*[@type = 'GHG' and starts-with(@name, 'CO2_KETS')]/emissions/node()</xPath>
+        <comments>CO2 of the technologies tagged for each K-ETS class (gas name = class market), MtC.</comments>
+    </emissionsQueryBuilder>
+</queries>

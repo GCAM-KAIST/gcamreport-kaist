@@ -1,0 +1,8 @@
+# K-ETS classes of the K-GX fund runs: market suffix after <region>CO2_KETS -> name used in the added variables.
+# The face-value market (no suffix) holds the allowance price; a class market = face price x share of allocation the class pays for
+# (linked-ghg-policy price-adjust, pj_gcam_runs/carbon_pricing/input/configuration/kgx_fund_scenarios/kets_kgx_<case>.xml).
+# A class market found in the database but missing here stops build_kgx_report.R with its name.
+suffix,class,description
+_POWER,Power,"electricity generation (elec_* sectors): paid share 10 % in 2025, 50 % in 2030, 100 % from 2035"
+_OTHER,Other Paying Industry,"industry off the carbon-leakage list (other industrial energy use, food processing, construction, mining)"
+_LEAK,Carbon-Leakage List,"iron and steel, cement, chemicals, ammonia, hydrogen, refining, paper: free, or the scenario's paid share from 2031"
