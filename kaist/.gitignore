@@ -12,3 +12,5 @@ logs/
 *_KMIP_submission.xlsx
 variables_*_unit_conversion.csv
 check_*.csv
+*_validation.csv
+*_validation.xlsx
