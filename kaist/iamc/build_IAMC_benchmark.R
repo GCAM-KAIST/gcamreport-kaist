@@ -25,9 +25,7 @@ iso3        <- "KOR"
 years       <- c(2005, 2010, 2015, 2020)
 out_file    <- file.path(getwd(), "kaist/iamc/IAMC_benchmark.csv")
 
-# Metrics = IAMC variable compared in step6. Threshold_pct is the tolerance of
-# the document ("+/- 20/30%" = 30, with 20 as the stricter bound); empty = the
-# document gives none (step6 then uses validation_default_threshold_pct).
+# List of IAMC template metrics, units and tolerances (from the document). The order is preserved.
 metrics <- tribble(
   ~Metrics,                                        ~Unit,                 ~Threshold_pct, ~Threshold_strict_pct,
   "Population",                                    "million",             NA,             NA,   # Population
@@ -41,8 +39,7 @@ metrics <- tribble(
   "Primary Energy|Gas",                            "EJ/yr",               30,             20,
   "Secondary Energy|Electricity",                  "EJ/yr",               30,             20)
 
-# Sources. iamc_git_ref is a commit of scenario-evaluation-criteria (2026-11-13);
-# change it (or use "main") to pick up newer reference data.
+# Data sources (URLs) for the IAMC git and the sources named in the document. The IAMC git
 iamc_git_ref <- "2ba4b8091d5d7eb3689cf148e93d89dcc6d8574a"
 iamc_git_url <- paste0("https://raw.githubusercontent.com/IAMconsortium/scenario-evaluation-criteria/",
                        iamc_git_ref, "/inst/extdata/reference-data/")
