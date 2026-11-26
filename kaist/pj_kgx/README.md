@@ -34,6 +34,18 @@ Step1 is the core step, unchanged. The settings add the K-ETS markets to `ignore
   - covered CO2 does not exceed the region's energy and industrial CO2.
 - **`info`**: the input files used.
 
+## Used by the kgx scenarios of pj_gcam_runs (2026-11-27)
+
+`pj_gcam_runs/scenarios/v9.1/core/kgx/output/kgx-gcamreport-run.R` runs the two scripts above for every scenario of that folder
+(one database per scenario, e.g. `kgx_SSP2_crf44_ets27_EITE0_261126`). It writes its own settings file next to its
+outputs, with the lines of `config/kgx_fund_ssp2.R` and `kgx_fill_headline <- TRUE`, so `Price|Carbon` and
+`Revenue|Government` of South Korea carry the K-ETS price and revenue. Those scenarios name the third class market
+`CO2_KETS_EITE` (class `EITE` in `data/kgx_classes.csv`); the older K-GX fund runs name it `CO2_KETS_LEAK`.
+
+Report all regions (`desired_regions <- "All"`). With a subset of regions step1 gives wrong `Capacity|Electricity`,
+`Capacity Additions|Electricity` and `Investment|Energy Supply` rows (South Korea's capacity came out 15 times too
+high with two regions); every other row is the same.
+
 ## Added rows (South Korea, each K-GX scenario)
 
 | Variable | Unit | Meaning |

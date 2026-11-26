@@ -6,3 +6,4 @@ suffix,class,description
 _POWER,Power,"electricity generation (elec_* sectors): paid share 10 % in 2025, 50 % in 2030, 100 % from 2035"
 _OTHER,Other Paying Industry,"industry off the carbon-leakage list (other industrial energy use, food processing, construction, mining)"
 _LEAK,Carbon-Leakage List,"iron and steel, cement, chemicals, ammonia, hydrogen, refining, paper: free, or the scenario's paid share from 2031"
+_EITE,EITE,"same sectors as the carbon-leakage list, as named in the kgx scenarios of pj_gcam_runs/scenarios/v9.1/core/kgx (market CO2_KETS_EITE): free, or the scenario's paid share from 2030"
